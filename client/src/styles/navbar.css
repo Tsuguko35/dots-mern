@@ -1,0 +1,73 @@
+:root{
+    --light-grey:#D3D3D3;
+    --orange:#FF9944;
+    --dirty-white:#F0EFF6;
+    --shadow-white:#E6E4F0;
+    --stroke: #313131;
+    --divider: #d4d4d4;
+    --pebble: #333333;
+}
+
+#Navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--dirty-white);
+    height: 64px;
+}
+
+#Navbar > .Sidebar_Toggle {
+    color: var(--stroke);
+    opacity: 0;
+}
+
+#Navbar > .Sidebar_Toggle:hover {
+    color: var(--orange);
+}
+
+#Navbar > .Navbar_Date_and_Profile{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+#Navbar > .Navbar_Date_and_Profile .Navbar_Date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--shadow-white);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--pebble);
+}
+
+#Navbar > .Navbar_Date_and_Profile .Navbar_Date_and_Profile_Role {
+    color: var(--orange);
+}
+
+@media only screen and (max-width: 1024px) {
+    #Navbar > .Sidebar_Toggle {
+        opacity: 1;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    #Navbar{
+        padding: 10px 10px;
+    }
+    #Navbar > .Sidebar_Toggle {
+        opacity: 1;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    #Navbar{
+        padding: 10px 10px;
+        display: block;
+    }
+    #Navbar > .Sidebar_Toggle {
+        opacity: 1;
+    }
+}

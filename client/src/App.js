@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route, useLocation} from 'react-router-dom'
+import { routes } from './config';
+
+import { Navbar, Sidebar } from './components';
+
+import './styles/style.css'
+import { hasSidebar } from './utils';
+import { SidebarContext } from './context';
+import { useState } from 'react';
 
 function App() {
+  const location = useLocation()
+  const pagehasSidebar = hasSidebar(location, routes)
+  const [toggleSidebar, setToggleSidebar] = useState(true)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <SidebarContext.Provider value={{toggleSidebar, setToggleSidebar}}>
+      <div id='Main_View' className='Main_View'>
+        {pagehasSidebar && (
+          <div className="Sidebar">
+            <Sidebar />
+          </div>
+        )}
+        
+        <div className='Main_Content'>
+          <Navbar />
+          <Routes>
+            {routes.map((route) => (
+              <Route key={route.path} path={route.path} element={route.component} />
+            ))}
+          </Routes>
+        </div>
+      </div>
+    </SidebarContext.Provider>
   );
 }
 

@@ -1,0 +1,226 @@
+:root{
+    --light-grey:#D3D3D3;
+    --orange:#FF9944;
+    --dirty-white:#F0EFF6;
+    --shadow-white:#E6E4F0;
+    --stroke: #313131;
+    --divider: #d4d4d4;
+}
+
+.divider{
+    border-top: 1px solid var(--divider);
+    width: 100%;
+    height: 1px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    display: block;
+}
+
+.Nav_Item_Notification{
+    display: inline-block;
+    width: 7px; /* Adjust the width and height as needed */
+    height: 7px;
+    border-radius: 50%; /* Makes it a circle */
+    background-color: var(--orange); /* Adjust the background color */
+    transition: all 250ms ease-in-out;
+}
+
+
+.Nav_List_Collapse_Item:hover .Nav_Item_Notification, .Nav_List_Item:hover .Nav_Item_Notification {
+    background-color: #FFF;
+}
+
+.Nav_Item_Collapse_Icon{
+    transform: rotate(90deg);
+    transition: transform 250ms ease-in-out;
+}
+
+.Nav_Item_Collapse_Icon.active{
+    
+    transform: rotate(0deg);
+}
+
+/* Style the scrollbar thumb */
+#Sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); /* Set the color of the scrollbar thumb */
+    border-radius: 10px; /* Set the border radius of the scrollbar thumb */
+}
+
+/* Hide the scrollbar thumb when not hovering over the sidebar */
+#Sidebar::-webkit-scrollbar-thumb {
+    opacity: 0 !important; /* Initially hide the scrollbar thumb */
+    transition: opacity 250s ease !important; /* Add a transition for smooth appearance */
+}
+
+/* Show the scrollbar thumb when hovering over the sidebar */
+#Sidebar:hover::-webkit-scrollbar-thumb {
+    opacity: 1 !important; /* Show the scrollbar thumb when hovering */
+}
+
+
+#Sidebar > .wrapper > .content {
+    display: block;
+    width: 250px;
+    height: 100vh;
+    background-color: var(--dirty-white);
+    top: 0;
+    left: 0;
+    display: flex;
+    z-index: 100;
+    padding: 0px 7px;
+    border-right: 2px solid var(--shadow-white);
+    transition: all 250ms ease-in-out;
+    box-shadow: 3px 0 10px -2px var(--shadow-white);
+    overflow-y: auto;
+}
+
+#Sidebar.Sidebar_Close > .wrapper > .content {
+    left: -100%;
+}
+
+#Sidebar > .wrapper > .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#Sidebar > .wrapper > .content > .Nav_Header_Title {
+    padding: 10px 10px;
+    color: var(--stroke);
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 200px;
+    cursor: default;
+    transition: all 250ms ease-in-out;
+    
+}
+
+#Sidebar > .wrapper > .content > .Nav_Header_Title > img {
+    width: 75px;
+    height: 75px;
+    padding: 5px;
+    background-color: var(--shadow-white);
+    border-radius: 10px;
+}
+
+#Sidebar > .wrapper > .content > .Nav_Header_Title > .Nav_Header_Dep_Name {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-left: 10px;
+    font-size: 13px;
+}
+
+#Sidebar > .wrapper > .content > .Nav_Header_Title > .Nav_Header_Dep_Name > p {
+    margin-bottom: 3px;
+}
+
+#Sidebar > .wrapper > .content > .Nav_Header {
+    padding: 10px 10px;
+    color: var(--stroke);
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    height: 50px;
+    user-select: none;
+    transition: all 250ms ease-in-out;
+}
+
+#Sidebar > .wrapper > .content > .Nav_Header:hover {
+    color: var(--orange);
+}
+
+#Sidebar > .wrapper > .content > .Nav_List {
+    width: 100%;
+    margin-top: 25px;
+    overflow-y: auto;
+}
+
+#Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item {
+    padding: 10px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px 0px;
+    color: var(--stroke);
+}
+#Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item.active {
+    background-color: var(--shadow-white);
+    /* border-left: 3px var(--orange) solid; */
+    color: var(--stroke);
+    box-sizing: border-box;
+}
+
+#Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item.active .Nav_Icon_Label {
+    transition: all 250ms ease-in-out;
+    color: var(--orange);
+}
+
+#Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item.active:hover .Nav_Icon_Label{
+    color: #FFF;
+}
+
+#Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item:hover {
+    background-color: var(--orange);
+    color: #FFF;
+}
+
+#Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item > .Nav_Icon_Label {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+
+#Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item > .Nav_Icon_Label > .Nav_Item_Icon {
+    margin-right: 20px;
+}
+
+#Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Collapse {
+    background-color: var(--shadow-white);
+    border-radius: 10px;
+}
+
+#Sidebar > .wrapper > .content > .Nav_List .Nav_List_Collapse_Item > .Nav_Icon_Label {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+#Sidebar > .wrapper > .content > .Nav_List .Nav_List_Collapse_Item {
+    padding: 10px 10px;
+    padding-left: 20px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+    margin: 5px 0px;
+    border-radius: 5px;
+    color: var(--stroke);
+}
+
+#Sidebar > .wrapper > .content > .Nav_List .Nav_Item_onCollapse_Icon {
+    margin-right: 5px;
+}
+
+#Sidebar > .wrapper > .content > .Nav_List .Nav_List_Collapse_Item:hover {
+    background-color: var(--orange);
+    color: #FFF;
+}
+
+@media only screen and (max-width: 1024px) {
+    #Sidebar > .wrapper > .content {
+        position: fixed;
+    }
+}

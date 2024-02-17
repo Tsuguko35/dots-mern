@@ -1,0 +1,70 @@
+:root{
+    --body_background: #F0EFF6;
+    --date_bg: #FFF;
+    --date_bg2: #FFF;
+    --date_border: 1px solid #E6E4F0;
+    --font_color: #212121;
+    --page_title_color: #FF9944;
+    --dash_button_color: #fcb49a;
+    --dash_graphs_bg: #FFF;
+    --dash_graphs_border: 1px solid #E6E4F0;
+    --dash_icon_color: #FF9944;
+    --dash_icon_bg: #E6E4F0;
+    --report_gradient: linear-gradient(90deg, hsla(29, 92%, 70%, 1) 0%, hsla(0, 87%, 73%, 1) 100%);
+    --report_gradient2: linear-gradient(90deg, hsla(12, 84%, 68%, 1) 0%, hsla(343, 100%, 66%, 1) 100%);
+    --table_row_color: #E6E4F0;
+    --table_body_color: #FFFFFF;
+    --table_body_color2: #F0EFF6;
+    --table_search: #FFF;
+    --loader_color: linear-gradient(#FF3D00 30px, transparent 0) no-repeat;
+    --loader_gradient: linear-gradient(#FF3D00 40px, transparent 0);
+    --dialog_dialog: #F0EFF6;
+    --form_img_bg: #F1EEF6;
+    --template_img_bg: #FFD6CF;
+    --welcome_hello: #fa6335; 
+    --profile_email: #888888;
+    --diabled_color: #E6E4F0;
+    --colapse-main: #E6E4F0;
+    --colapse-main2: #F0EFF6;
+    --colapse-shadow: #888888;
+    --archive-card:#edf2fc;
+    --archive-hover:#e7e7e7;
+    --archive-select:#d3e3fd;
+    --label-color: #aeaeae;
+    --scroll_background: #F0EFF6;
+    --thumb_background: #888;
+    --refresh-hover: #212121;
+    --white: #FFF;
+}
+
+#login_screen .login_bg {
+    background: url(../assets/images/Subtract.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    object-fit: cover;
+}
+
+#login_screen .login_form {
+    width: 100%;
+}
+
+#login_screen .login_button{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--page_title_color);
+    border: none;
+    border-radius: 5px;
+    transition: all 150ms ease-in-out;
+    cursor: pointer;
+    color: var(--white);
+    font-size: 1rem;
+    margin: 15px 0 15px 0;
+}
+
+#login_screen .login_button:hover{
+    background-color: #e0853b;
+}

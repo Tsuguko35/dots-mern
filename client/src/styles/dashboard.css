@@ -1,0 +1,8 @@
+#Dashboard {
+    display: block;
+}
+
+#Dashboard > .wrapper{
+    padding: 50px;
+    padding: 24px 16px;
+}
