@@ -1,10 +1,12 @@
 :root{
     --light-grey:#D3D3D3;
-    --orange:#FF9944;
+    --orange:#FF8911;
     --dirty-white:#F0EFF6;
-    --shadow-white:#E6E4F0;
+    --shadow-white:#3A3535;
     --stroke: #313131;
     --divider: #d4d4d4;
+    --pantone-black: #232020;
+    --light-black: #3A3535;
 }
 
 .divider{
@@ -29,6 +31,12 @@
 .Nav_List_Collapse_Item:hover .Nav_Item_Notification, .Nav_List_Item:hover .Nav_Item_Notification {
     background-color: #FFF;
 }
+
+.Nav_List_Collapse_Item.active .Nav_Item_Notification{
+    background-color: #FFF;
+}
+
+
 
 .Nav_Item_Collapse_Icon{
     transform: rotate(90deg);
@@ -62,15 +70,14 @@
     display: block;
     width: 250px;
     height: 100vh;
-    background-color: var(--dirty-white);
+    background-color: var(--pantone-black);
     top: 0;
     left: 0;
     display: flex;
     z-index: 100;
     padding: 0px 7px;
-    border-right: 2px solid var(--shadow-white);
     transition: all 250ms ease-in-out;
-    box-shadow: 3px 0 10px -2px var(--shadow-white);
+    box-shadow: 3px 0 5px -2px var(--light-black);
     overflow-y: auto;
 }
 
@@ -86,7 +93,7 @@
 
 #Sidebar > .wrapper > .content > .Nav_Header_Title {
     padding: 10px 10px;
-    color: var(--stroke);
+    color: var(--dirty-white);
     width: 100%;
     position: relative;
     display: flex;
@@ -95,32 +102,56 @@
     height: 200px;
     cursor: default;
     transition: all 250ms ease-in-out;
-    
+    color: var(--orange);
 }
 
 #Sidebar > .wrapper > .content > .Nav_Header_Title > img {
     width: 75px;
     height: 75px;
     padding: 5px;
-    background-color: var(--shadow-white);
-    border-radius: 10px;
+    background-color: var(--light-black);
+    border-radius: 20px;
 }
 
 #Sidebar > .wrapper > .content > .Nav_Header_Title > .Nav_Header_Dep_Name {
     display: flex;
     flex-direction: column;
     justify-content: start;
-    margin-left: 10px;
+    margin-left: 5px;
     font-size: 13px;
 }
 
-#Sidebar > .wrapper > .content > .Nav_Header_Title > .Nav_Header_Dep_Name > p {
-    margin-bottom: 3px;
+#Sidebar > .wrapper > .content > .Nav_Header_Title > .Nav_Header_Dep_Detail{
+    content: '';
+    width: 20px;
+    margin-left: -20px;
+    height: 30px;
+    margin-right: 5px;
+    background-color: var(--orange);
+    padding: 5px 10px;
+    box-shadow: 0px 10px 20px 0 rgba(255, 137, 17, 0.15);
+}
+
+#Sidebar > .wrapper > .content > .Nav_Header_Title > .Nav_Header_Dep_Name > span {
+    font-family: "Kode Mono";
+    font-size: 17px;
+    width: 148px;
+    color: white;
+    height: 30px;
+    background-color: var(--orange);
+    padding: 5px 10px;
+    letter-spacing: 20px;
+    text-align: center;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 10px 20px 0 rgba(255, 137, 17, 0.15);
 }
 
 #Sidebar > .wrapper > .content > .Nav_Header {
     padding: 10px 10px;
-    color: var(--stroke);
+    color: var(--dirty-white);
     width: 100%;
     position: relative;
     display: flex;
@@ -150,22 +181,13 @@
     cursor: pointer;
     border-radius: 5px;
     margin: 5px 0px;
-    color: var(--stroke);
+    color: var(--dirty-white);
 }
 #Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item.active {
-    background-color: var(--shadow-white);
+    background-color: var(--light-black);
     /* border-left: 3px var(--orange) solid; */
-    color: var(--stroke);
+    color: var(--dirty-white);
     box-sizing: border-box;
-}
-
-#Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item.active .Nav_Icon_Label {
-    transition: all 250ms ease-in-out;
-    color: var(--orange);
-}
-
-#Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item.active:hover .Nav_Icon_Label{
-    color: #FFF;
 }
 
 #Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item:hover {
@@ -186,7 +208,7 @@
 }
 
 #Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Collapse {
-    background-color: var(--shadow-white);
+    background-color: var(--light-black);
     border-radius: 10px;
 }
 
@@ -207,7 +229,11 @@
     cursor: pointer;
     margin: 5px 0px;
     border-radius: 5px;
-    color: var(--stroke);
+    color: var(--dirty-white);
+}
+
+#Sidebar > .wrapper > .content > .Nav_List .Nav_List_Collapse_Item.active {
+    background-color: var(--orange);
 }
 
 #Sidebar > .wrapper > .content > .Nav_List .Nav_Item_onCollapse_Icon {
@@ -220,7 +246,12 @@
 }
 
 @media only screen and (max-width: 1024px) {
+    #Sidebar{
+        background-color: rgba(0, 0, 0, 0.25);
+    }
+
     #Sidebar > .wrapper > .content {
         position: fixed;
     }
+    
 }

@@ -13,7 +13,8 @@ import * as MdIcons from 'react-icons/md'
 import * as CiIcons from 'react-icons/ci'
 
 import { 
-  SidebarContext 
+  SidebarContext, 
+  logOutUser 
 } from '../context'
 
 import { 
@@ -36,11 +37,16 @@ import {
 import { 
   DateTime 
 } from '../utils'
+import { useNavigate } from 'react-router-dom'
+import toast, { Toaster } from 'react-hot-toast'
 
 function Navbar() {
+  const navigate = useNavigate()
   const { setToggleSidebar } = useContext(SidebarContext)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -48,15 +54,33 @@ function Navbar() {
     setAnchorEl(null);
   };
 
+  //Log out User
+  const logout = async() => {
+    const res = await logOutUser()
+    if(res?.status === 200){
+      navigate('/')
+    }
+
+    if(res?.status === 400){
+      toast.error(res.data?.errorMessage)
+    }
+  }
+
 
   return (
     <section id='Navbar' className='Navbar'>
+      <Toaster position='bottom center'/>
       <div className="Sidebar_Toggle">
         <p><IoIcons.IoMdMenu size={'35px'} onClick={() => setToggleSidebar(true)}/></p>
       </div>
       <div className="Navbar_Date_and_Profile">
+          <Tooltip title="Notifications">
+            <div className='Navbar_Notifications'>
+              <IoIcons.IoMdNotificationsOutline size={'30px'} />
+            </div>
+          </Tooltip>
           <Typography className='Navbar_Date' sx={{ minWidth: '100px'}}><IoIcons.IoMdCalendar size={'20px'} style={{marginRight: '2px'}}/><DateTime /></Typography>
-          <Typography className='Navbar_Date_and_Profile_Role' sx={{ minWidth: '100px'}}>Dean</Typography>
+          <Typography className='Navbar_Date_and_Profile_Role' sx={{ minWidth: '75px'}}>Dean</Typography>
           <Tooltip title="Account settings">
             <IconButton
               onClick={handleClick}
@@ -65,18 +89,18 @@ function Navbar() {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-              <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+              <Avatar sx={{ width: 45, height: 45 }}>M</Avatar>
             </IconButton>
           </Tooltip>
           <Menu
             anchorEl={anchorEl}
-            id="account-menu"
+            id="Navbar_Menu"
             open={open}
             onClose={handleClose}
-            onClick={handleClose}
             PaperProps={{
               elevation: 0,
               sx: {
+                minWidth: '250px',
                 overflow: 'visible',
                 filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                 mt: 1.5,
@@ -94,7 +118,7 @@ function Navbar() {
                   right: 14,
                   width: 10,
                   height: 10,
-                  bgcolor: 'background.paper',
+                  bgcolor: '#FFFFFF',
                   transform: 'translateY(-50%) rotate(45deg)',
                   zIndex: 0,
                 },
@@ -103,25 +127,31 @@ function Navbar() {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-            <MenuItem onClick={handleClose}>
-              <Avatar /> John Jazpher Carpio
-            </MenuItem>
+            <div className="Menu_Profile">
+              <div className="Profile_Avatar">
+                <span><Avatar className='Avatar'/></span>
+              </div>
+              <div className="Profile_Name_Role">
+                <span className='Profile_Name'>John Jazpher Carpio</span>
+                <span className='Profile_Role'>Dean</span>
+              </div>
+            </div>
             <Divider />
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} className='Menu_Item'>
               <ListItemIcon>
-                <PersonAdd fontSize="small" />
+                <RiIcons.RiSettingsLine size={'20px'} className='Menu_Icons'/>
               </ListItemIcon>
-              Add another account
+              Account Settings
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} className='Menu_Item'>
               <ListItemIcon>
-                <Settings fontSize="small" />
+                <LuIcons.LuSettings2 size={'20px'} className='Menu_Icons'/>
               </ListItemIcon>
-              Settings
+              System Settings
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={() => logout()} className='Menu_Item'>
               <ListItemIcon>
-                <Logout fontSize="small" />
+                <IoIcons.IoIosLogOut size={'20px'} className='Menu_Icons'/>
               </ListItemIcon>
               Logout
             </MenuItem>

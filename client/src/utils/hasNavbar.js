@@ -1,4 +1,4 @@
-export default function hasSidebar(location, routes) {
+export default function hasNavbar(location, routes) {
     const excludedPaths = [
         '/login',
         '/registration',

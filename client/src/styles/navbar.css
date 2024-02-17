@@ -1,11 +1,18 @@
 :root{
     --light-grey:#D3D3D3;
-    --orange:#FF9944;
+    --orange:#FF8911;
     --dirty-white:#F0EFF6;
-    --shadow-white:#E6E4F0;
+    --shadow-white:#3A3535;
     --stroke: #313131;
     --divider: #d4d4d4;
-    --pebble: #333333;
+    --pantone-black: #232020;
+    --light-black: #3A3535;
+    --bg-white:#F4F4F4;
+    --bg2-white:#e7e7e7;
+}
+
+.Menu_Icons{
+    color: var(--light-black);
 }
 
 #Navbar {
@@ -13,8 +20,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: var(--dirty-white);
+    background-color:var(--bg-white);
     height: 64px;
+    width: 100%;
 }
 
 #Navbar > .Sidebar_Toggle {
@@ -26,25 +34,108 @@
     color: var(--orange);
 }
 
+/* Date and Profile */
 #Navbar > .Navbar_Date_and_Profile{
     display: flex;
     align-items: center;
     text-align: center;
 }
 
+#Navbar > .Navbar_Date_and_Profile .Navbar_Notifications {
+    color: var(--pantone-black);
+    margin-right: 10px;
+    cursor: pointer;
+    transition: hover 250ms ease-in-out;
+}
+
+#Navbar > .Navbar_Date_and_Profile .Navbar_Notifications:hover{
+    animation: ring 0.3s infinite alternate;
+    color: #FF8911;
+}
+
+@keyframes ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(15deg);
+      }
+    50% {
+        transform: rotate(0deg);
+      }
+    100% {
+      transform: rotate(-15deg);
+    }
+  }
+
 #Navbar > .Navbar_Date_and_Profile .Navbar_Date {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--shadow-white);
+    background-color: var(--bg2-white);
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 14px;
-    color: var(--pebble);
 }
 
 #Navbar > .Navbar_Date_and_Profile .Navbar_Date_and_Profile_Role {
     color: var(--orange);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Menu */
+#Navbar_Menu .MuiMenuItem-root{
+    border-radius: 5px;
+    margin: 5px 10px;
+    transition: all 250ms ease-in-out;
+}
+
+#Navbar_Menu .MuiMenuItem-root:hover {
+    background-color: var(--bg2-white) !important;
+}
+
+.Menu_Profile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 50px;
+    padding: 20px 10px;
+}
+
+.Menu_Profile > .Profile_Avatar{
+    margin-bottom: 20px;
+}
+
+.Menu_Profile > .Profile_Avatar > span > .Avatar{
+    width: 70px;
+    height: 70px;
+    margin: 0;
+}
+
+.Menu_Profile > .Profile_Name_Role{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Menu_Profile > .Profile_Name_Role > .Profile_Name {
+    color: var(--light-black);
+    margin-bottom: 5px;
+
+}
+
+.Menu_Profile > .Profile_Name_Role > .Profile_Role{
+    font-size: 12px;
+    text-align: center;
+    color: white;
+    background-color: var(--orange);
+    padding: 5px 10px;
+    min-width: 100px;
+    border-radius: 20px;
 }
 
 @media only screen and (max-width: 1024px) {

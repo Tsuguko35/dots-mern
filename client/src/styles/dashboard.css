@@ -1,8 +1,146 @@
+:root{
+    --light-grey:#D3D3D3;
+    --orange:#FF8911;
+    --dirty-white:#F0EFF6;
+    --shadow-white:#3A3535;
+    --stroke: #313131;
+    --divider: #d4d4d4;
+    --pantone-black: #232020;
+    --light-black: #3A3535;
+    --bg-white:#F4F4F4;
+    --bg2-white:#e7e7e7;
+}
+
 #Dashboard {
-    display: block;
+    display: flex;
+    width: 100%;
 }
 
 #Dashboard > .wrapper{
-    padding: 50px;
-    padding: 24px 16px;
+    width: 100%;
+    padding: 20px 30px;
+}
+
+#Dashboard > .wrapper > .Dashboard_Header{
+    width: 100%;
+    
+}
+
+#Dashboard > .wrapper > .Dashboard_Header > .Header_SysTitle{
+    color: var(--light-black);
+    font-size: 32px;
+}
+
+#Dashboard > .wrapper > .Dashboard_Header > .Header_PageTitle{
+    color: var(--orange);
+    font-size: 24px;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.Dashboard_Grid_Card.Welcome{ grid-area: welcome; }
+.Dashboard_Grid_Card.Archive{ grid-area: archive; }
+.Dashboard_Grid_Card.DocToday{ grid-area: today; }
+.Dashboard_Grid_Card.DocMonth{ grid-area: month; }
+.Dashboard_Grid_Card.DocYear{ grid-area: year; }
+.Dashboard_Grid_Card.Graph1{ grid-area: graph1; }
+.Dashboard_Grid_Card.Graph2{ grid-area: graph2; }
+.Dashboard_Grid_Card.Graph3{ grid-area: graph3; }
+.Dashboard_Grid_Card.Graph4{ grid-area: graph4; }
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container {
+    margin: 5px 0 20px 0;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Top{
+    display: grid;
+    grid-template-areas: 
+    'welcome welcome welcome welcome archive archive today today month month year year';
+    gap: 10px;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Middle{
+    display: grid;
+    grid-template-areas: 
+    'graph1 graph2'
+    'graph3 graph4';
+    gap: 10px;
+}
+
+#Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card{
+    height: 125px;
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+    background-color: white;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+}
+
+#Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card.Welcome{
+    background-color: var(--pantone-black);
+}
+
+.Dashboard_Grid_Card.Archive, .Dashboard_Grid_Card.DocToday, .Dashboard_Grid_Card.DocMonth, .Dashboard_Grid_Card.DocYear{
+    background-color: var(--light-grey) !important;
+}
+
+#Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Middle > .Dashboard_Grid_Card{
+    height: 400px;
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+    background-color: white;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+}
+
+#Dashboard > .wrapper  > .Dashboard_Table_Container{
+    display: block;
+    background-color: white;
+    height: 500px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+}
+
+@media only screen and (max-width: 820px) {
+    #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Top{
+        grid-template-areas: 
+        'welcome welcome archive'
+        ' today month year';
+    }
+
+    #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Middle{
+        display: grid;
+        grid-template-areas: 
+        'graph1'
+        'graph2'
+        'graph3'
+        'graph4';
+        gap: 10px;
+    }
+}
+
+@media only screen and (max-width: 430px) {
+    #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Top{
+        grid-template-areas: 
+        'welcome welcome'
+        'archive today'
+        'month year';
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Top{
+        grid-template-areas: 
+        'welcome'
+        'archive'
+        'today'
+        'month'
+        'year';
+    }
 }

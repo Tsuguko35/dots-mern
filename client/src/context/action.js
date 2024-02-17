@@ -40,11 +40,17 @@ export async function validateUser(payload){
     }
 }
 
-export async function logOutUser(payload){
+export async function logOutUser(){
     try{
         const res = await Axios.post(`/user/logOutUser`)
         
         if(res){
+            if(res?.status === 200){
+                document.cookie = 'token=; Max-Age=0; secure'
+                window.localStorage.removeItem('user')
+                window.localStorage.removeItem('profile')
+                window.localStorage.removeItem('isLoggedIn')
+            }
             return res
         }
     }

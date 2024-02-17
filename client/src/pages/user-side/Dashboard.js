@@ -8,32 +8,52 @@ function Dashboard() {
   const navigate = useNavigate()
   useEffect(() => {
     document.title = 'Dashboard'
-
-    
   }, [])
-
-  const logout = async() => {
-    const res = await logOutUser()
-    if(res?.status === 200){
-      document.cookie = 'token=; Max-Age=0; secure'
-      window.localStorage.removeItem('user')
-      window.localStorage.removeItem('profile')
-      window.localStorage.removeItem('isLoggedIn')
-      navigate('/')
-    }
-
-    if(res?.status === 400){
-      toast.error(res.data?.errorMessage)
-    }
-  }
-
-
   return (
     <section id='Dashboard' className='Dashboard'>
       <div className="wrapper">
-        <Toaster position="bottom-center" />
-          <p>Dashboard</p>
-        <button onClick={(e) => logout()}>Logout</button>
+        <header className='Dashboard_Header'>
+          <h1 className='Header_SysTitle'>Dean's Office Transaction</h1>
+          <span className='Header_PageTitle'>Dashboard</span>
+        </header>
+        <div className="Dashboard_Grids">
+          <div className="Dashboard_Grid_Container Top">
+            <div className="Dashboard_Grid_Card Welcome">
+              <p>Card</p>
+            </div>
+            <div className="Dashboard_Grid_Card Archive">
+              <p>Card</p>
+            </div>
+            <div className="Dashboard_Grid_Card DocToday">
+              <p>Card</p>
+            </div>
+            <div className="Dashboard_Grid_Card DocMonth">
+              <p>Card</p>
+            </div>
+            <div className="Dashboard_Grid_Card DocYear">
+              <p>Card</p>
+            </div>
+          </div>
+          <div className="Dashboard_Grid_Container Middle">
+            <div className="Dashboard_Grid_Card Graph1">
+              <p>Card</p>
+            </div>
+            <div className="Dashboard_Grid_Card Graph2">
+              <p>Card</p>
+            </div>
+            <div className="Dashboard_Grid_Card Graph3">
+              <p>Card</p>
+            </div>
+            <div className="Dashboard_Grid_Card Graph4">
+              <p>Card</p>
+            </div>
+          </div>
+        </div>
+        <div className="Dashboard_Table_Container">
+          <div className="Dashboard_Table">
+            <span>Table</span>
+          </div>
+        </div>
       </div>
     </section>
   )
