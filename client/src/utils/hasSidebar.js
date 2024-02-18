@@ -1,7 +1,7 @@
 export default function hasSidebar(location, routes) {
     const excludedPaths = [
-        '/login',
-        '/registration',
+        '/Login',
+        '/Registration',
       ];
     
     return routes.some(route => {

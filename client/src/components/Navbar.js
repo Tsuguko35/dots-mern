@@ -46,7 +46,6 @@ function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -79,7 +78,14 @@ function Navbar() {
               <IoIcons.IoMdNotificationsOutline size={'30px'} />
             </div>
           </Tooltip>
-          <Typography className='Navbar_Date' sx={{ minWidth: '100px'}}><IoIcons.IoMdCalendar size={'20px'} style={{marginRight: '2px'}}/><DateTime /></Typography>
+          <Typography className='Navbar_Date' sx={{ minWidth: '100px'}}>
+            <IoIcons.IoMdCalendar size={'30px'} style={{marginRight: '10px'}}/>
+            <span className="Date_time">
+              <span>{DateTime().date}</span>
+              <span className='dot'>&#183;</span>
+              <span>{DateTime().time}</span>
+            </span>
+          </Typography>
           <Typography className='Navbar_Date_and_Profile_Role' sx={{ minWidth: '75px'}}>Dean</Typography>
           <Tooltip title="Account settings">
             <IconButton

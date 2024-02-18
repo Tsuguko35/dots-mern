@@ -1,0 +1,40 @@
+:root{
+    --light-grey:#D3D3D3;
+    --orange:#FF8911;
+    --dark-orange: #E2780E;
+    --dirty-white:#F0EFF6;
+    --shadow-white:#3A3535;
+    --stroke: #313131;
+    --divider: #d4d4d4;
+    --pantone-black: #232020;
+    --light-black: #3A3535;
+    --bg-white:#F4F4F4;
+    --bg2-white:#e7e7e7;
+}
+
+#Requests {
+    display: flex;
+    width: 100%;
+}
+
+#Requests > .wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 30px;
+    gap: 30px;
+}
+
+#Requests > .wrapper > .Requests_Table_Container{
+    height: 750px;
+    width: 100%;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+    background-color: white;
+}

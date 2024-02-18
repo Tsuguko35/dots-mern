@@ -1,0 +1,40 @@
+.Header{
+    width: 100%;
+}
+
+.Header > .Header_SysTitle{
+    color: var(--light-black);
+    font-size: 30px;
+}
+
+.Header > .Header_PageTitle{
+    color: var(--orange);
+    font-size: 22px;
+}
+
+@media only screen and (max-width: 500px) {
+    .Header > .Header_SysTitle{
+        font-size: 28px;
+    }
+    .Header > .Header_PageTitle{
+        font-size: 20px;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .Header > .Header_SysTitle{
+        font-size: 24px;
+    }
+    .Header > .Header_PageTitle{
+        font-size: 18px;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    .Header > .Header_SysTitle{
+        font-size: 20px;
+    }
+    .Header > .Header_PageTitle{
+        font-size: 18px;
+    }
+}

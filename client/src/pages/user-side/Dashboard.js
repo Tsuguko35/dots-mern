@@ -3,6 +3,7 @@ import '../../styles/dashboard.css'
 import { logOutUser } from '../../context'
 import { useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
+import { PageHeader } from '../../components'
 
 function Dashboard() {
   const navigate = useNavigate()
@@ -12,10 +13,7 @@ function Dashboard() {
   return (
     <section id='Dashboard' className='Dashboard'>
       <div className="wrapper">
-        <header className='Dashboard_Header'>
-          <h1 className='Header_SysTitle'>Dean's Office Transaction</h1>
-          <span className='Header_PageTitle'>Dashboard</span>
-        </header>
+        <PageHeader page={"Dashboard"}/>
         <div className="Dashboard_Grids">
           <div className="Dashboard_Grid_Container Top">
             <div className="Dashboard_Grid_Card Welcome">

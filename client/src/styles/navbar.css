@@ -73,9 +73,24 @@
     align-items: center;
     justify-content: center;
     background-color: var(--bg2-white);
-    padding: 10px;
+    padding: 5px 10px;
     border-radius: 5px;
     font-size: 14px;
+    min-width: 150px;
+}
+
+#Navbar > .Navbar_Date_and_Profile .Navbar_Date > .Date_time {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+#Navbar > .Navbar_Date_and_Profile .Navbar_Date > .Date_time > .dot{
+    font-size: 20px;
+    font-weight: bold;
 }
 
 #Navbar > .Navbar_Date_and_Profile .Navbar_Date_and_Profile_Role {
@@ -144,21 +159,50 @@
     }
 }
 
-@media only screen and (max-width: 425px) {
+@media only screen and (max-width: 500px) {
     #Navbar{
         padding: 10px 10px;
     }
+    
     #Navbar > .Sidebar_Toggle {
         opacity: 1;
+    }
+    
+    #Navbar > .Navbar_Date_and_Profile .Navbar_Date > .Date_time {
+        flex-direction: column;
+        align-items: start;
+    }
+    
+    #Navbar > .Navbar_Date_and_Profile .Navbar_Date > .Date_time > .dot{
+        display: none;
     }
 }
 
 @media only screen and (max-width: 375px) {
     #Navbar{
         padding: 10px 10px;
+        height: 100px;
         display: block;
     }
     #Navbar > .Sidebar_Toggle {
         opacity: 1;
+    }
+
+    #Navbar > .Navbar_Date_and_Profile{
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    #Navbar > .Navbar_Date_and_Profile .Navbar_Date > .Date_time {
+        flex-direction: column;
+        align-items: start;
+        padding: 0px 5px;
+    }
+
+    #Navbar > .Navbar_Date_and_Profile{
+        width: 100%;
+        justify-content: center;
     }
 }

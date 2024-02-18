@@ -1,9 +1,11 @@
 import { 
     ArchiveFolders,
-    ArchiveTable,
+    Archive_Table,
     Dashboard, 
     Login, 
     Monitoring, 
+    PageNotFound, 
+    Registration, 
     Requests,
     Templates
 } from "../pages"
@@ -13,6 +15,14 @@ const routes = [
     {
         path: '/',
         component: <Login />
+    },
+    {
+        path: '/Login',
+        component: <Login />
+    },
+    {
+        path: '/Registration',
+        component: <Registration />
     },
     {
         path: '/Dashboard',
@@ -32,7 +42,7 @@ const routes = [
     },
     {
         path: '/Archive/Tables',
-        component: <ArchiveTable />
+        component: <Archive_Table />
     },
     {
         path: '/Templates',
@@ -40,7 +50,7 @@ const routes = [
     },
     {
         path: '/*',
-        component: <Dashboard />
+        component: <PageNotFound />
     }
 ]
 

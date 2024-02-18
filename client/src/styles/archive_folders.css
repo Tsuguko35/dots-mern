@@ -1,0 +1,165 @@
+:root{
+    --light-grey:#D3D3D3;
+    --orange:#FF8911;
+    --dark-orange: #E2780E;
+    --dirty-white:#F0EFF6;
+    --shadow-white:#3A3535;
+    --stroke: #313131;
+    --divider: #d4d4d4;
+    --pantone-black: #232020;
+    --light-black: #3A3535;
+    --bg-white:#F4F4F4;
+    --bg2-white:#e7e7e7;
+    --dark-grey: #A5A6A6;
+}
+
+
+#Archive_Folders {
+    display: flex;
+    width: 100%;
+}
+
+#Archive_Folders > .wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 30px;
+    gap: 30px;
+}
+
+#Archive_Folders > .wrapper > .Folders_Container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid{
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 5px;
+    background-color: white;
+    transition: all 250ms ease-in-out;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid.active {
+    transition: all 250ms ease-in-out;
+    border-color: var(--orange);
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid > .Folder_Year{
+    transition: all 250ms ease-in-out;
+    margin-bottom: 0;
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid.active > .Folder_Year{
+    transition: all 250ms ease-in-out;
+    margin-bottom: 20px;
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid > .Folder_Year > h3 {
+    color: var(--dark-grey);
+    transition: all 250ms ease-in-out;
+    font-size: 28px;
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid:hover > .Folder_Year > h3 {
+    color: var(--light-black);
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid.active > .Folder_Year > h3 {
+    color: var(--light-black);
+    transition: all 250ms ease-in-out;
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 15px;
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid > .Folder{
+    color: var(--pantone-black);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--pantone-black);
+    padding: 0 20px;
+    transition: all 250ms ease-in-out;
+    border-radius: 5px;
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid > .Folder:hover{
+    color: white;
+    background-color: var(--pantone-black);
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid > .Folder > .Folder_Icon{
+    margin-right: 10px;
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid > .Folder > .Folder_Label{
+    width: 100%;
+}
+
+#Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid > .Folder > .Folder_Label > p{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 195px;
+}
+
+@media only screen and (max-width: 1024px) {
+    #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 820px) {
+    #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid {
+        grid-template-columns: 272px;
+    }
+    #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid > .Folder_Year > h3 {
+        font-size: 26px;
+    }
+    
+    #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid.active > .Folder_Year > h3 {
+        font-size: 26px;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid {
+        grid-template-columns: 218px;
+    }
+    
+    #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid > .Folder > .Folder_Label > p{
+        width: 150px;
+    }
+    #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid > .Folder_Year > h3 {
+        font-size: 22px;
+    }
+    
+    #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid.active > .Folder_Year > h3 {
+        font-size: 22px;
+    }
+}

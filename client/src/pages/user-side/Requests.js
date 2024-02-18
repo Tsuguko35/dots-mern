@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { PageHeader, RequestTable } from '../../components'
+import '../../styles/requests.css'
 
 function Requests() {
+    const [isLoading, setIsLoading] = useState(false)
     useEffect(() => {
         document.title = `Requests`
     }, [])
   return (
-    <div>
-        <p>Requests</p>
-    </div>
+    <section id='Requests' className='Requests'>
+        <div className="wrapper">
+          <PageHeader page={'Requests'}/>
+          <div className="Requests_Table_Container">
+            <RequestTable />
+          </div>
+        </div>
+    </section>
   )
 }
 

@@ -1,0 +1,73 @@
+:root{
+    --light-grey:#D3D3D3;
+    --orange:#FF8911;
+    --dirty-white:#F0EFF6;
+    --shadow-white:#3A3535;
+    --stroke: #313131;
+    --divider: #d4d4d4;
+    --pantone-black: #232020;
+    --light-black: #3A3535;
+    --bg-white:#F4F4F4;
+    --bg2-white:#e7e7e7;
+}
+
+#Page_Not_Found{
+    padding: 30px 100px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#Page_Not_Found > .Page_Not_Found_Header {
+    width: 100%;
+}
+
+#Page_Not_Found > .Page_Not_Found_Header > img {
+    width: 50px;
+    height: 50px;
+}
+
+#Page_Not_Found > .Page_Not_Found_Body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+}
+
+#Page_Not_Found > .Page_Not_Found_Body > .Page_Not_Found_Image > img{
+    width: 400px;
+}
+
+#Page_Not_Found > .Page_Not_Found_Body > .Page_Not_Found_Label{
+    text-align: center;
+}
+
+#Page_Not_Found > .Page_Not_Found_Body > .Page_Not_Found_Label > h1{
+    margin: 10px 0;
+}
+
+#Page_Not_Found > .Page_Not_Found_Body > .Page_Not_Found_Label > p{
+    font-size: 15px;
+}
+
+#Page_Not_Found > .Page_Not_Found_Body > .Page_Not_Found_GoBack{
+    width: 100%;
+}
+
+#Page_Not_Found > .Page_Not_Found_Body > .Page_Not_Found_GoBack > button{
+    margin: 20px 0;
+    width: 100%;
+    height: 40px;
+    background-color: var(--pantone-black);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+#Page_Not_Found > .Page_Not_Found_Body > .Page_Not_Found_GoBack > button:hover{
+    background-color: var(--light-black);
+}

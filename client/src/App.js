@@ -28,12 +28,12 @@ function App() {
             <Sidebar />
           </div>
         )}
-        {(toggleSidebar && windowWidth <= 1024) && (<span className="Sidebar_Overlay"></span>)}
+        {(toggleSidebar && windowWidth <= 1024 && pagehasSidebar) && (<span className="Sidebar_Overlay"></span>)}
         <div className='Main_Content'>
           <div className="Navbar">
             {pagehasNavbar && (<Navbar />)}
           </div>
-          <div className='Content'>
+          <div className={pagehasSidebar ? 'Content Sidebar' : 'Content'}>
             <Routes>
               {routes.map((route) => (
                 <Route key={route.path} path={route.path} element={route.component} />

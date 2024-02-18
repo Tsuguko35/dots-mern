@@ -1,0 +1,265 @@
+:root{
+    --light-grey:#D3D3D3;
+    --orange:#FF8911;
+    --dirty-white:#F0EFF6;
+    --shadow-white:#3A3535;
+    --stroke: #313131;
+    --divider: #d4d4d4;
+    --pantone-black: #232020;
+    --light-black: #3A3535;
+    --bg-white:#F4F4F4;
+    --bg2-white:#e7e7e7;
+}
+
+#login_and_registration{
+    background-color: #F4F4F4;
+}
+
+#login_and_registration > .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    gap: 64px;
+}
+
+#login_and_registration .side_illustration {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 96px;
+    height: 100vh;
+}
+
+#login_and_registration .side_illustration > .side_illustration_labels {
+    color: var(--light-black);
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#login_and_registration .side_illustration > .side_illustration_labels > h1 {
+    font-size: 30px;
+}
+
+
+#login_and_registration .side_illustration > img {
+    width: 400px;
+}
+
+#login_and_registration .form_wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#login_and_registration .login_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    min-height: 700px;
+    padding: 50px 40px;
+    width: 500px;
+    border-radius: 10px;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+    gap: 10px;
+}
+
+#login_and_registration .login_and_registration_logos {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 50px;
+}
+
+#login_and_registration .login_and_registration_logos > img {
+    width: 55px;
+    height: 55px;
+}
+
+#login_and_registration .login_and_registration_header{
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+#login_and_registration .login_and_registration_header > h3{
+    font-size: 25px;
+}
+
+#login_and_registration .login_and_registration_header > h3 > span{
+    color: var(--orange);
+}
+
+#login_and_registration .login_form .login_registration_password {
+    width: 100%;
+}
+
+#login_and_registration .login_button{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--pantone-black);
+    border: none;
+    border-radius: 5px;
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+    color: var(--white);
+    font-size: 1rem;
+    margin: 15px 0 15px 0;
+    color: white;
+}
+
+#login_and_registration .login_button:hover{
+    background-color: var(--orange);
+}
+
+@media only screen and (max-width: 1024px) {
+    #login_and_registration > .wrapper{
+        gap: 45px;
+        padding: 20px;
+    }
+
+    #login_and_registration .side_illustration > .side_illustration_labels > h1 {
+        font-size: 27px;
+    }
+
+    #login_and_registration .side_illustration > .side_illustration_labels > p {
+        font-size:15px;
+    }
+}
+
+@media only screen and (max-width: 912px) {
+    #login_and_registration > .wrapper{
+        gap: 25px;
+        padding: 10px;
+    }
+
+    #login_and_registration .side_illustration {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    #login_and_registration > .wrapper{
+        gap: 25px;
+        padding: 10px;
+    }
+
+    #login_and_registration .login_form {
+        width: 400px;
+    }
+
+    #login_and_registration .login_and_registration_header > h3{
+        font-size: 18px;
+    }
+    
+    #login_and_registration .login_and_registration_header > h3 > span{
+        color: var(--orange);
+    }
+
+    #login_and_registration .login_and_registration_header > p{
+        font-size: 13px;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    #login_and_registration > .wrapper{
+        gap: 25px;
+        padding: 10px;
+    }
+
+    #login_and_registration .login_form {
+        width: 400px;
+    }
+
+    #login_and_registration .login_and_registration_header > h3{
+        font-size: 18px;
+    }
+    
+    #login_and_registration .login_and_registration_header > h3 > span{
+        color: var(--orange);
+    }
+
+    #login_and_registration .login_and_registration_header > p{
+        font-size: 13px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+
+    #login_and_registration .login_form {
+        width: 350px;
+        padding: 30px 25px;
+        min-height: 600px;
+    }
+
+    #login_and_registration .login_and_registration_header > h3{
+        font-size: 17px;
+    }
+    
+    #login_and_registration .login_and_registration_header > h3 > span{
+        color: var(--orange);
+    }
+
+    #login_and_registration .login_and_registration_header > p{
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+
+    #login_and_registration .login_form {
+        width: 300px;
+        min-height: 600px;
+        padding: 20px 15px;
+    }
+    #login_and_registration .login_and_registration_header{
+        margin: 15px;
+    }
+
+    #login_and_registration .login_and_registration_header > h3{
+        font-size: 14px;
+    }
+
+    #login_and_registration .login_and_registration_header > h3{
+        font-size: 14px;
+    }
+    
+    #login_and_registration .login_and_registration_header > h3 > span{
+        color: var(--orange);
+    }
+
+    #login_and_registration .login_and_registration_header > p{
+        font-size: 12px;
+    }
+
+    .signUp_Login_toggle{
+        font-size: 12px !important;
+    }
+}
+
+@media only screen and (max-width: 280px) {
+
+    #login_and_registration .login_form {
+        width: 250px;
+        min-height: 600px;
+        padding: 20px 15px;
+    }
+}
+
+@media only screen and (max-height: 600px) {
+    #login_and_registration .login_form {
+        min-height: 450px;
+    }
+}

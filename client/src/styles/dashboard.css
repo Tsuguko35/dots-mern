@@ -1,6 +1,7 @@
 :root{
     --light-grey:#D3D3D3;
     --orange:#FF8911;
+    --dark-orange: #E2780E;
     --dirty-white:#F0EFF6;
     --shadow-white:#3A3535;
     --stroke: #313131;
@@ -19,21 +20,6 @@
 #Dashboard > .wrapper{
     width: 100%;
     padding: 20px 30px;
-}
-
-#Dashboard > .wrapper > .Dashboard_Header{
-    width: 100%;
-    
-}
-
-#Dashboard > .wrapper > .Dashboard_Header > .Header_SysTitle{
-    color: var(--light-black);
-    font-size: 32px;
-}
-
-#Dashboard > .wrapper > .Dashboard_Header > .Header_PageTitle{
-    color: var(--orange);
-    font-size: 24px;
 }
 
 #Dashboard > .wrapper > .Dashboard_Grids{
