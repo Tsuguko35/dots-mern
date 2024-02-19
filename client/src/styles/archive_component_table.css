@@ -31,6 +31,47 @@
     align-items: center;
 }
 
+#Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+#Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Left > *{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Left > button{
+    height: 40px;
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--light-black);
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 4px 2px -2px rgba(187, 187, 187, 0.5);
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+}
+
+#Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Left > button:hover{
+    background-color: var(--dark-orange);
+}
+
+#Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Left > span{
+    color: var(--dark-grey);
+    transition: all 250ms ease-in-out;
+    user-select: none;
+    cursor: pointer;
+}
+
+#Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Left > span:hover{
+    color: var(--orange);
+}
+
 #Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Right{
     display: flex;
     justify-content: center;
@@ -44,6 +85,19 @@
     align-items: center;
 }
 
+#Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Right > button{
+    height: 40px;
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--orange);
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 4px 2px -2px rgba(187, 187, 187, 0.5);
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+}
+
 #Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Right > button:hover{
     background-color: var(--dark-orange);
 }
@@ -55,6 +109,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-x: auto;
 }
 
 #Archive_Table_Component > .wrapper > .Table_Container > .Table {
@@ -70,6 +125,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    height: 30px;
 }
 
 #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header{
@@ -90,6 +146,15 @@
 #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header > .Table_Header_Filter{
     color: var(--light-grey);
     cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+.Table_Header_Filter:hover{
+    color: var(--orange) !important;
+}
+
+.Table_Header_Filter.active{
+    color: var(--orange) !important;
 }
 
 #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Body_Container {
@@ -287,5 +352,173 @@
 #Archive_Table_Component > .wrapper > .Table_Pagination > .Pagination_Next:hover{
     background-color: var(--light-black);
     border-color: var(--light-black);
+}
+
+@media only screen and (max-width: 1024px) {
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .ReceivedBy {
+        display: none;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.ReceivedBy{
+        display: none;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Header_Container {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > p{
+        width: 750px;
+    }
+}
+
+@media only screen and (max-width: 912px) {
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .OfficeDept {
+        display: none;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .DateReceived {
+        display: none;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.OfficeDept{
+        display: none;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.DateReceived{
+        display: none;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Header_Container {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > p{
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+
+    #Archive_Table_Component > .wrapper > .Table_Top{
+        flex-direction: column;
+        align-items: start;
+        gap: 20px;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Left{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Right{
+        width: 100%;
+        flex-direction: column;
+    }
+    #Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Right > button{
+        width: 100%;
+    }
+
+    #Archive_Table_Component .Table_Row_Container_Mobile{
+        width: 100%;
+        height: 500px;
+        overflow-y: auto;
+    }
+
+    #Archive_Table_Component .Table_Row{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #F4F4F4;
+        padding: 10px 6px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    #Archive_Table_Component .Table_Row > .Table_Header_Container{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header{
+        display: flex;
+        align-items: center;
+    }
+
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > span{
+        width: 45%;
+        color: var(--dark-grey);
+    }
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > p{
+        color: var(--light-black);
+        width: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > .Status{
+        color: #4682B4;
+    }
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > .Status.Approved{
+        color: #93C572;
+    }
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > .Status.Ongoing{
+        color: #FFC300;
+    }
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > .Status.Status.Rejected{
+        color: #FA5F55;
+    }
+
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions{
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action{
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.View{
+        background-color: var(--orange);
+    }
+
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.Edit{
+        background-color: #4682B4;
+    }
+
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.Archive{
+        background-color: #93C572;
+    }
+
+}
+
+@media only screen and (max-width: 390px) {
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header{
+        flex-direction: column;
+    }
+
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > span{
+        width: 100%;
+        font-size: 15px;
+    }
+    #Archive_Table_Component .Table_Row > .Table_Header_Container > .Tabler_Header > p{
+        width: 100%;
+        font-size: 15px;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+
 }
 

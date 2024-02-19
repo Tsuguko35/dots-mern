@@ -109,6 +109,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-x: auto;
 }
 
 #Monitoring_Table > .wrapper > .Table_Container > .Table {
@@ -124,6 +125,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    height: 30px;
 }
 
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header{
@@ -144,6 +146,15 @@
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header > .Table_Header_Filter{
     color: var(--light-grey);
     cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+.Table_Header_Filter:hover{
+    color: var(--orange) !important;
+}
+
+.Table_Header_Filter.active{
+    color: var(--orange) !important;
 }
 
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container {
@@ -341,5 +352,173 @@
 #Monitoring_Table > .wrapper > .Table_Pagination > .Pagination_Next:hover{
     background-color: var(--light-black);
     border-color: var(--light-black);
+}
+
+@media only screen and (max-width: 1024px) {
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .ReceivedBy {
+        display: none;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.ReceivedBy{
+        display: none;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > p{
+        width: 750px;
+    }
+}
+
+@media only screen and (max-width: 912px) {
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .OfficeDept {
+        display: none;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .DateReceived {
+        display: none;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.OfficeDept{
+        display: none;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.DateReceived{
+        display: none;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > p{
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+
+    #Monitoring_Table > .wrapper > .Table_Top{
+        flex-direction: column;
+        align-items: start;
+        gap: 20px;
+    }
+    #Monitoring_Table > .wrapper > .Table_Top > .Table_Top_Left{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+    #Monitoring_Table > .wrapper > .Table_Top > .Table_Top_Right{
+        width: 100%;
+        flex-direction: column;
+    }
+    #Monitoring_Table > .wrapper > .Table_Top > .Table_Top_Right > button{
+        width: 100%;
+    }
+
+    #Monitoring_Table .Table_Row_Container_Mobile{
+        width: 100%;
+        height: 500px;
+        overflow-y: auto;
+    }
+
+    #Monitoring_Table .Table_Row{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #F4F4F4;
+        padding: 10px 6px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    #Monitoring_Table .Table_Row > .Table_Header_Container{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header{
+        display: flex;
+        align-items: center;
+    }
+
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > span{
+        width: 45%;
+        color: var(--dark-grey);
+    }
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > p{
+        color: var(--light-black);
+        width: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Status{
+        color: #4682B4;
+    }
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Status.Approved{
+        color: #93C572;
+    }
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Status.Ongoing{
+        color: #FFC300;
+    }
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Status.Status.Rejected{
+        color: #FA5F55;
+    }
+
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions{
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action{
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.View{
+        background-color: var(--orange);
+    }
+
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.Edit{
+        background-color: #4682B4;
+    }
+
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.Archive{
+        background-color: #93C572;
+    }
+
+}
+
+@media only screen and (max-width: 390px) {
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header{
+        flex-direction: column;
+    }
+
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > span{
+        width: 100%;
+        font-size: 15px;
+    }
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > p{
+        width: 100%;
+        font-size: 15px;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+
 }
 

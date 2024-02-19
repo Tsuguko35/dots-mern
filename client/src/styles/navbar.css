@@ -77,6 +77,7 @@
     border-radius: 5px;
     font-size: 14px;
     min-width: 150px;
+    
 }
 
 #Navbar > .Navbar_Date_and_Profile .Navbar_Date > .Date_time {
@@ -162,10 +163,17 @@
 @media only screen and (max-width: 500px) {
     #Navbar{
         padding: 10px 10px;
+        height: 100px;
+        display: block;
     }
     
     #Navbar > .Sidebar_Toggle {
         opacity: 1;
+    }
+
+    #Navbar > .Navbar_Date_and_Profile{
+        width: 100%;
+        justify-content: center;
     }
     
     #Navbar > .Navbar_Date_and_Profile .Navbar_Date > .Date_time {
@@ -179,19 +187,11 @@
 }
 
 @media only screen and (max-width: 375px) {
-    #Navbar{
-        padding: 10px 10px;
-        height: 100px;
-        display: block;
-    }
     #Navbar > .Sidebar_Toggle {
         opacity: 1;
     }
 
-    #Navbar > .Navbar_Date_and_Profile{
-        width: 100%;
-        justify-content: center;
-    }
+    
 }
 
 @media only screen and (max-width: 320px) {

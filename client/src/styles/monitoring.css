@@ -38,3 +38,9 @@
     box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
     background-color: white;
 }
+
+@media only screen and (max-width: 500px) {
+    #Monitoring > .wrapper > .Monitoring_Table_Container{
+        padding: 10px 20px;
+    }
+}
