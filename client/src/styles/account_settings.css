@@ -1,0 +1,200 @@
+
+#Account_Settings {
+    display: flex;
+    width: 100%;
+}
+
+#Account_Settings > .wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 30px;
+    gap: 30px;
+}
+
+#Account_Settings > .wrapper > .Settings_Container{
+    width: 100%;
+    height: 700px;
+    display: flex;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Left-Side{
+    width: 30%;
+    padding: 20px 30px;
+    background-color: white;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--light-grey);
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Left-Side > .Profile_Pic{
+    width: 125px;
+    height: 125px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-top: 55px;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Left-Side > .Profile_Pic > .Pic{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Left-Side > .Profile_Pic > .Pic_Change_Holder{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+    position: absolute;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Left-Side > .Profile_Pic > .Pic_Change_Holder > .Pic_Change{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Left-Side > .Profile_Pic > .Pic_Change_Holder > .Pic_Change > input{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Left-Side > .Profile_Name_Role{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Left-Side > .Profile_Name_Role > .Name{
+    font-size: 18px;
+    color: var(--light-black);
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Left-Side > .Profile_Name_Role > .Email{
+    font-size: 12px;
+    color: var(--dark-grey);
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Left-Side > .Profile_Name_Role > .Role{
+    font-size: 16px;
+    min-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--orange);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side{
+    width: 70%;
+    padding: 40px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: start;
+    gap: 20px;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Label{
+    color: var(--dark-grey);
+    font-size: 20px;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Info_Holder{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Info_Holder > .Info{
+    width: 100%;
+    height: 50px;
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Info_Holder > .Info > .Info_Label{
+    width: 100%;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Info_Holder > .Info > .Info_Label > span{
+    font-size: 14px;
+    color: var(--dark-grey);
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Info_Holder > .Info > .Info_Value{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Info_Holder > .Info > .Info_Value > .Value > p{
+    width: 400px;
+    color: var(--light-black);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Info_Holder > .Info > .Info_Value > .Info_Edit > span{
+    font-size: 15px;
+    color: var(--dark-grey);
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Info_Holder > .Info > .Info_Value > .Info_Edit > span:hover{
+    color: var(--orange);
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Save_Profile{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Save_Profile > button {
+    width: 100px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--light-black);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+#Account_Settings > .wrapper > .Settings_Container > .Right-Side > .Save_Profile > button:hover{
+    background-color: var(--orange);
+    color: white;
+    border-color: var(--orange);
+}

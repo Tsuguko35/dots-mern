@@ -276,11 +276,6 @@ function Registration() {
                 {error.errorMessage}
               </Typography>
             )}
-            <Box sx={{width: "100%", display: 'flex', justifyContent: 'right', mt: '10px'}}>
-              <Link variant="body2" onClick={undefined} className='signUp_Login_toggle'>
-                    Forgot password?
-              </Link>
-            </Box>
             
             <Button
                 disabled={submit}
@@ -289,7 +284,7 @@ function Registration() {
                 className='login_button'
                 style={{ backgroundColor: submit && '#e0853b' }}
             >
-                {submit ? <LoadingGear width='40px' height='40px'/> : 'Sign In'}
+                {submit ? <LoadingGear width='40px' height='40px'/> : 'Sign Up'}
             </Button>
             <Box sx={{width: '100%', display: 'flex', justifyContent: "center", alignItems: "center"}} >
               <Typography sx={{color:  "#212121"}} className='signUp_Login_toggle'>

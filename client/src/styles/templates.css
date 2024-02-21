@@ -1,0 +1,16 @@
+
+
+#Templates {
+    display: flex;
+    width: 100%;
+}
+
+#Templates > .wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 30px;
+    gap: 30px;
+}

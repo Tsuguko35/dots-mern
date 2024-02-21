@@ -65,6 +65,17 @@ function Navbar() {
     }
   }
 
+  const redirect = (props) => {
+    if(props === "SysSettings"){
+      handleClose()
+      navigate('/System-Settings')
+    }
+    else if(props === "AccSettings"){
+      handleClose()
+      navigate('/Account-Settings')
+    }
+  }
+
 
   return (
     <section id='Navbar' className='Navbar'>
@@ -143,13 +154,13 @@ function Navbar() {
               </div>
             </div>
             <Divider />
-            <MenuItem onClick={handleClose} className='Menu_Item'>
+            <MenuItem onClick={() => redirect("AccSettings")} className='Menu_Item'>
               <ListItemIcon>
                 <RiIcons.RiSettingsLine size={'20px'} className='Menu_Icons'/>
               </ListItemIcon>
               Account Settings
             </MenuItem>
-            <MenuItem onClick={handleClose} className='Menu_Item'>
+            <MenuItem onClick={() => redirect("SysSettings")} className='Menu_Item'>
               <ListItemIcon>
                 <LuIcons.LuSettings2 size={'20px'} className='Menu_Icons'/>
               </ListItemIcon>

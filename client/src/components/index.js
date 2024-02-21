@@ -4,6 +4,10 @@ import PageHeader from "./PageHeader";
 import MonitoringTable from "./reusable/MonitoringTable";
 import RequestTable from "./reusable/RequestTable";
 import ArchiveTable from "./reusable/ArchiveTable";
+import Dash_DoughnutChart from "./Dash_DoughnutChart";
+import Dash_BarChart from "./Dash_BarChart";
+import Dash_PendingBar from "./Dash_PendingBar";
+import Timer from "./reusable/Timer";
 
 export {
     Sidebar,
@@ -11,5 +15,9 @@ export {
     PageHeader,
     MonitoringTable,
     RequestTable,
-    ArchiveTable
+    ArchiveTable,
+    Dash_DoughnutChart,
+    Dash_BarChart,
+    Dash_PendingBar,
+    Timer
 }

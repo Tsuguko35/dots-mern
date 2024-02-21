@@ -1,4 +1,5 @@
 import { 
+    Account_Settings,
     ArchiveFolders,
     Archive_Table,
     Dashboard, 
@@ -7,6 +8,7 @@ import {
     PageNotFound, 
     Registration, 
     Requests,
+    System_Settings,
     Templates
 } from "../pages"
 
@@ -47,6 +49,14 @@ const routes = [
     {
         path: '/Templates',
         component: <Templates />
+    },
+    {
+        path: '/System-Settings',
+        component: <System_Settings />
+    },
+    {
+        path: '/Account-Settings',
+        component: <Account_Settings />
     },
     {
         path: '/*',

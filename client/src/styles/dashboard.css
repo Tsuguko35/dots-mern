@@ -1,16 +1,4 @@
-:root{
-    --light-grey:#D3D3D3;
-    --orange:#FF8911;
-    --dark-orange: #E2780E;
-    --dirty-white:#F0EFF6;
-    --shadow-white:#3A3535;
-    --stroke: #313131;
-    --divider: #d4d4d4;
-    --pantone-black: #232020;
-    --light-black: #3A3535;
-    --bg-white:#F4F4F4;
-    --bg2-white:#e7e7e7;
-}
+
 
 #Dashboard {
     display: flex;
@@ -38,6 +26,9 @@
 .Dashboard_Grid_Card.Graph2{ grid-area: graph2; }
 .Dashboard_Grid_Card.Graph3{ grid-area: graph3; }
 .Dashboard_Grid_Card.Graph4{ grid-area: graph4; }
+.Dashboard_Grid_Card.Box1{ grid-area: box1; }
+.Dashboard_Grid_Card.Box2{ grid-area: box2; }
+.Dashboard_Grid_Card.Box3{ grid-area: box3; }
 
 #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container {
     margin: 5px 0 20px 0;
@@ -109,6 +100,7 @@
     box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
 }
 
+
 #Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card > .Card_Icon{
     display: flex;
     align-items: center;
@@ -118,25 +110,29 @@
 
 #Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card > .Card_Label{
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
 }
 
 #Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card > .Card_Label > span{
-    height: 30%;
-    display: flex;
-    justify-content: center ;
-    align-items: center;
-    font-size: 14px;
+    color: var(--shadow-white);
+}
+
+#Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card > .Card_Label > .span1{
+    font-size: 15px;
+}
+
+#Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card > .Card_Label > .span2{
+    font-size: 15px;
     font-weight: bold;
 }
 
 #Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card > .Card_Label > p{
-    height: 50%;
-    font-size: 40px;
+    font-size: 25px;
     font-family: "Oswald";
     color: var(--light-black);
-    display: flex;
-    justify-content: center ;
-    align-items: center;
 }
 
 #Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card.Welcome{
@@ -145,6 +141,11 @@
 
 .Dashboard_Grid_Card.Archive, .Dashboard_Grid_Card.DocToday, .Dashboard_Grid_Card.DocMonth, .Dashboard_Grid_Card.DocYear{
     background-color: var(--light-grey) !important;
+    transition: all 250ms ease-in-out;
+}
+
+.Dashboard_Grid_Card.Archive:hover, .Dashboard_Grid_Card.DocToday:hover, .Dashboard_Grid_Card.DocMonth:hover, .Dashboard_Grid_Card.DocYear:hover{
+    background-color: #e1e1e1 !important;
 }
 
 #Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Middle > .Dashboard_Grid_Card{
@@ -154,13 +155,108 @@
     display: block;
     background-color: white;
     box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+    transition: all 250ms ease-in-out;
 }
+
+#Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Middle > .Dashboard_Grid_Card:not(.Calendar):hover{
+    background-color: whitesmoke;
+}
+
+#Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Middle > .Dashboard_Grid_Card > .Chart_Wrapper{
+    height: 100%;
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Middle > .Dashboard_Grid_Card > .Chart_Wrapper > .Calendar{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 'box1 box2 box3';
+    gap: 10px;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card{
+    height: 300px;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+    color: var(--light-black);
+    transition: all 250ms ease-in-out;
+    border-top: 3px solid var(--orange);
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card:hover{
+    background-color: whitesmoke;
+    border-color: var(--dark-orange);
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card > .Box_Wrapper > .Box_Title{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: 2px solid grey;
+    padding: 5px 0;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card > .Box_Wrapper > .Box_Title > span{
+    color: orange;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card > .Box_Wrapper > .Box_Title > .Labels{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: grey;
+    font-size: 15px;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card > .Box_Wrapper > .Box_Content{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 20px;
+    height: 200px;
+    overflow-y: auto;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card > .Box_Wrapper > .Box_Content > .Content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 250ms ease-in-out;
+    cursor: default;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card > .Box_Wrapper > .Box_Content > .Content > .Name > p{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 250px;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card > .Box_Wrapper > .Box_Content > .Content:hover{
+    color: grey;
+}
+
 
 #Dashboard > .wrapper  > .Dashboard_Table_Container{
     display: block;
     background-color: white;
-    height: 500px;
-    padding: 10px;
+    height: 750px;
+    padding: 20px 30px;
     border-radius: 5px;
     box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
 }
@@ -171,6 +267,10 @@
         grid-template-areas: 
         'welcome welcome archive'
         'today month year';
+    }
+
+    #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card > .Box_Wrapper > .Box_Content > .Content > .Name > p{
+        width: 200px;
     }
 }
 
@@ -189,6 +289,9 @@
         'graph3'
         'graph4';
     }
+    #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card > .Box_Wrapper > .Box_Content > .Content > .Name > p{
+        width: 150px;
+    }
 }
 
 @media only screen and (max-width: 430px) {
@@ -202,9 +305,26 @@
     #Dashboard > .wrapper{
         padding: 20px 15px;
     }
+    #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+        'box1'
+        'box2'
+        'box3';
+        gap: 10px;
+    }
+    #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card > .Box_Wrapper > .Box_Content > .Content > .Name > p{
+        width: 250px;
+    }
+
+    #Dashboard > .wrapper  > .Dashboard_Table_Container{
+        height: 650px;
+    }
 }
 
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 420px) {
     #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card{
         height: 100px;
     }
@@ -229,6 +349,14 @@
     
     #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card.Welcome > .Weclome_Msg > .Name {
         font-size: 20px;
+    }
+
+    #Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Middle > .Dashboard_Grid_Card > .Chart_Wrapper{
+        padding: 0;
+    }
+    
+    #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > .Dashboard_Grid_Card > .Box_Wrapper > .Box_Content > .Content > .Name > p{
+        width: 200px;
     }
 }
 

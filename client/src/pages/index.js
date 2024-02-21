@@ -7,6 +7,8 @@ import ArchiveFolders from "./user-side/ArchiveFolders"
 import Archive_Table from "./user-side/Archive_Table"
 import PageNotFound from "./PageNotFound"
 import Registration from "./authentication/Registration"
+import System_Settings from "./shared-pages/System_Settings"
+import Account_Settings from "./shared-pages/Account_Settings"
 
 export {
     Login,
@@ -17,5 +19,7 @@ export {
     ArchiveFolders,
     Archive_Table,
     PageNotFound,
-    Registration
+    Registration,
+    System_Settings,
+    Account_Settings
 }

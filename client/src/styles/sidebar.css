@@ -1,13 +1,3 @@
-:root{
-    --light-grey:#D3D3D3;
-    --orange:#FF8911;
-    --dirty-white:#F0EFF6;
-    --shadow-white:#3A3535;
-    --stroke: #313131;
-    --divider: #d4d4d4;
-    --pantone-black: #232020;
-    --light-black: #3A3535;
-}
 
 .divider{
     border-top: 1px solid var(--divider);
