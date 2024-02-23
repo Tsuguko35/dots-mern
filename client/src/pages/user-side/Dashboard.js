@@ -94,7 +94,7 @@ function Dashboard() {
             </div>
             <div className="Dashboard_Grid_Card Graph4 Calendar">
               <div className="Chart_Wrapper">
-                <iframe className='Calendar' src="https://calendar.google.com/calendar/embed?src=carpio.johnjazpher.dc.3188%40gmail.com&ctz=Asia%2FManila" frameborder="0" scrolling="no"></iframe>
+                <iframe className='Calendar' src="https://calendar.google.com/calendar/embed?src=carpio.johnjazpher.dc.3188%40gmail.com&ctz=Asia%2FManila" frameBorder="0" scrolling="no"></iframe>
               </div>
             </div>
           </div>

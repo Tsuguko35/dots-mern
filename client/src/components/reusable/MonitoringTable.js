@@ -16,10 +16,13 @@ import * as CiIcons from 'react-icons/ci'
 import { Collapse, InputAdornment, TextField, Tooltip } from '@mui/material'
 import { LoadingInfinite } from '../../assets/svg'
 import { GetWindowWidth } from '../../utils'
+import Comm_Add_Dialog from '../Comm_Add_Dialog'
+import Memo_Add_Dialog from '../Memo_Add_Dialog'
 
 
 
 function MonitoringTable({documentType}) {
+  const [openAddDocs, setOpenAddDocs] = useState(false)
   const [rotation, setRotation] = useState(0);
   const [openRow, setOpenRow] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -49,10 +52,21 @@ function MonitoringTable({documentType}) {
 
   return (
     <section id='Monitoring_Table' className='Monitoring_Table'>
+      {documentType === "Communications" ? (
+        <Comm_Add_Dialog openAddDocs={openAddDocs} setOpenAddDocs={setOpenAddDocs}/>
+      )
+      :documentType === "Memorandums" ? (
+        <Memo_Add_Dialog openAddDocs={openAddDocs} setOpenAddDocs={setOpenAddDocs}/>
+      )
+      :(
+        ''
+      )
+      }
+      
       <div className="wrapper">
         <div className="Table_Top">
           <div className="Table_Top_Left">
-            <button>
+            <button onClick={() => setOpenAddDocs(true)}>
               <MdIcons.MdOutlineAdd size={'20px'}/> ADD NEW DOCUMENT
             </button>
             <span onClick={() => refreshTable()}>

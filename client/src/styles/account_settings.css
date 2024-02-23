@@ -58,7 +58,8 @@
     display: flex;
     justify-content: end;
     align-items: flex-end;
-    position: absolute;
+    position: relative;
+    cursor: pointer;
 }
 
 #Account_Settings > .wrapper > .Settings_Container > .Left-Side > .Profile_Pic > .Pic_Change_Holder > .Pic_Change{
@@ -71,6 +72,7 @@
     position: absolute;
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
 }
 
 #Account_Settings > .wrapper > .Settings_Container > .Left-Side > .Profile_Pic > .Pic_Change_Holder > .Pic_Change > input{

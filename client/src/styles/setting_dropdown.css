@@ -1,0 +1,119 @@
+#Setting_Dropdown{
+    width: 100%;
+    height: 100%;
+}
+
+#Setting_Dropdown > .wrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#Setting_Dropdown > .wrapper > .Dropdown_Top{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 5px 20px;
+}
+
+#Setting_Dropdown > .wrapper > .Dropdown_Top > button{
+    width: 100px;
+    background-color: var(--pantone-black);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 10px;
+    color: white;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+#Setting_Dropdown > .wrapper > .Dropdown_Top > button:hover{
+    background-color: var(--orange);
+}
+
+#Setting_Dropdown > .wrapper > .Dropdown_List{
+    height: 550px;
+    padding: 10px 20px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+#Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Label{
+    width: 100%;
+}
+
+#Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Label > p{
+    color: var(--dark-grey);
+}
+
+#Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Label > p{
+    width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Input{
+    width: 100%;
+}
+
+#Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Input > textarea{
+    width: 100%;
+    font-size: 15px;
+    padding: 10px;
+    border: none;
+    outline: 1px solid var(--light-black);
+    border-radius: 5px;
+    resize: none;
+}
+
+#Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Input > textarea:focus{
+    border: none;
+    outline: 1px solid var(--orange) !important;
+}
+
+@media only screen and (max-width: 1024px) {
+    #Setting_Dropdown > .wrapper > .Dropdown_List{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 912px) {
+    #Setting_Dropdown > .wrapper > .Dropdown_List{
+        grid-template-columns: 1fr;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    #Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Label > p{
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 414px) {
+    #Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Label > p{
+        width: 250px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+
+}
+
+@media only screen and (max-width: 320px) {
+    #Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Label > p{
+        width: 190px;
+    }
+}

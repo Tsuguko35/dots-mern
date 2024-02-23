@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
-import { PageHeader } from '../../components'
+import { PageHeader, Setting_Accounts, Setting_Dropdowns, Setting_Printing } from '../../components'
 import '../../styles/system_settings.css'
 
 import {
     Box,
     Tab,
+    Tabs,
     ThemeProvider,
     createTheme
 } from '@mui/material'
@@ -33,15 +34,15 @@ function System_Settings() {
                 <div className="Settings_Container">
                     <TabContext value={value}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <TabList onChange={handleChange} aria-label="lab API tabs example">
-                            <Tab label="Item One" value="1" />
-                            <Tab label="Item Two" value="2" />
-                            <Tab label="Item Three" value="3" />
+                        <TabList variant='scrollable' scrollButtons allowScrollButtonsMobile onChange={handleChange}>
+                            <Tab label="Accounts" value="1" />
+                            <Tab label="Dropdowns" value="2" />
+                            <Tab label="Printing" value="3" />
                         </TabList>
                         </Box>
-                        <TabPanel value="1">Item One</TabPanel>
-                        <TabPanel value="2">Item Two</TabPanel>
-                        <TabPanel value="3">Item Three</TabPanel>
+                        <TabPanel value="1" className='Tab_Panel'><Setting_Accounts /></TabPanel>
+                        <TabPanel value="2" className='Tab_Panel'><Setting_Dropdowns /></TabPanel>
+                        <TabPanel value="3" className='Tab_Panel'><Setting_Printing /></TabPanel>
                     </TabContext>
                 </div>
             </div>

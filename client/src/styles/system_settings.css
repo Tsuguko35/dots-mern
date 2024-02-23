@@ -23,3 +23,30 @@
     box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
     padding: 20px 30px;
 }
+
+#System_Settings > .wrapper > .Settings_Container .Tab_Panel{
+    padding: 10px 0;
+    height: 100%;
+}
+
+@media only screen and (max-width: 1024px) {
+
+}
+
+@media only screen and (max-width: 912px) {
+
+}
+
+@media only screen and (max-width: 540px) {
+    #System_Settings > .wrapper > .Settings_Container{
+        padding: 5px 10px;
+    }
+}
+
+@media only screen and (max-width: 390px) {
+
+}
+
+@media only screen and (max-width: 320px) {
+
+}

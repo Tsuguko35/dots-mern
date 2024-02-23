@@ -1,0 +1,285 @@
+#Memo_Add_Dialog > .Dialog_Container{
+    width: 100%;
+    height: 100%;
+    background-color: antiquewhite !important;
+}
+
+/* Dialog Top */
+.Dialog_Top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.Dialog_Top > .Dialog_Title{
+    font-size: 18px;
+}
+
+.Dialog_Top > .Dialog_Close{
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+.Dialog_Top > .Dialog_Close:hover{
+    color: var(--orange);
+}
+/* -------------------------------------------------------------------------------------------- */
+
+
+
+/* Dialog Body */
+.Dialog_Body > .wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 990;
+    display: flex;
+}
+
+::-webkit-calendar-picker-indicator{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+.Dialog_Body > .wrapper > .Left_Side{
+    width: 50%;
+    height: 700px;
+    overflow-y: auto;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.Dialog_Body > .wrapper > .Left_Side .Input_Group{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+}
+
+
+
+.Dialog_Body > .wrapper > .Left_Side .Input_Group > .Options{
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    outline: 1px solid var(--orange);
+    border-radius: 5px;
+    z-index: 999;
+    transition: all 250ms ease-in-out;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+}
+
+.Dialog_Body > .wrapper > .Left_Side :nth-last-child(-n+2) > .Options{
+    top: -150%;
+}
+
+.Dialog_Body > .wrapper > .Left_Side .Input_Group > .Options.show{
+    display: flex;
+}
+
+.Dialog_Body > .wrapper > .Left_Side .Input_Group > .Options > .Option{
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+.Dialog_Body > .wrapper > .Left_Side .Input_Group > .Options > .Option:hover{
+    background-color: whitesmoke;
+}
+
+.Dialog_Body > .wrapper > .Left_Side > .Date_Time{
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.Dialog_Body > .wrapper > .Left_Side .Input_Label{
+    font-size: 14px;
+    color: var(--dark-grey);
+}
+
+.Dialog_Body > .wrapper > .Left_Side input, .Dialog_Body > .wrapper > .Left_Side select{
+    width: 100%;
+    height: 40px;
+    padding: 5px 10px;
+    size: 40px;
+    border: none;
+    outline: 1px solid var(--light-grey);
+    border-radius: 5px;
+}
+
+.Dialog_Body > .wrapper > .Left_Side input:focus-visible, .Dialog_Body > .wrapper > .Left_Side select:focus-visible{
+    outline: 1px solid var(--orange);
+}
+
+.Dialog_Body > .wrapper > .Right_Side{
+    width: 50%;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 5px;
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .Label{
+    font-size: 14px;
+    color: var(--dark-grey);
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .FileUpload{
+    width: 100%;
+    height:150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border: 3px dotted var(--bg2-white);
+    border-radius: 5px;
+    gap: 5px;
+    
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .FileUpload > .Icon {
+    color: var(--dark-grey);
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .FileUpload > p {
+    color: var(--dark-grey);
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .FileUpload > .Main{
+    font-size: 16px;
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .FileUpload > .Sub{
+    font-size: 12px;
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .FileUpload > input {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .Files {
+    width: 100%;
+    height: 450px;
+    padding: 10px 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .Files > .File{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Icon {
+    height: 100%;
+    width: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Name_Size {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Name_Size > .Name{
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--light-black);
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Name_Size > .Size{
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    color: var(--dark-grey);
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Remove > .Close_Icon{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--light-black);
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+.Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Remove > .Close_Icon:hover{
+    color: var(--red);
+}
+
+/* -------------------------------------------------------------------------------------------- */
+
+
+
+
+/* Dialog Actions */
+.Dialog_Actions{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    gap: 5px;
+}
+
+.Dialog_Cancel, .Dialog_Submit{
+    width: 100px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.Dialog_Submit{
+    border: 1px solid var(--light-black);
+    color: white;
+    background-color: var(--light-black);
+    transition: all 250ms ease-in-out;
+}
+
+.Dialog_Submit:hover{
+    background-color: var(--orange);
+    border-color: var(--orange);
+}
+
+.Dialog_Cancel{
+    background: transparent;
+
+    border: 1px solid var(--light-black);
+    transition: all 250ms ease-in-out;
+}
+
+.Dialog_Cancel:hover{
+    border-color: var(--dark-grey);
+    color: white;
+    background-color: var(--dark-grey);
+}
+/* -------------------------------------------------------------------------------------------- */

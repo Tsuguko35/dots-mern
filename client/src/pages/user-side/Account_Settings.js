@@ -18,9 +18,11 @@ import * as HiIcons from 'react-icons/hi'
 import * as GoIcons from 'react-icons/go'
 import * as MdIcons from 'react-icons/md'
 import * as CiIcons from 'react-icons/ci'
+import { useNavigate } from 'react-router-dom'
 
 
 function Account_Settings() {
+    const navigate = useNavigate()
     const [showSetting, setShowSetting] = useState('account')
     const [requestOtp, setRequestOtp] = useState(false)
     const [showTimer, setShowTimer] = useState(true)
@@ -104,7 +106,7 @@ function Account_Settings() {
                                     <div className="Value">
                                         <p>**********</p>
                                     </div>
-                                    <div className="Info_Edit">
+                                    <div className="Info_Edit" onClick={() => navigate('/Reset-Password')}>
                                         <span>Change Password</span>    
                                     </div>
                                 </div>

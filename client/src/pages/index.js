@@ -7,8 +7,9 @@ import ArchiveFolders from "./user-side/ArchiveFolders"
 import Archive_Table from "./user-side/Archive_Table"
 import PageNotFound from "./PageNotFound"
 import Registration from "./authentication/Registration"
-import System_Settings from "./shared-pages/System_Settings"
-import Account_Settings from "./shared-pages/Account_Settings"
+import System_Settings from "./user-side/System_Settings"
+import Account_Settings from "./user-side/Account_Settings"
+import Forgot_Password from "./authentication/Forgot_Password"
 
 export {
     Login,
@@ -21,5 +22,6 @@ export {
     PageNotFound,
     Registration,
     System_Settings,
-    Account_Settings
+    Account_Settings,
+    Forgot_Password
 }

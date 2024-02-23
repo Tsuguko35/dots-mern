@@ -3,6 +3,7 @@ import {
     ArchiveFolders,
     Archive_Table,
     Dashboard, 
+    Forgot_Password, 
     Login, 
     Monitoring, 
     PageNotFound, 
@@ -57,6 +58,10 @@ const routes = [
     {
         path: '/Account-Settings',
         component: <Account_Settings />
+    },
+    {
+        path: '/Reset-Password',
+        component: <Forgot_Password />
     },
     {
         path: '/*',

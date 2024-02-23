@@ -1,0 +1,252 @@
+#Setting_Accounts{
+    width: 100%;
+    height: 100%;
+}
+
+#Setting_Accounts > .wrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_Top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Left > *{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Left > button{
+    height: 40px;
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--light-black);
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 4px 2px -2px rgba(187, 187, 187, 0.5);
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Left > button:hover{
+    background-color: var(--dark-orange);
+}
+
+#Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Left > span{
+    color: var(--dark-grey);
+    transition: all 250ms ease-in-out;
+    user-select: none;
+    cursor: pointer;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List{
+    height: 550px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 20px 20px;
+    gap: 10px;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account{
+    display: flex;
+    align-items: center;
+    background-color: var(--bg2-white);
+    padding: 10px 10px;
+    border-radius: 5px;
+    height: 100px;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+    gap: 10px;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Profile_Pic{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Profile_Pic > .Profile_Pic{
+    width: 75px;
+    height: 75px;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status{
+    width: 220px;
+    height: 100%;
+    display: flex;
+    padding: 5px 0;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Name{
+    color: var(--light-black);
+    font-size: 15px;
+    width: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Email{
+    color: var(--dark-grey);
+    font-size: 13px;
+    width: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status > p{
+    font-size: 14px;
+    color: var(--green);
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.active > p{
+    color: var(--green);
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.deactivated > p{
+    color: var(--red);
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Options{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Options .Status_Icon{
+    color: var(--light-black);
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Options .Status_Icon:hover{
+    color: var(--orange);
+}
+
+@media only screen and (max-width: 1024px) {
+    #Setting_Accounts > .wrapper > .Accounts_List{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 912px) {
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account{
+        height: 75px;
+    }
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Profile_Pic > .Profile_Pic{
+        width: 50px;
+        height: 50px;
+    }
+
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status{
+        width: 180px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Name{
+        width: 190px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Email{
+        width: 190px;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    #Setting_Accounts > .wrapper > .Accounts_Top{
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #Setting_Accounts > .wrapper > .Accounts_Top > *{
+        width: 100%;
+    }
+
+    #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Left > button{
+        width: 100%;
+    }
+
+    #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .table-input{
+        width: 100%;
+    }
+
+    #Setting_Accounts > .wrapper > .Accounts_List{
+        grid-template-columns: 1fr;
+        height: 520px;
+    }
+
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status{
+        padding: 0;
+    }
+}
+
+@media only screen and (max-width: 414px) {
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status{
+        width: 130px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Name{
+        width: 140px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Email{
+        width: 140px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status{
+        width: 120px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Name{
+        width: 130px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Email{
+        width: 130px;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status{
+        width: 80px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Name{
+        width: 90px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Email{
+        width: 90px;
+    }
+}

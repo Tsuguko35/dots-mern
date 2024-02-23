@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 14 16" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="8.7157 0.367 12.302 3.9501 12.302 15.633 1.708 15.633 1.708 0.367" fill="#fff" stroke-width="9.7585"/>
+  <path d="m8.5638 0.73423 3.3711 3.368v11.163h-9.8599v-14.532h6.4888m0.30393-0.73424h-7.5269v16h11.328v-12.202z"/>
+  <path d="m8.4321 0.73423v3.5031h3.5031v11.028h-9.8599v-14.532h6.3567m0.43596-0.73424h-7.5269v16h11.328v-12.202l-0.29507-0.2948h-3.208v-3.205z"/>
+  <path d="m9.7776 2.3705 0.5695 0.55545h-0.5695v-0.55545m-0.22954-1.2495h-0.5047v2.5392h2.5086v-0.58473z"/>
+  <polygon points="9.411 1.5 11.186 3.2311 11.186 3.294 9.411 3.294"/>
+  <g fill="#ed1c24">
+    <polygon points="12.968 6.285 13.644 6.9614 13.644 12.322 0.366 12.322 0.366 6.9614 1.0427 6.285 1.0427 7.1363 12.968 7.1363" stroke-width="212.65"/>
+    <path d="M 12.669 5.564 L 12.669 6.838 L 1.341 6.838 L 1.341 5.564 L 0.068 6.838 L 0.068 12.62 L 13.943 12.62 L 13.943 6.838 L 12.669 5.564 Z" stroke-width="9.7585" style="fill: rgb(12, 118, 218);"/>
+  </g>
+  <text style="fill: rgb(255, 255, 255); font-family: Arial, sans-serif; font-size: 4.4px; font-weight: 700; white-space: pre;" x="0.69" y="11.284">DOCX</text>
+  <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 0.4px;" x="0.728" y="6.403"> </text>
+</svg>

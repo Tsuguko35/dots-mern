@@ -486,6 +486,14 @@
         background-color: #93C572;
     }
 
+    #Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Right > *{
+        width: 100%;
+    }
+
+    #Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Right > .table-input{
+        width: 100%;
+    }
+
 }
 
 @media only screen and (max-width: 390px) {

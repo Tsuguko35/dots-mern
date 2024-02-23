@@ -1,0 +1,149 @@
+#Setting_Printing{
+    width: 100%;
+    height: 100%;
+}
+
+#Setting_Printing > .wrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#Setting_Printing > .wrapper > .Printing_Top{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 5px 20px;
+}
+
+#Setting_Printing > .wrapper > .Printing_Top > button{
+    width: 100px;
+    background-color: var(--pantone-black);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 10px;
+    color: white;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+#Setting_Printing > .wrapper > .Printing_Top > button:hover{
+    background-color: var(--orange);
+}
+
+#Setting_Printing > .wrapper > .Printing_Header_Footer{
+    width: 100%;
+    height: 550px;
+    overflow-y: auto;
+    padding: 20px 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#Setting_Printing > .wrapper > .Printing_Header_Footer > .Upload_Holder{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+#Setting_Printing > .wrapper > .Printing_Header_Footer > .Upload_Holder > .Upload{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#Setting_Printing > .wrapper > .Printing_Header_Footer > .Upload_Holder > .Upload_Label{
+    font-size: 18px;
+    color: var(--dark-grey);
+}
+
+#Setting_Printing > .wrapper > .Printing_Header_Footer > .Upload_Holder > .Upload > .Upload_Input{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    background-color: var(--bg2-white);
+    height: 150px;
+    border-radius: 5px;
+    color: var(--light-black);
+    cursor: pointer;
+    border: 1px solid var(--dark-grey);
+    transition: all 250ms ease-in-out;
+}
+
+#Setting_Printing > .wrapper > .Printing_Header_Footer > .Upload_Holder > .Upload > .Upload_Input:hover{
+    background-color: lightgrey;
+}
+
+#Setting_Printing > .wrapper > .Printing_Header_Footer > .Upload_Holder > .Upload > .Upload_Input > p {
+    font-size: 15px;
+}
+
+#Setting_Printing > .wrapper > .Printing_Header_Footer > .Upload_Holder > .Upload > .Upload_Input > input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+#Setting_Printing > .wrapper > .Printing_Header_Footer > .Upload_Holder > .Upload > .Upload_Image{
+    width: 100%;
+    height: 150px;
+    background-color: var(--bg2-white);
+    border: 1px solid var(--dark-grey);
+    border-radius: 5px;
+}
+
+#Setting_Printing > .wrapper > .Printing_Header_Footer > .Upload_Holder > .Upload > .Upload_Image > img{
+    width: 100%;
+    height: 150px;
+    border-radius: 5px;
+    object-fit: scale-down;
+}
+
+@media only screen and (max-width: 1024px) {
+
+}
+
+@media only screen and (max-width: 912px) {
+
+}
+
+@media only screen and (max-width: 540px) {
+    #System_Settings > .wrapper > .Settings_Container{
+        padding: 5px 10px;
+    }
+
+    #Setting_Printing > .wrapper > .Printing_Header_Footer > .Upload_Holder > .Upload{
+        flex-direction: column;
+    }
+
+    #Setting_Printing > .wrapper > .Printing_Header_Footer > .Upload_Holder > .Upload > .Upload_Input{
+        width: 100%;
+    }
+
+    #Setting_Printing > .wrapper > .Printing_Header_Footer{
+        justify-content: start;
+
+    }
+}
+
+@media only screen and (max-width: 390px) {
+
+}
+
+@media only screen and (max-width: 320px) {
+
+}

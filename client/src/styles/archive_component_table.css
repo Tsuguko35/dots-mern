@@ -405,6 +405,10 @@
         width: 100%;
     }
 
+    #Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Right > .table-input{
+        width: 100%;
+    }
+
     #Archive_Table_Component .Table_Row_Container_Mobile{
         width: 100%;
         height: 500px;

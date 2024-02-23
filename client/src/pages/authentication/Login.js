@@ -250,7 +250,7 @@ function Login() {
               </Typography>
             )}
             <Box sx={{width: "100%", display: 'flex', justifyContent: 'right', mt: '10px'}}>
-              <Link variant="body2" onClick={undefined} className='signUp_Login_toggle'>
+              <Link to={`/Reset-Password`} variant="body2" onClick={undefined} className='signUp_Login_toggle'>
                     Forgot password?
               </Link>
             </Box>

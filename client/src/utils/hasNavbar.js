@@ -2,7 +2,8 @@ export default function hasNavbar(location, routes) {
     const excludedPaths = [
         '/Login',
         '/Registration',
-      ];
+        '/Reset-Password',
+    ];
     
     return routes.some(route => {
     const isExcluded = excludedPaths.includes(route.path);
