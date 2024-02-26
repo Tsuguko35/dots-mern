@@ -1,0 +1,263 @@
+#View_Document_Dialog > .Dialog_Container{
+    width: 100%;
+    height: 100%;
+    background-color: antiquewhite !important;
+}
+
+.required{
+    color: var(--red);
+}
+
+.divider{
+    content: '';
+    width: 100%;
+    border-top: 1px solid var(--dark-grey);
+}
+
+.divider.mobile{
+    display: none;
+}
+
+.Loader{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rightbox {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    cursor: default;
+}
+
+.rb-container {
+    width: 100%;
+    margin: auto;
+    display: block;
+    position: relative;
+}
+
+.rb-container ul.rb {
+    padding: 0;
+    width: 100%;
+    display: inline-block;
+}
+
+.rb-container ul.rb li {
+    width: 100%;
+    list-style: none;
+    margin: auto;
+    min-height: 50px;
+    border-left: 1px dashed var(--light-grey);
+    padding: 0 0 0 30px;
+    position: relative;
+}
+
+.rb-container ul.rb li:not(:last-of-type){
+    padding: 0 0 30px 30px;
+}
+
+.rb-container ul.rb li:last-child {
+    border-left: 0;
+}
+
+.rb-container ul.rb li::before {
+    position: absolute;
+    left: -10px;
+    top: -5px;
+    content: " ";
+    border: 8px solid var(--light-grey);
+    border-radius: 500%;
+    background: var(--light-grey);
+    height: 20px;
+    width: 20px;
+    transition: all 250ms ease-in-out;
+}
+
+.rb-container ul.rb li:hover::before {
+    border-color: var(--orange);
+    background: var(--orange);
+    transition: all 250ms ease-in-out;
+}
+
+ul.rb li .timestamp {
+    color: var(--orange);
+    position: relative;
+    width: 100%;
+    font-size: 14px;
+}
+
+.item-title {
+    font-size: 15px;
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    color: var(--light-grey);
+}
+
+.item-title > .Office{
+    width: 50%;
+}
+
+.item-title > .Office.signature{
+    color: var(--light-black);
+}
+
+.item-title > .Signature{
+    width: 50%;
+}
+.item-title > .Signature > img{
+    width: 100%;
+}
+/* -------------------------------------------------------------------------------------------- */
+
+/* Dialog Top */
+.View_Dialog_Top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.View_Dialog_Top > .View_Dialog_Title{
+    font-size: 18px;
+}
+
+.View_Dialog_Top > .View_Dialog_Close{
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+.View_Dialog_Top > .View_Dialog_Close:hover{
+    color: var(--orange);
+}
+/* -------------------------------------------------------------------------------------------- */
+
+
+
+/* Dialog Body */
+.View_Dialog_Body > .wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 990;
+    display: flex;
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 750px;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Details_Container{
+    width: 100%;
+    display: flex;
+    background-color: white;
+    border-radius: 5px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+    padding: 10px 20px;
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Details_Container > .Label{
+    font-size: 15px;
+    color: var(--dark-grey);
+    margin-bottom: 20px;
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Details_Container > .Document_Details{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 20px;
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Details_Container > .Document_Details > .Detail_Group{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Details_Container > .Document_Details > .Detail_Group > .Label{
+    font-size: 13px;
+    color: var(--dark-grey);
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Details_Container > .Document_Details > .Detail_Group > .Detail{
+    font-size: 15px;
+    color: var(--light-black);
+}
+
+.View_Dialog_Body > .wrapper > .Right_Side{
+    width: 70%;
+    
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Tracker_Container{
+    width: 100%;
+    display: flex;
+    background-color: white;
+    border-radius: 5px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+    padding: 10px 20px;
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Tracker_Container > .Tracker_Details{
+    width: 100%;
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Tracker_Container > .Label{
+    font-size: 15px;
+    color: var(--dark-grey);
+    margin-bottom: 20px;
+}
+
+
+/* -------------------------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 1600px) {
+
+}
+
+@media only screen and (max-width: 1024px) {
+
+}
+
+@media only screen and (max-width: 912px) {
+
+}
+
+@media only screen and (max-width: 540px) {
+    .View_Dialog_Body > .wrapper{
+        flex-direction: column;
+    }
+
+    .View_Dialog_Body > .wrapper > .Left_Side{
+        width: 100%;
+    }
+
+    .View_Dialog_Body > .wrapper > .Right_Side{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 390px) {
+
+}
+
+@media only screen and (max-width: 320px) {
+
+}

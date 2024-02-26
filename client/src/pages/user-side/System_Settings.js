@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { PageHeader, Setting_Accounts, Setting_Dropdowns, Setting_Printing } from '../../components'
+import { PageHeader, Setting_Accounts, Setting_Dropdowns, Setting_Printing, System_Logs } from '../../components'
 import '../../styles/system_settings.css'
 
 import {
@@ -38,11 +38,13 @@ function System_Settings() {
                             <Tab label="Accounts" value="1" />
                             <Tab label="Dropdowns" value="2" />
                             <Tab label="Printing" value="3" />
+                            <Tab label="System Logs" value="4" />
                         </TabList>
                         </Box>
                         <TabPanel value="1" className='Tab_Panel'><Setting_Accounts /></TabPanel>
                         <TabPanel value="2" className='Tab_Panel'><Setting_Dropdowns /></TabPanel>
                         <TabPanel value="3" className='Tab_Panel'><Setting_Printing /></TabPanel>
+                        <TabPanel value="4" className='Tab_Panel'><System_Logs /></TabPanel>
                     </TabContext>
                 </div>
             </div>

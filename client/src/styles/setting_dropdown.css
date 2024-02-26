@@ -74,7 +74,7 @@
     font-size: 15px;
     padding: 10px;
     border: none;
-    outline: 1px solid var(--light-black);
+    outline: 1px solid var(--dark-grey);
     border-radius: 5px;
     resize: none;
 }

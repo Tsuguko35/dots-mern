@@ -16,13 +16,22 @@ import * as CiIcons from 'react-icons/ci'
 import { Collapse, InputAdornment, TextField, Tooltip } from '@mui/material'
 import { LoadingInfinite } from '../../assets/svg'
 import { GetWindowWidth } from '../../utils'
-import Comm_Add_Dialog from '../Comm_Add_Dialog'
-import Memo_Add_Dialog from '../Memo_Add_Dialog'
+
+//Dialogs
+import Comm_Add_Dialog from '../dialog modals/Comm_Add_Dialog'
+import Memo_Add_Dialog from '../dialog modals/Memo_Add_Dialog'
+import Other_Add_Dialog from '../dialog modals/Other_Add_Dialog'
+import Comm_Edit_Dialog from '../dialog modals/Comm_Edit_Dialog'
+import Memo_Edit_Dialog from '../dialog modals/Memo_Edit_Dailog'
+import Other_Edit_Dialog from '../dialog modals/Other_Edit_Dialog'
+import View_Document_Dialog from '../dialog modals/View_Document_Dialog'
 
 
 
 function MonitoringTable({documentType}) {
   const [openAddDocs, setOpenAddDocs] = useState(false)
+  const [openEditDocs, setOpenEditDocs] = useState(false)
+  const [openViewDoc, setOpenViewDoc] = useState(false)
   const [rotation, setRotation] = useState(0);
   const [openRow, setOpenRow] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -41,6 +50,14 @@ function MonitoringTable({documentType}) {
     }
   }
 
+  const openEdit = (props) => {
+    setOpenEditDocs(true)
+  }
+
+  const openDoc = (props) => {
+    setOpenViewDoc(true)
+  }
+
   const showFilterIcon = (props) => {
     if(document.getElementById(props).style.display == 'block'){
       document.getElementById(props).style.display = 'none'
@@ -52,16 +69,33 @@ function MonitoringTable({documentType}) {
 
   return (
     <section id='Monitoring_Table' className='Monitoring_Table'>
+      {/* Add Dialogs */}
       {documentType === "Communications" ? (
         <Comm_Add_Dialog openAddDocs={openAddDocs} setOpenAddDocs={setOpenAddDocs}/>
       )
       :documentType === "Memorandums" ? (
         <Memo_Add_Dialog openAddDocs={openAddDocs} setOpenAddDocs={setOpenAddDocs}/>
       )
-      :(
-        ''
+      :documentType === "Other" &&(
+        <Other_Add_Dialog openAddDocs={openAddDocs} setOpenAddDocs={setOpenAddDocs}/>
       )
       }
+
+      {/* Edit Dialogs */}
+      {documentType === "Communications" ? (
+        <Comm_Edit_Dialog openEditDocs={openEditDocs} setOpenEditDocs={setOpenEditDocs}/>
+      )
+      :documentType === "Memorandums" ? (
+        <Memo_Edit_Dialog openEditDocs={openEditDocs} setOpenEditDocs={setOpenEditDocs}/>
+      )
+      :documentType === "Other" &&(
+        <Other_Edit_Dialog openEditDocs={openEditDocs} setOpenEditDocs={setOpenEditDocs}/>
+      )
+      }
+
+      {/* View Document */}
+      <View_Document_Dialog openViewDoc={openViewDoc} setOpenViewDoc={setOpenViewDoc}/>
+
       
       <div className="wrapper">
         <div className="Table_Top">
@@ -77,19 +111,14 @@ function MonitoringTable({documentType}) {
             <button>
               <HiIcons.HiOutlinePrinter size={'20px'}/> PRINT
             </button>
-            <TextField
-              className = "table-input"
-              size="small"
-              variant="outlined"
-              InputProps={{
-                placeholder: "Document Name, Description",
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <IoIcons.IoIosSearch size={'20px'}/>
-                  </InputAdornment>
-                ),
-              }}
-            />
+            <div className="Input_Group">
+              <div className="Custom_Search">
+                  <div className="Icon">
+                      <IoIcons.IoIosSearch size={'20px'}/>
+                  </div>
+                  <input className='Input' type="text" placeholder='Search...'/>
+              </div>
+            </div>
           </div>
         </div>
         <div className="Table_Container">
@@ -143,10 +172,10 @@ function MonitoringTable({documentType}) {
                             </div>
                             <div className='Actions'>
                               <Tooltip title="View Document">
-                                <button className="View"><GrIcons.GrView size={'20px'}/></button>
+                                <button className="View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
                               </Tooltip>
                               <Tooltip title="Edit Document">
-                                <button className="Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
+                                <button className="Edit" onClick={() => openEdit()}><FaIcons.FaRegEdit size={'20px'}/></button>
                               </Tooltip>
                               <Tooltip title="Archive Document">
                                 <button className="Archive"><GoIcons.GoArchive size={'20px'}/></button>
@@ -189,10 +218,10 @@ function MonitoringTable({documentType}) {
                               </div>
                               <div className='Actions'>
                                 <Tooltip title="View Document">
-                                  <button className="View"><GrIcons.GrView size={'20px'}/></button>
+                                  <button className="View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
                                 </Tooltip>
                                 <Tooltip title="Edit Document">
-                                  <button className="Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
+                                  <button className="Edit" onClick={() => openEdit()}><FaIcons.FaRegEdit size={'20px'}/></button>
                                 </Tooltip>
                                 <Tooltip title="Archive Document">
                                   <button className="Archive"><GoIcons.GoArchive size={'20px'}/></button>
@@ -235,10 +264,10 @@ function MonitoringTable({documentType}) {
                               </div>
                               <div className='Actions'>
                                 <Tooltip title="View Document">
-                                  <button className="View"><GrIcons.GrView size={'20px'}/></button>
+                                  <button className="View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
                                 </Tooltip>
                                 <Tooltip title="Edit Document">
-                                  <button className="Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
+                                  <button className="Edit" onClick={() => openEdit()}><FaIcons.FaRegEdit size={'20px'}/></button>
                                 </Tooltip>
                                 <Tooltip title="Archive Document">
                                   <button className="Archive"><GoIcons.GoArchive size={'20px'}/></button>
@@ -343,10 +372,10 @@ function MonitoringTable({documentType}) {
                               <span className='Table_Header_Label'>Action:</span>
                               <div className='Actions'>
                                   <Tooltip title="View Document">
-                                    <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
+                                    <button className="Action View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
                                   </Tooltip>
                                   <Tooltip title="Edit Document">
-                                    <button className="Action Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
+                                    <button className="Action Edit" onClick={() => openEdit()}><FaIcons.FaRegEdit size={'20px'}/></button>
                                   </Tooltip>
                                   <Tooltip title="Archive Document">
                                     <button className="Action Archive"><GoIcons.GoArchive size={'20px'}/></button>
@@ -381,10 +410,10 @@ function MonitoringTable({documentType}) {
                               <span className='Table_Header_Label'>Action:</span>
                               <div className='Actions'>
                                   <Tooltip title="View Document">
-                                    <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
+                                    <button className="Action View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
                                   </Tooltip>
                                   <Tooltip title="Edit Document">
-                                    <button className="Action Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
+                                    <button className="Action Edit" onClick={() => openEdit()}><FaIcons.FaRegEdit size={'20px'}/></button>
                                   </Tooltip>
                                   <Tooltip title="Archive Document">
                                     <button className="Action Archive"><GoIcons.GoArchive size={'20px'}/></button>
@@ -419,10 +448,10 @@ function MonitoringTable({documentType}) {
                               <span className='Table_Header_Label'>Action:</span>
                               <div className='Actions'>
                                   <Tooltip title="View Document">
-                                    <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
+                                    <button className="Action View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
                                   </Tooltip>
                                   <Tooltip title="Edit Document">
-                                    <button className="Action Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
+                                    <button className="Action Edit" onClick={() => openEdit()}><FaIcons.FaRegEdit size={'20px'}/></button>
                                   </Tooltip>
                                   <Tooltip title="Archive Document">
                                     <button className="Action Archive"><GoIcons.GoArchive size={'20px'}/></button>
@@ -457,10 +486,10 @@ function MonitoringTable({documentType}) {
                               <span className='Table_Header_Label'>Action:</span>
                               <div className='Actions'>
                                   <Tooltip title="View Document">
-                                    <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
+                                    <button className="Action View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
                                   </Tooltip>
                                   <Tooltip title="Edit Document">
-                                    <button className="Action Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
+                                    <button className="Action Edit" onClick={() => openEdit()}><FaIcons.FaRegEdit size={'20px'}/></button>
                                   </Tooltip>
                                   <Tooltip title="Archive Document">
                                     <button className="Action Archive"><GoIcons.GoArchive size={'20px'}/></button>

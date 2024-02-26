@@ -6,35 +6,46 @@ import {
     DialogContent, 
     DialogContentText, 
     DialogTitle, 
+    Paper, 
     useMediaQuery, 
     useTheme
 } from '@mui/material';
 import toast from 'react-hot-toast';
 
-import '../styles/memo_add_dialog.css'
+import '../../styles/add_edit_dialog.css'
 
 import * as IoIcons from 'react-icons/io'
 import * as SlIcons from 'react-icons/sl'
 
-import { ReactComponent as PDF } from '../assets/svg/icons/PDF_icon.svg'
+import { ReactComponent as PDF } from '../../assets/svg/icons/PDF_icon.svg'
 
-function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
+function Comm_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
     const theme = useTheme()
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [openOptions, setOpenOptions] = useState('')
     const [documentState, setDocumentState] = useState({
+        Date_Received: '',
+        Time_Received: '',
+        Incoming_Outgoing: '',
         Document_Name: '',
-        Office_Dept: ''
+        Received_By: '',
+        Office_Dept: '',
+        Contact_Person: '',
+        Document_Type: '',
+        Description: '',
+        Comment_Note: '',
+        Status: '',
+        Forward_To: '',
     })
 
 
     const handleSubmit = () => {
         toast.success('Added document successfully.', {position: 'bottom-center'})
-        setOpenAddDocs(false)
+        setOpenEditDocs(false)
     }
 
     const handleCancel = () => {
-        setOpenAddDocs(false)
+        setOpenEditDocs(false)
     }
 
     const showOptions = (input) => {
@@ -49,24 +60,26 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
         }, 100)
     }
     return (
-        <section id='Memo_Add_Dialog' className='Memo_Add_Dialog'>
+        <section id='Comm_Add_Dialog' className='Comm_Add_Dialog'>
             <Dialog
                 className='Dialog_Container'
                 fullScreen={fullScreen}
                 fullWidth
                 maxWidth={'md'}
-                open={openAddDocs}
+                open={openEditDocs}
                 onClose={() => handleCancel()}
             >
+                <Paper sx={{backgroundColor: '#F4F4F4'}}>
                 <DialogTitle>
                     <div className="Dialog_Top">
-                        <span className='Dialog_Title'>Add Document</span>
+                        <span className='Dialog_Title'>Edit Document Name</span>
                         <div className="Dialog_Close" onClick={() => handleCancel()}>
                             <IoIcons.IoMdClose size={"30px"}/>
                         </div>
                     </div>
                 </DialogTitle>
                 <DialogContent>
+                    <form action="">
                     <div className="Dialog_Body">
                         <div className="wrapper">
                             {/* Left Side */}
@@ -75,18 +88,18 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                 {/* DateTime Input */}
                                 <div className="Date_Time">
                                     <div className="Input_Group">
-                                        <span className='Input_Label'>Date Received</span>
+                                        <span className='Input_Label'>Date Received <span className='required'>*</span></span>
                                         <input className='Input' type="date" />
                                     </div>
                                     <div className="Input_Group">
-                                        <span className='Input_Label'>Time Received</span>
+                                        <span className='Input_Label'>Time Received <span className='required'>*</span></span>
                                         <input className='Input' type="time" />
                                     </div>
                                 </div>
 
                                 {/* Other Inputs */}
                                 <div className="Input_Group">
-                                    <span className='Input_Label'>Incoming/Outgoing</span>
+                                    <span className='Input_Label'>Incoming/Outgoing <span className='required'>*</span></span>
                                     <input 
                                         className='Input' 
                                         type="text" 
@@ -95,14 +108,15 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                         onBlur={() => closeOptions()}
                                     />
                                     <div className={openOptions === "Incoming/Outgoing" ? "Options show" : "Options"}>
-                                        <p className='Option'>Incoming</p>
-                                        <p className='Option'>Outgoing</p>
+                                        <div className="Option">
+                                            <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                                        </div>
                                     </div>
                                 </div>
 
                                 {/* Other Inputs */}
                                 <div className="Input_Group">
-                                    <span className='Input_Label'>Document Name</span>
+                                    <span className='Input_Label'>Document Name <span className='required'>*</span></span>
                                     <input 
                                         className='Input' 
                                         type="text" 
@@ -114,7 +128,7 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
 
                                 {/* Other Inputs */}
                                 <div className="Input_Group">
-                                    <span className='Input_Label'>Received By</span>
+                                    <span className='Input_Label'>Received By <span className='required'>*</span></span>
                                     <input 
                                         className='Input' 
                                         type="text" 
@@ -123,9 +137,9 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                         onBlur={() => closeOptions()}
                                     />
                                     <div className={openOptions === "Received By" ? "Options show" : "Options"}>
-                                        <p className='Option'>Test</p>
-                                        <p className='Option'>Test2</p>
-                                        <p className='Option'>Test3</p>
+                                        <div className="Option">
+                                            <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -139,16 +153,11 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                         onFocus={() => showOptions("Contact Person")} 
                                         onBlur={() => closeOptions()}
                                     />
-                                    <div className={openOptions === "Contact Person" ? "Options show" : "Options"}>
-                                        <p className='Option'>Test</p>
-                                        <p className='Option'>Test2</p>
-                                        <p className='Option'>Test3</p>
-                                    </div>
                                 </div>
 
                                 {/* Other Inputs */}
                                 <div className="Input_Group">
-                                    <span className='Input_Label'>Short Description</span>
+                                    <span className='Input_Label'>Short Description <span className='required'>*</span></span>
                                     <input 
                                         className='Input' 
                                         type="text" 
@@ -172,7 +181,7 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
 
                                 {/* Other Inputs */}
                                 <div className="Input_Group">
-                                    <span className='Input_Label'>Status</span>
+                                    <span className='Input_Label'>Status <span className='required'>*</span></span>
                                     <input 
                                         className='Input' 
                                         type="text" 
@@ -181,9 +190,18 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                         onBlur={() => closeOptions()}
                                     />
                                     <div className={openOptions === "Status" ? "Options show" : "Options"}>
-                                        <p className='Option'>Test</p>
-                                        <p className='Option'>Test2</p>
-                                        <p className='Option'>Test3</p>
+                                        <div className="Option">
+                                            <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                                        </div>
+                                        <div className="Option">
+                                            <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                                        </div>
+                                        <div className="Option">
+                                            <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                                        </div>
+                                        <div className="Option">
+                                            <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -198,17 +216,19 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                         onBlur={() => closeOptions()}
                                     />
                                     <div className={openOptions === "Forward To" ? "Options show" : "Options"}>
-                                        <p className='Option'>Test</p>
-                                        <p className='Option'>Test2</p>
-                                        <p className='Option'>Test3</p>
+                                        <div className="Option">
+                                            <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Right Side */}
                             <div className="Right_Side">
+                                <span className='divider mobile'></span>
+                                
                                 <div className="Label">
-                                    <span>Add Document File/s</span>
+                                    <span>Add Document File/s <span className='required'>*</span></span>
                                 </div>
                                 <div className="FileUpload">
                                     <div className="Icon">
@@ -247,10 +267,109 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="File">
+                                        <div className="Icon">
+                                            <PDF />
+                                        </div>
+                                        <div className="Name_Size">
+                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                                            <p className="Size">25 MB</p>
+                                        </div>
+                                        <div className="Remove">
+                                            <div className="Close_Icon">
+                                                <IoIcons.IoMdClose size={"30px"}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="File">
+                                        <div className="Icon">
+                                            <PDF />
+                                        </div>
+                                        <div className="Name_Size">
+                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                                            <p className="Size">25 MB</p>
+                                        </div>
+                                        <div className="Remove">
+                                            <div className="Close_Icon">
+                                                <IoIcons.IoMdClose size={"30px"}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="File">
+                                        <div className="Icon">
+                                            <PDF />
+                                        </div>
+                                        <div className="Name_Size">
+                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                                            <p className="Size">25 MB</p>
+                                        </div>
+                                        <div className="Remove">
+                                            <div className="Close_Icon">
+                                                <IoIcons.IoMdClose size={"30px"}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="File">
+                                        <div className="Icon">
+                                            <PDF />
+                                        </div>
+                                        <div className="Name_Size">
+                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                                            <p className="Size">25 MB</p>
+                                        </div>
+                                        <div className="Remove">
+                                            <div className="Close_Icon">
+                                                <IoIcons.IoMdClose size={"30px"}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="File">
+                                        <div className="Icon">
+                                            <PDF />
+                                        </div>
+                                        <div className="Name_Size">
+                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                                            <p className="Size">25 MB</p>
+                                        </div>
+                                        <div className="Remove">
+                                            <div className="Close_Icon">
+                                                <IoIcons.IoMdClose size={"30px"}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="File">
+                                        <div className="Icon">
+                                            <PDF />
+                                        </div>
+                                        <div className="Name_Size">
+                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                                            <p className="Size">25 MB</p>
+                                        </div>
+                                        <div className="Remove">
+                                            <div className="Close_Icon">
+                                                <IoIcons.IoMdClose size={"30px"}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="File">
+                                        <div className="Icon">
+                                            <PDF />
+                                        </div>
+                                        <div className="Name_Size">
+                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                                            <p className="Size">25 MB</p>
+                                        </div>
+                                        <div className="Remove">
+                                            <div className="Close_Icon">
+                                                <IoIcons.IoMdClose size={"30px"}/>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    </form>
                 </DialogContent>
                 <DialogActions>
                     <div className="Dialog_Actions">
@@ -262,10 +381,11 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                         </button>
                     </div>
                 </DialogActions>
+                </Paper>
             </Dialog>
         </section>
         
     )
 }
 
-export default Memo_Add_Dialog
+export default Comm_Edit_Dialog

@@ -1,0 +1,271 @@
+#Request_Dialog > .Dialog_Container{
+    width: 100%;
+    height: 100%;
+    background-color: antiquewhite !important;
+}
+
+.required{
+    color: var(--red);
+}
+
+
+.divider{
+    content: '';
+    width: 100%;
+    border-top: 1px solid var(--dark-grey);
+}
+
+.divider.mobile{
+    display: none;
+}
+
+/* -------------------------------------------------------------------------------------------- */
+
+/* Dialog Top */
+.Dialog_Top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.Dialog_Top > .Dialog_Title{
+    font-size: 18px;
+}
+
+.Dialog_Top > .Dialog_Close{
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+.Dialog_Top > .Dialog_Close:hover{
+    color: var(--orange);
+}
+/* -------------------------------------------------------------------------------------------- */
+
+
+
+/* Dialog Body */
+.Inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.Inputs > .Input_Group{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+}
+
+.Inputs .Options{
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    max-height: 150px;
+    font-size: 14px;
+    overflow-y: auto;
+    background-color: white;
+    outline: 1px solid var(--orange);
+    border-radius: 5px;
+    z-index: 999;
+    transition: all 250ms ease-in-out;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+}
+
+.Inputs .Options.show{
+    display: flex;
+}
+
+.Inputs .Options > .Option{
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+    width: 100%;
+}
+
+.Inputs .Options > .Option > p{
+    width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.Inputs .Options > .Option:hover{
+    background-color: whitesmoke;
+}
+
+.Inputs .Input_Label{
+    font-size: 14px;
+    color: var(--dark-grey);
+}
+
+.Inputs input, .Inputs select{
+    width: 100%;
+    height: 40px;
+    padding: 5px 10px;
+    size: 40px;
+    border: none;
+    outline: 1px solid var(--light-grey);
+    border-radius: 5px;
+}
+
+.Inputs input:focus-visible, .Inputs select:focus-visible{
+    outline: 1px solid var(--orange);
+}
+
+.Inputs .divider_group{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.Inputs .divider_group > span{
+    font-size: 14px;
+    color: var(--dark-grey);
+}
+
+.Inputs .Checkboxes{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.Inputs .Checkboxes > .Label{
+    width: 100%;
+    color: var(--light-black);
+    font-size: 15px;
+}
+
+
+/* -------------------------------------------------------------------------------------------- */
+
+
+
+
+/* Dialog Actions */
+.Dialog_Actions{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    gap: 5px;
+}
+
+.Dialog_Cancel, .Dialog_Submit{
+    width: 100px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.Dialog_Submit{
+    border: 1px solid var(--light-black);
+    color: white;
+    background-color: var(--light-black);
+    transition: all 250ms ease-in-out;
+}
+
+.Dialog_Submit:hover{
+    background-color: var(--orange);
+    border-color: var(--orange);
+}
+
+.Dialog_Cancel{
+    background: transparent;
+
+    border: 1px solid var(--light-black);
+    transition: all 250ms ease-in-out;
+}
+
+.Dialog_Cancel:hover{
+    border-color: var(--dark-grey);
+    color: white;
+    background-color: var(--dark-grey);
+}
+/* -------------------------------------------------------------------------------------------- */
+@media only screen and (max-width: 1600px) {
+    .Dialog_Body > .wrapper > .Left_Side{
+        height: 490px;
+    }
+
+    .Dialog_Body > .wrapper > .Right_Side > .Files {
+        height: 150px;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+
+}
+
+@media only screen and (max-width: 912px) {
+    .Dialog_Body > .wrapper > .Left_Side{
+        height: 600px;
+    }
+
+    .Dialog_Body > .wrapper > .Right_Side > .Files {
+        height: 250px;
+    }
+    .Dialog_Body > .wrapper > .Right_Side > .Files > .File{
+        width: 80%;
+    }
+
+    .Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Name_Size {
+        width: 100%;
+    }
+    .Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Name_Size > .Name{
+        width: 200px;
+    }
+    .Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Icon {
+        width: 35px !important;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    .Dialog_Body > .wrapper {
+        flex-direction: column;
+    }
+
+    .Dialog_Body > .wrapper > .Left_Side{
+        width: 100%;
+    }
+
+    .Dialog_Body > .wrapper > .Right_Side{
+        width: 100%;
+    }
+
+    .divider.mobile{
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 390px) {
+    .Dialog_Body > .wrapper > .Left_Side > .Date_Time{
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    .Dialog_Body > .wrapper > .Left_Side{
+        height: 600px;
+    }
+
+    .Dialog_Body > .wrapper > .Right_Side > .Files {
+        height: 250px;
+    }
+    .Dialog_Body > .wrapper > .Right_Side > .Files > .File{
+        width: 75%;
+    }
+
+    .Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Name_Size {
+        width: 100%;
+    }
+    .Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Name_Size > .Name{
+        width: 150px;
+    }
+    .Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Icon {
+        width: 35px !important;
+    }
+}

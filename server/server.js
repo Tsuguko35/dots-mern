@@ -7,6 +7,9 @@ import cookieParser from 'cookie-parser'
 
 import db from './config/database.js'
 import { documentRoutes, userRoutes } from './routes/index.js'
+import generateOTP from './utils/generateOTP.js'
+import { otpEmailTemplate } from './utils/otpEmailTemplate.js'
+import mailer from './utils/mailer.js'
 
 dotenv.config()
 
@@ -38,7 +41,25 @@ db.connect((err) => {
         return
     }
     console.log('Connected to MySQL database successfully');
+    // sendMail()
 })
+
+// const sendMail = async() => {
+//     const otpCode = generateOTP()
+
+//     var action = 'Password Reset'
+//     var receiver = 'grandnest344@gmail.com'
+//     var subject = 'Verify Email Address'
+//     var body = otpEmailTemplate(action, otpCode)
+
+//     await mailer({ receiver, subject, body })
+//     .then(() => {
+//         console.log('Email Sent');
+//     })
+//     .catch((error) => {
+//         throw new Error(error)
+//     })
+// }
 
 // Socket IO Connections
 io.on('connection', (socket) => {

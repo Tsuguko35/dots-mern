@@ -55,6 +55,40 @@
     cursor: pointer;
 }
 
+#Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right{
+    display: flex;
+    align-items: center;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0 10px;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group{
+    width: 150px;
+    display: flex;
+    align-items: center;
+    color: var(--dark-grey);
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group > .Label{
+    font-size: 14px;
+}
+
+#Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group:hover{
+    color: var(--light-black);
+}
+
+#Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group.active{
+    color: var(--orange);
+}
+
 #Setting_Accounts > .wrapper > .Accounts_List{
     height: 550px;
     overflow-y: auto;
@@ -134,6 +168,14 @@
     color: var(--red);
 }
 
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.pending > p{
+    color: var(--yellow);
+}
+
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.temporary > p{
+    color: var(--blue);
+}
+
 #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Options{
     height: 100%;
     width: 100%;
@@ -178,11 +220,35 @@
     #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Email{
         width: 190px;
     }
+
+    #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Left{
+        width: 100%;
+        justify-content: start;
+    }
+    
+    #Setting_Accounts > .wrapper > .Accounts_Top{
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group{
+        width: 100px;
+    }
 }
 
 @media only screen and (max-width: 540px) {
     #Setting_Accounts > .wrapper > .Accounts_Top{
         justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group{
+        width: 100px;
+        flex-direction: column;
+    }
+
+    #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right{
         flex-direction: column;
         gap: 10px;
     }

@@ -1,0 +1,69 @@
+#ViewPdf{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 250ms ease-in-out forwards;
+}
+
+#ViewPdf > .ViewPdf_Container{
+    width: 1000px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+#ViewPdf > .Close{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+#ViewPdf > .Close > .Icon{
+    color: white;
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+}
+
+#ViewPdf > .Close > .Icon:hover{
+    color: var(--orange);
+}
+
+
+@media only screen and (max-width: 1600px) {
+
+}
+
+@media only screen and (max-width: 1024px) {
+    #ViewPdf > .ViewPdf_Container{
+        width: 700px;
+    }
+}
+
+@media only screen and (max-width: 912px) {
+    #ViewPdf > .ViewPdf_Container{
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    
+    
+}
+
+@media only screen and (max-width: 390px) {
+
+}
+
+@media only screen and (max-width: 320px) {
+
+}

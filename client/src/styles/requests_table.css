@@ -237,6 +237,32 @@
     cursor: pointer;
 }
 
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .Actions > .Approve{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    color: white;
+    background-color: var(--green);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .Actions > .Reject{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    color: white;
+    background-color: var(--red);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .Status{
     display: flex;
     justify-content: start;
@@ -486,6 +512,14 @@
 
     #Requests_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.Archive{
         background-color: #93C572;
+    }
+
+    #Requests_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.Approve{
+        background-color: var(--green);
+    }
+
+    #Requests_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.Reject{
+        background-color: var(--red);
     }
 
 }

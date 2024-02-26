@@ -49,6 +49,8 @@ import {
   LoadingGear 
 } from '../../assets/svg'
 
+import * as IoIcons from 'react-icons/io'
+
 
 function Registration() {
   const navigate = useNavigate()
@@ -122,10 +124,17 @@ function Registration() {
 
 
   // Hide Show Password
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState([{ show: false, for: ''}])
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show)
-
+  const handleClickShowPassword = (props) =>  {
+    if(showPassword.some(showPass => showPass.for === props)){
+      setShowPassword(prev => prev.filter(showPass => showPass.for !== props));
+    }
+    else{
+      setShowPassword(prev => [ ...prev, { show: true, for: props }])
+    }
+    
+  }
   const handleMouseDownPassword = (event) => {
     event.preventDefault()
   }
@@ -197,77 +206,38 @@ function Registration() {
               <h3>Sign up</h3>
               <p>Enter your credentials below to create an account.</p>
             </div>
-            <FormControl variant="outlined" className='login_registration_password'>
-                <Typography sx={{fontWeight: '300', color: "#888", display: 'flex', width: "100%", justifyContent: 'start', fontSize: "0.8rem"}}>
-                Email
-                </Typography>
-                <TextField 
-                    error={error.isError}
-                    type='email'
-                    onChange={(e) => setLoginCredentials({...loginCredentials ,email: e.target.value})}
-                    disabled={submit}
-                    required
-                    sx={{width: '100%'}}
-                    id="email"
-                    placeholder="Email Address"
-                    name="email"
-                    autoComplete="email"
-                />
-            </FormControl>
-            <FormControl variant="outlined" className='login_registration_password'>
-              <Typography sx={{fontWeight: '300', color: "#888", display: 'flex', width: "100%", justifyContent: 'start', fontSize: "0.8rem"}}>
-              Password
-              </Typography>
-              <OutlinedInput
-                error={error.isError}
-                sx={{width: "100%"}}
-                disabled={submit}
-                onChange={(e) => setLoginCredentials({...loginCredentials ,password: e.target.value})}
-                id="outlined-adornment-password"
-                required
-                placeholder='Password'
-                type={showPassword ? 'text' : 'password'}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            <FormControl variant="outlined" className='login_registration_password'>
-              <Typography sx={{fontWeight: '300', color: "#888", display: 'flex', width: "100%", justifyContent: 'start', fontSize: "0.8rem"}}>
-              Confirm Password
-              </Typography>
-              <OutlinedInput
-                error={error.isError}
-                sx={{width: "100%"}}
-                disabled={submit}
-                onChange={(e) => setLoginCredentials({...loginCredentials ,password: e.target.value})}
-                id="outlined-adornment-password"
-                required
-                placeholder='Confirm Password'
-                type={showPassword ? 'text' : 'password'}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
+            <div className="Input_Group">
+              <span className='Input_Label'>Email</span>
+              <div className="Custom_Email">
+                  <input className='Input' type="email" placeholder='Email Address' onChange={(e) => setLoginCredentials({...loginCredentials ,email: e.target.value})}/>
+              </div>
+            </div>
+            <div className="Input_Group">
+              <span className='Input_Label'>Password</span>
+              <div className="Custom_Password">
+                  <input 
+                    className='Input' 
+                    type={showPassword.some(showPass => showPass.for === "Password") ? 'text': 'password'}
+                    placeholder='Password' 
+                    onChange={(e) => setLoginCredentials({...loginCredentials ,password: e.target.value})}/>
+                  <div className="Icon" onClick={() => handleClickShowPassword("Password")}>
+                    {showPassword.some(showPass => showPass.for === "Password") ? <IoIcons.IoMdEyeOff size={'25px'}/>: <IoIcons.IoMdEye size={'25px'}/>}
+                  </div>
+              </div>
+            </div>
+            <div className="Input_Group">
+              <span className='Input_Label'>Confirm Password</span>
+              <div className="Custom_Password">
+                  <input 
+                    className='Input' 
+                    type={showPassword.some(showPass => showPass.for === "Confirm Password") ? 'text': 'password'}
+                    placeholder='Confirm Password' 
+                    onChange={(e) => setLoginCredentials({...loginCredentials ,password: e.target.value})}/>
+                  <div className="Icon" onClick={() => handleClickShowPassword("Confirm Password")}>
+                    {showPassword.some(showPass => showPass.for === "Confirm Password") ? <IoIcons.IoMdEyeOff size={'25px'}/>: <IoIcons.IoMdEye size={'25px'}/>}
+                  </div>
+              </div>
+            </div>
             {/* {isDisabled ? <Typography component="div" sx={{display: "flex", justifyContent: "center", alignItems: "center", color: "red"}}>
                 {loginAttempts} Attempts failed. Please wait for {remainingTime}
             </Typography>: ""} */}

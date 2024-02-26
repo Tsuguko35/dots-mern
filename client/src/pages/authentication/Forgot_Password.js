@@ -38,20 +38,23 @@ function Forgot_Password() {
 
     const sendOTPCode = () => {
         setActiveStep(1)
+        localStorage.removeItem('timerTime')
         setStartTimer(true)
     }
 
     const resendOTP = () => {
+        localStorage.removeItem('timerTime')
         setStartTimer(true)
     }
 
     const verifyOTPCode = () => {
+        localStorage.removeItem('timerTime')
         setActiveStep(2)
         setStartTimer(false)
     }
 
     const resetPassword = () => {
-        setActiveStep(3)
+        setActiveStep(4)
     }
 
     const finishResetPass = () => {
@@ -59,9 +62,18 @@ function Forgot_Password() {
     }
 
     // Hide Show Password
-    const [showPassword, setShowPassword] = useState(false)
+    // Hide Show Password
+    const [showPassword, setShowPassword] = useState([{ show: false, for: ''}])
 
-    const handleClickShowPassword = () => setShowPassword((show) => !show)
+    const handleClickShowPassword = (props) =>  {
+        if(showPassword.some(showPass => showPass.for === props)){
+            setShowPassword(prev => prev.filter(showPass => showPass.for !== props));
+        }
+        else{
+            setShowPassword(prev => [ ...prev, { show: true, for: props }])
+        }
+        
+    }
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault()
@@ -103,20 +115,12 @@ function Forgot_Password() {
                                 </div>
                                 <div className="Forgot_Password_Content_Inner">
                                     <div className="Forgot_Password_Input">
-                                        <FormControl variant="outlined" className='login_registration_password'>
-                                            <Typography sx={{fontWeight: '300', color: "#888", display: 'flex', width: "100%", justifyContent: 'start', fontSize: "0.8rem"}}>
-                                            Email
-                                            </Typography>
-                                            <TextField
-                                                type='email'
-                                                required
-                                                sx={{width: '100%'}}
-                                                id="email"
-                                                placeholder="Email Address"
-                                                name="email"
-                                                autoComplete="email"
-                                            />
-                                        </FormControl>
+                                        <div className="Input_Group">
+                                            <span className='Input_Label'>Email</span>
+                                            <div className="Custom_Email">
+                                                <input className='Input' type="email" placeholder='Email Address'/>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="Forgot_Password_Button">
                                         <button onClick={() => sendOTPCode()}>Send OTP Code</button>
@@ -159,63 +163,43 @@ function Forgot_Password() {
                             <React.Fragment>
                                 <div className="Forgot_Password_Label">
                                     <div className="Main_Label">
-                                        <p>Verify Email Address</p>
+                                        <p>Reset Password</p>
                                     </div>
                                     <div className="Sub_Label">
-                                        <p>The OTP code has been sent to gmail_account@gmail.com. Enter the OTP code to proceed.</p>
+                                        <p>The OTP code has been verified. You can now reset your password</p>
                                     </div>
                                 </div>
                                 <div className="Forgot_Password_Content_Inner">
                                     <div className="Forgot_Password_Input">
-                                    <FormControl variant="outlined" className='login_registration_password'>
-                                        <Typography sx={{fontWeight: '300', color: "#888", display: 'flex', width: "100%", justifyContent: 'start', fontSize: "0.8rem"}}>
-                                        Password
-                                        </Typography>
-                                        <OutlinedInput
-                                            sx={{width: "100%"}}
-                                            id="outlined-adornment-password"
-                                            required
-                                            placeholder='Password'
-                                            type={showPassword ? 'text' : 'password'}
-                                            endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                                >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                            }
-                                        />
-                                        </FormControl>
-                                        <FormControl variant="outlined" className='login_registration_password'>
-                                        <Typography sx={{fontWeight: '300', color: "#888", display: 'flex', width: "100%", justifyContent: 'start', fontSize: "0.8rem"}}>
-                                        Confirm Password
-                                        </Typography>
-                                        <OutlinedInput
-                                            sx={{width: "100%"}}
-                                            id="outlined-adornment-password"
-                                            required
-                                            placeholder='Confirm Password'
-                                            type={showPassword ? 'text' : 'password'}
-                                            endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                                >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                            }
-                                        />
-                                        </FormControl>
-                                    </div>
+                                        <div className="Input_Group">
+                                            <span className='Input_Label'>Password</span>
+                                            <div className="Custom_Password">
+                                                <input 
+                                                    className='Input' 
+                                                    type={showPassword.some(showPass => showPass.for === "Password") ? 'text': 'password'}
+                                                    placeholder='Password' 
+                                                    // onChange={(e) => setLoginCredentials({...loginCredentials ,password: e.target.value})}
+                                                    />
+                                                <div className="Icon" onClick={() => handleClickShowPassword("Password")}>
+                                                    {showPassword.some(showPass => showPass.for === "Password") ? <IoIcons.IoMdEyeOff size={'25px'}/>: <IoIcons.IoMdEye size={'25px'}/>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="Input_Group">
+                                            <span className='Input_Label'>Confirm Password</span>
+                                            <div className="Custom_Password">
+                                                <input 
+                                                    className='Input' 
+                                                    type={showPassword.some(showPass => showPass.for === "Confirm Password") ? 'text': 'password'}
+                                                    placeholder='Confirm Password' 
+                                                    // onChange={(e) => setLoginCredentials({...loginCredentials ,password: e.target.value})}
+                                                    />
+                                                <div className="Icon" onClick={() => handleClickShowPassword("Confirm Password")}>
+                                                    {showPassword.some(showPass => showPass.for === "Confirm Password") ? <IoIcons.IoMdEyeOff size={'25px'}/>: <IoIcons.IoMdEye size={'25px'}/>}
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
                                     <div className="Forgot_Password_Button">
                                         <button onClick={() => resetPassword()}>Reset Password</button>
                                         <button className='Cancel' onClick={() => navigate(-1)}>Cancel</button>
@@ -223,14 +207,14 @@ function Forgot_Password() {
                                 </div>
                             </React.Fragment> 
                         )
-                        :activeStep === 3 &&(
+                        :activeStep === 4 &&(
                             <React.Fragment>
                                 <div className="Forgot_Password_Label">
                                     <div className="Forgot_Password_Success_Icon">
                                         <img src={reset_password} alt="reset_Password_success" />
                                     </div>
                                     <div className="Main_Label">
-                                        <p>Password has been reset Successfully!</p>
+                                        <p>Password has been reset successfully!</p>
                                     </div>
                                     <div className="Sub_Label">
                                         <p>You can now log in with the new password.</p>

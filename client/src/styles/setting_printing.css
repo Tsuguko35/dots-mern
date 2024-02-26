@@ -76,9 +76,9 @@
     background-color: var(--bg2-white);
     height: 150px;
     border-radius: 5px;
-    color: var(--light-black);
+    color: var(--dark-grey);
     cursor: pointer;
-    border: 1px solid var(--dark-grey);
+    border: 2px dotted var(--dark-grey);
     transition: all 250ms ease-in-out;
 }
 
@@ -102,7 +102,7 @@
     width: 100%;
     height: 150px;
     background-color: var(--bg2-white);
-    border: 1px solid var(--dark-grey);
+    border: 1px doted var(--dark-grey);
     border-radius: 5px;
 }
 

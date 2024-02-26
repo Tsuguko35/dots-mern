@@ -14,11 +14,13 @@ import * as CiIcons from 'react-icons/ci'
 import { Collapse, InputAdornment, TextField, Tooltip } from '@mui/material'
 import { LoadingInfinite } from '../../assets/svg'
 import { GetWindowWidth } from '../../utils'
+import View_Document_Dialog from '../dialog modals/View_Document_Dialog'
 
 function ArchiveTable() {
   const [rotation, setRotation] = useState(0);
   const [openRow, setOpenRow] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
+  const [openViewDoc, setOpenViewDoc] = useState(false)
   const windowWidth = GetWindowWidth()
 
   const refreshTable = () => {
@@ -34,6 +36,10 @@ function ArchiveTable() {
     }
   }
 
+  const openDoc = (props) => {
+    setOpenViewDoc(true)
+  }
+
   const showFilterIcon = (props) => {
     if(document.getElementById(props).style.display == 'block'){
       document.getElementById(props).style.display = 'none'
@@ -45,22 +51,20 @@ function ArchiveTable() {
 
   return (
     <section id='Archive_Table_Component' className='Archive_Table_Component'>
+      {/* View Document */}
+      <View_Document_Dialog openViewDoc={openViewDoc} setOpenViewDoc={setOpenViewDoc}/>
+
       <div className="wrapper">
         <div className="Table_Top">
           <div className="Table_Top_Right">
-            <TextField
-              className = "table-input"
-              size="small"
-              variant="outlined"
-              InputProps={{
-                placeholder: "Document Name, Description",
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <IoIcons.IoIosSearch size={'20px'}/>
-                  </InputAdornment>
-                ),
-              }}
-            />
+            <div className="Input_Group">
+              <div className="Custom_Search">
+                  <div className="Icon">
+                      <IoIcons.IoIosSearch size={'20px'}/>
+                  </div>
+                  <input className='Input' type="text" placeholder='Search...'/>
+              </div>
+            </div>
           </div>
         </div>
         <div className="Table_Container">
@@ -114,13 +118,7 @@ function ArchiveTable() {
                             </div>
                             <div className='Actions'>
                               <Tooltip title="View Document">
-                                <button className="View"><GrIcons.GrView size={'20px'}/></button>
-                              </Tooltip>
-                              <Tooltip title="Edit Document">
-                                <button className="Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
-                              </Tooltip>
-                              <Tooltip title="Archive Document">
-                                <button className="Archive"><GoIcons.GoArchive size={'20px'}/></button>
+                                <button className="View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
                               </Tooltip>
                             </div>
                           </div>
@@ -140,99 +138,7 @@ function ArchiveTable() {
                                 </div>
                             </div>
                           </Collapse>
-                          </div>
-                          <div className="Table_Body_Row">
-                            <div className="Table_Body_Details">
-                              <div onClick={() => openToggleRow(1)}>
-                                <p>Docu Namesssssssssssssssss</p>
-                              </div>
-                              <div onClick={() => openToggleRow(1)} className='ReceivedBy'>
-                                <p>Jazpher Carpio</p>
-                              </div>
-                              <div onClick={() => openToggleRow(1)} className='OfficeDept'>
-                                <p>CICT</p>
-                              </div>
-                              <div onClick={() => openToggleRow(1)} className='DateReceived'>
-                                <p>Today</p>
-                              </div>
-                              <div className='Status Rejected' onClick={() => openToggleRow(1)}>
-                                <p>Approved</p>
-                              </div>
-                              <div className='Actions'>
-                                <Tooltip title="View Document">
-                                  <button className="View"><GrIcons.GrView size={'20px'}/></button>
-                                </Tooltip>
-                                <Tooltip title="Edit Document">
-                                  <button className="Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
-                                </Tooltip>
-                                <Tooltip title="Archive Document">
-                                  <button className="Archive"><GoIcons.GoArchive size={'20px'}/></button>
-                                </Tooltip>
-                              </div>
-                            </div>
-                            <Collapse in={openRow === 1} timeout={'auto'} unmountOnExit>
-                              <div className="Table_Body_Other_Details">
-                                  <div className='Other_Details'>
-                                    <span>Description:</span>
-                                    <p></p>
-                                  </div>
-                                  <div className='Other_Details'>
-                                    <span>Comment:</span>
-                                    <p></p>
-                                  </div>
-                                  <div className="Other_Details">
-                                    <span>Tracker:</span>
-                                    <p></p>
-                                  </div>
-                              </div>
-                            </Collapse>
-                          </div>
-                          <div className="Table_Body_Row">
-                            <div className="Table_Body_Details">
-                              <div onClick={() => openToggleRow(1)}>
-                                <p>Docu Namesssssssssssssssss</p>
-                              </div>
-                              <div onClick={() => openToggleRow(1)} className='ReceivedBy'>
-                                <p>Jazpher Carpio</p>
-                              </div>
-                              <div onClick={() => openToggleRow(1)} className='OfficeDept'>
-                                <p>CICT</p>
-                              </div>
-                              <div onClick={() => openToggleRow(1)} className='DateReceived'>
-                                <p>Today</p>
-                              </div>
-                              <div className='Status Ongoing' onClick={() => openToggleRow(1)}>
-                                <p>Ongoing</p>
-                              </div>
-                              <div className='Actions'>
-                                <Tooltip title="View Document">
-                                  <button className="View"><GrIcons.GrView size={'20px'}/></button>
-                                </Tooltip>
-                                <Tooltip title="Edit Document">
-                                  <button className="Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
-                                </Tooltip>
-                                <Tooltip title="Archive Document">
-                                  <button className="Archive"><GoIcons.GoArchive size={'20px'}/></button>
-                                </Tooltip>
-                              </div>
-                            </div>
-                            <Collapse in={openRow === 1} timeout={'auto'} unmountOnExit>
-                              <div className="Table_Body_Other_Details">
-                                  <div className='Other_Details'>
-                                    <span>Description:</span>
-                                    <p></p>
-                                  </div>
-                                  <div className='Other_Details'>
-                                    <span>Comment:</span>
-                                    <p></p>
-                                  </div>
-                                  <div className="Other_Details">
-                                    <span>Tracker:</span>
-                                    <p></p>
-                                  </div>
-                              </div>
-                            </Collapse>
-                          </div>
+                        </div>
                         </React.Fragment>
                       )
                       :
@@ -276,165 +182,7 @@ function ArchiveTable() {
                               <span className='Table_Header_Label'>Action:</span>
                               <div className='Actions'>
                                   <Tooltip title="View Document">
-                                    <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
-                                  </Tooltip>
-                                  <Tooltip title="Edit Document">
-                                    <button className="Action Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
-                                  </Tooltip>
-                                  <Tooltip title="Archive Document">
-                                    <button className="Action Archive"><GoIcons.GoArchive size={'20px'}/></button>
-                                  </Tooltip>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="Table_Row">
-                          <div className="Table_Header_Container">
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Document Name:</span>
-                              <p>Docu Namesssssssssssssssss</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Received By:</span>
-                              <p>Jazpher Carpio</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Office/Dept:</span>
-                              <p>CICT</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Date Received:</span>
-                              <p>Today</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Status:</span>
-                              <p className='Status Approved'>Approved</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Action:</span>
-                              <div className='Actions'>
-                                  <Tooltip title="View Document">
-                                    <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
-                                  </Tooltip>
-                                  <Tooltip title="Edit Document">
-                                    <button className="Action Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
-                                  </Tooltip>
-                                  <Tooltip title="Archive Document">
-                                    <button className="Action Archive"><GoIcons.GoArchive size={'20px'}/></button>
-                                  </Tooltip>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="Table_Row">
-                          <div className="Table_Header_Container">
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Document Name:</span>
-                              <p>Docu Namesssssssssssssssss</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Received By:</span>
-                              <p>Jazpher Carpio</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Office/Dept:</span>
-                              <p>CICT</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Date Received:</span>
-                              <p>Today</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Status:</span>
-                              <p className='Status Approved'>Approved</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Action:</span>
-                              <div className='Actions'>
-                                  <Tooltip title="View Document">
-                                    <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
-                                  </Tooltip>
-                                  <Tooltip title="Edit Document">
-                                    <button className="Action Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
-                                  </Tooltip>
-                                  <Tooltip title="Archive Document">
-                                    <button className="Action Archive"><GoIcons.GoArchive size={'20px'}/></button>
-                                  </Tooltip>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="Table_Row">
-                          <div className="Table_Header_Container">
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Document Name:</span>
-                              <p>Docu Namesssssssssssssssss</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Received By:</span>
-                              <p>Jazpher Carpio</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Office/Dept:</span>
-                              <p>CICT</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Date Received:</span>
-                              <p>Today</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Status:</span>
-                              <p className='Status Approved'>Approved</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Action:</span>
-                              <div className='Actions'>
-                                  <Tooltip title="View Document">
-                                    <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
-                                  </Tooltip>
-                                  <Tooltip title="Edit Document">
-                                    <button className="Action Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
-                                  </Tooltip>
-                                  <Tooltip title="Archive Document">
-                                    <button className="Action Archive"><GoIcons.GoArchive size={'20px'}/></button>
-                                  </Tooltip>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="Table_Row">
-                          <div className="Table_Header_Container">
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Document Name:</span>
-                              <p>Docu Namesssssssssssssssss</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Received By:</span>
-                              <p>Jazpher Carpio</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Office/Dept:</span>
-                              <p>CICT</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Date Received:</span>
-                              <p>Today</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Status:</span>
-                              <p className='Status Approved'>Approved</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Action:</span>
-                              <div className='Actions'>
-                                  <Tooltip title="View Document">
-                                    <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
-                                  </Tooltip>
-                                  <Tooltip title="Edit Document">
-                                    <button className="Action Edit"><FaIcons.FaRegEdit size={'20px'}/></button>
-                                  </Tooltip>
-                                  <Tooltip title="Archive Document">
-                                    <button className="Action Archive"><GoIcons.GoArchive size={'20px'}/></button>
+                                    <button className="Action View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
                                   </Tooltip>
                               </div>
                             </div>
