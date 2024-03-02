@@ -52,6 +52,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     background-color: white;
     min-height: 600px;
     padding: 50px 40px;
@@ -67,7 +68,6 @@
     justify-content: center;
     align-items: center;
     gap: 15px;
-    margin-bottom: 50px;
 }
 
 #login_and_registration .login_and_registration_logos > img {
@@ -92,6 +92,13 @@
     width: 100%;
 }
 
+#login_and_registration .login_form form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 #login_and_registration .login_button{
     width: 100%;
     height: 40px;
@@ -111,6 +118,58 @@
 
 #login_and_registration .login_button:hover{
     background-color: var(--orange);
+}
+
+#login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Name_Group{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input{
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+
+#login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input > .OtpInput_Container{
+    width: 350px !important; 
+    display: flex;
+    justify-content: space-between;
+}
+
+#login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input > .OtpInput_Container > .OtpInput_Input{
+    width: 40px !important;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    outline: 1px solid var(--dark-grey);
+}
+
+#login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input > .OtpInput_Container > .OtpInput_Input:focus-visible{
+    outline: 1px solid var(--orange);
+}
+
+#login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input > .Resend{
+    color: var(--light-black);
+    font-size: 15px;
+}
+
+#login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input > .Resend > span{
+    color: var(--orange);
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -204,6 +263,15 @@
     #login_and_registration .login_and_registration_header > p{
         font-size: 12px;
     }
+
+    #login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input > .OtpInput_Container{
+        width: 300px !important; 
+    }
+    
+    #login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input > .OtpInput_Container > .OtpInput_Input{
+        width: 40px !important;
+        height: 40px;
+    }
 }
 
 @media only screen and (max-width: 320px) {
@@ -235,6 +303,29 @@
 
     .signUp_Login_toggle{
         font-size: 12px !important;
+    }
+    #login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input > .OtpInput_Container{
+        width: 250px !important; 
+    }
+    
+    #login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input > .OtpInput_Container > .OtpInput_Input{
+        width: 35px !important;
+        height: 35px;
+        border-radius: 5px;
+        border: none;
+        outline: 1px solid var(--dark-grey);
+    }
+
+    #login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input > .Resend{
+        color: var(--light-black);
+        font-size: 12px;
+    }
+
+    #login_and_registration > .wrapper > .form_wrapper > .login_form > form > .Forgot_Password_Content_Inner > .Forgot_Password_Input > .Label{
+        color: var(--light-black);
+        font-size: 13px;
+        display: flex;
+        align-items: center;
     }
 }
 

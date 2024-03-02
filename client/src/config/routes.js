@@ -12,6 +12,7 @@ import {
     System_Settings,
     Templates
 } from "../pages"
+import { PrivateRoute } from "../utils"
 
 
 const routes = [
@@ -29,35 +30,35 @@ const routes = [
     },
     {
         path: '/Dashboard',
-        component: <Dashboard />
+        component: <PrivateRoute><Dashboard /></PrivateRoute>
     },
     {
         path: '/Requests/:requestType',
-        component: <Requests />
+        component: <PrivateRoute><Requests /></PrivateRoute>
     },
     {
         path: '/Monitoring/:monitoringType',
-        component: <Monitoring />
+        component: <PrivateRoute><Monitoring /></PrivateRoute>
     },
     {
         path: '/Archive/Folders',
-        component: <ArchiveFolders />
+        component: <PrivateRoute><ArchiveFolders /></PrivateRoute>
     },
     {
         path: '/Archive/Tables',
-        component: <Archive_Table />
+        component: <PrivateRoute><Archive_Table /></PrivateRoute>
     },
     {
         path: '/Templates',
-        component: <Templates />
+        component: <PrivateRoute><Templates /></PrivateRoute>
     },
     {
         path: '/System-Settings',
-        component: <System_Settings />
+        component: <PrivateRoute><System_Settings /></PrivateRoute>
     },
     {
         path: '/Account-Settings',
-        component: <Account_Settings />
+        component: <PrivateRoute><Account_Settings /></PrivateRoute>
     },
     {
         path: '/Reset-Password',

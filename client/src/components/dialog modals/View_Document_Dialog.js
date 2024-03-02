@@ -144,6 +144,7 @@ function View_Document_Dialog({ openViewDoc,  setOpenViewDoc }) {
                                                             </div>
                                                             <div className="item-title">
                                                                 <span className='Office'>CICT</span>
+                                                                <span className='Signature_Add'>Add Signature</span>
                                                             </div>
                                                         </li>
                                                     </ul>

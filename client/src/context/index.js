@@ -14,7 +14,9 @@ import {
 import { 
     logInUser ,
     validateUser,
-    logOutUser
+    logOutUser,
+    isEmailRegistered,
+    RegisterUser
 } from "./action"
 
 export {
@@ -27,5 +29,7 @@ export {
     logInUser,
     validateUser,
     logOutUser,
-    SidebarContext
+    SidebarContext,
+    isEmailRegistered,
+    RegisterUser
 }

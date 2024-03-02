@@ -3,43 +3,22 @@ import { PageHeader, Timer } from '../../components'
 import '../../styles/account_settings.css'
 import { 
     Avatar,
-    TextField 
 } from '@mui/material'
 
-import OtpInput from 'react-otp-input'
-
 // Icons
-import * as FaIcons from 'react-icons/fa'
-import * as AiIcons from 'react-icons/ai'
-import * as IoIcons from 'react-icons/io'
-import * as RiIcons from 'react-icons/ri'
-import * as LuIcons from 'react-icons/lu'
-import * as HiIcons from 'react-icons/hi'
-import * as GoIcons from 'react-icons/go'
-import * as MdIcons from 'react-icons/md'
 import * as CiIcons from 'react-icons/ci'
 import { useNavigate } from 'react-router-dom'
 
 
 function Account_Settings() {
     const navigate = useNavigate()
-    const [showSetting, setShowSetting] = useState('account')
-    const [requestOtp, setRequestOtp] = useState(false)
-    const [showTimer, setShowTimer] = useState(true)
-    const [otp, setOtp] = useState('')
+    const userDetails = JSON.parse(window.localStorage.getItem('profile'))
+    const firstLetterOfName = userDetails.full_Name ? userDetails.full_Name.charAt(0).toUpperCase() : 'A';
 
     useEffect(() => {
         document.title = `Account Settings`
     }, [])
 
-    const resendOtpCode = () => {
-        setShowTimer(true)
-    }
-
-    // Handle change
-    const handleOtpChange = (otp) => setOtp(otp)
-
-    
     return (
         <section id='Account_Settings' className='Account_Settings'>
             <div className="wrapper">
@@ -47,7 +26,7 @@ function Account_Settings() {
                 <div className="Settings_Container">
                     <div className="Left-Side">
                         <div className="Profile_Pic">
-                            <Avatar className='Pic'>M</Avatar>
+                            <Avatar className='Pic'>{firstLetterOfName}</Avatar>
                             <div className="Pic_Change_Holder">
                                 <div className="Pic_Change">
                                     <CiIcons.CiImageOn size={'30px'}/>
@@ -57,13 +36,13 @@ function Account_Settings() {
                         </div>
                         <div className="Profile_Name_Role">
                             <div className="Name">
-                                <p>John Jazpher Carpio</p>
+                                <p>{userDetails.full_Name}</p>
                             </div>
                             <div className="Email">
-                                <p>carpio.johnjazpher.dc.188@gmail.com</p>
+                                <p>{userDetails.email}</p>
                             </div>
                             <div className="Role">
-                                <p>Dean</p>
+                                <p>{userDetails.role}</p>
                             </div>
                         </div>
                     </div>
@@ -78,7 +57,7 @@ function Account_Settings() {
                                 </div>
                                 <div className="Info_Value">
                                     <div className="Value">
-                                        <p>Jazpher Carpio</p>
+                                        <p>{userDetails.full_Name}</p>
                                     </div>
                                     <div className="Info_Edit">
                                         <span>Change Name</span>    
@@ -91,7 +70,7 @@ function Account_Settings() {
                                 </div>
                                 <div className="Info_Value">
                                     <div className="Value">
-                                        <p>carpio.johnjazpher.dc.3188@gmail.com</p>
+                                        <p>{userDetails.email}</p>
                                     </div>
                                     <div className="Info_Edit">
                                         <span>Change Email</span>    

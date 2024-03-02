@@ -18,6 +18,7 @@
   --red: #FA5F55;
   --yellow: #FFC300;
   --blue: #4682B4;
+  --error-red: #FF7F7F;
 }
 
 *,*::before,*::after {
@@ -115,6 +116,19 @@ a:hover {
 
 #Main_View > .Content.noScroll {
   overflow: hidden;
+}
+
+.errorMessage{
+  width: 100%;
+  background-color: #F2D2D4;
+  padding: 7px 14px;
+  color: #C01F28;
+  font-weight: 600;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
 }
 
 
@@ -304,6 +318,10 @@ a:hover {
   outline: 1px solid var(--orange);
 }
 
+.Input_Group > .Custom_Password.error > input{
+  outline: 1px solid var(--red);
+}
+
 /* Email */
 .Input_Group > .Custom_Email{
   display: flex;
@@ -327,6 +345,10 @@ a:hover {
 
 .Input_Group > .Custom_Email > input:focus-visible{
   outline: 1px solid var(--orange);
+}
+
+.Input_Group > .Custom_Email.error > input{
+  outline: 1px solid var(--red);
 }
 
 @media only screen and (max-width: 1024px) {

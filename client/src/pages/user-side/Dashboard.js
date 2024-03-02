@@ -2,25 +2,22 @@ import React, { useEffect } from 'react'
 import '../../styles/dashboard.css'
 import { useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
-import { ArchiveTable, Dash_BarChart, Dash_DoughnutChart, Dash_PendingBar, DoughnutChart, PageHeader } from '../../components'
+import { ArchiveTable, Dash_BarChart, Dash_DoughnutChart, Dash_PendingBar, PageHeader } from '../../components'
 import welcomeIMG from '../../assets/images/welcomeIMG.png'
 
 // Icons
-import * as FaIcons from 'react-icons/fa'
-import * as AiIcons from 'react-icons/ai'
-import * as IoIcons from 'react-icons/io'
-import * as RiIcons from 'react-icons/ri'
-import * as LuIcons from 'react-icons/lu'
 import * as HiIcons from 'react-icons/hi'
-import * as GoIcons from 'react-icons/go'
 import * as MdIcons from 'react-icons/md'
-import * as CiIcons from 'react-icons/ci'
 
 function Dashboard() {
   const navigate = useNavigate()
+  const userDetails = JSON.parse(window.localStorage.getItem('profile'))
+
   useEffect(() => {
     document.title = 'Dashboard'
   }, [])
+
+
   return (
     <section id='Dashboard' className='Dashboard'>
       <div className="wrapper">
@@ -31,8 +28,8 @@ function Dashboard() {
             <div className="Dashboard_Grid_Card Welcome">
               <img src={welcomeIMG} alt="" />
               <div className="Weclome_Msg">
-                <p className='Welcome'>Welcome, <span>SA</span></p>
-                <span className='Name'>John Jazpher Carpio</span>
+                <p className='Welcome'>Welcome, <span>{userDetails.role}</span></p>
+                <span className='Name'>{userDetails.full_Name}</span>
               </div>
             </div>
             <div className="Dashboard_Grid_Card Archive">

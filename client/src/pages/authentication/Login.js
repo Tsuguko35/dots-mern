@@ -92,31 +92,19 @@ function Login() {
         }
         else
         {
-          Swal.fire({
-            text:'This account has yet to be verified.',
-            showCancelButton: false,
-            showConfirmButton: true,
-            confirmButtonText: 'Ok, close',
-            confirmButtonColor: '#FF9944'
-          })
+          setError({ isError: true, errorMessage: 'This account is not yet approved.' })
         }
         
       }
       else{
-        Swal.fire({
-          text:'This account has been deactivated.',
-          showCancelButton: false,
-          showConfirmButton: true,
-          confirmButtonText: 'Ok, close',
-          confirmButtonColor: '#FF9944'
-        })
+        setError({ isError: true, errorMessage: 'This account is deactivated.' })
       }
       
     }
 
     if(res?.status === 400){
       setSubmit(false)
-      setError({ isError: 'true', errorMessage: res.errorMessage })
+      setError({ isError: true, errorMessage: res.errorMessage })
       setLoginCredentials({ ...loginCredentials, password: '' })
     }
 
@@ -193,7 +181,7 @@ function Login() {
           <img src={dotsIllustration} alt="" />
           <div className="side_illustration_labels">
             <h1>Dean's Office Transaction System</h1>
-            <p>In publishing and graphic design, Lorem ipsum is a placeholder</p>
+            <p>Document Tracking & Document Archiving</p>
           </div>
         </div>
         {/* Login Form */}
@@ -209,17 +197,24 @@ function Login() {
             </div>
             <div className="Input_Group">
               <span className='Input_Label'>Email</span>
-              <div className="Custom_Email">
-                  <input className='Input' type="email" placeholder='Email Address' onChange={(e) => setLoginCredentials({...loginCredentials ,email: e.target.value})}/>
+              <div className={!error.isError ? "Custom_Email" : "Custom_Email error"}>
+                  <input 
+                    className='Input' 
+                    type="email" 
+                    autoComplete='true' 
+                    placeholder='Email Address' 
+                    value={loginCredentials.email}
+                    onChange={(e) => setLoginCredentials({...loginCredentials ,email: e.target.value})}/>
               </div>
             </div>
             <div className="Input_Group">
               <span className='Input_Label'>Password</span>
-              <div className="Custom_Password">
+              <div className={!error.isError ? "Custom_Password" : "Custom_Password error"}>
                   <input 
                     className='Input' 
                     type={showPassword.some(showPass => showPass.for === "Password") ? 'text': 'password'}
                     placeholder='Password' 
+                    value={loginCredentials.password}
                     onChange={(e) => setLoginCredentials({...loginCredentials ,password: e.target.value})}/>
                   <div className="Icon" onClick={() => handleClickShowPassword("Password")}>
                     {showPassword.some(showPass => showPass.for === "Password") ? <IoIcons.IoMdEyeOff size={'25px'}/>: <IoIcons.IoMdEye size={'25px'}/>}
@@ -230,10 +225,11 @@ function Login() {
                 {loginAttempts} Attempts failed. Please wait for {remainingTime}
             </Typography>: ""} */}
             {error.isError && (
-              <Typography sx={{display: "flex", justifyContent: "center", alignItems: "center", color: "red", marginTop: "20px"}}>
-                {error.errorMessage}
-              </Typography>
+              <div className="errorMessage">
+                <p>{error.errorMessage}</p>
+              </div>
             )}
+            
             <Box sx={{width: "100%", display: 'flex', justifyContent: 'right', mt: '10px'}}>
               <Link to={`/Reset-Password`} variant="body2" onClick={undefined} className='signUp_Login_toggle'>
                     Forgot password?

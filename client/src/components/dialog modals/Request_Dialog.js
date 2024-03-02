@@ -136,33 +136,33 @@ function Request_Dialog({ action, openRequest, closeRequest }) {
                                 <div className="Label">
                                     <span>Forward To <span className='required'>*</span></span>
                                 </div>
-                                <div class="checkbox-wrapper-46">
-                                    <input class="inp-cbx" id="cbx-46" type="checkbox" />
-                                    <label class="cbx" for="cbx-46">
+                                <div className="checkbox-wrapper-46">
+                                    <input className="inp-cbx" id="cbx-46" type="checkbox" />
+                                    <label className="cbx" htmlFor="cbx-46">
                                         <span>
-                                            <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                            <svg width="12px" height="10px" viewBox="0 0 12 10">
                                             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                                             </svg>
                                         </span>
                                         <span className='label'>All Users</span>
                                     </label>    
                                 </div>
-                                <div class="checkbox-wrapper-46">
-                                    <input class="inp-cbx" id="cbx-47" type="checkbox" />
-                                    <label class="cbx" for="cbx-47">
+                                <div className="checkbox-wrapper-46">
+                                    <input className="inp-cbx" id="cbx-47" type="checkbox" />
+                                    <label className="cbx" htmlFor="cbx-47">
                                         <span>
-                                            <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                            <svg width="12px" height="10px" viewBox="0 0 12 10">
                                             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                                             </svg>
                                         </span>
                                         <span className='label'>All Faculty</span>
                                     </label>    
                                 </div>
-                                <div class="checkbox-wrapper-46">
-                                    <input class="inp-cbx" id="cbx-48" type="checkbox" />
-                                    <label class="cbx" for="cbx-48">
+                                <div className="checkbox-wrapper-46">
+                                    <input className="inp-cbx" id="cbx-48" type="checkbox" />
+                                    <label className="cbx" htmlFor="cbx-48">
                                         <span>
-                                            <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                            <svg width="12px" height="10px" viewBox="0 0 12 10">
                                             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                                             </svg>
                                         </span>

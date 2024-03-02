@@ -171,6 +171,8 @@ export const otpEmailTemplate = (action, otpCode) => {
                         <p>
                             This is a one-time passcode that is necessary to finish the verification process.
                             If this request did not come from you, Please Ignore this email.
+                            Kindly be aware that the OTP provided is valid for 5 minutes only. After this duration, 
+                            the code will expire, and you'll need to request a new OTP to proceed further.
                         </p>
                         <p class="otpCode">
                             ${otpCode}

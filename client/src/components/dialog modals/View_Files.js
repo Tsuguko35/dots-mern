@@ -133,11 +133,12 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView}) 
                             <TabPanel className='Tab_Panel' value='1'>
                                 <ImageList cols={imageCols} gap={8}>
                                     {itemData.map((item, index) => (
-                                        <ImageListItem key={item.img} onClick={() => openLightbox(index)}>
+                                        <ImageListItem className='Image_Item_Holder' key={item.img} onClick={() => openLightbox(index)}>
                                             <img
                                                 srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                                                 src={`${item.img}?w=248&fit=crop&auto=format`}
                                                 alt={item.title}
+                                                className='Image_Item'
                                                 loading="lazy"
                                             />
                                         </ImageListItem>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import '../styles/pagenotfound.css'
 
@@ -8,6 +8,10 @@ import { useNavigate } from 'react-router-dom'
 
 function PageNotFound() {
     const navigate = useNavigate()
+
+    useEffect(() => {
+      document.title = "Page not Found"
+    }, [])
   return (
     <section id='Page_Not_Found' className='Page_Not_Found'>
         <header className='Page_Not_Found_Header'>

@@ -1,5 +1,7 @@
 
 #Page_Not_Found{
+    width: 100vw;
+    height: 100vh;
     padding: 30px 100px;
     overflow: hidden;
     display: flex;
@@ -23,6 +25,8 @@
     justify-content: center;
     align-items: center;
     width: 400px;
+    height: 100%;
+    gap: 40px;
 }
 
 #Page_Not_Found > .Page_Not_Found_Body > .Page_Not_Found_Image > img{
@@ -53,9 +57,42 @@
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
     transition: all 250ms ease-in-out;
 }
 
 #Page_Not_Found > .Page_Not_Found_Body > .Page_Not_Found_GoBack > button:hover{
     background-color: var(--light-black);
+}
+
+
+
+@media only screen and (max-width: 1024px) {
+
+}
+
+@media only screen and (max-width: 912px) {
+
+}
+
+@media only screen and (max-width: 540px) {
+    #Page_Not_Found{
+        padding: 10px 20px;
+    }
+
+    #Page_Not_Found > .Page_Not_Found_Body{
+        width: 350px;
+    }
+
+    #Page_Not_Found > .Page_Not_Found_Body > .Page_Not_Found_Image > img{
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 390px) {
+
+}
+
+@media only screen and (max-width: 320px) {
+
 }

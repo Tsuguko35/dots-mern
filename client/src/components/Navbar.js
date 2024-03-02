@@ -44,6 +44,8 @@ function Navbar() {
   const navigate = useNavigate()
   const { setToggleSidebar } = useContext(SidebarContext)
   const [anchorEl, setAnchorEl] = useState(null);
+  const userDetails = JSON.parse(window.localStorage.getItem('profile'))
+  const firstLetterOfName = userDetails.full_Name ? userDetails.full_Name.charAt(0).toUpperCase() : 'A';
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -97,7 +99,7 @@ function Navbar() {
               <span>{DateTime().time}</span>
             </span>
           </Typography>
-          <Typography className='Navbar_Date_and_Profile_Role' sx={{ minWidth: '75px'}}>Dean</Typography>
+          <Typography className='Navbar_Date_and_Profile_Role' sx={{ minWidth: '75px'}}>{userDetails.role}</Typography>
           <Tooltip title="Account settings">
             <IconButton
               onClick={handleClick}
@@ -106,7 +108,7 @@ function Navbar() {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-              <Avatar sx={{ width: 45, height: 45 }}>M</Avatar>
+              <Avatar sx={{ width: 45, height: 45 }}>{firstLetterOfName}</Avatar>
             </IconButton>
           </Tooltip>
           <Menu
@@ -146,11 +148,11 @@ function Navbar() {
           >
             <div className="Menu_Profile">
               <div className="Profile_Avatar">
-                <span><Avatar className='Avatar'/></span>
+                <span><Avatar className='Avatar'>{firstLetterOfName}</Avatar></span>
               </div>
               <div className="Profile_Name_Role">
-                <span className='Profile_Name'>John Jazpher Carpio</span>
-                <span className='Profile_Role'>Dean</span>
+                <span className='Profile_Name'>{userDetails.full_Name}</span>
+                <span className='Profile_Role'>{userDetails.role}</span>
               </div>
             </div>
             <Divider />

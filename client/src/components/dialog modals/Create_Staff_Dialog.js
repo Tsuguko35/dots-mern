@@ -26,6 +26,7 @@ function Create_Staff_Dialog({ openCreateStaff, closeCreateStaff }) {
     const theme = useTheme()
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [openOptions, setOpenOptions] = useState('')
+    const [selectedRole, setSelectedRole] = useState('Clerk')
     const [documentState, setDocumentState] = useState({
         Date_Received: '',
         Time_Received: '',
@@ -82,6 +83,27 @@ function Create_Staff_Dialog({ openCreateStaff, closeCreateStaff }) {
                 <DialogContent>
                     <form action="">
                         <div className="Inputs">
+
+                            {/* CheckBoxes */}
+                            <div className="Radio_Container">
+                                <div className="radio-input">
+                                    <label>
+                                        <input type="radio" id="value-1" name="value-radio" onClick={() => setSelectedRole("Secretary")} checked={selectedRole === "Secretary"} value="Secretary"/>
+                                        <span>Secretary</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" id="value-2" name="value-radio" onClick={() => setSelectedRole("Clerk")} checked={selectedRole === "Clerk"} value="Clerk"/>
+                                        <span>Clerk</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" id="value-3" name="value-radio" onClick={() => setSelectedRole("SA")} checked={selectedRole === "SA"} value="SA"/>
+                                        <span>Student Assistant</span>
+                                    </label>
+                                    <span className="selection"></span>
+                                </div>
+                            </div>
+                            
+
                             {/* Other Inputs */}
                             <div className="Input_Group">
                                 <span className='Input_Label'>BulSU Email<span className='required'>*</span></span>

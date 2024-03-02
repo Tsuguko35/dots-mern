@@ -16,6 +16,20 @@
     overflow-y: auto;
 }
 
+#View_Files > .wrapper .Tab_Panel .Image_Item_Holder{
+    overflow: hidden;
+}
+
+#View_Files > .wrapper .Tab_Panel .Image_Item{
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+#View_Files > .wrapper .Tab_Panel .Image_Item:hover{
+    opacity: 0.6;
+    transform: scale(1.1);
+}
+
 #View_Files .Files_Container{
     width: 100%;
     height: 650px;

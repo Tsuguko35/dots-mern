@@ -135,10 +135,10 @@ function RequestTable({documentType}) {
                               </Tooltip>
                               {documentType === 'Pending' ? (
                                 <React.Fragment>
-                                  <Tooltip title="Forward Document">
+                                  <Tooltip title="Approve Document">
                                     <button className="Approve" onClick={() => openRequest({ action: 'Approve' })}><BsIcons.BsCheck2All size={'20px'}/></button>
                                   </Tooltip>
-                                  <Tooltip title="Forward Document">
+                                  <Tooltip title="Reject Document">
                                     <button className="Reject" onClick={() => openRequest({ action: 'Reject' })}><MdIcons.MdOutlineClose size={'20px'}/></button>
                                   </Tooltip>
                                 </React.Fragment>

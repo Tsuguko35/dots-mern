@@ -20,6 +20,25 @@ export async function logInUser(payload){
     }
 }
 
+export async function RegisterUser(payload){
+    const {email, password, fullName} = payload
+
+    try{
+        const res = await Axios.post(`/user/register`, {email, password, fullName})
+        
+        if(res){
+            return res
+        }
+    }
+    catch(error){
+        console.error(`Unhandled action type: ${error}`)
+        return {
+            status: error.response.status,
+            errorMessage: error.response.data.errorMessage
+        }
+    }
+}
+
 //Validate
 export async function validateUser(payload){
     const {token} = payload
@@ -51,6 +70,25 @@ export async function logOutUser(){
                 window.localStorage.removeItem('profile')
                 window.localStorage.removeItem('isLoggedIn')
             }
+            return res
+        }
+    }
+    catch(error){
+        console.error(`Unhandled action type: ${error}`)
+        return {
+            status: error.response.status,
+            errorMessage: error.response.data.errorMessage
+        }
+    }
+}
+
+export async function isEmailRegistered(payload){
+    const {email} = payload
+
+    try{
+        const res = await Axios.post(`/user/isEmailRegistered`, {email})
+        
+        if(res){
             return res
         }
     }

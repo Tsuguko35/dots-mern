@@ -113,6 +113,23 @@ ul.rb li .timestamp {
 .item-title > .Signature > img{
     width: 100%;
 }
+
+.item-title > .Signature_Add{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    color: var(--light-black);
+    cursor: pointer;
+    text-decoration: underline;
+    transition: all 250ms ease-in-out;
+}
+
+.item-title > .Signature_Add:hover{
+    color: var(--orange);
+}
+
 /* -------------------------------------------------------------------------------------------- */
 
 /* Dialog Top */
