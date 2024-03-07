@@ -9,6 +9,21 @@ import otpRequest from "./otpRequest";
 import otpVerify from "./otpVerify";
 import resetUserPassword from "./resetPassword";
 import PrivateRoute from "./protectedRoutes";
+import getTableData from "./getTableData";
+import getDocumentData from "./getDocumentData";
+import addDocument from "./addDocument";
+import uploadFiles from "./uploadFiles";
+import formatFileSize from "./formatFileSize";
+import checkFileType from "./checkFileType";
+import getAllUsers from "./getAllUsers";
+import formatDate from './formatDate'
+import formatTime from './formatTime'
+import getDropdownsData from "./getDropdownsData";
+import updateDropdownsData from "./updateDropdownsData";
+import getFiles from "./getFiles";
+import editDocument from "./editDocument";
+import deleteFiles from "./deleteFiles";
+import formatTimeAmPm from "./formatTimeAmPm";
 
 export {
     hasSidebar,
@@ -21,5 +36,20 @@ export {
     otpRequest,
     otpVerify,
     resetUserPassword,
-    PrivateRoute
+    PrivateRoute,
+    getTableData,
+    getDocumentData,
+    addDocument,
+    uploadFiles,
+    formatFileSize,
+    checkFileType,
+    getAllUsers,
+    formatDate,
+    formatTime,
+    getDropdownsData,
+    updateDropdownsData,
+    getFiles,
+    editDocument,
+    deleteFiles,
+    formatTimeAmPm
 }

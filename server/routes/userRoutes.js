@@ -1,5 +1,6 @@
 import express from 'express'
 import { 
+    getUsers,
     isEmailRegistered,
     logOutUser,
     register,
@@ -20,6 +21,7 @@ router.post('/register', register)
 router.post('/requestOtp', requestOtp)
 router.post('/verifyOtp', verifyOtp)
 router.post('/resetPassword', resetUserPassword)
+router.post('/getAllUsers', getUsers)
 
 
 export default router

@@ -17,14 +17,24 @@
 #ViewPdf > .ViewPdf_Container{
     width: 1000px;
     height: 100vh;
+    padding-top: 20px;
     overflow-y: auto;
+}
+
+#ViewPdf > .ViewPdf_Container::-webkit-scrollbar{
+    display: none;
+}
+
+#ViewPdf > .ViewPdf_Container.landscape{
+    width: 1300px;
 }
 
 #ViewPdf > .Close{
     width: 100%;
+    position: absolute;
     display: flex;
     justify-content: end;
-    align-items: center;
+    top: 0;
     padding: 10px 20px;
 }
 
@@ -46,6 +56,9 @@
 @media only screen and (max-width: 1024px) {
     #ViewPdf > .ViewPdf_Container{
         width: 700px;
+    }
+    #ViewPdf > .ViewPdf_Container.landscape{
+        width: 900px;
     }
 }
 

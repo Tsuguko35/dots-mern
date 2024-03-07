@@ -15,3 +15,11 @@ export const DotsProvider = ({ children, initialState, reducer }) => {
 }
 
 export const SidebarContext = React.createContext()
+
+export const DocumentContext = React.createContext()
+
+export const RequestContext = React.createContext()
+
+export const ArchiveContext = React.createContext()
+
+export const SettingsContext = React.createContext()

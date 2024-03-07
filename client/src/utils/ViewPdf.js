@@ -57,7 +57,7 @@ function ViewPdf({ pdfFile, closePDf }) {
                     <IoIcons.IoMdClose size={'35px'}/>
                 </div>
             </div>
-            <div className="ViewPdf_Container">
+            <div id='container' className="ViewPdf_Container">
                 <Document
                     className="pdf"
                     file={pdfUrl}
@@ -73,6 +73,23 @@ function ViewPdf({ pdfFile, closePDf }) {
                                 renderTextLayer={false}
                                 renderAnnotationLayer={false}
                                 customTextRenderer={false}
+                                onLoadSuccess={(page) => {
+                                    const { width, height } = page;
+                                    const isLandscape = width > height;
+                                    if(isLandscape){
+                                        if(windowWidth <= 912){
+                                            setPdfWith(500)
+                                        }
+                                        else if(windowWidth <= 1024){
+                                            setPdfWith(900)
+                                        }
+                                        else{
+                                            setPdfWith(1300)
+                                        }
+                                        document.getElementById('container').classList.add('landscape')
+                                    }
+                                    // You can set a state or perform any action based on the orientation here
+                                }}
                             />
                         </div>
                     ))}

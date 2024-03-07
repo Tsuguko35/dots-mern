@@ -14,22 +14,14 @@ const inputs = [
                 value: `Received_By`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Clerks"
             },
             {
                 label: 'Office/Dept',
                 value: `Office_Dept`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "CICT",
-                    "CIT",
-                    "Office of the President"
-                ]
+                options: "Office_Dept"
             },
             {
                 label: 'Contact Person',
@@ -58,21 +50,13 @@ const inputs = [
                 value: `Status`,
                 required: true,
                 haveOptions: true,
-                options: [
-                    "Approved",
-                    "Pending",
-                    "Rejected"
-                ]
+                options: "Status"
             },
             {
                 label: 'Forward To',
                 value: `Forward_To`,
                 haveOptions: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Users"
             },
         ]
     },
@@ -90,11 +74,7 @@ const inputs = [
                 value: `Received_By`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Clerks"
             },
             {
                 label: 'Student Name',
@@ -107,10 +87,7 @@ const inputs = [
                 value: `Document_Type`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "Completion Form",
-                    "Correction of Grades",
-                ]
+                options: "Document Type"
             },
             {
                 label: 'Short Description',
@@ -128,21 +105,13 @@ const inputs = [
                 value: `Status`,
                 required: true,
                 haveOptions: true,
-                options: [
-                    "Approved",
-                    "Pending",
-                    "Rejected"
-                ]
+                options: "Status"
             },
             {
                 label: 'Forward To',
                 value: `Forward_To`,
                 haveOptions: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Users"
             },
         ]
     },
@@ -160,22 +129,14 @@ const inputs = [
                 value: `Received_By`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Clerks"
             },
             {
                 label: 'Office/Dept',
                 value: `Office_Dept`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "CICT",
-                    "CIT",
-                    "Office of the President"
-                ]
+                options: "Office_Dept"
             },
             {
                 label: 'Faculty Name',
@@ -188,14 +149,7 @@ const inputs = [
                 value: `Document_Type`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "DTR",
-                    "Estimates of Honoraria",
-                    "Faculty Teaching Load",
-                    "Faculty Workload",
-                    "Application for Leave",
-                    "Training Request Form"
-                ]
+                options: "Document Type"
             },
             {
                 label: 'Short Description',
@@ -213,21 +167,13 @@ const inputs = [
                 value: `Status`,
                 required: true,
                 haveOptions: true,
-                options: [
-                    "Approved",
-                    "Pending",
-                    "Rejected"
-                ]
+                options: "Status"
             },
             {
                 label: 'Forward To',
                 value: `Forward_To`,
                 haveOptions: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Users"
             },
         ]
     },
@@ -245,22 +191,14 @@ const inputs = [
                 value: `Received_By`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Clerks"
             },
             {
                 label: 'Office/Dept',
                 value: `Office_Dept`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "CICT",
-                    "CIT",
-                    "Office of the President"
-                ]
+                options: "Office_Dept"
             },
             {
                 label: 'Applicant Name',
@@ -273,14 +211,7 @@ const inputs = [
                 value: `Document_Type`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "DTR",
-                    "Estimates of Honoraria",
-                    "Faculty Teaching Load",
-                    "Faculty Workload",
-                    "Application for Leave",
-                    "Training Request Form"
-                ]
+                options: "Document Type"
             },
             {
                 label: 'Short Description',
@@ -298,21 +229,13 @@ const inputs = [
                 value: `Status`,
                 required: true,
                 haveOptions: true,
-                options: [
-                    "Approved",
-                    "Pending",
-                    "Rejected"
-                ]
+                options: "Status"
             },
             {
                 label: 'Forward To',
                 value: `Forward_To`,
                 haveOptions: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Users"
             },
         ]
     },
@@ -330,22 +253,14 @@ const inputs = [
                 value: `Received_By`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Clerks"
             },
             {
                 label: 'Office/Dept',
                 value: `Office_Dept`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "CICT",
-                    "CIT",
-                    "Office of the President"
-                ]
+                options: "Office_Dept"
             },
             {
                 label: 'Ratee Name',
@@ -358,10 +273,7 @@ const inputs = [
                 value: `Document_Type`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "IPCR",
-                    "OPCR",
-                ]
+                options: "IPCR/OPCR"
             },
             {
                 label: 'Short Description',
@@ -379,21 +291,13 @@ const inputs = [
                 value: `Status`,
                 required: true,
                 haveOptions: true,
-                options: [
-                    "Approved",
-                    "Pending",
-                    "Rejected"
-                ]
+                options: "Status"
             },
             {
                 label: 'Forward To',
                 value: `Forward_To`,
                 haveOptions: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Users"
             },
         ]
     },
@@ -411,22 +315,14 @@ const inputs = [
                 value: `Received_By`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Clerks"
             },
             {
                 label: 'Office/Dept',
                 value: `Office_Dept`,
                 haveOptions: true,
                 required: true,
-                options: [
-                    "CICT",
-                    "CIT",
-                    "Office of the President"
-                ]
+                options: "Office_Dept"
             },
             {
                 label: 'Contact Person',
@@ -450,21 +346,13 @@ const inputs = [
                 value: `Status`,
                 required: true,
                 haveOptions: true,
-                options: [
-                    "Approved",
-                    "Pending",
-                    "Rejected"
-                ]
+                options: "Status"
             },
             {
                 label: 'Forward To',
                 value: `Forward_To`,
                 haveOptions: true,
-                options: [
-                    "Jazpher Carpio",
-                    "Edward Santos",
-                    "Jairo Garcia"
-                ]
+                options: "Users"
             },
         ]
     }

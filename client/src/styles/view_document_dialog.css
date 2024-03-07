@@ -199,6 +199,7 @@ ul.rb li .timestamp {
     gap: 20px;
 }
 
+
 .View_Dialog_Body > .wrapper > .Left_Side > .Document_Details_Container > .Document_Details > .Detail_Group{
     width: 100%;
     display: flex;
@@ -213,6 +214,18 @@ ul.rb li .timestamp {
 .View_Dialog_Body > .wrapper > .Left_Side > .Document_Details_Container > .Document_Details > .Detail_Group > .Detail{
     font-size: 15px;
     color: var(--light-black);
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Details_Container > .Document_Details > .Detail_Group > .Detail.Status.Approved{
+    color: var(--green);
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Details_Container > .Document_Details > .Detail_Group > .Detail.Status.Pending{
+    color: var(--yellow);
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Details_Container > .Document_Details > .Detail_Group > .Detail.Status.Rejected{
+    color: var(--red);
 }
 
 .View_Dialog_Body > .wrapper > .Right_Side{

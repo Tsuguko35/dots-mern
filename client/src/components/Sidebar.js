@@ -130,11 +130,11 @@ function Sidebar() {
                         <span className={toggleMonitoring ? 'Nav_Item_Collapse_Icon active' : 'Nav_Item_Collapse_Icon'}><RiIcons.RiArrowDropDownLine size={'35px'}/></span>
                     </Link>
                         <Collapse className='Nav_List_Collapse' in={toggleMonitoring} timeout="auto" unmountOnExit>
-                            <Link to={`/Monitoring/Communications`} className={location.pathname.includes('/Communications') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
+                            <Link to={`/Monitoring/Communication`} className={location.pathname.includes('/Communications') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
                                 <span className='Nav_Item_onCollapse_Icon'><HiIcons.HiOutlineNewspaper size={'20px'}/></span>
                                 <span className='Nav_Item_Label'>Communications</span>
                             </Link>
-                            <Link to={`/Monitoring/Memorandums`} className={location.pathname.includes('/Memorandums') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
+                            <Link to={`/Monitoring/Memorandum`} className={location.pathname.includes('/Memorandums') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
                                 <span className='Nav_Item_onCollapse_Icon'><CiIcons.CiMemoPad size={'20px'}/></span>
                                 <span className='Nav_Item_Label'>Memorandums</span>
                             </Link>

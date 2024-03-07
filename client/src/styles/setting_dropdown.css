@@ -21,10 +21,10 @@
 
 #Setting_Dropdown > .wrapper > .Dropdown_Top > button{
     width: 100px;
+    height: 40px;
     background-color: var(--pantone-black);
     border: none;
     border-radius: 5px;
-    padding: 10px 10px;
     color: white;
     cursor: pointer;
     transition: all 250ms ease-in-out;

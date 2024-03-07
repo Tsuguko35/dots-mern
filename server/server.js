@@ -1,15 +1,16 @@
 import cors from 'cors'
 import dotenv from 'dotenv'
-import express from 'express'
+import express, { json } from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
 import cookieParser from 'cookie-parser'
 
 import db from './config/database.js'
-import { documentRoutes, userRoutes } from './routes/index.js'
+import { documentRoutes, settingsRoutes, userRoutes } from './routes/index.js'
 import generateOTP from './utils/generateOTP.js'
 import { otpEmailTemplate } from './utils/otpEmailTemplate.js'
 import mailer from './utils/mailer.js'
+import bodyParser from 'body-parser'
 
 dotenv.config()
 
@@ -31,7 +32,9 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(cookieParser())
+app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: false }))
+app.use('/document_Files', express.static('./document_Files'));
 app.locals.io = io
 
 // Connect Server
@@ -41,25 +44,8 @@ db.connect((err) => {
         return
     }
     console.log('Connected to MySQL database successfully');
-    // sendMail()
 })
 
-// const sendMail = async() => {
-//     const otpCode = generateOTP()
-
-//     var action = 'Password Reset'
-//     var receiver = 'grandnest344@gmail.com'
-//     var subject = 'Verify Email Address'
-//     var body = otpEmailTemplate(action, otpCode)
-
-//     await mailer({ receiver, subject, body })
-//     .then(() => {
-//         console.log('Email Sent');
-//     })
-//     .catch((error) => {
-//         throw new Error(error)
-//     })
-// }
 
 // Socket IO Connections
 io.on('connection', (socket) => {
@@ -68,6 +54,9 @@ io.on('connection', (socket) => {
 
 // Document Routes
 app.use('/api/document', documentRoutes)
+
+// Settings Routes
+app.use('/api/settings', settingsRoutes)
 
 // User Routes
 app.use('/api/user', userRoutes)

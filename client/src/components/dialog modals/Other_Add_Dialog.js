@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { 
     Dialog, 
     DialogActions, 
     DialogContent, 
-    DialogContentText, 
     DialogTitle, 
     Paper, 
     useMediaQuery, 
     useTheme
 } from '@mui/material';
-import toast from 'react-hot-toast';
 
 import '../../styles/add_edit_dialog.css'
 
 import * as IoIcons from 'react-icons/io'
 import * as SlIcons from 'react-icons/sl'
+import * as FaIcons from 'react-icons/fa'
 
 import { ReactComponent as PDF } from '../../assets/svg/icons/PDF_icon.svg'
+import { ReactComponent as DOCX } from '../../assets/svg/icons/DOCX_icon.svg'
+import { ReactComponent as XLSX } from '../../assets/svg/icons/XLSX_icon.svg'
+import { formatFileSize, getDropdownsData } from '../../utils';
+import { DocumentContext } from '../../context';
 
 import { inputs } from '../../utils';
 
@@ -26,31 +29,25 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [filteredInputs, setFilteredInputs] = useState([])
     const [openOptions, setOpenOptions] = useState('')
-    const [documentState, setDocumentState] = useState({
-        Category: '',
-        Date_Received: '',
-        Time_Received: '',
-        Incoming_Outgoing: '',
-        Document_Name: '',
-        Received_By: '',
-        Office_Dept: '',
-        Contact_Person: '',
-        Document_Type: '',
-        Description: '',
-        Comment_Note: '',
-        Status: '',
-        Forward_To: '',
-    })
+    const {
+        error, 
+        setError, 
+        documentState, 
+        setDocumentState, 
+        documentFiles, 
+        setDocumentFiles, 
+        fileDetails, setFileDetails, 
+        handleSubmit, 
+        handleFileSelect,
+        handleFileRemove,
+        users,
+        initialDocumentState,
+        handleCancel,
+        dropdowns,
+        handleSubmitEdit
+    } = useContext(DocumentContext)
 
-
-    const handleSubmit = () => {
-        toast.success('Added document successfully.', {position: 'bottom-center'})
-        setOpenAddDocs(false)
-    }
-
-    const handleCancel = () => {
-        setOpenAddDocs(false)
-    }
+    
 
     const showOptions = (input) => {
         setTimeout(() => {
@@ -65,29 +62,25 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
     }
 
     useEffect(() => {
-        const hasInputs = inputs.filter(input => input.category.toLowerCase() === documentState.Category.toLowerCase())
+        const hasInputs = inputs.filter(input => input.category.toLowerCase() === documentState.Document_Category.toLowerCase())
         if(hasInputs.length > 0){
-            setFilteredInputs(inputs.filter(input => input.category.toLowerCase() === documentState.Category.toLowerCase()))
-            setDocumentState({
-                ...documentState,
-                Date_Received: '',
-                Time_Received: '',
-                Incoming_Outgoing: '',
-                Document_Name: '',
-                Received_By: '',
-                Office_Dept: '',
-                Contact_Person: '',
-                Document_Type: '',
-                Description: '',
-                Comment_Note: '',
-                Status: '',
-                Forward_To: '',
-            })
+            setFilteredInputs(inputs.filter(input => input.category.toLowerCase() === documentState.Document_Category.toLowerCase()))
+            setDocumentState(initialDocumentState)
         }
         else{
             setFilteredInputs(inputs.filter(input => input.category === 'Custom'))
         }
-    }, [documentState.Category])
+
+        if(documentState.Document_Category === "Travel Order"){
+            setDocumentState({...documentState, Document_Type: 'Travel Order'})
+        }
+        else{
+            setDocumentState({...documentState, Document_Type: ''})
+        }
+
+        
+    }, [documentState.Document_Category])
+    
     return (
         <section id='Other_Add_Dialog' className='Other_Add_Dialog'>
             <Dialog
@@ -96,19 +89,19 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                 fullWidth
                 maxWidth={'md'}
                 open={openAddDocs}
-                onClose={() => handleCancel()}
+                onClose={() => handleCancel("Add")}
             >
                 <Paper sx={{backgroundColor: '#F4F4F4'}}>
                 <DialogTitle>
                     <div className="Dialog_Top">
                         <span className='Dialog_Title'>Add Document</span>
-                        <div className="Dialog_Close" onClick={() => handleCancel()}>
+                        <div className="Dialog_Close" onClick={() => handleCancel("Add")}>
                             <IoIcons.IoMdClose size={"30px"}/>
                         </div>
                     </div>
                 </DialogTitle>
                 <DialogContent>
-                    <form action="">
+                    <form id='add_Form' onSubmit={handleSubmit}>
                     <div className="Dialog_Body">
                         <div className="wrapper">
                             {/* Left Side */}
@@ -120,15 +113,16 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                         className='Input' 
                                         type="text" 
                                         placeholder='Category'
-                                        value={documentState.Category}
-                                        onChange={(e) => setDocumentState({...documentState, Category: e.target.value})}
+                                        required
+                                        value={documentState.Document_Category || ''}
+                                        onChange={(e) => setDocumentState({...documentState, Document_Category: e.target.value})}
                                         onFocus={() => showOptions("Category")} 
                                         onBlur={() => closeOptions()}
                                     />
                                     <div className={openOptions === "Category" ? "Options show" : "Options"}>
-                                        {inputs.filter(input => input.category.toLowerCase().includes(documentState.Category.toLowerCase()) &&  input.category !== 'Custom').map((input) => (
-                                            <div className="Option">
-                                                <p key={input.category} onClick={() => setDocumentState({...documentState, Category: input.category})}>{input.category}</p>
+                                        {inputs.filter(input => input.category !== 'Custom').map((input) => (
+                                            <div className="Option" key={input.category} onClick={() => setDocumentState({...documentState, Document_Category: input.category})}>
+                                                <p>{input.category}</p>
                                             </div>
                                             
                                         ))}
@@ -139,11 +133,11 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                 <div className="Date_Time">
                                     <div className="Input_Group">
                                         <span className='Input_Label'>Date Received <span className='required'>*</span></span>
-                                        <input className='Input' type="date" />
+                                        <input required className='Input' type="date" value={documentState.Date_Received || ''} onChange={(e) => setDocumentState({...documentState, Date_Received: e.target.value})}/>
                                     </div>
                                     <div className="Input_Group">
                                         <span className='Input_Label'>Time Received <span className='required'>*</span></span>
-                                        <input className='Input' type="time" />
+                                        <input required className='Input' type="time" value={documentState.Time_Received || ''} onChange={(e) => setDocumentState({...documentState, Time_Received: e.target.value})}/>
                                     </div>
                                 </div>
 
@@ -152,14 +146,20 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                     <span className='Input_Label'>Incoming/Outgoing <span className='required'>*</span></span>
                                     <input 
                                         className='Input' 
-                                        type="text" 
-                                        placeholder='Incoming/Outgoing' 
+                                        type="text"
+                                        readOnly
+                                        required
+                                        placeholder='Incoming/Outgoing'
+                                        value={documentState.Incoming_Outgoing || ''}
                                         onFocus={() => showOptions("Incoming/Outgoing")} 
                                         onBlur={() => closeOptions()}
                                     />
                                     <div className={openOptions === "Incoming/Outgoing" ? "Options show" : "Options"}>
-                                        <div className="Option">
-                                            <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                                        <div className="Option" onClick={() => setDocumentState({...documentState, Incoming_Outgoing: 'Incoming'})}>
+                                            <p>Incoming</p>
+                                        </div>
+                                        <div className="Option" onClick={() => setDocumentState({...documentState, Incoming_Outgoing: 'Outgoing'})}>
+                                            <p>Outgoing</p>
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +176,7 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                                         className='Input' 
                                                         type="text"
                                                         placeholder={input.label}
-                                                        value={documentState[input.value]}
+                                                        value={documentState[input.value] || ''}
                                                         required={input.required}
                                                         onChange={(e) => setDocumentState({...documentState, [input.value]: e.target.value})}
                                                         onFocus={() => showOptions(input.haveOptions && input.label)} 
@@ -184,11 +184,99 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                                     />
                                                     {input.haveOptions && (
                                                         <div className={openOptions === input.label ? "Options show" : "Options"}>
-                                                            {input.options.map((option) => (
-                                                                <div className="Option">
-                                                                    <p key={option} className='Option' onClick={() => setDocumentState({...documentState, [input.value]: option})}>{option}</p>
-                                                                </div>
-                                                            ))}
+                                                            {/* If OPtions Are Clerks */}
+                                                            {input.options === "Clerks" ? (
+                                                                <React.Fragment>
+                                                                    {users.filter(user => user.role !== 'Faculty' && user.full_Name.toLowerCase().includes(documentState.Received_By.toLowerCase())).length !== 0 ? (
+                                                                        <React.Fragment>
+                                                                            {users.filter(user => user.role !== "Faculty" && user.full_Name.toLowerCase().includes(documentState.Received_By.toLowerCase())).map((user) => (
+                                                                                <div className="Option" key={user.user_id} onClick={() => setDocumentState({...documentState, Received_By: user.full_Name})}>
+                                                                                    <p>{`(${user.role}) ${user.full_Name}`}</p>
+                                                                                </div>
+                                                                            ))}
+                                                                        </React.Fragment>
+                                                                    )
+                                                                    :
+                                                                    (
+                                                                        <div className="Option">
+                                                                            <p>No User Found</p>
+                                                                        </div>
+                                                                    )
+                                                                    }
+                                                                </React.Fragment>
+                                                            )
+                                                            // If OPtions Are Office and Departments
+                                                            : input.options === "Office_Dept" ?
+                                                            (
+                                                                dropdowns && dropdowns.filter(dropdown => dropdown.option_For === 'Office/Dept').map((dropdown) => (
+                                                                    dropdown.dropdown_option.split(',').map((option) => (
+                                                                        <div key={option} className="Option" onClick={() => setDocumentState({...documentState, Office_Dept: option})}>
+                                                                            <p>{option}</p>
+                                                                        </div>
+                                                                    ))
+                                                                    
+                                                                ))
+                                                            )
+                                                             // If OPtions Document Types
+                                                            : input.options === "Document Type" ?
+                                                            (
+                                                                dropdowns && dropdowns.filter(dropdown => dropdown.option_For.toLowerCase().includes(documentState.Document_Category.toLowerCase())).map((dropdown) => (
+                                                                    dropdown.dropdown_option.split(',').map((option) => (
+                                                                        <div key={option} className="Option" onClick={() => setDocumentState({...documentState, Document_Type: option})}>
+                                                                            <p>{option}</p>
+                                                                        </div>
+                                                                    ))
+                                                                    
+                                                                ))
+                                                            )
+                                                            // If OPtions Document Types
+                                                            : input.options === "IPCR/OPCR" ?
+                                                            (
+                                                                <React.Fragment>
+                                                                    <div className="Option" onClick={() => setDocumentState({...documentState, Document_Type: 'Approved'})}>
+                                                                        <p>IPCR</p>
+                                                                    </div>
+                                                                    <div className="Option" onClick={() => setDocumentState({...documentState, Document_Type: 'Pending'})}>
+                                                                        <p>OPCR</p>
+                                                                    </div>
+                                                                </React.Fragment>
+                                                            )
+                                                            // If OPtions Are Forward to
+                                                            : input.options === "Users" ? (
+                                                                <React.Fragment>
+                                                                    {users.filter(user => user.full_Name.toLowerCase().includes(documentState.Forward_To.toLowerCase())).length !== 0 ? (
+                                                                        <React.Fragment>
+                                                                            {users.filter(user => user.full_Name.toLowerCase().includes(documentState.Forward_To.toLowerCase())).map((user) => (
+                                                                                <div className="Option" key={user.user_id} onClick={() => setDocumentState({...documentState, Forward_To: user.full_Name})}>
+                                                                                    <p>{`(${user.role}) ${user.full_Name}`}</p>
+                                                                                </div>
+                                                                            ))}
+                                                                        </React.Fragment>
+                                                                    )
+                                                                    :
+                                                                    (
+                                                                        <div className="Option">
+                                                                            <p>No User Found</p>
+                                                                        </div>
+                                                                    )
+                                                                    }
+                                                                </React.Fragment>
+                                                            )
+                                                            : input.options === "Status" && (
+                                                                <React.Fragment>
+                                                                    <div className="Option" onClick={() => setDocumentState({...documentState, Status: 'Approved'})}>
+                                                                        <p>Approved</p>
+                                                                    </div>
+                                                                    <div className="Option" onClick={() => setDocumentState({...documentState, Status: 'Pending'})}>
+                                                                        <p>Pending</p>
+                                                                    </div>
+                                                                    <div className="Option" onClick={() => setDocumentState({...documentState, Status: 'Rejected'})}>
+                                                                        <p>Rejected</p>
+                                                                    </div>
+                                                                </React.Fragment>
+                                                            )
+                                                            }
+                                                            
                                                         </div>
                                                     )}
                                                     
@@ -206,8 +294,8 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                 <div className="Urgent_Container">
                                     <span className='Label'>Is the document urgent?(Yes if urgent)</span>
                                     <div className="checkbox-wrapper-8">
-                                        <input className="tgl tgl-skewed" id="cb3-8" type="checkbox"/>
-                                        <label className="tgl-btn" data-tg-off="No" data-tg-on="Yes" for="cb3-8"></label>
+                                        <input className="tgl tgl-skewed" id="cb3-8" checked={documentState.Urgent === 1} type="checkbox" onChange={() => setDocumentState({...documentState, Urgent: documentState.Urgent === 0 ? 1 : 0})}/>
+                                        <label className="tgl-btn" data-tg-off="No" data-tg-on="Yes" htmlFor="cb3-8"></label>
                                     </div>
                                 </div>
                                 <span className='divider'></span>
@@ -220,135 +308,43 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                     </div>
                                     <p className='Main'>Click to upload</p>
                                     <p className='Sub'>.png, .jpeg, .jpg, .doc, .docx, .pdf, .xls, .xlsx</p>
-                                    <input type="file" accept='image/jpeg, image/png, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'/>
+                                    <input required type="file" onChange={(e) => handleFileSelect(e.target.files)} multiple capture="environment" accept='image/jpeg, image/png, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'/>
                                 </div>
+                                {error.isError && (
+                                    <div className="errorMessage">
+                                        <p>{error.errorMessage}</p>
+                                    </div>
+                                )}
                                 <div className="Files">
-                                    <div className="File">
-                                        <div className="Icon">
-                                            <PDF />
-                                        </div>
-                                        <div className="Name_Size">
-                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                                            <p className="Size">25 MB</p>
-                                        </div>
-                                        <div className="Remove">
-                                            <div className="Close_Icon">
-                                                <IoIcons.IoMdClose size={"30px"}/>
+                                    {documentFiles.map((file, index) => (
+                                        <div className="File" key={`${file.lastModified} ${file.name}`}>
+                                            <div className="Icon">
+                                                {file.type === 'image/png' || file.type === 'image/jpeg' ? (
+                                                    <FaIcons.FaFileImage size={'25px'}/>
+                                                )
+                                                : file.type === 'application/pdf' ? (
+                                                    <PDF />
+                                                )
+                                                : file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ? (
+                                                    <DOCX />
+                                                )   
+                                                : file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && (
+                                                    <XLSX />
+                                                )
+                                                }
+                                            </div>
+                                            <div className="Name_Size">
+                                                <p className="Name">{file.name}</p>
+                                                <p className="Size">{formatFileSize(file.size)}</p>
+                                            </div>
+                                            <div className="Remove">
+                                                <div className="Close_Icon" onClick={() => handleFileRemove(index)}>
+                                                    <IoIcons.IoMdClose size={"30px"}/>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="File">
-                                        <div className="Icon">
-                                            <PDF />
-                                        </div>
-                                        <div className="Name_Size">
-                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                                            <p className="Size">25 MB</p>
-                                        </div>
-                                        <div className="Remove">
-                                            <div className="Close_Icon">
-                                                <IoIcons.IoMdClose size={"30px"}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="File">
-                                        <div className="Icon">
-                                            <PDF />
-                                        </div>
-                                        <div className="Name_Size">
-                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                                            <p className="Size">25 MB</p>
-                                        </div>
-                                        <div className="Remove">
-                                            <div className="Close_Icon">
-                                                <IoIcons.IoMdClose size={"30px"}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="File">
-                                        <div className="Icon">
-                                            <PDF />
-                                        </div>
-                                        <div className="Name_Size">
-                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                                            <p className="Size">25 MB</p>
-                                        </div>
-                                        <div className="Remove">
-                                            <div className="Close_Icon">
-                                                <IoIcons.IoMdClose size={"30px"}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="File">
-                                        <div className="Icon">
-                                            <PDF />
-                                        </div>
-                                        <div className="Name_Size">
-                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                                            <p className="Size">25 MB</p>
-                                        </div>
-                                        <div className="Remove">
-                                            <div className="Close_Icon">
-                                                <IoIcons.IoMdClose size={"30px"}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="File">
-                                        <div className="Icon">
-                                            <PDF />
-                                        </div>
-                                        <div className="Name_Size">
-                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                                            <p className="Size">25 MB</p>
-                                        </div>
-                                        <div className="Remove">
-                                            <div className="Close_Icon">
-                                                <IoIcons.IoMdClose size={"30px"}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="File">
-                                        <div className="Icon">
-                                            <PDF />
-                                        </div>
-                                        <div className="Name_Size">
-                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                                            <p className="Size">25 MB</p>
-                                        </div>
-                                        <div className="Remove">
-                                            <div className="Close_Icon">
-                                                <IoIcons.IoMdClose size={"30px"}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="File">
-                                        <div className="Icon">
-                                            <PDF />
-                                        </div>
-                                        <div className="Name_Size">
-                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                                            <p className="Size">25 MB</p>
-                                        </div>
-                                        <div className="Remove">
-                                            <div className="Close_Icon">
-                                                <IoIcons.IoMdClose size={"30px"}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="File">
-                                        <div className="Icon">
-                                            <PDF />
-                                        </div>
-                                        <div className="Name_Size">
-                                            <p className="Name">Filename.pdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                                            <p className="Size">25 MB</p>
-                                        </div>
-                                        <div className="Remove">
-                                            <div className="Close_Icon">
-                                                <IoIcons.IoMdClose size={"30px"}/>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    ))}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -357,10 +353,10 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                 </DialogContent>
                 <DialogActions>
                     <div className="Dialog_Actions">
-                        <button className='Dialog_Cancel' autoFocus onClick={() => handleCancel()}>
+                        <button className='Dialog_Cancel' autoFocus onClick={() => handleCancel("Add")}>
                             Cancel
                         </button>
-                        <button className='Dialog_Submit' onClick={() => handleSubmit()} autoFocus>
+                        <button type='submit' form='add_Form' className='Dialog_Submit'>
                             Submit
                         </button>
                     </div>

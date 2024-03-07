@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PageHeader, Setting_Accounts, Setting_Dropdowns, Setting_Printing, System_Logs } from '../../components'
 import '../../styles/system_settings.css'
 
@@ -15,11 +15,40 @@ import {
     TabPanel,
     TabList
 } from '@mui/lab'
+import getDropdownsData from '../../utils/getDropdownsData'
+import toast from 'react-hot-toast'
+import { LoadingInfinite } from '../../assets/svg'
+import { SettingsContext } from '../../context'
 
 function System_Settings() {
     useEffect(() => {
         document.title = `System Settings`
+        getDropdowns()
     }, [])
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [dropdowns, setDropdowns] = useState([])
+
+    const getDropdowns = async() => {
+        setIsLoading(true)
+        const res = await getDropdownsData()
+        
+        if(res?.status === 200){
+            setIsLoading(false)
+            setDropdowns(res.data?.dropdowns)
+        }
+        else(
+            toast.error('An error occured while fetching data.')
+        )
+    }
+
+    const getAccounts = () => {
+        
+    }
+
+    const getLogs = () => {
+        
+    }
 
     const [value, setValue] = React.useState('1');
     const handleChange = (event, newValue) => {
@@ -41,10 +70,12 @@ function System_Settings() {
                             <Tab label="System Logs" value="4" />
                         </TabList>
                         </Box>
-                        <TabPanel value="1" className='Tab_Panel'><Setting_Accounts /></TabPanel>
-                        <TabPanel value="2" className='Tab_Panel'><Setting_Dropdowns /></TabPanel>
-                        <TabPanel value="3" className='Tab_Panel'><Setting_Printing /></TabPanel>
-                        <TabPanel value="4" className='Tab_Panel'><System_Logs /></TabPanel>
+                        <SettingsContext.Provider value={{ dropdowns, setDropdowns }}>
+                            <TabPanel value="1" className='Tab_Panel'><Setting_Accounts /></TabPanel>
+                            <TabPanel value="2" className='Tab_Panel'>{isLoading ? (<div className="Loader"><LoadingInfinite width='150px' height='150px'/></div>) : <Setting_Dropdowns />}</TabPanel>
+                            <TabPanel value="3" className='Tab_Panel'><Setting_Printing /></TabPanel>
+                            <TabPanel value="4" className='Tab_Panel'><System_Logs /></TabPanel>
+                        </SettingsContext.Provider>
                     </TabContext>
                 </div>
             </div>

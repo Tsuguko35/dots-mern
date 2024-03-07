@@ -35,7 +35,7 @@ const signIn = asyncHandler(async (req, res) => {
             if (!passwordMatch){
                 res.status(400).json({errorMessage : 'Invalid email or password.'})
             }else{
-                const token = generateToken(user[0].uID)
+                const token = generateToken(user[0].user_id)
 
                 res.cookie('token', token, {
                     httpOnly: true,
@@ -43,14 +43,15 @@ const signIn = asyncHandler(async (req, res) => {
                     sameSite: 'none'
                 })
                 res.status(200).json({
-                    uID: user[0].uID,
+                    user_id: user[0].user_id,
                     role: user[0].role,
                     email: user[0].email,
-                    active: user[0].Active,
-                    verified: user[0].verified,
+                    active: user[0].active,
+                    pending: user[0].pending,
                     profilePic: user[0].profilePic,
                     temporary: user[0].temporary,
                     full_Name: user[0].full_Name,
+                    date_Created: user[0].date_Created,
                     token
                 })
             }
@@ -72,21 +73,25 @@ const validateUser = asyncHandler(async (req, res) => {
         }
 
         const decode = jwt.verify(token, process.env.JWT_SECRET)
-        const q = `SELECT * FROM users WHERE uID = '${decode.id}' LIMIT 1`
+        const q = `SELECT * FROM users WHERE user_id = '${decode.id}' LIMIT 1`
         db.query(q, async(err, user) => {
             if (err) res.status(400).json({ errorMessage: 'Query Error' })
             if(user.length > 0){
                 res.status(200).json({
-                    uID: user[0].uID,
+                    user_id: user[0].user_id,
                     role: user[0].role,
                     email: user[0].email,
-                    active: user[0].Active,
-                    verified: user[0].verified,
+                    active: user[0].active,
+                    pending: user[0].pending,
                     profilePic: user[0].profilePic,
                     temporary: user[0].temporary,
                     full_Name: user[0].full_Name,
+                    date_Created: user[0].date_Created,
                     token
                 })
+            }
+            else{
+                res.status(400).json({ errorMessage: 'Invalid Token.' })
             }
         })
     }
@@ -133,16 +138,15 @@ const register = asyncHandler(async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    const q = "INSERT INTO users (`email`, `password`, `full_Name`, `role`, `Active`, `uID`, `verified`, `pending`, `date_Created`) VALUES (?)"
+    const q = "INSERT INTO users (`user_id`, `email`, `password`, `full_Name`, `role`, `active`, `pending`, `date_Created`) VALUES (?)"
 
     const values = [
+        uniqueID,
         email,
         hashedPassword,
         fullName,
         'Faculty',
         1,
-        uniqueID,
-        0,
         1,
         new Date()
     ]
@@ -235,6 +239,21 @@ const resetUserPassword = asyncHandler(async (req, res) => {
     })
 })
 
+const getUsers = asyncHandler(async (req, res) => {
+    let q = `SELECT * FROM users`
+
+    db.query(q, async(err, users) => {
+        if (err) res.status(400).json({errorMessage: 'Query Error'})
+
+        if(users.length > 0){
+            res.status(200).json({ hasData: true, users: users })
+        }
+        else{
+            res.status(200).json({ hasData: false })
+        }
+    })
+})
+
 export {
     signIn,
     validateUser,
@@ -243,5 +262,6 @@ export {
     register,
     requestOtp,
     verifyOtp,
-    resetUserPassword
+    resetUserPassword,
+    getUsers
 }

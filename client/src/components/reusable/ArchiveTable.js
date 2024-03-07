@@ -16,7 +16,13 @@ import { LoadingInfinite } from '../../assets/svg'
 import { GetWindowWidth } from '../../utils'
 import View_Document_Dialog from '../dialog modals/View_Document_Dialog'
 
-function ArchiveTable() {
+
+import Signature from '../../assets/images/Sinature.png'
+import noResult from '../../assets/images/noResult.png'
+import toast from 'react-hot-toast'
+
+function ArchiveTable({documentType}) {
+  const documents = [{}]
   const [rotation, setRotation] = useState(0);
   const [openRow, setOpenRow] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -40,14 +46,6 @@ function ArchiveTable() {
     setOpenViewDoc(true)
   }
 
-  const showFilterIcon = (props) => {
-    if(document.getElementById(props).style.display == 'block'){
-      document.getElementById(props).style.display = 'none'
-    }
-    else{
-      document.getElementById(props).style.display = 'block'
-    }
-  }
 
   return (
     <section id='Archive_Table_Component' className='Archive_Table_Component'>
@@ -68,140 +66,187 @@ function ArchiveTable() {
           </div>
         </div>
         <div className="Table_Container">
-            <div className="Table">
-              { windowWidth > 540 ? (
-                <React.Fragment>
-                  <div className="Table_Header_Container">
-                    <div className="Tabler_Header" onMouseEnter={() => showFilterIcon('FilterDocName')} onMouseLeave={() => showFilterIcon('FilterDocName')}>
-                      <span className='Table_Header_Label'>Document Name</span>
-                      <span id='FilterDocName' className='Table_Header_Filter' style={{display:'none'}}><HiIcons.HiFilter size={'25px'}/></span>
-                    </div>
-                    <div className="Tabler_Header ReceivedBy" onMouseEnter={() => showFilterIcon('FilterReceivedBy')} onMouseLeave={() => showFilterIcon('FilterReceivedBy')}>
-                      <span className='Table_Header_Label'>Received By</span>
-                      <span id='FilterReceivedBy' className='Table_Header_Filter' style={{display:'none'}}><HiIcons.HiFilter size={'25px'}/></span>
-                    </div>
-                    <div className="Tabler_Header OfficeDept" onMouseEnter={() => showFilterIcon('FilterOfficeDept')} onMouseLeave={() => showFilterIcon('FilterOfficeDept')}>
-                      <span className='Table_Header_Label'>Office/Dept</span>
-                      <span id='FilterOfficeDept' className='Table_Header_Filter' style={{display:'none'}}><HiIcons.HiFilter size={'25px'}/></span>
-                    </div>
-                    <div className="Tabler_Header DateReceived" onMouseEnter={() => showFilterIcon('FilterDate')} onMouseLeave={() => showFilterIcon('FilterDate')}>
-                      <span className='Table_Header_Label'>Date Received</span>
-                      <span id='FilterDate' className='Table_Header_Filter' style={{display:'none'}}><HiIcons.HiFilter size={'25px'}/></span>
-                    </div>
-                    <div className="Tabler_Header" onMouseEnter={() => showFilterIcon('FilterStatus')} onMouseLeave={() => showFilterIcon('FilterStatus')}>
-                      <span className='Table_Header_Label'>Status</span>
-                      <span id='FilterStatus' className='Table_Header_Filter' style={{display:'none'}}><HiIcons.HiFilter size={'25px'}/></span>
-                    </div>
-                    <div className="Tabler_Header">
-                      <span className='Table_Header_Label'>Action</span>
-                    </div>
-                  </div>
-                  <div className="Table_Body_Container">
-                    {!isLoading ? (
+            {!isLoading ? 
+            (
+              <React.Fragment>
+                {documents && documents.length !== 0 ? (
+                  <div className="Table">
+                    { windowWidth > 540 ? (
                       <React.Fragment>
-                        <div className="Table_Body_Row">
-                          <div className="Table_Body_Details">
-                            <div onClick={() => openToggleRow(1)}>
-                              <p>Docu Namesssssssssssssssss</p>
-                            </div>
-                            <div onClick={() => openToggleRow(1)} className='ReceivedBy'>
-                              <p>Jazpher Carpio</p>
-                            </div>
-                            <div onClick={() => openToggleRow(1)} className='OfficeDept'>
-                              <p>CICT</p>
-                            </div>
-                            <div onClick={() => openToggleRow(1)} className='DateReceived'>
-                              <p>Today</p>
-                            </div>
-                            <div className='Status Approved' onClick={() => openToggleRow(1)}>
-                              <p>Approved</p>
-                            </div>
-                            <div className='Actions'>
-                              <Tooltip title="View Document">
-                                <button className="View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
-                              </Tooltip>
-                            </div>
+                        <div className="Table_Header_Container">
+                          <div className="Tabler_Header">
+                            <span className='Table_Header_Label'>Document Name</span>
+                            <span id='FilterDocName' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
                           </div>
-                          <Collapse in={openRow === 1} timeout={'auto'} unmountOnExit>
-                            <div className="Table_Body_Other_Details">
-                                <div className='Other_Details'>
-                                  <span>Description:</span>
-                                  <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                                </div>
-                                <div className='Other_Details'>
-                                  <span>Comment:</span>
-                                  <p></p>
-                                </div>
-                                <div className="Other_Details">
-                                  <span>Tracker:</span>
-                                  <p></p>
-                                </div>
-                            </div>
-                          </Collapse>
+                          <div className="Tabler_Header">
+                            <span className='Table_Header_Label'>Document Type</span>
+                            <span id='FilterDocName' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
+                          </div>
+                          <div className="Tabler_Header ReceivedBy">
+                            <span className='Table_Header_Label'>Received By</span>
+                            <span id='FilterReceivedBy' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
+                          </div>
+                          <div className="Tabler_Header OfficeDept">
+                            <span className='Table_Header_Label'>Office/Dept</span>
+                            <span id='FilterOfficeDept' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
+                          </div>
+                          <div className="Tabler_Header DateReceived">
+                            <span className='Table_Header_Label'>Date Received</span>
+                            <span id='FilterDate' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
+                          </div>
+                          <div className="Tabler_Header">
+                            <span className='Table_Header_Label'>Status</span>
+                            <span id='FilterStatus' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
+                          </div>
+                          <div className="Tabler_Header">
+                            <span className='Table_Header_Label'>Action</span>
+                          </div>
                         </div>
-                        </React.Fragment>
-                      )
-                      :
-                      (
-                        <div className="Loader">
-                          <LoadingInfinite width='150px' height='150px'/>
-                        </div>
-                      )} 
-                  </div>
-                </React.Fragment>
-              )
-              :
-              (
-                <React.Fragment>
-                  <div className="Table_Row_Container_Mobile">
-                    {!isLoading ? (
-                      <React.Fragment>
-                        <div className="Table_Row">
-                          <div className="Table_Header_Container">
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Document Name:</span>
-                              <p>Docu Namesssssssssssssssss</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Received By:</span>
-                              <p>Jazpher Carpio</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Office/Dept:</span>
-                              <p>CICT</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Date Received:</span>
-                              <p>Today</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Status:</span>
-                              <p className='Status Approved'>Approved</p>
-                            </div>
-                            <div className="Tabler_Header">
-                              <span className='Table_Header_Label'>Action:</span>
-                              <div className='Actions'>
-                                  <Tooltip title="View Document">
-                                    <button className="Action View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
-                                  </Tooltip>
+                        <div className="Table_Body_Container">
+                          <React.Fragment>
+                            {documents.map((document) => (
+                              <div className="Table_Body_Row" key={document.document_id}>
+                                <div className="Table_Body_Details">
+                                  <div onClick={() => openToggleRow(document.document_id)}>
+                                    <p>{document.document_Name}</p>
+                                  </div>
+                                  <div onClick={() => openToggleRow(document.document_id)}>
+                                    <p>{document.document_Type}</p>
+                                  </div>
+                                  <div onClick={() => openToggleRow(document.document_id)} className='ReceivedBy'>
+                                    <p>{document.received_By}</p>
+                                  </div>
+                                  <div onClick={() => openToggleRow(document.document_id)} className='OfficeDept'>
+                                    <p>{document.office_Dept}</p>
+                                  </div>
+                                  <div onClick={() => openToggleRow(document.document_id)} className='DateReceived'>
+                                    <p>{document.date_Received}</p>
+                                  </div>
+                                  <div className={`Status ${document.status === "Approved" ? "Approved" : document.status === "Pending" ? "Ongoing" : document.status === "Rejected" ? "Rejected" : ''}`} onClick={() => openToggleRow(document.document_id)}>
+                                    <p>{document.status}</p>
+                                  </div>
+                                  <div className='Actions'>
+                                    <Tooltip title="View Document">
+                                      <button className="View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
+                                    </Tooltip>
+                                  </div>
+                                </div>
+                                <Collapse in={openRow === document.document_id} timeout={'auto'} unmountOnExit>
+                                  <div className="Table_Body_Other_Details">
+                                      <div className='Other_Details'>
+                                        <span>Description:</span>
+                                        <p>{document.description}</p>
+                                      </div>
+                                      <div className='Other_Details'>
+                                        <span>Comment:</span>
+                                        <p>{document.comment ? document.comment : <p style={{color: '#A5A6A6'}}>N/A</p>}</p>
+                                      </div>
+                                      <div className="Other_Details">
+                                        <span>Tracker:</span>
+                                        <div className="Tracker">
+                                          <div className="Tracker_Item">
+                                            <div className="Tracker_Details">
+                                              <div className="Signature">
+                                                <img src={Signature} alt="" />
+                                              </div>
+                                              <p className="Tracker_Date">
+                                                March 2 , 2024
+                                              </p>
+                                              <p className="Tracker_Label">
+                                                Office of the President
+                                              </p>
+                                            </div>
+                                            <div className="Right_Arrow">
+                                              <MdIcons.MdKeyboardDoubleArrowRight size={'30px'}/>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
+                                </Collapse>
                               </div>
-                            </div>
-                          </div>
+                            ))}
+                          </React.Fragment>
                         </div>
                       </React.Fragment>
                     )
                     :
                     (
-                      <div className="Loader">
-                        <LoadingInfinite width='150px' height='150px'/>
-                      </div>
-                    )} 
+                      <React.Fragment>
+                        <div className="Table_Row_Container_Mobile">
+                          <React.Fragment>
+                            {documents.map((document) => (
+                              <div className="Table_Row" key={document.document_id}>
+                                <div className="Table_Header_Container">
+                                  <div className="Tabler_Header">
+                                    <span className='Table_Header_Label'>Document Name:</span>
+                                    <p>{document.document_Name}</p>
+                                  </div>
+                                  <div className="Tabler_Header">
+                                    <span className='Table_Header_Label'>Document Type:</span>
+                                    <p>{document.document_Type}</p>
+                                  </div>
+                                  <div className="Tabler_Header">
+                                    <span className='Table_Header_Label'>Received By:</span>
+                                    <p>{document.received_By}</p>
+                                  </div>
+                                  <div className="Tabler_Header">
+                                    <span className='Table_Header_Label'>Office/Dept:</span>
+                                    <p>{document.office_Dept}</p>
+                                  </div>
+                                  <div className="Tabler_Header">
+                                    <span className='Table_Header_Label'>Date Received:</span>
+                                    <p>{document.date_Received}</p>
+                                  </div>
+                                  <div className="Tabler_Header">
+                                    <span className='Table_Header_Label'>Status:</span>
+                                    <p className={`Status ${document.status === "Approved" ? "Approved" : document.status === "Pending" ? "Ongoing" : document.status === "Rejected" ? "Rejected" : ''}`}>
+                                      {document.status}
+                                    </p>
+                                  </div>
+                                  <div className="Tabler_Header">
+                                    <span className='Table_Header_Label'>Action:</span>
+                                    <div className='Actions'>
+                                        <Tooltip title="View Document">
+                                          <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
+                                        </Tooltip>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </React.Fragment>
+                        </div>
+                      </React.Fragment>
+                    )
+                    }
+                    
                   </div>
-                </React.Fragment>
-              )
-              }
-              
-            </div>
+                  )
+                  :
+                  (
+                    <div className="Table_Empty">
+                      <div className="Empty_Image">
+                        <img src={noResult} alt="No Result" />
+                      </div>
+                      <div className="Empty_Labels">
+                        <span className="Main_Label">NO DOCUMENTS FOUND!</span>
+                        <span className="Sub_Label">Click the add new document button to add documents.</span>
+                      </div>
+                    </div>
+                  )
+                  }
+              </React.Fragment>
+            ) 
+            : 
+            (
+              <div className="Loader">
+                <LoadingInfinite width='150px' height='150px'/>
+              </div>
+            )} 
+            
+            
+            
         </div>
         <div className="Table_Pagination">
           <button className='Pagination_Previous'>Previous</button>

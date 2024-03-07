@@ -62,17 +62,15 @@ function Login() {
     e.preventDefault()
     setSubmit(true)
     const res = await logInUser({email: loginCredentials.email, password: loginCredentials.password})
-    
-
+    console.log(res.data);
     if(res?.status === 200){
       setSubmit(false)
       // If user is Active
       if(res.data?.active === 1){
         // If user is verified
-        if(res.data?.verified === 1){
+        if(res.data?.pending === 0){
           //If account is Temporary
           if(res.data?.temporary === 0 || res.data?.temporary === null){
-            console.log(true);
             Swal.fire({
               icon:'success',
               text:'Logged In Successfully.',
@@ -156,6 +154,15 @@ function Login() {
                 navigate('/Dashboard')
               })
               
+            }else{
+              window.localStorage.removeItem('isLoggedIn')
+              window.localStorage.removeItem('user')
+              window.localStorage.removeItem('profile')
+              window.localStorage.removeItem('username')
+              window.localStorage.removeItem('email')
+              window.localStorage.removeItem('profilePic')
+              Swal.close()
+              document.cookie = 'token=; Max-Age=0; secure'
             }
           }
           else {

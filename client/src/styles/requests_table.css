@@ -7,9 +7,9 @@
 
 #Requests_Table > .wrapper{
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
 #Requests_Table > .wrapper > .Table_Top{
@@ -93,10 +93,45 @@
 
 #Requests_Table > .wrapper > .Table_Container{
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow-x: auto;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table_Empty{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table_Empty > .Empty_Image > img{
+    width: 350px;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table_Empty > .Empty_Labels{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table_Empty > .Empty_Labels > .Main_Label{
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--light-black);
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table_Empty > .Empty_Labels > .Sub_Label{
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--dark-grey);
 }
 
 #Requests_Table > .wrapper > .Table_Container > .Table {
@@ -111,7 +146,7 @@
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     height: 30px;
 }
 
@@ -127,7 +162,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 145px;
 }
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header > .Table_Header_Filter{
@@ -161,7 +195,7 @@
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     background-color: rgba(187, 187, 187, 0.25);
     height: 50px;
     border-radius: 5px;
@@ -187,7 +221,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 165px;
+    width: 145px;
 }
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .Actions {
@@ -321,6 +355,46 @@
     width: 1000px;
     word-wrap: break-word;
 }
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker{
+    display: flex;
+    gap: 5px;
+    width: 1000px;
+    padding: 10px 20px;
+    background-color: var(--bg-white);
+    border: 1px dotted var(--dark-grey);
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item{
+    display: flex;
+    align-items: center;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details > .Signature > img{
+    width: 150px;
+    height: 100%;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details > .Tracker_Date{
+    font-size: 13px;
+    color: var(--orange);
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details > .Tracker_Label{
+    font-size: 14px;
+    color: var(--light-black);
+}
+
 
 /* Pagination */
 

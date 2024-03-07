@@ -29,8 +29,9 @@ import { ReactComponent as XLSX } from '../../assets/svg/icons/XLSX_icon.svg'
 import pdfFile from '../../assets/images/pdf.pdf'
 
 import * as MdIcons from 'react-icons/md'
+import { documentFiles, domain } from '../../constants';
 
-function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView}) {
+function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView, files}) {
     const [value, setValue] = useState('1');
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -40,58 +41,26 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView}) 
     const [photoIndex, setPhotoIndex] = useState(0);
     const [imageCols, setImageCols] = useState(4)
     const windowWidth = GetWindowWidth()
-    
 
-    const itemData = [
-        {
-          img: 'https://images.unsplash.com/photo-1549388604-817d15aa0110',
-          title: 'Bed',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1525097487452-6278ff080c31',
-          title: 'Books',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1523413651479-597eb2da0ad6',
-          title: 'Sink',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1563298723-dcfebaa392e3',
-          title: 'Kitchen',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1588436706487-9d55d73a39e3',
-          title: 'Blinds',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1574180045827-681f8a1a9622',
-          title: 'Chairs',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1530731141654-5993c3016c77',
-          title: 'Laptop',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61',
-          title: 'Doors',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7',
-          title: 'Coffee',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee',
-          title: 'Storage',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62',
-          title: 'Candle',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4',
-          title: 'Coffee table',
-        },
-    ];
+    const imageFiles = files.filter(file => /\.(png|jpg|jpeg)$/i.test(file.file_Name));
+    const pdfFiles = files.filter(file => /\.(pdf)$/i.test(file.file_Name))
+    const docFiles = files.filter(file => /\.(doc|docx)$/i.test(file.file_Name))
+    const excelFiles = files.filter(file => /\.(xls|xlsx)$/i.test(file.file_Name))
+
+    useEffect(() => {
+        if(files.some(file => /\.(png|jpg|jpeg)$/i.test(file.file_Name))){
+            setValue('1')
+        }
+        else if (files.some(file => /\.(pdf)$/i.test(file.file_Name))){
+            setValue('2')
+        }
+        else if (files.some(file => /\.(doc|docx)$/i.test(file.file_Name))){
+            setValue('3')
+        }
+        else if (files.some(file => /\.(xls|xlsx)$/i.test(file.file_Name))){
+            setValue('4')
+        }
+    }, [files])
 
     const openLightbox = (index) => {
         setPhotoIndex(index);
@@ -114,6 +83,39 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView}) 
         }
     }, [windowWidth])
 
+    const handleDownload = async(props) => {
+        const url = `${domain}${documentFiles}/${props.document_id}-${props.file_Name}`;
+
+        try {
+            // Fetch the file as a Blob
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const blob = await response.blob();
+
+            // Create an object URL for the Blob
+            const objectUrl = URL.createObjectURL(blob);
+
+            // Create a link element and set its href to the object URL
+            const link = document.createElement('a');
+            link.href = objectUrl;
+            link.download = props.file_Name; // Suggest a filename for the downloaded file
+
+            // Append the link to the body and click it to trigger the download
+            document.body.appendChild(link);
+            link.click();
+
+            // Remove the link from the body
+            document.body.removeChild(link);
+
+            // Revoke the object URL after triggering the download
+            URL.revokeObjectURL(objectUrl);
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
+    }
+
     return (
         <section id='View_Files' className='View_Files'>
             {/* View PDF */}
@@ -123,21 +125,21 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView}) 
             <div className="wrapper">
                 <TabContext value={value}>
                     <TabList variant='scrollable' scrollButtons allowScrollButtonsMobile onChange={handleChange}>
-                        <Tab label="Image/s" value='1'/>
-                        <Tab label="PDF" value='2'/>
-                        <Tab label="Docx" value='3'/>
-                        <Tab label="Xlsx" value='4'/>
+                        {files.some(file => /\.(png|jpg|jpeg)$/i.test(file.file_Name)) && <Tab label="Image/s" value='1'/>}
+                        {files.some(file => /\.(pdf)$/i.test(file.file_Name)) && <Tab label="PDF" value='2'/>}
+                        {files.some(file => /\.(doc|docx)$/i.test(file.file_Name)) && <Tab label="Docx" value='3'/>}
+                        {files.some(file => /\.(xls|xlsx)$/i.test(file.file_Name)) && <Tab label="Xlsx" value='4'/>}
                     </TabList>
                     {!isFileLoading ? (
                         <React.Fragment>
                             <TabPanel className='Tab_Panel' value='1'>
                                 <ImageList cols={imageCols} gap={8}>
-                                    {itemData.map((item, index) => (
-                                        <ImageListItem className='Image_Item_Holder' key={item.img} onClick={() => openLightbox(index)}>
+                                    {imageFiles.map((img, index) => (
+                                        <ImageListItem className='Image_Item_Holder' key={img.file_id} onClick={() => openLightbox(index)}>
                                             <img
-                                                srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                                src={`${item.img}?w=248&fit=crop&auto=format`}
-                                                alt={item.title}
+                                                srcSet={`${domain}${documentFiles}/${img.document_id}-${img.file_Name}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                                                src={`${domain}${documentFiles}/${img.document_id}-${img.file_Name}?w=248&fit=crop&auto=format`}
+                                                alt={img.file_Name}
                                                 className='Image_Item'
                                                 loading="lazy"
                                             />
@@ -148,77 +150,85 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView}) 
                             <TabPanel className='Tab_Panel' value='2'>
                                 <div className="Files_Container">
                                     <div className="FileList">
-                                        <div className="File">
-                                            <div className="Icon">
-                                                <PDF />
-                                            </div>
-                                            <div className="Name">
-                                                <p>Pdf Fileaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                                            </div>
-                                            <div className="Actions">
-                                                {windowWidth >= 768 && (
-                                                    <div className="View" onClick={() => setPdfToView(pdfFile)}>
-                                                        <MdIcons.MdRemoveRedEye size={'20px'}/>
+                                        {pdfFiles.map((pdf) => (
+                                            <div className="File" key={pdf.file_id}>
+                                                <div className="Icon">
+                                                    <PDF />
+                                                </div>
+                                                <div className="Name">
+                                                    <p>{ pdf.file_Name }</p>
+                                                </div>
+                                                <div className="Actions">
+                                                    {windowWidth >= 768 && (
+                                                        <div className="View" onClick={() => setPdfToView(`${domain}${documentFiles}/${pdf.document_id}-${encodeURIComponent(pdf.file_Name)}`)}>
+                                                            <MdIcons.MdRemoveRedEye size={'20px'}/>
+                                                        </div>
+                                                    )}
+                                                    <div className="Download" onClick={() => handleDownload({ document_id: pdf.document_id, file_Name: pdf.file_Name})}>
+                                                        <MdIcons.MdOutlineFileDownload size={'20px'}/>
                                                     </div>
-                                                )}
-                                                <div className="Download">
-                                                    <MdIcons.MdOutlineFileDownload size={'20px'}/>
                                                 </div>
                                             </div>
-                                        </div>
+                                        ))}
+                                        
                                     </div>
                                 </div>
                             </TabPanel>
                             <TabPanel className='Tab_Panel' value='3'>
                                 <div className="Files_Container">
                                     <div className="FileList">
-                                        <div className="File">
-                                            <div className="Icon">
-                                                <DOCX />
-                                            </div>
-                                            <div className="Name">
-                                                <p>Docx</p>
-                                            </div>
-                                            <div className="Actions">
-                                                <div className="Download">
-                                                    <MdIcons.MdOutlineFileDownload size={'20px'}/>
+                                        {docFiles.map((doc) => (
+                                            <div className="File" key={doc.file_id}>
+                                                <div className="Icon">
+                                                    <DOCX />
+                                                </div>
+                                                <div className="Name">
+                                                    <p>{ doc.file_Name }</p>
+                                                </div>
+                                                <div className="Actions">
+                                                    <div className="Download" onClick={() => handleDownload({ document_id: doc.document_id, file_Name: doc.file_Name})}>
+                                                        <MdIcons.MdOutlineFileDownload size={'20px'}/>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        ))}
+                                        
                                     </div>
                                 </div>
                             </TabPanel>
                             <TabPanel className='Tab_Panel' value='4'>
                                 <div className="Files_Container">
                                     <div className="FileList">
-                                        <div className="File">
-                                            <div className="Icon">
-                                                <XLSX />
-                                            </div>
-                                            <div className="Name">
-                                                <p>Xlsx</p>
-                                            </div>
-                                            <div className="Actions">
-                                                <div className="Download">
-                                                    <MdIcons.MdOutlineFileDownload size={'20px'}/>
+                                        {excelFiles.map((xlsx) => (
+                                            <div className="File" key={xlsx.file_id}>
+                                                <div className="Icon">
+                                                    <XLSX />
+                                                </div>
+                                                <div className="Name">
+                                                    <p>{xlsx.file_Name}</p>
+                                                </div>
+                                                <div className="Actions">
+                                                    <div className="Download" onClick={() => handleDownload({ document_id: xlsx.document_id, file_Name: xlsx.file_Name})}>
+                                                        <MdIcons.MdOutlineFileDownload size={'20px'}/>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        ))}
                                     </div>
                                 </div>
                             </TabPanel>
 
                             {lightboxOpen && (
                                 <Lightbox
-                                    mainSrc={itemData[photoIndex].img}
-                                    nextSrc={itemData[(photoIndex + 1) % itemData.length].img}
-                                    prevSrc={itemData[(photoIndex + itemData.length - 1) % itemData.length].img}
+                                    mainSrc={`${domain}${documentFiles}/${imageFiles[photoIndex].document_id}-${imageFiles[photoIndex].file_Name}`}
+                                    nextSrc={`${domain}${documentFiles}/${imageFiles[(photoIndex + 1) % imageFiles.length].document_id}-${imageFiles[(photoIndex + 1) % imageFiles.length].file_Name}`}
+                                    prevSrc={`${domain}${documentFiles}/${imageFiles[(photoIndex + imageFiles.length - 1) % imageFiles.length].document_id}-${imageFiles[(photoIndex + imageFiles.length - 1) % imageFiles.length].file_Name}`}
                                     onCloseRequest={closeLightbox}
                                     onMovePrevRequest={() =>
-                                        setPhotoIndex((photoIndex + itemData.length - 1) % itemData.length)
+                                        setPhotoIndex((photoIndex + imageFiles.length - 1) % imageFiles.length)
                                     }
                                     onMoveNextRequest={() =>
-                                        setPhotoIndex((photoIndex + 1) % itemData.length)
+                                        setPhotoIndex((photoIndex + 1) % imageFiles.length)
                                     }
                                     // Set a higher z-index for the lightbox
                                     reactModalStyle={{ overlay: { zIndex: 2000 } }}

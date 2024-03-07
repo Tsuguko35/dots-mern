@@ -1,7 +1,11 @@
 import { 
     useDotsContext, 
     DotsProvider,
-    SidebarContext
+    SidebarContext,
+    DocumentContext,
+    RequestContext,
+    ArchiveContext,
+    SettingsContext
 } from "./context"
 
 import {
@@ -31,5 +35,9 @@ export {
     logOutUser,
     SidebarContext,
     isEmailRegistered,
-    RegisterUser
+    RegisterUser,
+    DocumentContext,
+    RequestContext,
+    ArchiveContext,
+    SettingsContext
 }
