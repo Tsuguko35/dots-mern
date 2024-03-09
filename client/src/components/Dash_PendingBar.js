@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +10,8 @@ import {
 } from 'chart.js';
 
 import { Bar } from 'react-chartjs-2';
+import { getTableData } from '../utils';
+import toast from 'react-hot-toast';
 
 ChartJS.register(
   CategoryScale,
@@ -21,6 +23,23 @@ ChartJS.register(
 );
 
 function Dash_PendingBar() {
+    const [documents, setDocuments] = useState([])
+
+    const getDocuments = async() => {
+      const res = await getTableData({ documentType: 'All' })
+      
+      if(res?.status === 200){
+        setDocuments(res?.data.documents)
+      }
+      else{
+        toast.error('Error fetching documents.')
+      }
+    }
+
+    useEffect(() => {
+      getDocuments()
+    }, [])
+
     const options = {
         maintainAspectRatio: false,
         responsive: true,
@@ -38,21 +57,21 @@ function Dash_PendingBar() {
     const labels = ['Documents Status'];
 
     const data = {
-        labels,
+        labels : labels,
         datasets: [
           {
             label: 'Approved',
-            data: labels.map(() => Math.floor(Math.random() * 100) + 1),
+            data: [documents.filter(documents => documents.status === 'Approved').length],
             backgroundColor: 'rgba(143, 185, 53, 0.5)',
           },
           {
             label: 'Pending',
-            data: labels.map(() => Math.floor(Math.random() * 100) + 1),
+            data: [documents.filter(documents => (documents.status !== 'Approved' && documents.status !== 'Rejected')).length],
             backgroundColor: 'rgba(230, 71, 71, 0.5)',
           },
           {
             label: 'Rejected',
-            data: labels.map(() => Math.floor(Math.random() * 100) + 1),
+            data: [documents.filter(documents => documents.status === 'Rejected').length],
             backgroundColor: 'rgba(224, 156, 59, 0.5)',
           },
         ],

@@ -1,11 +1,65 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut, Pie } from 'react-chartjs-2';
+import { getTableData } from '../utils';
+import toast from 'react-hot-toast';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 const Dash_DoughnutChart = () => {
+    const [documents, setDocuments] = useState([])
+    const [documentTypeCounts, setDocumentTypeCounts] = useState([]);
+
+    const getDocuments = async() => {
+      const res = await getTableData({ documentType: 'All' })
+      
+      if(res?.status === 200){
+        setDocuments(res?.data.documents)
+
+
+      }
+      else{
+        toast.error('Error fetching documents.')
+      }
+    }
+
+    useEffect(() => {
+      getDocuments()
+    }, [])
+
+    useEffect(() => {
+      // Function to calculate document type counts
+      const calculateDocumentTypeCounts = () => {
+        const typeCountsMap = new Map();
+
+        // Count document types
+        documents.forEach(doc => {
+            const type = doc.document_Type;
+            if (type) {
+                if (typeCountsMap.has(type)) {
+                    typeCountsMap.set(type, typeCountsMap.get(type) + 1);
+                } else {
+                    typeCountsMap.set(type, 1);
+                }
+            }
+        });
+
+        // Sort document type counts in descending order
+        const sortedTypeCounts = Array.from(typeCountsMap.entries())
+            .sort((a, b) => b[1] - a[1]);
+
+        // Select top 7 most frequent document types
+        const top7TypeCounts = sortedTypeCounts.slice(0, 7);
+        setDocumentTypeCounts(top7TypeCounts);
+      }
+
+      calculateDocumentTypeCounts();
+    }, [documents])
+
+    
+
+
     const shuffleColors = (color, border) => {
       // Fisher-Yates shuffle algorithm
       for (let i = color.length - 1; i > 0; i--) {
@@ -58,11 +112,11 @@ const Dash_DoughnutChart = () => {
     };
 
     const data = {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Purple'],
+        labels: documentTypeCounts.map(([type, count]) => (type)),
         datasets: [
           {
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3, 10],
+            label: 'Number of Documents',
+            data: documentTypeCounts.map(([type, count]) => (count)),
             backgroundColor: dataColors.color,
             borderColor: dataColors.border, 
             borderWidth: 1,
@@ -70,11 +124,8 @@ const Dash_DoughnutChart = () => {
         ],
     };
 
-    return (
-        <>
-            <Doughnut data={data} options={options}/>
-        </> 
-    );
+    console.log(data);
+    return <Doughnut data={data} options={options}/>
 };
 
 export default Dash_DoughnutChart;

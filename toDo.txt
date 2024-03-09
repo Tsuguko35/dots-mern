@@ -5,3 +5,5 @@ map dashboard
 button loadings
 
 Error Checking all pages
+
+fix forwarding to self

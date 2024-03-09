@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +10,8 @@ import {
 } from 'chart.js';
 
 import { Bar } from 'react-chartjs-2';
+import { getTableData } from '../utils';
+import toast from 'react-hot-toast';
 
 ChartJS.register(
   CategoryScale,
@@ -21,6 +23,57 @@ ChartJS.register(
 );
 
 function Dash_BarChart() {
+  const [documents, setDocuments] = useState([])
+  const [documentTypeCounts, setDocumentTypeCounts] = useState([]);
+
+  const getDocuments = async() => {
+    const res = await getTableData({ documentType: 'All' })
+    
+    if(res?.status === 200){
+      setDocuments(res?.data.documents)
+
+
+    }
+    else{
+      toast.error('Error fetching documents.')
+    }
+  }
+
+  useEffect(() => {
+    getDocuments()
+  }, [])
+
+  useEffect(() => {
+    // Function to calculate document type counts
+    const calculateDocumentTypeCounts = () => {
+      const typeCountsMap = new Map();
+
+      // Count document types
+      documents.forEach(doc => {
+          const type = doc.office_Dept;
+          if (type) {
+              if (typeCountsMap.has(type)) {
+                  typeCountsMap.set(type, typeCountsMap.get(type) + 1);
+              } else {
+                  typeCountsMap.set(type, 1);
+              }
+          }
+      });
+
+      // Sort document type counts in descending order
+      const sortedTypeCounts = Array.from(typeCountsMap.entries())
+          .sort((a, b) => b[1] - a[1]);
+
+      // Select top 7 most frequent document types
+      const top7TypeCounts = sortedTypeCounts.slice(0, 7);
+      setDocumentTypeCounts(top7TypeCounts);
+    }
+
+    calculateDocumentTypeCounts();
+  }, [documents])
+
+  
+
     const options = {
         maintainAspectRatio: false,
         responsive: true,
@@ -37,45 +90,25 @@ function Dash_BarChart() {
 
     const labels = ['7 Office/Departments with the most documents'];
 
+    const labelColors = [
+      'rgba(255, 96, 0, 0.5)',
+      'rgba(39, 33, 33, 0.5)',
+      'rgba(255, 165, 89, 0.5)',
+      'rgba(97, 103, 122, 0.5)',
+      'rgba(242, 140, 40, 0.5)',
+      'rgba(52, 52, 52, 0.5)',
+      'rgba(230, 179, 30, 0.5)'
+    ]
+
+    const datasets = documentTypeCounts.map(([office, count], index) => ({
+      label: office,
+      data: [count], // Wrap count in an array
+      backgroundColor: labelColors[index],
+    }));
+
     const data = {
         labels,
-        datasets: [
-          {
-            label: 'Office 1',
-            data: labels.map(() => Math.floor(Math.random() * 100) + 1),
-            backgroundColor: ['rgba(255, 96, 0, 0.5)'],
-          },
-          {
-            label: 'Office 2',
-            data: labels.map(() => Math.floor(Math.random() * 100) + 1),
-            backgroundColor: ['rgba(39, 33, 33, 0.5)'],
-          },
-          {
-            label: 'Office 3',
-            data: labels.map(() => Math.floor(Math.random() * 100) + 1),
-            backgroundColor: ['rgba(255, 165, 89, 0.5)'],
-          },
-          {
-            label: 'Office 4',
-            data: labels.map(() => Math.floor(Math.random() * 100) + 1),
-            backgroundColor: ['rgba(97, 103, 122, 0.5)'],
-          },
-          {
-            label: 'Office 5',
-            data: labels.map(() => Math.floor(Math.random() * 100) + 1),
-            backgroundColor: ['rgba(242, 140, 40, 0.5)'],
-          },
-          {
-            label: 'Office 6',
-            data: labels.map(() => Math.floor(Math.random() * 100) + 1),
-            backgroundColor: ['rgba(52, 52, 52, 0.5)'],
-          },
-          {
-            label: 'Office 7',
-            data: labels.map(() => Math.floor(Math.random() * 100) + 1),
-            backgroundColor: ['rgba(230, 179, 30, 0.5)'],
-          },
-        ],
+        datasets: datasets
       };
 
     return <Bar options={options} data={data}/>
