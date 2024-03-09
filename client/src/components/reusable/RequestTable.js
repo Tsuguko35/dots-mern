@@ -10,7 +10,7 @@ import * as MdIcons from 'react-icons/md'
 import * as GrIcons from 'react-icons/gr'
 import * as TiIcons from 'react-icons/ti'
 import * as BsIcons from 'react-icons/bs'
-import { Collapse, InputAdornment, TextField, Tooltip } from '@mui/material'
+import { Collapse, InputAdornment, Menu, TextField, Tooltip } from '@mui/material'
 import { LoadingInfinite } from '../../assets/svg'
 import { GetWindowWidth } from '../../utils'
 import View_Document_Dialog from '../dialog modals/View_Document_Dialog'
@@ -20,21 +20,30 @@ import Signature from '../../assets/images/Sinature.png'
 import noResult from '../../assets/images/noResult.png'
 import toast from 'react-hot-toast'
 
-function RequestTable({documentType}) {
-  const documents = [{}]
+function RequestTable({documentType, documents, filters, setFilter}) {
   const [rotation, setRotation] = useState(0);
   const [openRow, setOpenRow] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [openViewDoc, setOpenViewDoc] = useState(false)
+  const [editDocumentID, setEditDocumentID] = useState('')
   const [requestDetails, setRequestDetails] = useState({
     show: false,
     action: ''
   })
   const windowWidth = GetWindowWidth()
 
-  const refreshTable = () => {
-    setRotation(rotation + 360);
-  }
+  //Filter Menu Stuf
+  const [filterFor, setFilterFor] = useState('')
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openFilter = Boolean(anchorEl);
+
+  const handleFilterOpen = (event, filterFor) => {
+    setFilterFor(filterFor)
+    setAnchorEl(event.currentTarget);
+  };
+  const handleFilterClose = () => {
+    setAnchorEl(null);
+  };
 
   const openToggleRow = (row) => {
     if(openRow === row){
@@ -47,6 +56,7 @@ function RequestTable({documentType}) {
 
   const openDoc = (props) => {
     setOpenViewDoc(true)
+    setEditDocumentID(props)
   }
 
   const showFilterIcon = (props) => {
@@ -71,7 +81,7 @@ function RequestTable({documentType}) {
       <Request_Dialog action={requestDetails.action} openRequest={requestDetails.show} closeRequest={setRequestDetails}/>
 
       {/* View Document */}
-      <View_Document_Dialog openViewDoc={openViewDoc} setOpenViewDoc={setOpenViewDoc}/>
+      <View_Document_Dialog openViewDoc={openViewDoc} setOpenViewDoc={setOpenViewDoc} document_id={editDocumentID}/>
 
       <div className="wrapper">
         <div className="Table_Top">
@@ -90,40 +100,104 @@ function RequestTable({documentType}) {
             {!isLoading ? 
             (
               <React.Fragment>
-                {documents && documents.length !== 0 ? (
+                
                   <div className="Table">
                     { windowWidth > 540 ? (
                       <React.Fragment>
                         <div className="Table_Header_Container">
                           <div className="Tabler_Header">
-                            <span className='Table_Header_Label'>Document Name</span>
-                            <span id='FilterDocName' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
+                            <span className='Table_Header_Label'>{filters.docuNameFilter || "Document Name"}</span>
+                            <span id='FilterDocName' className='Table_Header_Filter' onClick={(e) => handleFilterOpen(e, "docuNameFilter")}><HiIcons.HiFilter size={'25px'}/></span>
                           </div>
                           <div className="Tabler_Header">
-                            <span className='Table_Header_Label'>Document Type</span>
-                            <span id='FilterDocName' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
+                            <span className='Table_Header_Label'>{filters.docuTypeFilter || "Document Type"}</span>
+                            <span id='FilterDocuType' className='Table_Header_Filter' onClick={(e) => handleFilterOpen(e, "docuTypeFilter")}><HiIcons.HiFilter size={'25px'}/></span>
                           </div>
                           <div className="Tabler_Header ReceivedBy">
-                            <span className='Table_Header_Label'>Received By</span>
-                            <span id='FilterReceivedBy' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
+                            <span className='Table_Header_Label'>{filters.docuReceivedBy || "Received By"}</span>
+                            <span id='FilterReceivedBy' className='Table_Header_Filter' onClick={(e) => handleFilterOpen(e, "docuReceivedBy")}><HiIcons.HiFilter size={'25px'}/></span>
                           </div>
                           <div className="Tabler_Header OfficeDept">
-                            <span className='Table_Header_Label'>Office/Dept</span>
-                            <span id='FilterOfficeDept' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
+                            <span className='Table_Header_Label'>{filters.officeDeptFilter || "Office/Dept"}</span>
+                            <span id='FilterOfficeDept' className='Table_Header_Filter' onClick={(e) => handleFilterOpen(e, "officeDeptFilter")}><HiIcons.HiFilter size={'25px'}/></span>
                           </div>
                           <div className="Tabler_Header DateReceived">
-                            <span className='Table_Header_Label'>Date Received</span>
-                            <span id='FilterDate' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
+                            <span className='Table_Header_Label'>{filters.dateReceivedFilter || "Date Received"}</span>
+                            <span id='FilterDate' className='Table_Header_Filter' onClick={(e) => handleFilterOpen(e, "dateReceivedFilter")}><HiIcons.HiFilter size={'25px'}/></span>
                           </div>
                           <div className="Tabler_Header">
-                            <span className='Table_Header_Label'>Status</span>
-                            <span id='FilterStatus' className='Table_Header_Filter'><HiIcons.HiFilter size={'25px'}/></span>
+                            <span className='Table_Header_Label'>{filters.statusFilter || "Status"}</span>
+                            <span id='FilterStatus' className='Table_Header_Filter' onClick={(e) => handleFilterOpen(e, "statusFilter")}><HiIcons.HiFilter size={'25px'}/></span>
                           </div>
                           <div className="Tabler_Header">
                             <span className='Table_Header_Label'>Action</span>
                           </div>
+                          <Menu
+                            anchorEl={anchorEl}
+                            id="Filter_Menu"
+                            open={openFilter}
+                            onClose={handleFilterClose}
+                            PaperProps={{
+                              elevation: 0,
+                              sx: {
+                                minWidth: '250px',
+                                overflow: 'visible',
+                                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                mt: 1.5,
+                                '& .MuiAvatar-root': {
+                                  width: 32,
+                                  height: 32,
+                                  ml: -0.5,
+                                  mr: 1,
+                                },
+                                '&::before': {
+                                  content: '""',
+                                  display: 'block',
+                                  position: 'absolute',
+                                  top: 0,
+                                  right: 14,
+                                  width: 10,
+                                  height: 10,
+                                  bgcolor: '#FFFFFF',
+                                  transform: 'translateY(-50%) rotate(45deg)',
+                                  zIndex: 0,
+                                },
+                              },
+                            }}
+                            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                          >
+                            {filterFor === "dateReceivedFilter" ? (
+                              <div className="Filter_Container">
+                                <div className="Input_Group">
+                                    <span className='Input_Label'>Date Received</span>
+                                    <input required className='Input' type="date" value={filters.dateReceivedFilter || ''} onChange={(e) => setFilter({ ...filters, dateReceivedFilter: e.target.value })}/>
+                                </div>
+                              </div>
+                            )
+                            :
+                            (
+                              <div className="Filter_Container">
+                                <div className="Input_Group">
+                                  <span className='Input_Label'>Filter</span>
+                                  <div className="Custom_Email">
+                                      <input 
+                                        className='Input' 
+                                        type="text" 
+                                        autoComplete='true'
+                                        placeholder='Type filter...' 
+                                        value={filters[filterFor] || ''}
+                                        onChange={(e) => setFilter({...filters , [filterFor]: e.target.value})}/>
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                            }
+                            
+                          </Menu>
                         </div>
                         <div className="Table_Body_Container">
+                        {documents && documents.length !== 0 ? (
                           <React.Fragment>
                             {documents.map((document) => (
                               <div className="Table_Body_Row" key={document.document_id}>
@@ -148,7 +222,7 @@ function RequestTable({documentType}) {
                                   </div>
                                   <div className='Actions'>
                                     <Tooltip title="View Document">
-                                      <button className="View" onClick={() => openDoc()}><GrIcons.GrView size={'20px'}/></button>
+                                      <button className="View" onClick={() => openDoc(document.document_id)}><GrIcons.GrView size={'20px'}/></button>
                                     </Tooltip>
                                     {documentType === 'Pending' ? (
                                       <React.Fragment>
@@ -204,6 +278,20 @@ function RequestTable({documentType}) {
                               </div>
                             ))}
                           </React.Fragment>
+                          )
+                          :
+                          (
+                            <div className="Table_Empty">
+                              <div className="Empty_Image">
+                                <img src={noResult} alt="No Result" />
+                              </div>
+                              <div className="Empty_Labels">
+                                <span className="Main_Label">NO DOCUMENTS FOUND!</span>
+                                <span className="Sub_Label">Click the add new document button to add documents.</span>
+                              </div>
+                            </div>
+                          )
+                          }
                         </div>
                       </React.Fragment>
                     )
@@ -275,20 +363,6 @@ function RequestTable({documentType}) {
                     }
                     
                   </div>
-                  )
-                  :
-                  (
-                    <div className="Table_Empty">
-                      <div className="Empty_Image">
-                        <img src={noResult} alt="No Result" />
-                      </div>
-                      <div className="Empty_Labels">
-                        <span className="Main_Label">NO DOCUMENTS FOUND!</span>
-                        <span className="Sub_Label">Click the add new document button to add documents.</span>
-                      </div>
-                    </div>
-                  )
-                  }
               </React.Fragment>
             ) 
             : 

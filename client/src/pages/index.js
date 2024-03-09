@@ -10,6 +10,7 @@ import Registration from "./authentication/Registration"
 import System_Settings from "./user-side/System_Settings"
 import Account_Settings from "./user-side/Account_Settings"
 import Forgot_Password from "./authentication/Forgot_Password"
+import StaffOnboarding from "./authentication/StaffOnboarding"
 
 export {
     Login,
@@ -23,5 +24,6 @@ export {
     Registration,
     System_Settings,
     Account_Settings,
-    Forgot_Password
+    Forgot_Password,
+    StaffOnboarding
 }

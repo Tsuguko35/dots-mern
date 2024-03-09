@@ -1,8 +1,10 @@
 import express from 'express'
 import { 
     addDocument,
+    archiveDocument,
     deleteFiles,
     editDocument,
+    getArchives,
     getDocument,
     getDocuments, 
     getFiles, 
@@ -35,6 +37,8 @@ router.post('/getDocuments', getDocuments)
 router.post('/getDocument', getDocument)
 router.post('/addDocument', addDocument)
 router.post('/editDocument', editDocument)
+router.post('/archiveDocument', archiveDocument)
+router.post('/getArchives', getArchives)
 router.post('/uploadFiles', documentFilesUpload.array('files') ,uploadFiles)
 router.post('/getFiles', getFiles)
 router.post('/deleteFiles', deleteFiles)

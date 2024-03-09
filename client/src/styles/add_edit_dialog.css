@@ -414,7 +414,10 @@
 
 .Dialog_Cancel, .Dialog_Submit{
     width: 100px;
-    padding: 10px 20px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 5px;
     cursor: pointer;
 }

@@ -3,6 +3,7 @@ export default function hasSidebar(location, routes) {
         '/Login',
         '/Registration',
         '/Reset-Password',
+        '/Finish-Setup'
     ];
     
     return routes.some(route => {
@@ -18,6 +19,9 @@ export default function hasSidebar(location, routes) {
     else if (route.path === '/Monitoring/:monitoringType') {
         return pathname.startsWith(route.path.split('/:')[0]) && (/^\/Monitoring\/[a-zA-Z0-9]+$/.test(pathname));
     } 
+    else if (route.path === '/Archive/Tables/:year/:archiveType') {
+        return pathname.startsWith(route.path.split('/:')[0]) && (/^\/Archive\/Tables\/[0-9]+\/[\w%20]+$/.test(pathname));
+    }
     else {
         return !isExcluded && route.path === pathname;
     }

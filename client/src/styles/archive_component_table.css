@@ -109,6 +109,40 @@
     gap: 20px;
 }
 
+#Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Empty{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#Archive_Table_Component > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Image > img{
+    width: 350px;
+}
+
+#Archive_Table_Component > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Labels{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#Archive_Table_Component > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Labels > .Main_Label{
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--light-black);
+}
+
+#Archive_Table_Component > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Labels > .Sub_Label{
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--dark-grey);
+}
+
 #Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Header_Container {
     width: 100%;
     display: grid;

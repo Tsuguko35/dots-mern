@@ -24,6 +24,9 @@ import getFiles from "./getFiles";
 import editDocument from "./editDocument";
 import deleteFiles from "./deleteFiles";
 import formatTimeAmPm from "./formatTimeAmPm";
+import archiveDocument from "./archiveDocument";
+import getArchiveDocuments from "./getArchiveDocuments";
+import changeUserStatus from "./changeUserStatus";
 
 export {
     hasSidebar,
@@ -51,5 +54,8 @@ export {
     getFiles,
     editDocument,
     deleteFiles,
-    formatTimeAmPm
+    formatTimeAmPm,
+    archiveDocument,
+    getArchiveDocuments,
+    changeUserStatus
 }

@@ -8,7 +8,7 @@ import generateOTP from '../utils/generateOTP.js'
 import { otpEmailTemplate } from '../utils/otpEmailTemplate.js'
 import mailer from '../utils/mailer.js'
 
-const uniqueID = uuidv4()
+
 
 dotenv.config()
 
@@ -46,12 +46,10 @@ const signIn = asyncHandler(async (req, res) => {
                     user_id: user[0].user_id,
                     role: user[0].role,
                     email: user[0].email,
-                    active: user[0].active,
-                    pending: user[0].pending,
                     profilePic: user[0].profilePic,
-                    temporary: user[0].temporary,
                     full_Name: user[0].full_Name,
                     date_Created: user[0].date_Created,
+                    status: user[0].status,
                     token
                 })
             }
@@ -81,12 +79,10 @@ const validateUser = asyncHandler(async (req, res) => {
                     user_id: user[0].user_id,
                     role: user[0].role,
                     email: user[0].email,
-                    active: user[0].active,
-                    pending: user[0].pending,
                     profilePic: user[0].profilePic,
-                    temporary: user[0].temporary,
                     full_Name: user[0].full_Name,
                     date_Created: user[0].date_Created,
+                    status: user[0].status,
                     token
                 })
             }
@@ -133,12 +129,12 @@ const isEmailRegistered = asyncHandler(async (req, res) => {
 
 const register = asyncHandler(async (req, res) => {
     const { email, password, fullName } = req.body
-
+    const uniqueID = uuidv4()
     // Hash password
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    const q = "INSERT INTO users (`user_id`, `email`, `password`, `full_Name`, `role`, `active`, `pending`, `date_Created`) VALUES (?)"
+    const q = "INSERT INTO users (`user_id`, `email`, `password`, `full_Name`, `role`, `date_Created`, `status`) VALUES (?)"
 
     const values = [
         uniqueID,
@@ -146,9 +142,8 @@ const register = asyncHandler(async (req, res) => {
         hashedPassword,
         fullName,
         'Faculty',
-        1,
-        1,
-        new Date()
+        new Date(),
+        'Pending'
     ]
 
     db.query(q, [values], async(err, user) => {
@@ -210,7 +205,6 @@ const verifyOtp = asyncHandler(async (req, res) => {
 })
 
 const resetUserPassword = asyncHandler(async (req, res) => {
-    console.log(true);
     const { email, password } = req.body
     
     // Hash password
@@ -254,6 +248,100 @@ const getUsers = asyncHandler(async (req, res) => {
     })
 })
 
+const changeUserStatus = asyncHandler(async (req, res) => {
+    const { user_id, status } = req.body
+
+    const q = "UPDATE users SET `status` = ? WHERE user_id = ?"
+
+    const values = [
+        status
+    ]
+
+    db.query(q, [...values, user_id], async(err, user) => {
+        if (err){
+            res.status(400).json({ errorMessage: 'Query Error' })
+        } 
+        else{
+            if(user){
+                // User was created successfully
+                res.status(200).json({ success: true })
+            } else {
+                // User creation failed
+                res.status(400).json({ errorMessage: 'Failed changing the user status.' })
+            }
+        }
+    })
+})
+
+const registerStaff = asyncHandler(async (req, res) => {
+    const { email, password, role } = req.body
+    const uniqueID = uuidv4()
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    const q = "INSERT INTO users (`user_id`, `email`, `password`, `role`, `date_Created`, `status`) VALUES (?)"
+
+    const values = [
+        uniqueID,
+        email,
+        hashedPassword,
+        role,
+        new Date(),
+        'Temporary'
+    ]
+
+    db.query(q, [values], async(err, user) => {
+        if (err){
+            res.status(400).json({ errorMessage: 'Query Error' })
+        } 
+        else{
+            if(user){
+                // User was created successfully
+                res.status(200).json({ success: true })
+            } else {
+                // User creation failed
+                res.status(400).json({ errorMessage: 'Staff creation failed' })
+            }
+        }
+
+        
+    })
+})
+
+const finishStaffSetup = asyncHandler(async (req, res) => {
+    const { user_id, full_Name, password } = req.body
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    const q = "UPDATE users SET `full_Name` = ?, `password` = ?, `status` = ? WHERE user_id = ?"
+
+    const values = [
+        full_Name,
+        hashedPassword,
+        'Active'
+    ]
+
+    db.query(q, [...values, user_id], async(err, user) => {
+        if (err){
+            res.status(400).json({ errorMessage: 'Query Error' })
+        } 
+        else{
+            if(user){
+                // User was created successfully
+                res.status(200).json({ success: true })
+            } else {
+                // User creation failed
+                res.status(400).json({ errorMessage: 'Failed changing the user status.' })
+            }
+        }
+    })
+})
+
+
 export {
     signIn,
     validateUser,
@@ -263,5 +351,8 @@ export {
     requestOtp,
     verifyOtp,
     resetUserPassword,
-    getUsers
+    getUsers,
+    changeUserStatus,
+    registerStaff,
+    finishStaffSetup
 }

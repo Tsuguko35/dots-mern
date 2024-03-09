@@ -11,7 +11,7 @@ import * as GrIcons from 'react-icons/gr'
 import * as MdIcons from 'react-icons/md'
 import { Collapse, Menu, Tooltip } from '@mui/material'
 import { LoadingInfinite } from '../../assets/svg'
-import { GetWindowWidth, addDocument, checkFileType, formatDate, formatTime, getDropdownsData, getFiles, uploadFiles, editDocument, deleteFiles } from '../../utils'
+import { GetWindowWidth, addDocument, checkFileType, formatDate, formatTime, getDropdownsData, getFiles, uploadFiles, editDocument, deleteFiles, archiveDocument } from '../../utils'
 
 //Dialogs
 import Comm_Add_Dialog from '../dialog modals/Comm_Add_Dialog'
@@ -327,24 +327,76 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
         const fileUploadRes = await uploadFiles({ files: documentFiles, file_Details: newFileDetails, document_id:  res.data?.document_id})
 
         if(fileUploadRes?.status === 200){
-          toast.success('Added document successfully.', {position: 'bottom-center'})
+          toast.success('Edited document successfully.', {position: 'bottom-center'})
           setOpenEditDocs(false)
           refreshTableFunc()
           resetState()
         }
         else{
-          toast.error('An error occured while uploading the document files.')
+          toast.error('An error occured while editing the document files.')
         }
       }
       else{
         setOpenEditDocs(false)
         refreshTableFunc()
         resetState()
-        toast.success('Added document successfully.', {position: 'bottom-center'})
+        toast.success('Edited document successfully.', {position: 'bottom-center'})
       }
     }
     else{
-      toast.error('An error occured while uploading the document.')
+      toast.error('An error occured while editing the document.')
+    }
+  }
+
+
+  //Archive Stuff
+  const handleArchiveFile = (props) => {
+    console.log(props);
+    if(props.status === "Approved" || props.status === "Rejected"){
+      Swal.fire({
+        icon: 'info',
+        iconColor: '#FF8911',
+        text: `Archive ${props.file_Name}?`,
+        showCancelButton: true,
+        showConfirmButton: true,
+        cancelButtonText: 'No, cancel',
+        cancelButtonColor: '#3A3535',
+        confirmButtonText: 'Yes, archive',
+        confirmButtonColor: '#FF8911',
+        focusConfirm: false,
+        allowEscapeKey: true,
+        allowOutsideClick: true
+      }).then(async(result) => {
+        if(result.isConfirmed){
+          toast.loading('Archiving. Please wait...')
+          const res = await archiveDocument({ document_id: props.document_id })
+          if(res?.status === 200){
+            toast.dismiss()
+            toast.success(`${props.file_Name} has been archived`)
+            refreshTableFunc()
+          }
+          else(
+              toast.error(res?.errorMessage)
+          )
+          
+        }
+        else{
+          Swal.close()
+        }
+      })
+    }
+    else{
+      Swal.fire({
+        icon: 'warning',
+        iconColor: '#FF8911',
+        text: 'Cannot archive a pending document. Wait for the document to be approved or rejected.',
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonText: 'Close',
+        cancelButtonColor: '#3A3535',
+        allowEscapeKey: true,
+        allowOutsideClick: true
+      })
     }
   }
 
@@ -428,7 +480,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
             {!isLoading ? 
             (
               <React.Fragment>
-                
+      
                   <div className="Table">
                     { windowWidth > 540 ? (
                       <React.Fragment>
@@ -556,7 +608,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
                                       <button className="Edit" onClick={() => openEdit({ id: document.document_id })}><FaIcons.FaRegEdit size={'20px'}/></button>
                                     </Tooltip>
                                     <Tooltip title="Archive Document">
-                                      <button className="Archive"><GoIcons.GoArchive size={'20px'}/></button>
+                                      <button className="Archive" onClick={() => handleArchiveFile({ document_id: document.document_id, file_Name: document.document_Name, status: document.status })}><GoIcons.GoArchive size={'20px'}/></button>
                                     </Tooltip>
                                   </div>
                                 </div>

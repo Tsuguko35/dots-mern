@@ -62,42 +62,44 @@ function Login() {
     e.preventDefault()
     setSubmit(true)
     const res = await logInUser({email: loginCredentials.email, password: loginCredentials.password})
-    console.log(res.data);
     if(res?.status === 200){
       setSubmit(false)
       // If user is Active
-      if(res.data?.active === 1){
-        // If user is verified
-        if(res.data?.pending === 0){
-          //If account is Temporary
-          if(res.data?.temporary === 0 || res.data?.temporary === null){
-            Swal.fire({
-              icon:'success',
-              text:'Logged In Successfully.',
-              showCancelButton: false,
-              showConfirmButton: false,
-              timer: 1000
-            }).then(() => {
-              window.localStorage.setItem('isLoggedIn', true)
-              window.localStorage.setItem('user', res.data?.token)
-              window.localStorage.setItem('profile', JSON.stringify(res.data))
-              navigate('/Dashboard')
-            })
-          }
-          else{
-
-          }
-        }
-        else
-        {
-          setError({ isError: true, errorMessage: 'This account is not yet approved.' })
-        }
-        
+      if(res.data?.status === 'Active'){
+        Swal.fire({
+          icon:'success',
+          text:'Logged In Successfully.',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1000
+        }).then(() => {
+          window.localStorage.setItem('isLoggedIn', true)
+          window.localStorage.setItem('user', res.data?.token)
+          window.localStorage.setItem('profile', JSON.stringify(res.data))
+          navigate('/Dashboard')
+        })
+      }
+      // If user is verified
+      else if(res.data?.status === 'Pending'){
+        setError({ isError: true, errorMessage: 'This account is not yet approved.' })
+      }
+      else if(res.data?.status === 'Temporary'){
+        Swal.fire({
+          icon:'success',
+          text:'Logged In Successfully.',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1000
+        }).then(() => {
+          window.localStorage.setItem('isLoggedIn', true)
+          window.localStorage.setItem('user', res.data?.token)
+          window.localStorage.setItem('profile', JSON.stringify(res.data))
+          navigate('/Finish-Setup')
+        })
       }
       else{
-        setError({ isError: true, errorMessage: 'This account is deactivated.' })
+          setError({ isError: true, errorMessage: 'This account is deactivated.' })
       }
-      
     }
 
     if(res?.status === 400){
@@ -122,16 +124,13 @@ function Login() {
     
   }
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault()
-  }
-
   useEffect(() =>{
     document.title = "Login"
 
     async function validate(){
       const isLoggedIn = window.localStorage.getItem('isLoggedIn')
       const token = window.localStorage.getItem('user')
+      const user = JSON.parse(window.localStorage.getItem('profile'))
       Swal.fire({
         title: 'Please wait...',
         allowEscapeKey: false,
@@ -151,7 +150,13 @@ function Login() {
                 timer: 1000
               }).then(() => {
                 document.cookie = `token=${token}; path=/`
-                navigate('/Dashboard')
+                console.log(user);
+                if(user.status === 'Temporary'){
+                  navigate('/Finish-Setup')
+                }
+                else{
+                  navigate('/Dashboard')
+                }
               })
               
             }else{

@@ -41,9 +41,11 @@ function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
         const res = await getDocumentData({ document_id: document_id })
         
         if(res?.status === 200){
-            setDetailsLoading(false)
-            const documentData = res.data?.document
-            setDocuments(documentData[0])
+            if(res?.data.hasData){
+                setDetailsLoading(false)
+                const documentData = res.data?.document
+                setDocuments(documentData[0])
+            }
         }
         else(
             toast.error('An error occured while fetching data.')
@@ -57,7 +59,9 @@ function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
     const getFilesData = async() => {
         const res = await getFiles({ document_id: document_id })
         if(res?.status === 200){
-            setFileDetails(res.data?.files)
+            if(res?.data.hasData){
+                setFileDetails(res.data?.files)
+            }
         }
     }
 

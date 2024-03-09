@@ -194,9 +194,6 @@ function Registration() {
     }
     
   }
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault()
-  }
 
   useEffect(() =>{
     document.title = "Registration"
@@ -204,6 +201,7 @@ function Registration() {
     async function validate(){
       const isLoggedIn = window.localStorage.getItem('isLoggedIn')
       const token = window.localStorage.getItem('user')
+      const user = window.localStorage.getItem('profile')
       Swal.fire({
         title: 'Please wait...',
         allowEscapeKey: false,
@@ -223,7 +221,12 @@ function Registration() {
                 timer: 1000
               }).then(() => {
                 document.cookie = `token=${token}; path=/`
-                navigate('/Dashboard')
+                if(user.status === 'Temporary'){
+                  navigate('/Finish-Setup')
+                }
+                else{
+                  navigate('/Dashboard')
+                }
               })
               
             }
@@ -300,7 +303,7 @@ function Registration() {
                         disabled={submit}
                         className='Input' 
                         required
-                        maxLength={80}
+                        maxLength={100}
                         type="email" 
                         placeholder='Email Address' 
                         value={loginCredentials.email}

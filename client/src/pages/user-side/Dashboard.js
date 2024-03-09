@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../styles/dashboard.css'
 import { useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
@@ -8,15 +8,93 @@ import welcomeIMG from '../../assets/images/welcomeIMG.png'
 // Icons
 import * as HiIcons from 'react-icons/hi'
 import * as MdIcons from 'react-icons/md'
+import { getArchiveDocuments, getTableData } from '../../utils'
 
 function Dashboard() {
   const navigate = useNavigate()
   const userDetails = JSON.parse(window.localStorage.getItem('profile'))
+  const [filters, setFilters] = useState({
+    searchFilter: '',
+    docuNameFilter: '',
+    docuTypeFilter: '',
+    docuReceivedBy: '',
+    officeDeptFilter: '',
+    dateReceivedFilter: '',
+    statusFilter: '',
+  })
+
+  const [documentCounts, setDocumentCounts] = useState({
+    archive: 0,
+    today: 0,
+    month: 0,
+    year: 0
+  })
+
+  const getDocumentCounts = async() => {
+    const docsRes = await getTableData({ documentType: 'All' })
+    const archiveRes = await getArchiveDocuments()
+
+    let counts = {
+      archive: 0,
+      today: 0,
+      month: 0,
+      year: 0
+    }
+
+    if(docsRes?.status === 200){
+      const currentDate = new Date();
+      const documentsArray = docsRes.data?.documents
+      
+      const todayCount = documentsArray.filter(document => isSameDay(new Date(document.date_Received), currentDate)).length;
+      counts.today = todayCount
+    
+      const monthCount = documentsArray.filter(document => isSameMonth(new Date(document.date_Received), currentDate)).length;
+      counts.month = monthCount
+    
+      const yearCount = documentsArray.filter(document => isSameYear(new Date(document.date_Received), currentDate)).length;
+      counts.year = yearCount
+    }
+    else{
+      toast.error(docsRes.errorMessage)
+    }
+
+    if(archiveRes?.status === 200){
+      const archiveArray = archiveRes.data?.archives
+      const archiveCount = archiveArray.length
+      counts.archive = archiveCount
+    }
+
+    setDocumentCounts(counts)
+  }
+
+  // Helper functions to check date conditions
+  const isSameDay = (date1, date2) => {
+    return date1.getDate() === date2.getDate() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getFullYear() === date2.getFullYear();
+  }
+
+  const isSameMonth = (date1, date2) => {
+    return date1.getMonth() === date2.getMonth() &&
+      date1.getFullYear() === date2.getFullYear();
+  }
+
+  const isSameYear = (date1, date2) => {
+    return date1.getFullYear() === date2.getFullYear();
+  }
+
+  const getDashboardData = () => {
+    getDocumentCounts()
+  }
 
   useEffect(() => {
     document.title = 'Dashboard'
+    getDashboardData()
   }, [])
 
+  useEffect(() => {
+    console.log(documentCounts);
+  }, [documentCounts])
 
   return (
     <section id='Dashboard' className='Dashboard'>
@@ -37,8 +115,8 @@ function Dashboard() {
                 <HiIcons.HiArchive />
               </div>
               <div className="Card_Label">
-                <p>25</p>
-                <span className='span1'>Documents</span>
+                <p>{documentCounts.archive || 0}</p>
+                <span className='span1'>{documentCounts.archive === 1 ? 'Document' : 'Documents'}</span>
                 <span className='span2'>Archived</span>
               </div>
             </div>
@@ -47,8 +125,8 @@ function Dashboard() {
                 <MdIcons.MdToday />
               </div>
               <div className="Card_Label">
-                <p>25</p>
-                <span className='span1'>Documents</span>
+                <p>{documentCounts.today || 0}</p>
+                <span className='span1'>{documentCounts.today === 1 ? 'Document' : 'Documents'}</span>
                 <span className='span2'>Today</span>
               </div>
             </div>
@@ -57,8 +135,8 @@ function Dashboard() {
                 <MdIcons.MdCalendarMonth />
               </div>
               <div className="Card_Label">
-                <p>25</p>
-                <span className='span1'>Documents</span>
+                <p>{documentCounts.month || 0}</p>
+                <span className='span1'>{documentCounts.month === 1 ? 'Document' : 'Documents'}</span>
                 <span className='span2'>This Month</span>
               </div>
             </div>
@@ -67,8 +145,8 @@ function Dashboard() {
                 <MdIcons.MdCalendarToday />
               </div>
               <div className="Card_Label">
-                <p>25</p>
-                <span className='span1'>Documents</span>
+                <p>{documentCounts.year || 0}</p>
+                <span className='span1'>{documentCounts.year === 1 ? 'Document' : 'Documents'}</span>
                 <span className='span2'>This Year</span>
               </div>
             </div>
@@ -203,7 +281,7 @@ function Dashboard() {
         </div>
         <div className="Dashboard_Table_Container">
           <div className="Dashboard_Table">
-            <ArchiveTable />
+            <ArchiveTable  setFilter={setFilters} filters={filters}/>
           </div>
         </div>
       </div>

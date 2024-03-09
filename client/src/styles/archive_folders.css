@@ -52,7 +52,8 @@
 #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid > .Folder_Year > h3 {
     color: var(--dark-grey);
     transition: all 250ms ease-in-out;
-    font-size: 28px;
+    font-weight: 400;
+    font-size: 24px;
 }
 
 #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid:hover > .Folder_Year > h3 {

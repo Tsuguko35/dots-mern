@@ -47,30 +47,35 @@ function Monitoring() {
     }
     
     useEffect(() => {
-      const filteredDocs = documentsToFilter.filter(document => 
-            document.document_Name.toLowerCase().includes(filters.searchFilter.toLowerCase()) ||
-            document.description.toLowerCase().includes(filters.searchFilter.toLowerCase())
-          ).filter(document => 
-            document.document_Name.toLowerCase().includes(filters.docuNameFilter.toLowerCase())
-          ).filter(document => 
-            document.document_Type.toLowerCase().includes(filters.docuTypeFilter.toLowerCase())
-          )
-          .filter(document => 
-            document.received_By.toLowerCase().includes(filters.docuReceivedBy.toLowerCase())
-          )
-          .filter(document => 
-            document.office_Dept.toLowerCase().includes(filters.officeDeptFilter.toLowerCase())
-          )
-          .filter(document => 
-            (document.date_Received.toLowerCase().includes(filters.dateReceivedFilter.toLowerCase()))
-          )
-          .filter(document => 
-            document.status.toLowerCase().includes(filters.statusFilter.toLowerCase())
-          )
-      console.log(filters);
+      if(documentsToFilter){
+        const filteredDocs = documentsToFilter.filter(document => 
+          document.document_Name.toLowerCase().includes(filters.searchFilter.toLowerCase()) ||
+          document.description.toLowerCase().includes(filters.searchFilter.toLowerCase())
+        ).filter(document => 
+          document.document_Name.toLowerCase().includes(filters.docuNameFilter.toLowerCase())
+        ).filter(document => 
+          document.document_Type.toLowerCase().includes(filters.docuTypeFilter.toLowerCase())
+        )
+        .filter(document => 
+          document.received_By.toLowerCase().includes(filters.docuReceivedBy.toLowerCase())
+        )
+        .filter(document => 
+          document.office_Dept.toLowerCase().includes(filters.officeDeptFilter.toLowerCase())
+        )
+        .filter(document => 
+          (document.date_Received.toLowerCase().includes(filters.dateReceivedFilter.toLowerCase()))
+        )
+        .filter(document => 
+          document.status.toLowerCase().includes(filters.statusFilter.toLowerCase())
+        )
+    
+        // Now, set the filtered documents to your state.
+        setDocuments(filteredDocs);
+      }
+      else{
+        setDocuments(documentsToFilter);
+      }
       
-      // Now, set the filtered documents to your state.
-      setDocuments(filteredDocs);
     }, [filters, documentsToFilter])
 
     useEffect(() => {

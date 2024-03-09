@@ -43,17 +43,17 @@ function Dash_PendingBar() {
           {
             label: 'Approved',
             data: labels.map(() => Math.floor(Math.random() * 100) + 1),
-            backgroundColor: 'rgba(143, 185, 53, 0.7)',
+            backgroundColor: 'rgba(143, 185, 53, 0.5)',
           },
           {
             label: 'Pending',
             data: labels.map(() => Math.floor(Math.random() * 100) + 1),
-            backgroundColor: 'rgba(230, 71, 71, 0.7)',
+            backgroundColor: 'rgba(230, 71, 71, 0.5)',
           },
           {
             label: 'Rejected',
             data: labels.map(() => Math.floor(Math.random() * 100) + 1),
-            backgroundColor: 'rgba(224, 156, 59, 0.7)',
+            backgroundColor: 'rgba(224, 156, 59, 0.5)',
           },
         ],
       };

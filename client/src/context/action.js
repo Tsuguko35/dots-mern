@@ -100,3 +100,41 @@ export async function isEmailRegistered(payload){
         }
     }
 }
+
+export async function RegisterStaff(payload){
+    const {email, password, role} = payload
+
+    try{
+        const res = await Axios.post(`/user/registerStaff`, {email, password, role})
+        
+        if(res){
+            return res
+        }
+    }
+    catch(error){
+        console.error(`Unhandled action type: ${error}`)
+        return {
+            status: error.response.status,
+            errorMessage: error.response.data.errorMessage
+        }
+    }
+}
+
+export async function FinishStaffSetup(payload){
+    const {user_id, password, full_Name} = payload
+
+    try{
+        const res = await Axios.post(`/user/finishStaffSetup`, {user_id, password, full_Name})
+        
+        if(res){
+            return res
+        }
+    }
+    catch(error){
+        console.error(`Unhandled action type: ${error}`)
+        return {
+            status: error.response.status,
+            errorMessage: error.response.data.errorMessage
+        }
+    }
+}

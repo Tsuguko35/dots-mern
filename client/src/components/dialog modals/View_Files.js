@@ -137,8 +137,8 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView, f
                                     {imageFiles.map((img, index) => (
                                         <ImageListItem className='Image_Item_Holder' key={img.file_id} onClick={() => openLightbox(index)}>
                                             <img
-                                                srcSet={`${domain}${documentFiles}/${img.document_id}-${img.file_Name}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                                src={`${domain}${documentFiles}/${img.document_id}-${img.file_Name}?w=248&fit=crop&auto=format`}
+                                                srcSet={`${domain}${documentFiles}/${img.document_id || img.archive_id}-${img.file_Name}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                                                src={`${domain}${documentFiles}/${img.document_id || img.archive_id}-${img.file_Name}?w=248&fit=crop&auto=format`}
                                                 alt={img.file_Name}
                                                 className='Image_Item'
                                                 loading="lazy"
@@ -160,11 +160,11 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView, f
                                                 </div>
                                                 <div className="Actions">
                                                     {windowWidth >= 768 && (
-                                                        <div className="View" onClick={() => setPdfToView(`${domain}${documentFiles}/${pdf.document_id}-${encodeURIComponent(pdf.file_Name)}`)}>
+                                                        <div className="View" onClick={() => setPdfToView(`${domain}${documentFiles}/${pdf.document_id || pdf.archive_id}-${encodeURIComponent(pdf.file_Name)}`)}>
                                                             <MdIcons.MdRemoveRedEye size={'20px'}/>
                                                         </div>
                                                     )}
-                                                    <div className="Download" onClick={() => handleDownload({ document_id: pdf.document_id, file_Name: pdf.file_Name})}>
+                                                    <div className="Download" onClick={() => handleDownload({ document_id: pdf.document_id || pdf.archive_id, file_Name: pdf.file_Name})}>
                                                         <MdIcons.MdOutlineFileDownload size={'20px'}/>
                                                     </div>
                                                 </div>
@@ -186,7 +186,7 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView, f
                                                     <p>{ doc.file_Name }</p>
                                                 </div>
                                                 <div className="Actions">
-                                                    <div className="Download" onClick={() => handleDownload({ document_id: doc.document_id, file_Name: doc.file_Name})}>
+                                                    <div className="Download" onClick={() => handleDownload({ document_id: doc.document_id || doc.archive_id, file_Name: doc.file_Name})}>
                                                         <MdIcons.MdOutlineFileDownload size={'20px'}/>
                                                     </div>
                                                 </div>
@@ -208,7 +208,7 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView, f
                                                     <p>{xlsx.file_Name}</p>
                                                 </div>
                                                 <div className="Actions">
-                                                    <div className="Download" onClick={() => handleDownload({ document_id: xlsx.document_id, file_Name: xlsx.file_Name})}>
+                                                    <div className="Download" onClick={() => handleDownload({ document_id: xlsx.document_id || xlsx.archive_id, file_Name: xlsx.file_Name})}>
                                                         <MdIcons.MdOutlineFileDownload size={'20px'}/>
                                                     </div>
                                                 </div>
@@ -220,9 +220,9 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView, f
 
                             {lightboxOpen && (
                                 <Lightbox
-                                    mainSrc={`${domain}${documentFiles}/${imageFiles[photoIndex].document_id}-${imageFiles[photoIndex].file_Name}`}
-                                    nextSrc={`${domain}${documentFiles}/${imageFiles[(photoIndex + 1) % imageFiles.length].document_id}-${imageFiles[(photoIndex + 1) % imageFiles.length].file_Name}`}
-                                    prevSrc={`${domain}${documentFiles}/${imageFiles[(photoIndex + imageFiles.length - 1) % imageFiles.length].document_id}-${imageFiles[(photoIndex + imageFiles.length - 1) % imageFiles.length].file_Name}`}
+                                    mainSrc={`${domain}${documentFiles}/${imageFiles[photoIndex].document_id || imageFiles[photoIndex].archive_id}-${imageFiles[photoIndex].file_Name}`}
+                                    nextSrc={`${domain}${documentFiles}/${imageFiles[(photoIndex + 1) % imageFiles.length].document_id || imageFiles[(photoIndex + 1) % imageFiles.length].archive_id}-${imageFiles[(photoIndex + 1) % imageFiles.length].file_Name}`}
+                                    prevSrc={`${domain}${documentFiles}/${imageFiles[(photoIndex + imageFiles.length - 1) % imageFiles.length].document_id || imageFiles[(photoIndex + imageFiles.length - 1) % imageFiles.length].archive_id}-${imageFiles[(photoIndex + imageFiles.length - 1) % imageFiles.length].file_Name}`}
                                     onCloseRequest={closeLightbox}
                                     onMovePrevRequest={() =>
                                         setPhotoIndex((photoIndex + imageFiles.length - 1) % imageFiles.length)

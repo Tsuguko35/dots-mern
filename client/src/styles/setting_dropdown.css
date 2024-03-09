@@ -55,7 +55,7 @@
 }
 
 #Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Label > p{
-    color: var(--dark-grey);
+    color: var(--light-black);
 }
 
 #Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Label > p{
@@ -74,13 +74,16 @@
     font-size: 15px;
     padding: 10px;
     border: none;
-    outline: 1px solid var(--dark-grey);
+    background: whitesmoke;
+    outline: 1px dotted var(--dark-grey);
     border-radius: 5px;
+    color: var(--dark-grey);
     resize: none;
 }
 
 #Setting_Dropdown > .wrapper > .Dropdown_List > .Dropdown > .Dropdown_Input > textarea:focus{
     border: none;
+    color: var(--light-black);
     outline: 1px solid var(--orange) !important;
 }
 

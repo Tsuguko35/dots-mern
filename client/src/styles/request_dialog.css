@@ -169,7 +169,7 @@
 
 .Inputs .Input_Label{
     font-size: 14px;
-    color: var(--dark-grey);
+    color: var(--light-black) !important;
 }
 
 .Inputs input, .Inputs select{
@@ -184,6 +184,10 @@
 
 .Inputs input:focus-visible, .Inputs select:focus-visible{
     outline: 1px solid var(--orange);
+}
+
+.Inputs input::placeholder{
+    color: var(--light-grey);
 }
 
 .Inputs .divider_group{
@@ -209,6 +213,9 @@
     font-size: 15px;
 }
 
+.Inputs .Input.error{
+    outline: 1px solid var(--red);
+}
 
 /* -------------------------------------------------------------------------------------------- */
 
@@ -225,7 +232,10 @@
 
 .Dialog_Cancel, .Dialog_Submit{
     width: 100px;
-    padding: 10px 20px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 5px;
     cursor: pointer;
 }

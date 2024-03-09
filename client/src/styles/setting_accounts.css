@@ -3,6 +3,53 @@
     height: 100%;
 }
 
+.User_Options{
+    width: 100%;
+    height: 100%;
+    padding: 10px 16px;
+    display: flex;
+    color: var(--light-black);
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+}
+
+.User_Options > p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.User_Options > p > span{
+    color: var(--dark-grey);
+    transition: all 250ms ease-in-out;
+}
+
+.User_Options.Active:hover{
+    background-color: #F2D2D4;
+    color: #C01F28;
+}
+
+.User_Options.Active:hover > p > span{
+    color: #C01F28;
+}
+
+.User_Options.Deactivated:hover{
+    background-color: #d2f2d7;
+    color: #029e0f;
+}
+
+.User_Options.Active:hover > p > span{
+    color: #C01F28;
+}
+
+.User_Options.Deactivated:hover > p > span{
+    color: #029e0f;
+}
+
 #Setting_Accounts > .wrapper{
     width: 100%;
     height: 100%;
@@ -160,19 +207,19 @@
     color: var(--green);
 }
 
-#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.active > p{
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.Active > p{
     color: var(--green);
 }
 
-#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.deactivated > p{
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.Deactivated > p{
     color: var(--red);
 }
 
-#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.pending > p{
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.Pending > p{
     color: var(--yellow);
 }
 
-#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.temporary > p{
+#Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Status.Temporary > p{
     color: var(--blue);
 }
 

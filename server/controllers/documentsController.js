@@ -45,11 +45,11 @@ const uploadFiles = asyncHandler(async (req, res) => {
     try {
         const results = await Promise.all(queries);
         // At this point, all queries have completed successfully
-        res.status(200).json({ hasData: true, files: results });
+        return res.status(200).json({ hasData: true, files: results });
     } catch (error) {
         console.log(error);
         // If any query fails, this block will be executed
-        res.status(400).json({ errorMessage: 'An error occurred while uploading the files.' });
+        return res.status(400).json({ errorMessage: 'An error occurred while uploading the files.' });
     }
 })
 
@@ -59,13 +59,22 @@ const getFiles = asyncHandler(async (req, res) => {
     const q = `SELECT * FROM document_files WHERE document_id = '${document_id}'`
 
     db.query(q, async(err, files) => {
-        if (err) res.status(400).json({errorMessage: 'Query Error'})
+        if (err) return res.status(400).json({errorMessage: 'Query Error'})
 
         if(files.length > 0){
-            res.status(200).json({ hasData: true, files: files })
+            return res.status(200).json({ hasData: true, files: files })
         }
         else{
-            res.status(200).json({ hasData: false })
+            const getInArchiveFiles = `SELECT * FROM archive_files WHERE archive_id = '${document_id}'`
+            db.query(getInArchiveFiles, async(err, archiveFiles) => {
+                if (err) return res.status(400).json({errorMessage: 'Query Error'})
+                if(archiveFiles.length > 0){
+                    return res.status(200).json({ hasData: true, files: archiveFiles })
+                }
+                else{
+                    return res.status(200).json({ hasData: false })
+                }
+            })
         }
     })
 })
@@ -107,48 +116,69 @@ const deleteFiles = asyncHandler(async (req, res) => {
     try {
         // Delete each file in the array and wait for all deletions to complete
         await Promise.all(deleteFile);
-        res.status(200).json({ success: true })
+        return res.status(200).json({ success: true })
     } catch (error) {
-        res.status(400).json({errorMessage: 'An error occured while adding the document.'})
+        return res.status(400).json({errorMessage: 'An error occured while adding the document.'})
     }
 })
 
 const getDocuments = asyncHandler(async (req, res) => {
     const { documentType } = req.body
+    console.log(documentType);
     let q = ''
 
     if(documentType === 'Communication' || documentType === 'Memorandum'){
         q = `SELECT * FROM documents WHERE document_Type = '${documentType}'`
     }
-    else{
+    else if(documentType === 'Other'){
         q = `SELECT * FROM documents WHERE document_Type NOT IN ('Communication', 'Memorandum')`
+    }
+    else if(documentType === 'Pending'){
+        q = `SELECT * FROM documents WHERE status NOT IN ('Approved', 'Rejected')`
+    }
+    else if(documentType === 'History'){
+        q = `SELECT * FROM documents WHERE status NOT IN ('Approved', 'Rejected')`
+    }
+    else if(documentType === 'All'){
+        q = `SELECT * FROM documents`
+    }
+    else{
+        q = `SELECT * FROM documents WHERE status = '${documentType}'`
     }
 
     db.query(q, async(err, documents) => {
-        if (err) res.status(400).json({errorMessage: 'Query Error'})
+        if (err) return res.status(400).json({errorMessage: 'Query Error'})
 
         if(documents.length > 0){
-            res.status(200).json({ hasData: true, documents: documents })
+            return res.status(200).json({ hasData: true, documents: documents })
         }
         else{
-            res.status(200).json({ hasData: false })
+            return res.status(200).json({ hasData: false })
         }
     })
 })
 
 const getDocument = asyncHandler(async (req, res) => {
     const { document_id } = req.body
-    console.log(document_id);
     const q = `SELECT * FROM documents WHERE document_id = '${document_id}'`
 
     db.query(q, async(err, document) => {
-        if (err) res.status(400).json({errorMessage: 'Query Error'})
+        if (err) return res.status(400).json({errorMessage: 'Query Error'})
 
         if(document.length > 0){
-            res.status(200).json({ hasData: true, document: document })
+            return res.status(200).json({ hasData: true, document: document })
         }
         else{
-            res.status(200).json({ hasData: false })
+            const getInArchive = `SELECT * FROM archives WHERE archive_id = '${document_id}'`
+            db.query(getInArchive, async(err, archives) => {
+                if (err) return res.status(400).json({errorMessage: 'Query Error'})
+                if(archives.length > 0){
+                    return res.status(200).json({ hasData: true, document: archives })
+                }
+                else{
+                    return res.status(200).json({ hasData: false })
+                }
+            })
         }
     })
 })
@@ -164,14 +194,14 @@ const addDocument = asyncHandler(async (req, res) => {
     const q = `INSERT INTO documents (${columns}) VALUES (${values})`;
 
     db.query(q, async(err, document) => {
-        if (err) res.status(400).json({errorMessage: 'Query Error'})
+        if (err) return res.status(400).json({errorMessage: 'Query Error'})
 
         if(document){
-            sendUrgentEmail({ sender: '', date: '', time: '', receiver: '' })
-            res.status(200).json({ hasData: true, document: document, document_id: document_id })
+            // sendUrgentEmail({ sender: '', date: '', time: '', receiver: '' })
+            return res.status(200).json({ hasData: true, document: document, document_id: document_id })
         }
         else{
-            res.status(400).json({errorMessage: 'An error occured while adding the document.'})
+            return res.status(400).json({errorMessage: 'An error occured while adding the document.'})
         }
     })
 })
@@ -192,36 +222,173 @@ const editDocument = asyncHandler(async (req, res) => {
     db.query(q, async (err, result) => {
         if (err) {
             console.log(err);
-            res.status(400).json({ errorMessage: 'Query Error' });
+            return res.status(400).json({ errorMessage: 'Query Error' });
         } else if (result.affectedRows > 0) {
-            res.status(200).json({ hasData: true, document_id: document_id, message: 'Document updated successfully.' });
+            return res.status(200).json({ hasData: true, document_id: document_id, message: 'Document updated successfully.' });
         } else {
-            res.status(400).json({ errorMessage: 'An error occurred while updating the document.' });
+            return res.status(400).json({ errorMessage: 'An error occurred while updating the document.' });
         }
     });
 });
 
-const sendUrgentEmail = async(props) => {
-    const sender = props.sender
-    const date = new Date(props.date).toLocaleDateString('en-us', {year: 'numeric', month: 'long', day: 'numeric'})
-    const time = formatTime(props.time)
+const archiveDocument = asyncHandler(async (req, res) => {
+    const { document_id } = req.body;
+    const q = `SELECT * FROM documents WHERE document_id = '${document_id}'`;
+
+    db.query(q, async (err, document) => {
+        if (err) return res.status(400).json({ errorMessage: 'Query Error' });
+
+        if (document.length > 0) {
+            const dataToArchive = document[0];
+            // Remove 'document_id' from the list of columns and replace it with 'archive_id'
+            const columns = Object.keys(dataToArchive).filter(column => column !== 'document_id').join(', ');
+            const values = Object.keys(dataToArchive)
+                .filter(column => column !== 'document_id')
+                .map(key => {
+                    const value = dataToArchive[key];
+                    if (value === null || value === undefined) {
+                        return 'NULL';
+                    } else if (typeof value === 'string') {
+                        return value !== '' ? `'${value}'` : 'NULL';
+                    } else {
+                        return value;
+                    }
+            }).join(', ');
+
+            // Insert 'archive_id' instead of 'document_id'
+            const archiveQuery = `INSERT INTO archives (archive_id, ${columns}) VALUES ('${document_id}', ${values})`;
+
+            db.query(archiveQuery, async (err, archive) => {
+                if (err) {
+                    return res.status(400).json({ errorMessage: 'Query Error' });
+                }
+                if (archive) {
+                    const findFilesQuery = `SELECT * FROM document_files WHERE document_id = '${document_id}'`
+                    db.query(findFilesQuery, async (err, files) => {
+                        if (err) {
+                            console.log(err);
+                            return res.status(400).json({ errorMessage: 'Query Error' });
+                        }
+                        if(files){
+                            const fileTransfer = files.map((file) => {
+                                return new Promise((resolve, reject) => {
+                                    const columns = Object.keys(file).filter(column => column !== 'document_id').join(', ');
+                                    const values = Object.keys(file)
+                                        .filter(column => column !== 'document_id')
+                                        .map(key => {
+                                            const value = file[key];
+                                            if (value === null || value === undefined) {
+                                                return 'NULL';
+                                            } else if (typeof value === 'string') {
+                                                return value !== '' ? `'${value}'` : 'NULL';
+                                            } else {
+                                                return value;
+                                            }
+                                    }).join(', ');
+
+                                    // Insert 'archive_id' instead of 'document_id'
+                                    const archiveFileQuery = `INSERT INTO archive_files (archive_id, ${columns}) VALUES ('${document_id}', ${values})`;
+                                    db.query(archiveFileQuery, async (err, archiveFile) => {
+                                        if(err){
+                                            reject(err)
+                                        }
+                                        else{
+                                            resolve(archiveFile)
+                                        }
+                                    })
+                                })
+                            })
+
+                            try{
+                                const results = await Promise.all(fileTransfer);
+                                if(results){
+                                    try{
+                                        const deleted = await deleteFilesAfterArchive(document_id)
+                                        if(deleted){
+                                            return res.status(200).json({ message: 'Document and associated files deleted successfully' });
+                                        }
+                                        else{
+                                            return res.status(400).json({ errorMessage: 'An error occured while removing the files and document.' });
+                                        }
+                                    }
+                                    catch(e){
+                                        return res.status(400).json({ errorMessage: 'An error occured while removing the files and document.' });
+                                    }
+                                }  
+                            }
+                            catch(e){
+                                console.log(e);
+                                return res.status(400).json({ errorMessage: 'An error occurred while archiving the document files.' });
+                            }
+                        }
+                        else{
+                            return res.status(400).json({ errorMessage: 'An error occurred while archiving the document files.' });
+                        }
+
+                    })
+                } else {
+                    return res.status(400).json({ errorMessage: 'An error occurred while archiving the document.' });
+                }
+            });
+        } else {
+            return res.status(400).json({ hasData: false });
+        }
+    });
+});
+
+const deleteFilesAfterArchive = async (document_id) => {
+    return new Promise((resolve, reject) => {
+        // Delete documents from the documents table
+        const deleteDocumentsQuery = `DELETE FROM documents WHERE document_id = ?`;
+
+        db.query(deleteDocumentsQuery, [document_id], async (err, result) => {
+            if (err) {
+                console.log(err);
+                reject(err);
+            }
+            resolve(true);
+        });
+    });
+};
 
 
-    var receiver = props.receiver
-    var subject = 'Urgent Document'
-    var body = urgentEmailTemplate(sender, date, time)
 
-    await mailer({ receiver, subject, body })
-        .then(() => {
-            console.log('sent');
-            res.status(200).json({
-            status: 'success',
-            })
-        })
-        .catch((error) => {
-            res.status(400)
-        })
-}
+// const sendUrgentEmail = async(props) => {
+//     const sender = props.sender
+//     const date = new Date(props.date).toLocaleDateString('en-us', {year: 'numeric', month: 'long', day: 'numeric'})
+//     const time = formatTime(props.time)
+
+
+//     var receiver = props.receiver
+//     var subject = 'Urgent Document'
+//     var body = urgentEmailTemplate(sender, date, time)
+
+//     await mailer({ receiver, subject, body })
+//         .then(() => {
+//             console.log('sent');
+//             return res.status(200).json({
+//             status: 'success',
+//             })
+//         })
+//         .catch((error) => {
+//             return res.status(400)
+//         })
+// }
+
+const getArchives = asyncHandler(async (req, res) => {
+    const q = `SELECT * FROM archives`
+
+    db.query(q, async(err, archives) => {
+        if (err) return res.status(400).json({errorMessage: 'Query Error'})
+
+        if(archives.length > 0){
+            return res.status(200).json({ hasData: true, archives: archives })
+        }
+        else{
+            return res.status(200).json({ hasData: false })
+        }
+    })
+})
 
 
 export{
@@ -231,5 +398,7 @@ export{
     uploadFiles,
     getFiles,
     editDocument,
-    deleteFiles
+    deleteFiles,
+    archiveDocument,
+    getArchives
 }

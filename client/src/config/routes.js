@@ -9,6 +9,7 @@ import {
     PageNotFound, 
     Registration, 
     Requests,
+    StaffOnboarding,
     System_Settings,
     Templates
 } from "../pages"
@@ -45,7 +46,7 @@ const routes = [
         component: <PrivateRoute><ArchiveFolders /></PrivateRoute>
     },
     {
-        path: '/Archive/Tables',
+        path: '/Archive/Tables/:year/:archiveType',
         component: <PrivateRoute><Archive_Table /></PrivateRoute>
     },
     {
@@ -63,6 +64,10 @@ const routes = [
     {
         path: '/Reset-Password',
         component: <Forgot_Password />
+    },
+    {
+        path: '/Finish-Setup',
+        component: <PrivateRoute><StaffOnboarding /></PrivateRoute>
     },
     {
         path: '/*',
