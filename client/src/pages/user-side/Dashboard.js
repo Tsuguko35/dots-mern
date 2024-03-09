@@ -13,6 +13,7 @@ import { getArchiveDocuments, getTableData } from '../../utils'
 function Dashboard() {
   const navigate = useNavigate()
   const userDetails = JSON.parse(window.localStorage.getItem('profile'))
+  const [documents, setDocuments] = useState([])
   const [filters, setFilters] = useState({
     searchFilter: '',
     docuNameFilter: '',
@@ -42,6 +43,7 @@ function Dashboard() {
     }
 
     if(docsRes?.status === 200){
+      setDocuments(docsRes.data?.documents)
       const currentDate = new Date();
       const documentsArray = docsRes.data?.documents
       
@@ -184,54 +186,29 @@ function Dashboard() {
                   </div>
                 </div>
                 <div className="Box_Content">
-                  <div className="Content">
-                    <div className="Name">
-                      <p>Jazpher Carpioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                {
+                  documents.filter(documents => documents.document_Type === 'Travel Order').length === 0 ? (
+                    <div className="Content" key={document.id}>
+                        <div className="Name">
+                            <p>N/A</p>
+                        </div>
+                        <div className="Count">
+                            <p>N/A</p>
+                        </div>
                     </div>
-                    <div className="Count">
-                      <p>999+</p>
-                    </div>
-                  </div>
-                  <div className="Content">
-                    <div className="Name">
-                      <p>Jazpher Carpioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                    </div>
-                    <div className="Count">
-                      <p>999+</p>
-                    </div>
-                  </div>
-                  <div className="Content">
-                    <div className="Name">
-                      <p>Jazpher Carpioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                    </div>
-                    <div className="Count">
-                      <p>999+</p>
-                    </div>
-                  </div>
-                  <div className="Content">
-                    <div className="Name">
-                      <p>Jazpher Carpioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                    </div>
-                    <div className="Count">
-                      <p>999+</p>
-                    </div>
-                  </div>
-                  <div className="Content">
-                    <div className="Name">
-                      <p>Jazpher Carpioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                    </div>
-                    <div className="Count">
-                      <p>999+</p>
-                    </div>
-                  </div>
-                  <div className="Content">
-                    <div className="Name">
-                      <p>Jazpher Carpioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                    </div>
-                    <div className="Count">
-                      <p>999+</p>
-                    </div>
-                  </div>
+                  ) : (
+                      documents.filter(documents => documents.document_Type === 'Travel Order').map(document => (
+                          <div className="Content" key={document.id}>
+                              <div className="Name">
+                                  <p>{document.contact_Person}</p>
+                              </div>
+                              <div className="Count">
+                                  <p>{documents.filter(doc => doc.document_Type === 'Travel Order' && doc.contact_Person === document.contact_Person).length}</p>
+                              </div>
+                          </div>
+                      ))
+                  )
+                }
                 </div>
               </div>
             </div>
@@ -245,14 +222,29 @@ function Dashboard() {
                   </div>
                 </div>
                 <div className="Box_Content">
-                  <div className="Content">
-                    <div className="Name">
-                      <p>Jazpher Carpioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                {
+                  documents.filter(documents => documents.document_Type === 'Application for Leave').length === 0 ? (
+                    <div className="Content" key={document.id}>
+                        <div className="Name">
+                            <p>N/A</p>
+                        </div>
+                        <div className="Count">
+                            <p>N/A</p>
+                        </div>
                     </div>
-                    <div className="Count">
-                      <p>999+</p>
-                    </div>
-                  </div>
+                  ) : (
+                      documents.filter(documents => documents.document_Type === 'Application for Leave').map(document => (
+                          <div className="Content" key={document.id}>
+                              <div className="Name">
+                                  <p>{document.contact_Person}</p>
+                              </div>
+                              <div className="Count">
+                                  <p>{documents.filter(doc => doc.document_Type === 'Application for Leave' && doc.contact_Person === document.contact_Person).length}</p>
+                              </div>
+                          </div>
+                      ))
+                  )
+                }
                 </div>
               </div>
             </div>
@@ -266,14 +258,29 @@ function Dashboard() {
                   </div>
                 </div>
                 <div className="Box_Content">
-                  <div className="Content">
-                    <div className="Name">
-                      <p>Jazpher Carpioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                {
+                  documents.filter(documents => documents.document_Type === 'Training Request Form').length === 0 ? (
+                    <div className="Content" key={document.id}>
+                        <div className="Name">
+                            <p>N/A</p>
+                        </div>
+                        <div className="Count">
+                            <p>N/A</p>
+                        </div>
                     </div>
-                    <div className="Count">
-                      <p>999+</p>
-                    </div>
-                  </div>
+                  ) : (
+                      documents.filter(documents => documents.document_Type === 'Training Request Form').map(document => (
+                          <div className="Content" key={document.id}>
+                              <div className="Name">
+                                  <p>{document.contact_Person}</p>
+                              </div>
+                              <div className="Count">
+                                  <p>{documents.filter(doc => doc.document_Type === 'Training Request Form' && doc.contact_Person === document.contact_Person).length}</p>
+                              </div>
+                          </div>
+                      ))
+                  )
+                }
                 </div>
               </div>
             </div>
@@ -281,7 +288,7 @@ function Dashboard() {
         </div>
         <div className="Dashboard_Table_Container">
           <div className="Dashboard_Table">
-            <ArchiveTable  setFilter={setFilters} filters={filters}/>
+            <ArchiveTable  setFilter={setFilters} filters={filters} documents={documents}/>
           </div>
         </div>
       </div>
