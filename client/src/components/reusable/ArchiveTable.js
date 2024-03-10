@@ -70,7 +70,7 @@ function ArchiveTable({documents, filters, setFilter}) {
                   <div className="Icon">
                       <IoIcons.IoIosSearch size={'20px'}/>
                   </div>
-                  <input className='Input' type="text" placeholder='Search...'/>
+                  <input value={filters.searchFilter} className='Input' type="text" placeholder='Search...' onChange={(e) => setFilter({...filters, searchFilter: e.target.value})}/>
               </div>
             </div>
           </div>
@@ -179,21 +179,21 @@ function ArchiveTable({documents, filters, setFilter}) {
                         {documents && documents.length !== 0 ? (
                           <React.Fragment>
                             {documents.map((document) => (
-                              <div className="Table_Body_Row" key={document.archive_id}>
+                              <div className="Table_Body_Row" key={document.archive_id || document.document_id}>
                                 <div className="Table_Body_Details">
-                                  <div onClick={() => openToggleRow(document.archive_id)}>
+                                  <div onClick={() => openToggleRow(document.archive_id || document.document_id)}>
                                     <p>{document.document_Name}</p>
                                   </div>
-                                  <div onClick={() => openToggleRow(document.archive_id)}>
+                                  <div onClick={() => openToggleRow(document.archive_id || document.document_id)}>
                                     <p>{document.document_Type}</p>
                                   </div>
-                                  <div onClick={() => openToggleRow(document.archive_id)} className='ReceivedBy'>
+                                  <div onClick={() => openToggleRow(document.archive_id || document.document_id)} className='ReceivedBy'>
                                     <p>{document.received_By}</p>
                                   </div>
-                                  <div onClick={() => openToggleRow(document.archive_id)} className='OfficeDept'>
+                                  <div onClick={() => openToggleRow(document.archive_id || document.document_id)} className='OfficeDept'>
                                     <p>{document.office_Dept}</p>
                                   </div>
-                                  <div onClick={() => openToggleRow(document.archive_id)} className='DateReceived'>
+                                  <div onClick={() => openToggleRow(document.archive_id || document.document_id)} className='DateReceived'>
                                     <p>{document.date_Received}</p>
                                   </div>
                                   <div className={`Status ${document.status === "Approved" ? "Approved" : document.status === "Pending" ? "Ongoing" : document.status === "Rejected" ? "Rejected" : ''}`} onClick={() => openToggleRow(document.archive_id)}>
@@ -201,11 +201,11 @@ function ArchiveTable({documents, filters, setFilter}) {
                                   </div>
                                   <div className='Actions'>
                                     <Tooltip title="View Document">
-                                      <button className="View" onClick={() => openDoc(document.archive_id)}><GrIcons.GrView size={'20px'}/></button>
+                                      <button className="View" onClick={() => openDoc(document.archive_id || document.document_id)}><GrIcons.GrView size={'20px'}/></button>
                                     </Tooltip>
                                   </div>
                                 </div>
-                                <Collapse in={openRow === document.archive_id} timeout={'auto'} unmountOnExit>
+                                <Collapse in={openRow === document.archive_id || openRow === document.document_id} timeout={'auto'} unmountOnExit>
                                   <div className="Table_Body_Other_Details">
                                       <div className='Other_Details'>
                                         <span>Description:</span>

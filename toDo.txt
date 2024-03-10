@@ -1,13 +1,21 @@
 officeDropdowns double check
 
-map dashboard
-
 button loadings
 
 Error Checking all pages
 
-fix forwarding to self
+add X to inputs
 
-remove spaces on select options
 
-filters for dashboard and request
+-------------------------------------------
+request tab functionality(check for bugs only)
+
+status based notif click
+
+system logs
+
+account settings functionality
+
+urgent documents functionality
+
+All filter on requests

@@ -12,8 +12,9 @@ import { getArchiveDocuments, getTableData } from '../../utils'
 
 function Dashboard() {
   const navigate = useNavigate()
-  const userDetails = JSON.parse(window.localStorage.getItem('profile'))
+  const userDetails = JSON.parse(window.localStorage.getItem('profile')) || {}
   const [documents, setDocuments] = useState([])
+  const [documentsToFilter, setDocumentsToFilter] = useState([])
   const [filters, setFilters] = useState({
     searchFilter: '',
     docuNameFilter: '',
@@ -43,7 +44,7 @@ function Dashboard() {
     }
 
     if(docsRes?.status === 200){
-      setDocuments(docsRes.data?.documents)
+      setDocumentsToFilter(docsRes.data?.documents)
       const currentDate = new Date();
       const documentsArray = docsRes.data?.documents
       
@@ -97,6 +98,48 @@ function Dashboard() {
   useEffect(() => {
     console.log(documentCounts);
   }, [documentCounts])
+
+  useEffect(() => {
+    if(documentsToFilter){
+      const filteredDocs = documentsToFilter.filter(document => 
+        document.document_Name.toLowerCase().includes(filters.searchFilter.toLowerCase()) ||
+        document.description.toLowerCase().includes(filters.searchFilter.toLowerCase())
+      ).filter(document => 
+        document.document_Name.toLowerCase().includes(filters.docuNameFilter.toLowerCase())
+      ).filter(document => 
+        document.document_Type.toLowerCase().includes(filters.docuTypeFilter.toLowerCase())
+      )
+      .filter(document => 
+        document.received_By.toLowerCase().includes(filters.docuReceivedBy.toLowerCase())
+      )
+      .filter(document => 
+        document.office_Dept.toLowerCase().includes(filters.officeDeptFilter.toLowerCase())
+      )
+      .filter(document => 
+        (document.date_Received.toLowerCase().includes(filters.dateReceivedFilter.toLowerCase()))
+      )
+      .filter(document => 
+        document.status.toLowerCase().includes(filters.statusFilter.toLowerCase())
+      )
+      .filter(document => 
+        document.forward_To === userDetails.user_id || (document.forward_To.includes(userDetails.role) && !document.forward_To.includes(userDetails.user_id))
+      )
+
+      const sortedFilteredDocs = filteredDocs.sort((a, b) => {
+        if (a.date_Received !== b.date_Received) {
+            return new Date(b.date_Received + 'T' + b.time_Received) - new Date(a.date_Received + 'T' + a.time_Received);
+        } else {
+            return new Date(b.time_Received) - new Date(a.time_Received);
+        }
+      })
+  
+      setDocuments(sortedFilteredDocs);
+    }
+    else{
+      setDocuments(documentsToFilter);
+    }
+    console.log(filters);
+  }, [filters, documentsToFilter])
 
   return (
     <section id='Dashboard' className='Dashboard'>
@@ -188,7 +231,7 @@ function Dashboard() {
                 <div className="Box_Content">
                 {
                   documents.filter(documents => documents.document_Type === 'Travel Order').length === 0 ? (
-                    <div className="Content" key={document.id}>
+                    <div className="Content">
                         <div className="Name">
                             <p>N/A</p>
                         </div>
@@ -198,7 +241,7 @@ function Dashboard() {
                     </div>
                   ) : (
                       documents.filter(documents => documents.document_Type === 'Travel Order').map(document => (
-                          <div className="Content" key={document.id}>
+                          <div className="Content" key={document.document_id}>
                               <div className="Name">
                                   <p>{document.contact_Person}</p>
                               </div>
@@ -224,7 +267,7 @@ function Dashboard() {
                 <div className="Box_Content">
                 {
                   documents.filter(documents => documents.document_Type === 'Application for Leave').length === 0 ? (
-                    <div className="Content" key={document.id}>
+                    <div className="Content">
                         <div className="Name">
                             <p>N/A</p>
                         </div>
@@ -234,7 +277,7 @@ function Dashboard() {
                     </div>
                   ) : (
                       documents.filter(documents => documents.document_Type === 'Application for Leave').map(document => (
-                          <div className="Content" key={document.id}>
+                          <div className="Content" key={document.document_id}>
                               <div className="Name">
                                   <p>{document.contact_Person}</p>
                               </div>
@@ -260,7 +303,7 @@ function Dashboard() {
                 <div className="Box_Content">
                 {
                   documents.filter(documents => documents.document_Type === 'Training Request Form').length === 0 ? (
-                    <div className="Content" key={document.id}>
+                    <div className="Content">
                         <div className="Name">
                             <p>N/A</p>
                         </div>
@@ -270,7 +313,7 @@ function Dashboard() {
                     </div>
                   ) : (
                       documents.filter(documents => documents.document_Type === 'Training Request Form').map(document => (
-                          <div className="Content" key={document.id}>
+                          <div className="Content" key={document.document_id}>
                               <div className="Name">
                                   <p>{document.contact_Person}</p>
                               </div>

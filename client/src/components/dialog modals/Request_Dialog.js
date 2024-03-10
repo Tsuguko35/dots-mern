@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { 
     Dialog, 
@@ -21,46 +21,106 @@ import { ReactComponent as PDF } from '../../assets/svg/icons/PDF_icon.svg'
 import { LoadingInfinite } from '../../assets/svg';
 import Signature from '../../assets/images/Sinature.png'
 import View_Files from './View_Files';
+import { forwardDocument, getAllUsers } from '../../utils';
 
-function Request_Dialog({ action, openRequest, closeRequest }) {
+function Request_Dialog({ action, openRequest, closeRequest, status, document_Name, document_id, getTableDocuments }) {
     const theme = useTheme()
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const userProfile = JSON.parse(window.localStorage.getItem('profile')) || {}
+    const [users, setUsers] = useState([])
     const [openOptions, setOpenOptions] = useState('')
-    const [documentState, setDocumentState] = useState({
-        Date_Received: '',
-        Time_Received: '',
-        Incoming_Outgoing: '',
-        Document_Name: '',
-        Received_By: '',
-        Office_Dept: '',
-        Contact_Person: '',
-        Document_Type: '',
-        Description: '',
-        Comment_Note: '',
-        Status: '',
-        Forward_To: '',
+    const [actionDetails, setActionDetails] = useState({
+        document_Name: document_Name,
+        document_id: 'document_id',
+        comment: '',
+        action: '',
+        forward_To: '',
+        status: '',
     })
 
-    const handleSubmit = () => {
-        toast.success('Added document successfully.', {position: 'bottom-center'})
-        closeRequest({...closeRequest, show: false})
+    const handleSubmit = async(e) => {
+        e.preventDefault()
+        toast.loading('Please wait...')
+        const res = await forwardDocument({
+            document_Name: actionDetails.document_Name,
+            document_id: actionDetails.document_id,
+            comment: action.comment,
+            action: actionDetails.action,
+            forward_To: actionDetails.forward_To,
+            status: actionDetails.status,
+            forwarded_By: userProfile.user_id
+        })
+
+        if(res?.status === 200){
+            toast.dismiss()
+            toast.success('Added document successfully.', {position: 'bottom-center'})
+        }
+        else{
+            toast.dismiss()
+            toast.error(`${res?.errorMessage}`, {position: 'bottom-center'})
+        }
+        getTableDocuments()
+        handleCancel()
     }
 
     const handleCancel = () => {
+        setActionDetails({
+            document_Name: '',
+            document_id: '',
+            comment: '',
+            action: '',
+            forward_To: '',
+            status: '',
+        })
         closeRequest({...closeRequest, show: false})
     }
 
     const showOptions = (input) => {
         setTimeout(() => {
             setOpenOptions(input)
-        }, 101)
+        }, 160)
     }
 
     const closeOptions = () => {
         setTimeout(() => {
             setOpenOptions('')
-        }, 100)
+        }, 150)
     }
+
+    const getUserOptions = async() => {
+        const res = await getAllUsers()
+        if(res?.status === 200){
+            setUsers(res.data?.users)
+        }
+        else(
+            toast.error('An error occured while fetching data.')
+        )
+    }
+
+    useEffect(() => {
+        getUserOptions()
+    }, [])
+
+    useEffect(() => {
+        setActionDetails({
+            ...actionDetails, 
+            action: action, 
+            document_Name: document_Name, 
+            document_id: document_id, 
+            status: action === 'Forward' ? status : action === 'Approve' ? 'Approved' : action === 'Reject' && 'Rejected'
+        })
+    }, [action])
+
+    const handleCheckBox = (action) => {
+        if(actionDetails.forward_To.includes(action)){
+            setActionDetails({...actionDetails, forward_To: ''})
+        }
+        else{
+            setActionDetails({...actionDetails, forward_To: `${action} ${userProfile.user_id}`})
+        }
+        
+    }
+
+
     return (
         <section id='Request_Dialog' className='Request_Dialog'>
             <Dialog
@@ -80,7 +140,7 @@ function Request_Dialog({ action, openRequest, closeRequest }) {
                     </div>
                 </DialogTitle>
                 <DialogContent>
-                    <form action="">
+                    <form id='request_Form' onSubmit={handleSubmit}>
                         <div className="Inputs">
                             {/* Other Inputs */}
                             <div className="Input_Group">
@@ -89,8 +149,9 @@ function Request_Dialog({ action, openRequest, closeRequest }) {
                                     className='Input' 
                                     type="text" 
                                     placeholder='Comment/Note' 
-                                    value={documentState.Document_Name} 
-                                    onChange={(e) => setDocumentState({...documentState, Document_Name: e.target.value})} 
+                                    value={actionDetails.comment || ''} 
+                                    onChange={(e) => setActionDetails({...actionDetails, comment: e.target.value})}
+                                    maxLength={1000}
                                 />
                             </div>
 
@@ -100,29 +161,33 @@ function Request_Dialog({ action, openRequest, closeRequest }) {
                                 <input 
                                     className='Input' 
                                     type="text" 
-                                    placeholder='Forward To' 
+                                    placeholder='Forward To'
+                                    value={users.find(user => user.user_id === actionDetails.forward_To)?.full_Name || ''}
                                     onFocus={() => showOptions("Forward To")} 
                                     onBlur={() => closeOptions()}
+                                    readOnly
+                                    required={!actionDetails.forward_To}
                                 />
                                 <div className={openOptions === "Forward To" ? "Options show" : "Options"}>
-                                    <div className="Option">
-                                        <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                                    <div className="Option" onClick={() => setActionDetails({...actionDetails, forward_To: ''})}>
+                                        <p>Clear</p>
                                     </div>
-                                    <div className="Option">
-                                        <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
-                                    </div>
-                                    <div className="Option">
-                                        <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
-                                    </div>
-                                    <div className="Option">
-                                        <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
-                                    </div>
-                                    <div className="Option">
-                                        <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
-                                    </div>
-                                    <div className="Option">
-                                        <p>Incomingssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
-                                    </div>
+                                    {users.filter(user => user.user_id !== userProfile.user_id).length !== 0 ? (
+                                        <React.Fragment>
+                                            {users.filter(user => user.user_id !== userProfile.user_id).map((user) => (
+                                                <div className="Option" key={user.user_id} onClick={() => setActionDetails({...actionDetails, forward_To: user.user_id})}>
+                                                    <p>{`(${user.role}) ${user.full_Name}`}</p>
+                                                </div>
+                                            ))}
+                                        </React.Fragment>
+                                    )
+                                    :
+                                    (
+                                        <div className="Option">
+                                            <p>No User Found</p>
+                                        </div>
+                                    )
+                                    }
                                 </div>
                             </div>
 
@@ -137,7 +202,7 @@ function Request_Dialog({ action, openRequest, closeRequest }) {
                                     <span>Forward To <span className='required'>*</span></span>
                                 </div>
                                 <div className="checkbox-wrapper-46">
-                                    <input className="inp-cbx" id="cbx-46" type="checkbox" />
+                                    <input className="inp-cbx" id="cbx-46" type="checkbox" onChange={() => handleCheckBox('All')} checked={actionDetails.forward_To.includes('All')}/>
                                     <label className="cbx" htmlFor="cbx-46">
                                         <span>
                                             <svg width="12px" height="10px" viewBox="0 0 12 10">
@@ -148,7 +213,7 @@ function Request_Dialog({ action, openRequest, closeRequest }) {
                                     </label>    
                                 </div>
                                 <div className="checkbox-wrapper-46">
-                                    <input className="inp-cbx" id="cbx-47" type="checkbox" />
+                                    <input className="inp-cbx" id="cbx-47" type="checkbox" onChange={() => handleCheckBox('Faculty')} checked={actionDetails.forward_To.includes('Faculty')}/>
                                     <label className="cbx" htmlFor="cbx-47">
                                         <span>
                                             <svg width="12px" height="10px" viewBox="0 0 12 10">
@@ -159,7 +224,7 @@ function Request_Dialog({ action, openRequest, closeRequest }) {
                                     </label>    
                                 </div>
                                 <div className="checkbox-wrapper-46">
-                                    <input className="inp-cbx" id="cbx-48" type="checkbox" />
+                                    <input className="inp-cbx" id="cbx-48" type="checkbox" onChange={() => handleCheckBox('Clerk')} checked={actionDetails.forward_To.includes('Clerk')}/>
                                     <label className="cbx" htmlFor="cbx-48">
                                         <span>
                                             <svg width="12px" height="10px" viewBox="0 0 12 10">
@@ -178,7 +243,7 @@ function Request_Dialog({ action, openRequest, closeRequest }) {
                         <button className='Dialog_Cancel' autoFocus onClick={() => handleCancel()}>
                             Cancel
                         </button>
-                        <button className='Dialog_Submit' onClick={() => handleSubmit()} autoFocus>
+                        <button type='submit' form='request_Form' className='Dialog_Submit'>
                             Submit
                         </button>
                     </div>

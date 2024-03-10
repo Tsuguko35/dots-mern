@@ -46,19 +46,20 @@ function Other_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
         initialDocumentState,
         handleCancel,
         dropdowns,
-        handleSubmitEdit
+        handleSubmitEdit,
+        userProfile
     } = useContext(DocumentContext)
 
     const showOptions = (input) => {
         setTimeout(() => {
             setOpenOptions(input)
-        }, 101)
+        }, 160)
     }
 
     const closeOptions = () => {
         setTimeout(() => {
             setOpenOptions('')
-        }, 100)
+        }, 150)
     }
 
     useEffect(() => {
@@ -145,15 +146,16 @@ function Other_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                     return(
                                         <React.Fragment key={inputList.category}>
                                             {}
-                                            {inputList.inputs.map((input) => (
+                                            {inputList.inputs.filter(input => input.value !== 'Forward_To').map((input) => (
                                                 <div className="Input_Group" key={input.label}>
                                                     <span className='Input_Label'>{input.label} {input.required && (<span className='required'>*</span>)}</span>
                                                     <input 
                                                         className='Input' 
                                                         type="text"
                                                         placeholder={input.label}
-                                                        value={documentState[input.value] || ''}
+                                                        value={input.value === 'Forward_To' ? users.find(user => user.user_id === documentState[input.value])?.full_Name : documentState[input.value]}
                                                         required={input.required}
+                                                        readOnly={input.value === 'Forward_To'}
                                                         onChange={(e) => setDocumentState({...documentState, [input.value]: e.target.value})}
                                                         onFocus={() => showOptions(input.haveOptions && input.label)} 
                                                         onBlur={() => closeOptions()}
@@ -185,7 +187,7 @@ function Other_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                                             : input.options === "Office_Dept" ?
                                                             (
                                                                 dropdowns && dropdowns.filter(dropdown => dropdown.option_For === 'Office/Dept').map((dropdown) => (
-                                                                    dropdown.dropdown_option.split(',').map((option) => (
+                                                                    dropdown.dropdown_option.split(', ').map((option) => (
                                                                         <div key={option} className="Option" onClick={() => setDocumentState({...documentState, Office_Dept: option})}>
                                                                             <p>{option}</p>
                                                                         </div>
@@ -197,7 +199,7 @@ function Other_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                                             : input.options === "Document Type" ?
                                                             (
                                                                 dropdowns && dropdowns.filter(dropdown => dropdown.option_For.toLowerCase().includes(documentState.Document_Category.toLowerCase())).map((dropdown) => (
-                                                                    dropdown.dropdown_option.split(',').map((option) => (
+                                                                    dropdown.dropdown_option.split(', ').map((option) => (
                                                                         <div key={option} className="Option" onClick={() => setDocumentState({...documentState, Document_Type: option})}>
                                                                             <p>{option}</p>
                                                                         </div>
@@ -218,26 +220,26 @@ function Other_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                                                 </React.Fragment>
                                                             )
                                                             // If OPtions Are Forward to
-                                                            : input.options === "Users" ? (
-                                                                <React.Fragment>
-                                                                    {users.filter(user => user.full_Name.toLowerCase().includes(documentState.Forward_To.toLowerCase())).length !== 0 ? (
-                                                                        <React.Fragment>
-                                                                            {users.filter(user => user.full_Name.toLowerCase().includes(documentState.Forward_To.toLowerCase())).map((user) => (
-                                                                                <div className="Option" key={user.user_id} onClick={() => setDocumentState({...documentState, Forward_To: user.full_Name})}>
-                                                                                    <p>{`(${user.role}) ${user.full_Name}`}</p>
-                                                                                </div>
-                                                                            ))}
-                                                                        </React.Fragment>
-                                                                    )
-                                                                    :
-                                                                    (
-                                                                        <div className="Option">
-                                                                            <p>No User Found</p>
-                                                                        </div>
-                                                                    )
-                                                                    }
-                                                                </React.Fragment>
-                                                            )
+                                                            // : input.options === "Users" ? (
+                                                            //     <React.Fragment>
+                                                            //         {users.filter(user => user.user_id !== userProfile.user_id).length !== 0 ? (
+                                                            //             <React.Fragment>
+                                                            //                 {users.filter(user => user.user_id !== userProfile.user_id).map((user) => (
+                                                            //                     <div className="Option" key={user.user_id} onClick={() => setDocumentState({...documentState, Forward_To: user.user_id})}>
+                                                            //                         <p>{`(${user.role}) ${user.full_Name}`}</p>
+                                                            //                     </div>
+                                                            //                 ))}
+                                                            //             </React.Fragment>
+                                                            //         )
+                                                            //         :
+                                                            //         (
+                                                            //             <div className="Option">
+                                                            //                 <p>No User Found</p>
+                                                            //             </div>
+                                                            //         )
+                                                            //         }
+                                                            //     </React.Fragment>
+                                                            // )
                                                             : input.options === "Status" && (
                                                                 <React.Fragment>
                                                                     <div className="Option" onClick={() => setDocumentState({...documentState, Status: 'Approved'})}>

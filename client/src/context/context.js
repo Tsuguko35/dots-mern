@@ -23,3 +23,5 @@ export const RequestContext = React.createContext()
 export const ArchiveContext = React.createContext()
 
 export const SettingsContext = React.createContext()
+
+export const NotificationContext = React.createContext()

@@ -25,6 +25,7 @@ export default async function addDocument(payload) {
         tracking: documentState.Tracking,
         urgent: documentState.Urgent,
         status: documentState.Status,
+        created_By: documentState.Created_By
     }
 
     try {

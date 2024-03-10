@@ -12,12 +12,15 @@ import { otpEmailTemplate } from './utils/otpEmailTemplate.js'
 import mailer from './utils/mailer.js'
 import bodyParser from 'body-parser'
 
+
+
 dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 5000
 const server = http.createServer(app)
 const io = new Server(server, {
+    pingTimeout: 60000,
     cors: {
         origin: 'http://localhost:3000',
         methods: ['GET', 'POST', 'PUT'],
@@ -49,7 +52,15 @@ db.connect((err) => {
 
 // Socket IO Connections
 io.on('connection', (socket) => {
-    console.log(`user connected ${socket.id}`);
+    console.log(`user connected`);
+
+    socket.on('join', (user_id) => {
+        socket.join(user_id)
+    })
+
+    socket.on('notifications', (user_id) => {
+        socket.broadcast.emit('notifications', user_id)
+    })
 })
 
 // Document Routes

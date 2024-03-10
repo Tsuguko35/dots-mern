@@ -37,25 +37,25 @@
     transition: hover 250ms ease-in-out;
 }
 
-#Navbar > .Navbar_Date_and_Profile .Navbar_Notifications:hover{
+#Navbar > .Navbar_Date_and_Profile .Navbar_Notifications:hover .icon{
     animation: ring 0.3s infinite alternate;
     color: #FF8911;
 }
 
 @keyframes ring {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     25% {
         transform: rotate(15deg);
-      }
+    }
     50% {
         transform: rotate(0deg);
-      }
-    100% {
-      transform: rotate(-15deg);
     }
-  }
+    100% {
+        transform: rotate(-15deg);
+    }
+}
 
 #Navbar > .Navbar_Date_and_Profile .Navbar_Date {
     display: flex;
@@ -90,13 +90,13 @@
 }
 
 /* Menu */
-#Navbar_Menu .MuiMenuItem-root{
+#Navbar_Menu .Menu_Item{
     border-radius: 5px;
     margin: 5px 10px;
     transition: all 250ms ease-in-out;
 }
 
-#Navbar_Menu .MuiMenuItem-root:hover {
+#Navbar_Menu .Menu_Item:hover {
     background-color: var(--bg2-white) !important;
 }
 
@@ -141,6 +141,101 @@
     padding: 5px 10px;
     min-width: 100px;
     border-radius: 20px;
+}
+
+/* Notifications */
+#Navbar_Menu .Menu_Item_Notification{
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    height: 60px;
+    width: 310px;
+    margin: 3px 8px;
+    padding: 0px 5px;
+    transition: all 250ms ease-in-out;
+}
+
+#Navbar_Menu .Menu_Item_Notification:hover {
+    background-color: var(--bg2-white) !important;
+}
+
+#Navbar_Menu .Notification_Empty{
+    width: 310px;
+    height: 100%;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Navbar_Menu .Notification_Empty > p{
+    font-size: 14px;
+}
+
+#Navbar_Menu .Menu_Item_Notification > .Notification_Icon{
+    background-color: var(--light-grey);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+#Navbar_Menu .Menu_Item_Notification > .Notification_Icon > .Menu_Icons{
+    color: white;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Navbar_Menu .Menu_Item_Notification > .Notification_Text{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+#Navbar_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Date{
+    color: var(--dark-grey);
+    font-size: 10px;
+}
+
+#Navbar_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Label{
+    color: var(--orange);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#Navbar_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Details{
+    font-size: 12px;
+    width: 100%;
+}
+
+#Navbar_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Details > p{
+    width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#Navbar_Menu .Menu_Item_Notification > .Notification_IsRead{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#Navbar_Menu .Menu_Item_Notification > .Notification_IsRead > span{
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: var(--orange);
+    border-radius: 50%;
 }
 
 @media only screen and (max-width: 1024px) {

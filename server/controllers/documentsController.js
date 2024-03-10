@@ -124,7 +124,6 @@ const deleteFiles = asyncHandler(async (req, res) => {
 
 const getDocuments = asyncHandler(async (req, res) => {
     const { documentType } = req.body
-    console.log(documentType);
     let q = ''
 
     if(documentType === 'Communication' || documentType === 'Memorandum'){
@@ -188,6 +187,8 @@ const addDocument = asyncHandler(async (req, res) => {
         document_id,
     } = req.body
 
+    const io = req.app.locals.io
+
     const columns = Object.keys(req.body).join(', ');
     const values = Object.values(req.body).map(value => typeof value === 'string' ? `'${value}'` : value).join(', ');
 
@@ -198,7 +199,33 @@ const addDocument = asyncHandler(async (req, res) => {
 
         if(document){
             // sendUrgentEmail({ sender: '', date: '', time: '', receiver: '' })
-            return res.status(200).json({ hasData: true, document: document, document_id: document_id })
+            if(req.body.forward_To){
+                const uniqueID = uuidv4()
+                const notificationData = [
+                    uniqueID,
+                    req.body.forward_To,
+                    document_id,
+                    0,
+                    'Forward',
+                    `${req.body.document_Name} is forwarded to you.`,
+                    new Date()
+                ]
+
+                const notificationQuery = "INSERT INTO notifications (`notification_id`, `user_id`, `document_id`, `isRead`, `notification_Type`, `notification_Text`, `date_Created`) VALUES (?)";
+
+                db.query(notificationQuery, [notificationData],async(err, notification) => {
+                    console.log(err);
+                    if(err) return res.status(400).json({errorMessage: 'Query Error'})
+
+                    if(notification){
+                        io.emit('notifications', {user_id: req.body.forward_To, action: 'Add Document'})
+                        return res.status(200).json({ hasData: true, document: document, document_id: document_id })
+                    }
+                })
+            }
+            else{
+                return res.status(200).json({ hasData: true, document: document, document_id: document_id })
+            }
         }
         else{
             return res.status(400).json({errorMessage: 'An error occured while adding the document.'})
@@ -225,6 +252,105 @@ const editDocument = asyncHandler(async (req, res) => {
             return res.status(400).json({ errorMessage: 'Query Error' });
         } else if (result.affectedRows > 0) {
             return res.status(200).json({ hasData: true, document_id: document_id, message: 'Document updated successfully.' });
+        } else {
+            return res.status(400).json({ errorMessage: 'An error occurred while updating the document.' });
+        }
+    });
+});
+
+const forwardDocument = asyncHandler(async (req, res) => {
+    const { 
+        document_Name,
+        document_id,
+        comment,
+        status,
+        forward_To,
+        forwarded_By,
+        action,
+        forwarded_Datetime,
+        accepted_Rejected_Date,
+        accepted_Rejected_By
+    } = req.body;
+
+    let user_ids = req.body['user_ids[]'];
+
+    // Convert to array if user_ids is not already an array
+    if (!Array.isArray(user_ids)) {
+        user_ids = [user_ids];
+    }
+    console.log(req.body['user_ids[]']);
+
+    const io = req.app.locals.io
+
+    let q = ''
+    let values = []
+
+    if(action === 'Forward'){
+        q = "UPDATE documents SET `forward_To` = ?, `comment` = ?, `forwarded_By` = ?, `forwarded_Datetime` = ?, `status` = ? WHERE document_id = ?";
+
+        values = [
+            forward_To,
+            comment,
+            forwarded_By,
+            forwarded_Datetime,
+            status
+        ]
+    }
+    else{
+        q = "UPDATE documents SET `forward_To` = ?, `comment` = ?, `forwarded_By` = ?, `forwarded_Datetime` = ?, `accepted_Rejected_Date` = ?, `accepted_Rejected_By` = ?, `status` = ? WHERE document_id = ?";
+
+        values = [
+            forward_To,
+            comment,
+            forwarded_By,
+            forwarded_Datetime,
+            accepted_Rejected_Date,
+            accepted_Rejected_By,
+            status
+        ]
+    }
+
+    db.query(q, [...values, document_id], async (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({ errorMessage: 'Query Error' });
+        } else if (result.affectedRows > 0) {
+            const createNotifications = user_ids.map((user_id) => {
+                return new Promise((resolve, reject) => {
+                    const uniqueID = uuidv4()
+                    const notificationData = [
+                        uniqueID,
+                        user_id,
+                        document_id,
+                        0,
+                        'Forward',
+                        `${document_Name} is ${action === 'Forward' ? 'Forwarded' : action}.`,
+                        new Date()
+                    ]
+    
+                    const notificationQuery = "INSERT INTO notifications (`notification_id`, `user_id`, `document_id`, `isRead`, `notification_Type`, `notification_Text`, `date_Created`) VALUES (?)";
+    
+                    db.query(notificationQuery, [notificationData],async(err, notification) => {
+                        console.log(err);
+                        if(err) return reject(err)
+    
+                        if(notification){
+                            io.emit('notifications', {user_id: req.body.forward_To, action: 'Forward Document'})
+                            return resolve(notification)
+                        }
+                    })
+                })
+            })
+
+            try {
+                const results = await Promise.all(createNotifications);
+                // At this point, all queries have completed successfully
+                return res.status(200).json({ hasData: true });
+            } catch (error) {
+                console.log(error);
+                // If any query fails, this block will be executed
+                return res.status(400).json({ errorMessage: 'An error occurred while uploading the files.' });
+            }
         } else {
             return res.status(400).json({ errorMessage: 'An error occurred while updating the document.' });
         }
@@ -390,6 +516,42 @@ const getArchives = asyncHandler(async (req, res) => {
     })
 })
 
+const getNotifications = asyncHandler(async (req, res) => {
+    const q = `SELECT * FROM notifications`
+
+    db.query(q, async(err, notifications) => {
+        if (err) return res.status(400).json({errorMessage: 'Query Error'})
+
+        if(notifications){
+            return res.status(200).json({ hasData: true, notifications: notifications })
+        }
+    })
+})
+
+const deleteNotification = asyncHandler(async (req, res) => {
+    const { 
+        notification_id,
+        forward_To
+    } = req.body;
+
+    const io = req.app.locals.io
+
+    const q = `DELETE FROM notifications WHERE notification_id = ?`;
+
+    db.query(q, [notification_id], async(err, result) => {
+        if (err) {
+            return res.status(400).json({ errorMessage: 'Failed to delete notification', error: err });
+        } else {
+            if (result.affectedRows > 0) {
+                io.emit('notifications', {user_id: req.body.forward_To, action: 'Delete Notification'})
+                return res.status(200).json({ success: true, message: 'Notification deleted successfully' });
+            } else {
+                return res.status(404).json({ errorMessage: 'Notification not found' });
+            }
+        }
+    });
+})
+
 
 export{
     getDocuments,
@@ -400,5 +562,8 @@ export{
     editDocument,
     deleteFiles,
     archiveDocument,
-    getArchives
+    getArchives,
+    getNotifications,
+    deleteNotification,
+    forwardDocument
 }

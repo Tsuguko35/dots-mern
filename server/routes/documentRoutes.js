@@ -3,11 +3,14 @@ import {
     addDocument,
     archiveDocument,
     deleteFiles,
+    deleteNotification,
     editDocument,
+    forwardDocument,
     getArchives,
     getDocument,
     getDocuments, 
     getFiles, 
+    getNotifications, 
     uploadFiles
 } from '../controllers/documentsController.js'
 
@@ -37,10 +40,14 @@ router.post('/getDocuments', getDocuments)
 router.post('/getDocument', getDocument)
 router.post('/addDocument', addDocument)
 router.post('/editDocument', editDocument)
+router.post('/forwardDocument', forwardDocument)
 router.post('/archiveDocument', archiveDocument)
 router.post('/getArchives', getArchives)
 router.post('/uploadFiles', documentFilesUpload.array('files') ,uploadFiles)
 router.post('/getFiles', getFiles)
 router.post('/deleteFiles', deleteFiles)
+
+router.post('/getNotifications', getNotifications)
+router.post('/deleteNotifications', deleteNotification)
 
 export default router

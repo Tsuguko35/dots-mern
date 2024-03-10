@@ -205,6 +205,10 @@
     transition: all 250ms ease-in-out;
 }
 
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row.unread > .Table_Body_Details{
+    border: 2px solid var(--orange);
+}
+
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details:hover{
     background-color: var(--light-grey);
 }

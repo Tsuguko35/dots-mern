@@ -26,7 +26,6 @@
 
 #System_Settings > .wrapper > .Settings_Container .Tab_Panel{
     padding: 10px 0;
-    height: 100%;
 }
 
 @media only screen and (max-width: 1024px) {

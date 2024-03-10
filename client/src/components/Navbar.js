@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import '../styles/navbar.css'
 
 // Icons
@@ -19,6 +19,7 @@ import {
 
 import { 
   Avatar, 
+  Badge, 
   Box, 
   Divider, 
   IconButton, 
@@ -35,24 +36,84 @@ import {
   Settings 
 } from '@mui/icons-material'
 import { 
-  DateTime 
+  DateTime, formatDate, formatTime, getAllNotifications 
 } from '../utils'
 import { useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
+import { NotificationContext } from '../context/context'
+import notificationSound from '../assets/sounds/notification sound.mp3'
+
+
+//Socket IO
+import io from 'socket.io-client';
+import { ENDPOINT } from '../constants'
+var socket
 
 function Navbar() {
   const navigate = useNavigate()
   const { setToggleSidebar } = useContext(SidebarContext)
   const [anchorEl, setAnchorEl] = useState(null);
-  const userDetails = JSON.parse(window.localStorage.getItem('profile'))
+  const [notificationAnchor, setNotificationAnchor] = useState(null);
+  const openNotif = Boolean(notificationAnchor)
+  const userDetails = JSON.parse(window.localStorage.getItem('profile')) || {}
   const firstLetterOfName = userDetails.full_Name ? userDetails.full_Name.charAt(0).toUpperCase() : 'A';
   const open = Boolean(anchorEl);
+
+  const notifAudio = new Audio(notificationSound)
+  notifAudio.preload = true;
+
+  //Notifications
+  const {
+    notifications,
+    setNotifications
+  } = useContext(NotificationContext)
+
+  useEffect(() => {
+    socket = io(ENDPOINT)
+
+    socket.on('notifications', (user_id) => {
+      if(userDetails.user_id === user_id.user_id){
+        getNotifications()
+        if(user_id.action !== "Delete Notification"){
+          notifAudio.play()
+        }
+      }
+    })
+
+    return () => {
+      socket.close()
+    }
+  }, [])
+
+  useEffect(() => {
+    getNotifications()
+  }, [])
+
+  const getNotifications = async() => {
+    const res = await getAllNotifications()
+    if(res?.status === 200){
+      if(res.data?.notifications){
+        const notificationData = res.data?.notifications
+        setNotifications(notificationData.filter(notification => notification.user_id === userDetails.user_id))
+      }
+    }
+    else{
+      toast.error('Failed to get notifications')
+    }
+  }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOpenNotification = (event) => {
+    setNotificationAnchor(event.currentTarget);
+  };
+  const handleCloseNotification = () => {
+    setNotificationAnchor(null);
   };
 
   //Log out User
@@ -78,6 +139,17 @@ function Navbar() {
     }
   }
 
+  const goToNotif = (action) => {
+    if(action === 'Forward'){
+      navigate('/Requests/Pending')
+    }
+    else if (action === 'Approved'){
+      navigate('/Requests/Approved')
+    }
+    else{
+      navigate('/Requests/Rejected')
+    }
+  }
 
   return (
     <section id='Navbar' className='Navbar'>
@@ -86,11 +158,116 @@ function Navbar() {
         <p><IoIcons.IoMdMenu size={'35px'} onClick={() => setToggleSidebar(true)}/></p>
       </div>
       <div className="Navbar_Date_and_Profile">
+
+          {/* Notifications */}
           <Tooltip title="Notifications">
-            <div className='Navbar_Notifications'>
-              <IoIcons.IoMdNotificationsOutline size={'30px'} />
+            <div className='Navbar_Notifications' onClick={(e) => handleOpenNotification(e)}>
+              <Badge badgeContent={notifications && notifications.filter(notification => notification.isRead !== 1).length} color="error">
+                <IoIcons.IoMdNotificationsOutline size={'30px'} className='icon'/>
+              </Badge>
             </div>
           </Tooltip>
+          <Menu
+            anchorEl={notificationAnchor}
+            id="Navbar_Menu"
+            open={openNotif}
+            onClose={handleCloseNotification}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                minWidth: '250px',
+                overflow: 'visible',
+                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                mt: 1.5,
+                '& .MuiAvatar-root': {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1,
+                },
+                '&::before': {
+                  content: '""',
+                  display: 'block',
+                  position: 'absolute',
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: '#FFFFFF',
+                  transform: 'translateY(-50%) rotate(45deg)',
+                  zIndex: 0,
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          > 
+            {
+              notifications && notifications.length === 0 ? 
+              (
+                <div className="Notification_Empty">
+                  <p>No Notifications.</p>
+                </div>
+              )
+              :
+              (
+                notifications.map((notification) => (
+                  <MenuItem className='Menu_Item_Notification' key={notification.notification_id} onClick={() => goToNotif(notification.notification_Type)}>
+                    <ListItemIcon className='Notification_Icon'>
+                      {notification.notification_Type === 'Forward' ? 
+                          (
+                            <RiIcons.RiMegaphoneLine className='Menu_Icons'/>
+                          )
+                          :notification.notification_Type === 'Approve' ?
+                          (
+                            <RiIcons.RiCheckDoubleLine className='Menu_Icons'/>
+                          )
+                          :
+                          (
+                            <RiIcons.RiCloseLine className='Menu_Icons'/>
+                          )
+                        }
+                      
+                    </ListItemIcon>
+                    <div className="Notification_Text">
+                      <div className="Notification_Date">
+                        <p>
+                          {`${new Date(notification.date_Created).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'})} - ${ new Date(notification.date_Created).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true})}`}
+                        </p>
+                      </div>
+                      <div className="Notification_Label">
+                        {notification.notification_Type === 'Forward' ? 
+                          (
+                            <p>New Forwarded Document!</p>
+                          )
+                          :notification.notification_Type === 'Approve' ?
+                          (
+                            <p>Document Approved!</p>
+                          )
+                          :
+                          (
+                            <p>Document Rejected!</p>
+                          )
+                        }
+                        
+                      </div>
+                      <div className="Notification_Details">
+                        <p>{notification.notification_Text}</p>
+                      </div>
+                    </div>
+                    {notification.isRead === 0 && (
+                      <div className="Notification_IsRead">
+                        <span></span>
+                      </div>
+                    )}
+                    
+                  </MenuItem>
+                ))
+              )
+            }
+          </Menu>
+
+          {/* Date and Time */}
           <Typography className='Navbar_Date' sx={{ minWidth: '100px'}}>
             <IoIcons.IoMdCalendar size={'30px'} style={{marginRight: '10px'}}/>
             <span className="Date_time">
@@ -99,7 +276,10 @@ function Navbar() {
               <span>{DateTime().time}</span>
             </span>
           </Typography>
+
           <Typography className='Navbar_Date_and_Profile_Role' sx={{ minWidth: '75px'}}>{userDetails.role}</Typography>
+
+          {/* Account Menu */}
           <Tooltip title="Account settings">
             <IconButton
               onClick={handleClick}

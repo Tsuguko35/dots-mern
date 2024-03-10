@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import '../../styles/requests_table.css'
 
 import * as FaIcons from 'react-icons/fa'
@@ -10,27 +10,38 @@ import * as MdIcons from 'react-icons/md'
 import * as GrIcons from 'react-icons/gr'
 import * as TiIcons from 'react-icons/ti'
 import * as BsIcons from 'react-icons/bs'
-import { Collapse, InputAdornment, Menu, TextField, Tooltip } from '@mui/material'
+import { Badge, Collapse, InputAdornment, Menu, TextField, Tooltip } from '@mui/material'
 import { LoadingInfinite } from '../../assets/svg'
-import { GetWindowWidth } from '../../utils'
+import { GetWindowWidth, deleteNotification } from '../../utils'
 import View_Document_Dialog from '../dialog modals/View_Document_Dialog'
 import Request_Dialog from '../dialog modals/Request_Dialog'
 
 import Signature from '../../assets/images/Sinature.png'
 import noResult from '../../assets/images/noResult.png'
 import toast from 'react-hot-toast'
+import { NotificationContext } from '../../context/context'
 
-function RequestTable({documentType, documents, filters, setFilter}) {
+function RequestTable({documentType, documents, filters, setFilter, getTableDcuments}) {
   const [rotation, setRotation] = useState(0);
   const [openRow, setOpenRow] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [openViewDoc, setOpenViewDoc] = useState(false)
+  const userDetails = JSON.parse(window.localStorage.getItem('profile')) || {}
   const [editDocumentID, setEditDocumentID] = useState('')
   const [requestDetails, setRequestDetails] = useState({
     show: false,
-    action: ''
+    action: '',
+    document_Name: '',
+    document_id: '',
+    status: ''
   })
   const windowWidth = GetWindowWidth()
+
+  //Notifications
+  const {
+    notifications,
+    setNotifications
+  } = useContext(NotificationContext)
 
   //Filter Menu Stuf
   const [filterFor, setFilterFor] = useState('')
@@ -71,14 +82,27 @@ function RequestTable({documentType, documents, filters, setFilter}) {
   const openRequest = (props) => {
     setRequestDetails({
       show: true,
-      action: props.action
+      action: props.action,
+      status: props.status,
+      document_Name: props.document_Name,
+      document_id: props.document_id
     })
+  }
+
+  const removeNotification = async(document_id) => {
+    const notification_id = notifications.find(notif => notif.document_id === document_id && notif.user_id === userDetails.user_id)?.notification_id
+
+    const res = await deleteNotification({ notification_id: notification_id, forward_To: userDetails.user_id})
+
+    if(res?.status === 200){
+      getTableDcuments()
+    }
   }
 
   return (
     <section id='Requests_Table' className='Requests_Table'>
       {/* Request Dialog */}
-      <Request_Dialog action={requestDetails.action} openRequest={requestDetails.show} closeRequest={setRequestDetails}/>
+      <Request_Dialog action={requestDetails.action} openRequest={requestDetails.show} closeRequest={setRequestDetails} status={requestDetails.status} document_Name={requestDetails.document_Name} document_id={requestDetails.document_id} getTableDocuments={getTableDcuments}/>
 
       {/* View Document */}
       <View_Document_Dialog openViewDoc={openViewDoc} setOpenViewDoc={setOpenViewDoc} document_id={editDocumentID}/>
@@ -200,82 +224,82 @@ function RequestTable({documentType, documents, filters, setFilter}) {
                         {documents && documents.length !== 0 ? (
                           <React.Fragment>
                             {documents.map((document) => (
-                              <div className="Table_Body_Row" key={document.document_id}>
-                                <div className="Table_Body_Details">
-                                  <div onClick={() => openToggleRow(document.document_id)}>
-                                    <p>{document.document_Name}</p>
-                                  </div>
-                                  <div onClick={() => openToggleRow(document.document_id)}>
-                                    <p>{document.document_Type}</p>
-                                  </div>
-                                  <div onClick={() => openToggleRow(document.document_id)} className='ReceivedBy'>
-                                    <p>{document.received_By}</p>
-                                  </div>
-                                  <div onClick={() => openToggleRow(document.document_id)} className='OfficeDept'>
-                                    <p>{document.office_Dept}</p>
-                                  </div>
-                                  <div onClick={() => openToggleRow(document.document_id)} className='DateReceived'>
-                                    <p>{document.date_Received}</p>
-                                  </div>
-                                  <div className={`Status ${document.status === "Approved" ? "Approved" : document.status === "Pending" ? "Ongoing" : document.status === "Rejected" ? "Rejected" : ''}`} onClick={() => openToggleRow(document.document_id)}>
-                                    <p>{document.status}</p>
-                                  </div>
-                                  <div className='Actions'>
-                                    <Tooltip title="View Document">
-                                      <button className="View" onClick={() => openDoc(document.document_id)}><GrIcons.GrView size={'20px'}/></button>
-                                    </Tooltip>
-                                    {documentType === 'Pending' ? (
-                                      <React.Fragment>
-                                        <Tooltip title="Approve Document">
-                                          <button className="Approve" onClick={() => openRequest({ action: 'Approve' })}><BsIcons.BsCheck2All size={'20px'}/></button>
-                                        </Tooltip>
-                                        <Tooltip title="Reject Document">
-                                          <button className="Reject" onClick={() => openRequest({ action: 'Reject' })}><MdIcons.MdOutlineClose size={'20px'}/></button>
-                                        </Tooltip>
-                                      </React.Fragment>
-                                    )
-                                    :documentType !== 'History' && (
-                                      <Tooltip title="Forward Document">
-                                        <button className="Edit" onClick={() => openRequest({ action: 'Forward' })}><TiIcons.TiArrowForwardOutline size={'20px'}/></button>
+                                <div key={document.document_id} className={`Table_Body_Row ${notifications.find(notif => notif.document_id === document.document_id)?.isRead === 0 && 'unread'}`} onClick={() => removeNotification(document.document_id)}>
+                                  <div className="Table_Body_Details">
+                                    <div onClick={() => openToggleRow(document.document_id)}>
+                                      <p>{document.document_Name}</p>
+                                    </div>
+                                    <div onClick={() => openToggleRow(document.document_id)}>
+                                      <p>{document.document_Type}</p>
+                                    </div>
+                                    <div onClick={() => openToggleRow(document.document_id)} className='ReceivedBy'>
+                                      <p>{document.received_By}</p>
+                                    </div>
+                                    <div onClick={() => openToggleRow(document.document_id)} className='OfficeDept'>
+                                      <p>{document.office_Dept}</p>
+                                    </div>
+                                    <div onClick={() => openToggleRow(document.document_id)} className='DateReceived'>
+                                      <p>{document.date_Received}</p>
+                                    </div>
+                                    <div className={`Status ${document.status === "Approved" ? "Approved" : document.status === "Pending" ? "Ongoing" : document.status === "Rejected" ? "Rejected" : ''}`} onClick={() => openToggleRow(document.document_id)}>
+                                      <p>{document.status}</p>
+                                    </div>
+                                    <div className='Actions'>
+                                      <Tooltip title="View Document">
+                                        <button className="View" onClick={() => openDoc(document.document_id)}><GrIcons.GrView size={'20px'}/></button>
                                       </Tooltip>
-                                    )
-                                    }
+                                      {documentType === 'Pending' ? (
+                                        <React.Fragment>
+                                          <Tooltip title="Approve Document">
+                                            <button className="Approve" onClick={() => openRequest({ action: 'Approve', document_Name: document.document_Name, document_id: document.document_id, status: document.status })}><BsIcons.BsCheck2All size={'20px'}/></button>
+                                          </Tooltip>
+                                          <Tooltip title="Reject Document">
+                                            <button className="Reject" onClick={() => openRequest({ action: 'Reject', document_Name: document.document_Name, document_id: document.document_id, status: document.status })}><MdIcons.MdOutlineClose size={'20px'}/></button>
+                                          </Tooltip>
+                                        </React.Fragment>
+                                      )
+                                      :documentType !== 'History' && (
+                                        <Tooltip title="Forward Document">
+                                          <button className="Edit" onClick={() => openRequest({ action: 'Forward', document_Name: document.document_Name, document_id: document.document_id, status: document.status })}><TiIcons.TiArrowForwardOutline size={'20px'}/></button>
+                                        </Tooltip>
+                                      )
+                                      }
+                                    </div>
                                   </div>
-                                </div>
-                                <Collapse in={openRow === document.document_id} timeout={'auto'} unmountOnExit>
-                                  <div className="Table_Body_Other_Details">
-                                      <div className='Other_Details'>
-                                        <span>Description:</span>
-                                        <p>{document.description}</p>
-                                      </div>
-                                      <div className='Other_Details'>
-                                        <span>Comment:</span>
-                                        <p>{document.comment ? document.comment : <p style={{color: '#A5A6A6'}}>N/A</p>}</p>
-                                      </div>
-                                      <div className="Other_Details">
-                                        <span>Tracker:</span>
-                                        <div className="Tracker">
-                                          <div className="Tracker_Item">
-                                            <div className="Tracker_Details">
-                                              <div className="Signature">
-                                                <img src={Signature} alt="" />
+                                  <Collapse in={openRow === document.document_id} timeout={'auto'} unmountOnExit>
+                                    <div className="Table_Body_Other_Details">
+                                        <div className='Other_Details'>
+                                          <span>Description:</span>
+                                          <p>{document.description}</p>
+                                        </div>
+                                        <div className='Other_Details'>
+                                          <span>Comment:</span>
+                                          <p>{document.comment ? document.comment : <p style={{color: '#A5A6A6'}}>N/A</p>}</p>
+                                        </div>
+                                        <div className="Other_Details">
+                                          <span>Tracker:</span>
+                                          <div className="Tracker">
+                                            <div className="Tracker_Item">
+                                              <div className="Tracker_Details">
+                                                <div className="Signature">
+                                                  <img src={Signature} alt="" />
+                                                </div>
+                                                <p className="Tracker_Date">
+                                                  March 2 , 2024
+                                                </p>
+                                                <p className="Tracker_Label">
+                                                  Office of the President
+                                                </p>
                                               </div>
-                                              <p className="Tracker_Date">
-                                                March 2 , 2024
-                                              </p>
-                                              <p className="Tracker_Label">
-                                                Office of the President
-                                              </p>
-                                            </div>
-                                            <div className="Right_Arrow">
-                                              <MdIcons.MdKeyboardDoubleArrowRight size={'30px'}/>
+                                              <div className="Right_Arrow">
+                                                <MdIcons.MdKeyboardDoubleArrowRight size={'30px'}/>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
-                                      </div>
-                                  </div>
-                                </Collapse>
-                              </div>
+                                    </div>
+                                  </Collapse>
+                                </div>
                             ))}
                           </React.Fragment>
                           )

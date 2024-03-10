@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { PageHeader, RequestTable } from '../../components'
 import '../../styles/requests.css'
 import { useParams } from 'react-router-dom'
 import { getAllUsers, getTableData } from '../../utils'
 import toast from 'react-hot-toast'
+import { NotificationContext } from '../../context/context'
 
 function Requests() {
     const [documentsToFilter, setDocumentsToFilter] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [ documents, setDocuments ] = useState([])
     const [users, setUsers] = useState([])
+    const userDetails = JSON.parse(window.localStorage.getItem('profile')) || {}
     const { requestType } = useParams()
     const [filters, setFilters] = useState({
       searchFilter: '',
@@ -20,6 +22,12 @@ function Requests() {
       dateReceivedFilter: '',
       statusFilter: '',
     })
+    //Notifications
+    const {
+      notifications,
+      setNotifications
+    } = useContext(NotificationContext)
+
     //Get table data
     const getTableDocuments = async() => {
       setIsLoading(true)
@@ -67,9 +75,19 @@ function Requests() {
         .filter(document => 
           document.status.toLowerCase().includes(filters.statusFilter.toLowerCase())
         )
+        .filter(document => 
+          document.forward_To === userDetails.user_id || (document.forward_To.includes(userDetails.role) && !document.forward_To.includes(userDetails.user_id)) || (document.forward_To.includes('All') && !document.forward_To.includes(userDetails.user_id))
+        )
+
+        const sortedFilteredDocs = filteredDocs.sort((a, b) => {
+          if (a.date_Received !== b.date_Received) {
+              return new Date(b.date_Received + 'T' + b.time_Received) - new Date(a.date_Received + 'T' + a.time_Received);
+          } else {
+              return new Date(b.time_Received) - new Date(a.time_Received);
+          }
+        })
     
-        // Now, set the filtered documents to your state.
-        setDocuments(filteredDocs);
+        setDocuments(sortedFilteredDocs);
       }
       else{
         setDocuments(documentsToFilter);
@@ -81,13 +99,14 @@ function Requests() {
         document.title = `Requests`
         getTableDocuments()
         getUserOptions()
-    }, [requestType])
+    }, [requestType, notifications])
+
   return (
     <section id='Requests' className='Requests'>
         <div className="wrapper">
           <PageHeader page={'Requests'}/>
           <div className="Requests_Table_Container">
-            <RequestTable documentType={requestType} documents={documents} setFilter={setFilters} filters={filters}/>
+            <RequestTable documentType={requestType} documents={documents} setFilter={setFilters} filters={filters} getTableDcuments={getTableDocuments}/>
           </div>
         </div>
     </section>

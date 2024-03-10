@@ -41,19 +41,21 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
         handleFileRemove,
         users,
         initialDocumentState,
-        handleCancel
+        handleCancel,
+        dropdowns,
+        userProfile
     } = useContext(DocumentContext)
 
     const showOptions = (input) => {
         setTimeout(() => {
             setOpenOptions(input)
-        }, 101)
+        }, 160)
     }
 
     const closeOptions = () => {
         setTimeout(() => {
             setOpenOptions('')
-        }, 100)
+        }, 150)
     }
     return (
         <section id='Memo_Add_Dialog' className='Memo_Add_Dialog'>
@@ -140,8 +142,20 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                             required
                                             maxLength={100}
                                             value={documentState.Office_Dept || ''} 
-                                            onChange={(e) => setDocumentState({...documentState, Office_Dept: e.target.value})} 
+                                            onChange={(e) => setDocumentState({...documentState, Office_Dept: e.target.value})}
+                                            onFocus={() => showOptions("Office/Dept")} 
+                                            onBlur={() => closeOptions()}
                                         />
+                                        <div className={openOptions === "Office/Dept" ? "Options show" : "Options"}>
+                                            {dropdowns && dropdowns.filter(dropdown => dropdown.option_For === 'Office/Dept').map((dropdown) => (
+                                                dropdown.dropdown_option.split(', ').map((option) => (
+                                                    <div key={option} className="Option" onClick={() => setDocumentState({...documentState, Office_Dept: option})}>
+                                                        <p>{option}</p>
+                                                    </div>
+                                                ))
+                                                
+                                            ))}
+                                        </div>
                                     </div>
 
                                     {/* Other Inputs */}
@@ -255,15 +269,18 @@ function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                             type="text" 
                                             placeholder='Forward To'
                                             readOnly
-                                            value={documentState.Forward_To || ''}
+                                            value={users.find(user => user.user_id === documentState.Forward_To)?.full_Name || ''}
                                             onFocus={() => showOptions("Forward To")} 
                                             onBlur={() => closeOptions()}
                                         />
                                         <div className={openOptions === "Forward To" ? "Options show" : "Options"}>
-                                            {users.filter(user => user.full_Name.toLowerCase().includes(documentState.Forward_To.toLowerCase())).length !== 0 ? (
+                                            <div className="Option" onClick={() => setDocumentState({...documentState, Forward_To: ''})}>
+                                                <p>Clear</p>
+                                            </div>
+                                            {users.filter(user => user.user_id !== userProfile.user_id).length !== 0 ? (
                                                 <React.Fragment>
-                                                    {users.filter(user => user.full_Name.toLowerCase().includes(documentState.Forward_To.toLowerCase())).map((user) => (
-                                                        <div className="Option" key={user.user_id} onClick={() => setDocumentState({...documentState, Forward_To: user.full_Name})}>
+                                                    {users.filter(user => user.user_id !== userProfile.user_id).map((user) => (
+                                                        <div className="Option" key={user.user_id} onClick={() => setDocumentState({...documentState, Forward_To: user.user_id})}>
                                                             <p>{`(${user.role}) ${user.full_Name}`}</p>
                                                         </div>
                                                     ))}

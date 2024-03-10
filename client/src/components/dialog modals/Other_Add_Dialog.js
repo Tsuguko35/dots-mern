@@ -44,7 +44,8 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
         initialDocumentState,
         handleCancel,
         dropdowns,
-        handleSubmitEdit
+        handleSubmitEdit,
+        userProfile
     } = useContext(DocumentContext)
 
     
@@ -52,13 +53,13 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
     const showOptions = (input) => {
         setTimeout(() => {
             setOpenOptions(input)
-        }, 101)
+        }, 160)
     }
 
     const closeOptions = () => {
         setTimeout(() => {
             setOpenOptions('')
-        }, 100)
+        }, 150)
     }
 
     useEffect(() => {
@@ -176,8 +177,9 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                                         className='Input' 
                                                         type="text"
                                                         placeholder={input.label}
-                                                        value={documentState[input.value] || ''}
+                                                        value={input.value === 'Forward_To' ? users.find(user => user.user_id === documentState[input.value])?.full_Name : documentState[input.value]}
                                                         required={input.required}
+                                                        readOnly={input.value === 'Forward_To'}
                                                         onChange={(e) => setDocumentState({...documentState, [input.value]: e.target.value})}
                                                         onFocus={() => showOptions(input.haveOptions && input.label)} 
                                                         onBlur={() => closeOptions()}
@@ -209,7 +211,7 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                                             : input.options === "Office_Dept" ?
                                                             (
                                                                 dropdowns && dropdowns.filter(dropdown => dropdown.option_For === 'Office/Dept').map((dropdown) => (
-                                                                    dropdown.dropdown_option.split(',').map((option) => (
+                                                                    dropdown.dropdown_option.split(', ').map((option) => (
                                                                         <div key={option} className="Option" onClick={() => setDocumentState({...documentState, Office_Dept: option})}>
                                                                             <p>{option}</p>
                                                                         </div>
@@ -221,7 +223,7 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                                             : input.options === "Document Type" ?
                                                             (
                                                                 dropdowns && dropdowns.filter(dropdown => dropdown.option_For.toLowerCase().includes(documentState.Document_Category.toLowerCase())).map((dropdown) => (
-                                                                    dropdown.dropdown_option.split(',').map((option) => (
+                                                                    dropdown.dropdown_option.split(', ').map((option) => (
                                                                         <div key={option} className="Option" onClick={() => setDocumentState({...documentState, Document_Type: option})}>
                                                                             <p>{option}</p>
                                                                         </div>
@@ -244,10 +246,13 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                                             // If OPtions Are Forward to
                                                             : input.options === "Users" ? (
                                                                 <React.Fragment>
-                                                                    {users.filter(user => user.full_Name.toLowerCase().includes(documentState.Forward_To.toLowerCase())).length !== 0 ? (
+                                                                    <div className="Option" onClick={() => setDocumentState({...documentState, Forward_To: ''})}>
+                                                                        <p>Clear</p>
+                                                                    </div>
+                                                                    {users.filter(user => user.user_id !== userProfile.user_id).length !== 0 ? (
                                                                         <React.Fragment>
-                                                                            {users.filter(user => user.full_Name.toLowerCase().includes(documentState.Forward_To.toLowerCase())).map((user) => (
-                                                                                <div className="Option" key={user.user_id} onClick={() => setDocumentState({...documentState, Forward_To: user.full_Name})}>
+                                                                            {users.filter(user => user.user_id !== userProfile.user_id).map((user) => (
+                                                                                <div className="Option" key={user.user_id} onClick={() => setDocumentState({...documentState, Forward_To: user.user_id})}>
                                                                                     <p>{`(${user.role}) ${user.full_Name}`}</p>
                                                                                 </div>
                                                                             ))}

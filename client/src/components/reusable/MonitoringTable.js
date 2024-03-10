@@ -34,6 +34,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
   const [openAddDocs, setOpenAddDocs] = useState(false)
   const [openEditDocs, setOpenEditDocs] = useState(false)
   const [openViewDoc, setOpenViewDoc] = useState(false)
+  const [userProfile, setUserProfile] = useState(JSON.parse(localStorage.getItem('profile')) || {})
   const windowWidth = GetWindowWidth()
   const [rotation, setRotation] = useState(0);
   const [openRow, setOpenRow] = useState(0)
@@ -55,7 +56,8 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
     Forward_To: '',
     Forwarded_By: '',
     Urgent: 0,
-    Tracking: {}
+    Tracking: {},
+    Created_By: userProfile.user_id
   }
 
   const [documentState, setDocumentState] = useState(initialDocumentState)
@@ -420,7 +422,8 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
           category,
           setCategory,
           dropdowns,
-          handleSubmitEdit
+          handleSubmitEdit,
+          userProfile
         }}
       >
 

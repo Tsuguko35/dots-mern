@@ -24,7 +24,8 @@ import {
     useLocation 
 } from 'react-router-dom'
 import { SidebarContext } from '../context'
-import { GetWindowWidth } from '../utils'
+import { GetWindowWidth, getTableData } from '../utils'
+import { NotificationContext } from '../context/context'
 
 function Sidebar() {
     const location = useLocation()
@@ -32,7 +33,55 @@ function Sidebar() {
     const {toggleSidebar, setToggleSidebar} = useContext(SidebarContext)
     const [toggleRequests, setToggleRequests] = useState(false)
     const [toggleMonitoring, setToggleMonitoring] = useState(false)
+    const [documents, setDocuments] = useState([])
+    const [pendingNotification, setPendingNotification] = useState(false)
+    const [approvedNotification, setApprovedNotification] = useState(false)
+    const [rejectedNotification, setRejectedNotification] = useState(false)
+
+    //Notifications
+    const {
+        notifications,
+        setNotifications
+    } = useContext(NotificationContext)
+
+    const getAllDocuemnts = async() => {
+        const docsRes = await getTableData({ documentType: 'All' })
+        
+        if(docsRes?.status === 200){
+            setDocuments(docsRes.data?.documents)
+            getNotificationType()
+        }
+    }
+    useEffect(() => {
+        getAllDocuemnts()
+    }, [notifications])
+
+    const getNotificationType = () => {
+        setApprovedNotification(false)
+        setRejectedNotification(false)
+        setPendingNotification(false)
+
+        notifications.filter(notification => notification.isRead === 0).forEach(notification => {
+            const status = documents.find(document => document.document_id === notification.document_id)?.status
+            console.log(status);
+            if(status !== 'Approved' && status !== 'Rejected'){
+                setPendingNotification(true)
+            }
+            if(status === 'Approved'){
+                setApprovedNotification(true)
+            }
+            if(status === 'Rejected'){
+                setRejectedNotification(true)
+            }
+        });
+    }
+
+
+
     const sidebarRef = useRef(null);
+
+    
+
     useEffect(() => {
         if(windowWidth > 1024){
             setToggleSidebar(true)
@@ -60,7 +109,7 @@ function Sidebar() {
         };
     }, [toggleSidebar]);
 
-  return (
+return (
     <section id='Sidebar' className={toggleSidebar ? 'Sidebar' : 'Sidebar_Close'}>
         <div className='wrapper'>
             <div className="content" ref={sidebarRef}>
@@ -89,7 +138,7 @@ function Sidebar() {
                             <span className='Nav_Item_Icon'><HiIcons.HiOutlineDocumentText size={'30px'}/></span>
                             <span className='Nav_Item_Label'>Request</span>
                         </div>
-                        <span className='Nav_Item_Notification'></span>
+                        {notifications && notifications.filter(notif => notif.isRead !== 1).length > 0 && <span className='Nav_Item_Notification'></span>}
                         <span className={toggleRequests ? 'Nav_Item_Collapse_Icon active' : 'Nav_Item_Collapse_Icon'}><RiIcons.RiArrowDropDownLine size={'35px'}/></span>
                     </Link>
                         <Collapse className='Nav_List_Collapse' in={toggleRequests} timeout="auto" unmountOnExit>
@@ -98,28 +147,27 @@ function Sidebar() {
                                     <span className='Nav_Item_onCollapse_Icon'><MdIcons.MdOutlinePendingActions size={'20px'}/></span>
                                     <span className='Nav_Item_Label'>Pending Documents</span>
                                 </div>
-                                <span className='Nav_Item_Notification'></span>
+                                {pendingNotification && <span className='Nav_Item_Notification'></span>}
                             </Link>
                             <Link to={`/Requests/Approved`} className={location.pathname.includes('/Approved') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
                                 <div className="Nav_Icon_Label">
                                     <span className='Nav_Item_onCollapse_Icon'><HiIcons.HiOutlineClipboardCheck size={'20px'}/></span>
                                     <span className='Nav_Item_Label'>Approved Documents</span>
                                 </div>
-                                <span className='Nav_Item_Notification'></span>
+                                {approvedNotification && <span className='Nav_Item_Notification'></span>}
                             </Link>
                             <Link to={`/Requests/Rejected`} className={location.pathname.includes('/Rejected') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
                                 <div className="Nav_Icon_Label">
                                     <span className='Nav_Item_onCollapse_Icon'><LuIcons.LuClipboardX size={'20px'}/></span>
                                     <span className='Nav_Item_Label'>Rejected Documents</span>
                                 </div>
-                                <span className='Nav_Item_Notification'></span>
+                                {rejectedNotification && <span className='Nav_Item_Notification'></span>}
                             </Link>
                             <Link to={`/Requests/History`} className={location.pathname.includes('/History') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
                                 <div className="Nav_Icon_Label">
                                     <span className='Nav_Item_onCollapse_Icon'><LuIcons.LuHistory size={'20px'}/></span>
                                     <span className='Nav_Item_Label'>Request History</span>
                                 </div>
-                                <span className='Nav_Item_Notification'></span>
                             </Link>
                         </Collapse>
                     <Link className={location.pathname.includes('/Monitoring') ? 'Nav_List_Item active' : 'Nav_List_Item'} onClick={(e) => setToggleMonitoring(!toggleMonitoring)}>

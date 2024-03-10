@@ -27,6 +27,9 @@ import formatTimeAmPm from "./formatTimeAmPm";
 import archiveDocument from "./archiveDocument";
 import getArchiveDocuments from "./getArchiveDocuments";
 import changeUserStatus from "./changeUserStatus";
+import getAllNotifications from "./getAllNotifications";
+import deleteNotification from "./deleteNotification";
+import forwardDocument from "./forwardDocument";
 
 export {
     hasSidebar,
@@ -57,5 +60,8 @@ export {
     formatTimeAmPm,
     archiveDocument,
     getArchiveDocuments,
-    changeUserStatus
+    changeUserStatus,
+    getAllNotifications,
+    deleteNotification,
+    forwardDocument
 }

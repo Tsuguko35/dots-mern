@@ -65,8 +65,15 @@ function Archive_Table() {
           document.status.toLowerCase().includes(filters.statusFilter.toLowerCase())
         )
     
-        // Now, set the filtered documents to your state.
-        setArchivedDocuments(filteredDocs);
+        const sortedFilteredDocs = filteredDocs.sort((a, b) => {
+          if (a.date_Received !== b.date_Received) {
+              return new Date(b.date_Received + 'T' + b.time_Received) - new Date(a.date_Received + 'T' + a.time_Received);
+          } else {
+              return new Date(b.time_Received) - new Date(a.time_Received);
+          }
+        })
+    
+        setArchivedDocuments(sortedFilteredDocs);
       }
       else{
         setArchivedDocuments(archivedDocumentsToFilter);
