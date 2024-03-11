@@ -4,28 +4,17 @@ import {
     Dialog, 
     DialogActions, 
     DialogContent, 
-    DialogContentText, 
     DialogTitle, 
     Paper, 
-    useMediaQuery, 
-    useTheme
 } from '@mui/material';
 import toast from 'react-hot-toast';
 
 import '../../styles/request_dialog.css'
 
 import * as IoIcons from 'react-icons/io'
-import * as SlIcons from 'react-icons/sl'
-
-import { ReactComponent as PDF } from '../../assets/svg/icons/PDF_icon.svg'
-import { LoadingInfinite } from '../../assets/svg';
-import Signature from '../../assets/images/Sinature.png'
-import View_Files from './View_Files';
 import { forwardDocument, getAllUsers } from '../../utils';
 
-function Request_Dialog({ action, openRequest, closeRequest, status, document_Name, document_id, getTableDocuments }) {
-    const theme = useTheme()
-    const userProfile = JSON.parse(window.localStorage.getItem('profile')) || {}
+function Request_Dialog({ action, openRequest, closeRequest, status, document_Name, document_id, getTableDocuments, userProfile }) {
     const [users, setUsers] = useState([])
     const [openOptions, setOpenOptions] = useState('')
     const [actionDetails, setActionDetails] = useState({
@@ -43,7 +32,7 @@ function Request_Dialog({ action, openRequest, closeRequest, status, document_Na
         const res = await forwardDocument({
             document_Name: actionDetails.document_Name,
             document_id: actionDetails.document_id,
-            comment: action.comment,
+            comment: actionDetails.comment,
             action: actionDetails.action,
             forward_To: actionDetails.forward_To,
             status: actionDetails.status,

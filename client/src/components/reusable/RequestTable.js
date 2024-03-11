@@ -1,16 +1,13 @@
 import React, {useContext, useState} from 'react'
 import '../../styles/requests_table.css'
 
-import * as FaIcons from 'react-icons/fa'
 import * as IoIcons from 'react-icons/io'
-import * as Io5Icons from 'react-icons/io5'
-import * as GoIcons from 'react-icons/go'
 import * as HiIcons from 'react-icons/hi'
 import * as MdIcons from 'react-icons/md'
 import * as GrIcons from 'react-icons/gr'
 import * as TiIcons from 'react-icons/ti'
 import * as BsIcons from 'react-icons/bs'
-import { Badge, Collapse, InputAdornment, Menu, TextField, Tooltip } from '@mui/material'
+import { Collapse, Menu, Tooltip } from '@mui/material'
 import { LoadingInfinite } from '../../assets/svg'
 import { GetWindowWidth, deleteNotification } from '../../utils'
 import View_Document_Dialog from '../dialog modals/View_Document_Dialog'
@@ -18,15 +15,11 @@ import Request_Dialog from '../dialog modals/Request_Dialog'
 
 import Signature from '../../assets/images/Sinature.png'
 import noResult from '../../assets/images/noResult.png'
-import toast from 'react-hot-toast'
 import { NotificationContext } from '../../context/context'
 
-function RequestTable({documentType, documents, filters, setFilter, getTableDcuments}) {
-  const [rotation, setRotation] = useState(0);
+function RequestTable({documentType, documents, filters, setFilter, getTableDcuments, userDetails, isLoading}) {
   const [openRow, setOpenRow] = useState(0)
-  const [isLoading, setIsLoading] = useState(false)
   const [openViewDoc, setOpenViewDoc] = useState(false)
-  const userDetails = JSON.parse(window.localStorage.getItem('profile')) || {}
   const [editDocumentID, setEditDocumentID] = useState('')
   const [requestDetails, setRequestDetails] = useState({
     show: false,
@@ -70,15 +63,6 @@ function RequestTable({documentType, documents, filters, setFilter, getTableDcum
     setEditDocumentID(props)
   }
 
-  const showFilterIcon = (props) => {
-    if(document.getElementById(props).style.display == 'block'){
-      document.getElementById(props).style.display = 'none'
-    }
-    else{
-      document.getElementById(props).style.display = 'block'
-    }
-  }
-
   const openRequest = (props) => {
     setRequestDetails({
       show: true,
@@ -102,7 +86,16 @@ function RequestTable({documentType, documents, filters, setFilter, getTableDcum
   return (
     <section id='Requests_Table' className='Requests_Table'>
       {/* Request Dialog */}
-      <Request_Dialog action={requestDetails.action} openRequest={requestDetails.show} closeRequest={setRequestDetails} status={requestDetails.status} document_Name={requestDetails.document_Name} document_id={requestDetails.document_id} getTableDocuments={getTableDcuments}/>
+      <Request_Dialog 
+        action={requestDetails.action} 
+        openRequest={requestDetails.show} 
+        closeRequest={setRequestDetails} 
+        status={requestDetails.status} 
+        document_Name={requestDetails.document_Name} 
+        document_id={requestDetails.document_id} 
+        getTableDocuments={getTableDcuments}
+        userProfile={userDetails}
+      />
 
       {/* View Document */}
       <View_Document_Dialog openViewDoc={openViewDoc} setOpenViewDoc={setOpenViewDoc} document_id={editDocumentID}/>
@@ -224,7 +217,7 @@ function RequestTable({documentType, documents, filters, setFilter, getTableDcum
                         {documents && documents.length !== 0 ? (
                           <React.Fragment>
                             {documents.map((document) => (
-                                <div key={document.document_id} className={`Table_Body_Row ${notifications.find(notif => notif.document_id === document.document_id)?.isRead === 0 && 'unread'}`} onClick={() => removeNotification(document.document_id)}>
+                                <div key={document.document_id} className={`Table_Body_Row ${notifications.find(notif => notif.document_id === document.document_id)?.isRead === 0 && 'unread'} ${parseInt(document.urgent) === 1 && 'urgent'}`} onClick={() => removeNotification(document.document_id)}>
                                   <div className="Table_Body_Details">
                                     <div onClick={() => openToggleRow(document.document_id)}>
                                       <p>{document.document_Name}</p>

@@ -173,7 +173,7 @@ export const urgentEmailTemplate = (sender, date, time) => {
                             Hello, An urgent document has been forwarded to you
                         </p>
                         <p>
-                            The urgent docment was forwarded to you by ${sender} on ${date} at ${time}. Click the link bellow
+                            The urgent document was forwarded to you by ${sender} on ${date} at ${time}. Click the link bellow
                             to go to your pending documents to see the urgent document.
                         </p>
                         <p class="otpCode">

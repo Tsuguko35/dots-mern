@@ -1,10 +1,8 @@
 import { Axios } from "../config"
 
-export default async function archiveDocument(payload) {
-    const { document_id, archived_By } = payload
-
+export default async function getLogs() {
     try {
-        const res = await Axios.post('/document/archiveDocument', { document_id: document_id, archived_By: archived_By})
+        const res = await Axios.post('/settings/getLogs')
 
         if (res) {
             return res

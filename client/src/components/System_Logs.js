@@ -1,23 +1,102 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import '../styles/system_logs.css'
 
-import { 
-    InputAdornment, 
-    TextField 
-} from '@mui/material'
-
 import * as PiIcons from 'react-icons/pi'
 import * as IoIcons from 'react-icons/io'
+import { getLogs } from '../utils'
+import toast from 'react-hot-toast'
 
 function System_Logs() {
+    const [logs, setLogs] = useState([])
+    const [logsToFilter, setLogsToFilter] = useState([])
+    const [filters, setFilters] = useState({
+        date: '',
+        range: '',
+        search: ''
+    })
+
+    const getLogsData = async() => {
+        const res = await getLogs()
+
+        if(res?.status === 200){
+            setLogsToFilter(res.data?.logs)
+        }
+        else{
+            toast.error('Failed fetching system logs.')
+        }
+    }
+
+    useEffect(() => {
+        if(logsToFilter){
+            console.log(logsToFilter);
+            const filteredLogs = logsToFilter.filter(log => 
+                log.log.toLowerCase().includes(filters.search.toLowerCase())
+            )
+            .filter(log =>
+                filters.date !== '' ? new Date(log.datetime).getDate() === new Date(filters.date).getDate() : true
+            )
+            .filter(log => {
+                const logDate = new Date(log.datetime);
+                const filterDate = new Date()
+                switch (filters.range) {
+                    case 'Year':
+                        return logDate.getFullYear() === filterDate.getFullYear();
+                    case 'Month':
+                        return logDate.getMonth() === filterDate.getMonth() &&
+                                logDate.getFullYear() === filterDate.getFullYear();
+                    case 'Day':
+                        return logDate.getDate() === filterDate.getDate() &&
+                                logDate.getMonth() === filterDate.getMonth() &&
+                                logDate.getFullYear() === filterDate.getFullYear();
+                    default:
+                        return true; // Include all logs if range is not specified or invalid
+                }
+            })
+    
+            const sortedFilteredLogs = filteredLogs.sort((a, b) => {
+                const dateA = new Date(a.datetime);
+                const dateB = new Date(b.datetime);
+            
+                // Compare the dates
+                if (dateA > dateB) return -1; // Sort in descending order
+                if (dateA < dateB) return 1; // Sort in descending order
+            
+                // If dates are equal, compare the times
+                const timeA = new Date(a.log.datetime).getTime();
+                const timeB = new Date(b.log.datetime).getTime();
+            
+                return timeB - timeA; // Sort in descending order
+            });
+        
+            setLogs(sortedFilteredLogs);
+        }
+        else{
+            setLogs(logsToFilter);
+        }
+
+    }, [filters, logsToFilter])
+
+    useEffect(() => {
+        getLogsData()
+    }, [])
+
+    const changeRange = (range) => {
+        if(filters.range === range){
+            setFilters({...filters, range: '', date: ''})
+        }
+        else{
+            setFilters({...filters, range: range, date: ''})
+        }
+    }
+
     return (
         <section id='System_Logs' className='System_Logs'>
             <div className="wrapper">
                 <div className="Top_Side">
                     <div className="Input_Group">
                         <span className='Input_Label'>Date</span>
-                        <input className='Input' type="date" />
+                        <input className='Input' type="date" value={filters.date} onChange={(e) => setFilters({...filters, date: e.target.value, range: ''})}/>
                     </div>
                     <div className="Input_Group">
                         <div className="Checkboxes">
@@ -26,7 +105,7 @@ function System_Logs() {
                             </div>
                             <div className="CheckBox">
                                 <div className="checkbox-wrapper-46">
-                                    <input className="inp-cbx" id="cbx-46" type="checkbox" />
+                                    <input className="inp-cbx" id="cbx-46" type="checkbox" checked={filters.range === 'Year'} onChange={() => changeRange('Year')}/>
                                     <label className="cbx" htmlFor="cbx-46">
                                         <span>
                                             <svg width="12px" height="10px" viewBox="0 0 12 10">
@@ -37,7 +116,7 @@ function System_Logs() {
                                     </label>    
                                 </div>
                                 <div className="checkbox-wrapper-46">
-                                    <input className="inp-cbx" id="cbx-47" type="checkbox" />
+                                    <input className="inp-cbx" id="cbx-47" type="checkbox" checked={filters.range === 'Month'} onChange={() => changeRange('Month')}/>
                                     <label className="cbx" htmlFor="cbx-47">
                                         <span>
                                             <svg width="12px" height="10px" viewBox="0 0 12 10">
@@ -48,7 +127,7 @@ function System_Logs() {
                                     </label>    
                                 </div>
                                 <div className="checkbox-wrapper-46">
-                                    <input className="inp-cbx" id="cbx-48" type="checkbox" />
+                                    <input className="inp-cbx" id="cbx-48" type="checkbox" checked={filters.range === 'Day'} onChange={() => changeRange('Day')}/>
                                     <label className="cbx" htmlFor="cbx-48">
                                         <span>
                                             <svg width="12px" height="10px" viewBox="0 0 12 10">
@@ -68,115 +147,27 @@ function System_Logs() {
                             <div className="Icon">
                                 <IoIcons.IoIosSearch size={'20px'}/>
                             </div>
-                            <input className='Input' type="text" placeholder='Search...'/>
+                            <input className='Input' type="text" placeholder='Search...' value={filters.search} onChange={(e) => setFilters({...filters, search: e.target.value})}/>
                         </div>
                     </div>
                 </div>
                 <div className="System_Logs_Container">
                     <div className="Logs">
-                        <div className="Log">
-                            <div className="Icon">
-                                <PiIcons.PiDotsNine size={'20px'}/> 
-                            </div>
-                            <div className="Text">
-                                <div className="DateTime">
-                                    <p>September 25, 2024 <span className='dot'>·</span> 10:23 AM </p> 
+                        {logs.map((log) => (
+                            <div className="Log" key={log.log_id}>
+                                <div className="Icon">
+                                    <PiIcons.PiDotsNine size={'20px'}/> 
                                 </div>
-                                <div className="Event">
-                                    <p>Jazpher Carpio added an ncoming document.aaaaaaaaa aaaaaaaaaaaaaaaa aaaaaa aa aaaaaaaaaaa aaaaaaa aaaaaaaa aaaaaaaa</p>
+                                <div className="Text">
+                                    <div className="DateTime">
+                                        <p>{new Date(log.datetime).toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'})} <span className='dot'>·</span> {new Date(log.datetime).toLocaleTimeString('en-us', { hour: 'numeric', minute: 'numeric', hour12: true})} </p> 
+                                    </div>
+                                    <div className="Event">
+                                        <p>{log.log}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="Log">
-                            <div className="Icon">
-                                <PiIcons.PiDotsNine size={'20px'}/> 
-                            </div>
-                            <div className="Text">
-                                <div className="DateTime">
-                                    <p>September 25, 2024 <span className='dot'>·</span> 10:23 AM </p> 
-                                </div>
-                                <div className="Event">
-                                    <p>Jazpher Carpio added an ncoming document.aaaaaaaaa aaaaaaaaaaaaaaaa aaaaaa aa aaaaaaaaaaa aaaaaaa aaaaaaaa aaaaaaaa</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="Log">
-                            <div className="Icon">
-                                <PiIcons.PiDotsNine size={'20px'}/> 
-                            </div>
-                            <div className="Text">
-                                <div className="DateTime">
-                                    <p>September 25, 2024 <span className='dot'>·</span> 10:23 AM </p> 
-                                </div>
-                                <div className="Event">
-                                    <p>Jazpher Carpio added an ncoming document.aaaaaaaaa aaaaaaaaaaaaaaaa aaaaaa aa aaaaaaaaaaa aaaaaaa aaaaaaaa aaaaaaaa</p>
-                                </div>
-                            </div>
-                        </div><div className="Log">
-                            <div className="Icon">
-                                <PiIcons.PiDotsNine size={'20px'}/> 
-                            </div>
-                            <div className="Text">
-                                <div className="DateTime">
-                                    <p>September 25, 2024 <span className='dot'>·</span> 10:23 AM </p> 
-                                </div>
-                                <div className="Event">
-                                    <p>Jazpher Carpio added an ncoming document.aaaaaaaaa aaaaaaaaaaaaaaaa aaaaaa aa aaaaaaaaaaa aaaaaaa aaaaaaaa aaaaaaaa</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="Log">
-                            <div className="Icon">
-                                <PiIcons.PiDotsNine size={'20px'}/> 
-                            </div>
-                            <div className="Text">
-                                <div className="DateTime">
-                                    <p>September 25, 2024 <span className='dot'>·</span> 10:23 AM </p> 
-                                </div>
-                                <div className="Event">
-                                    <p>Jazpher Carpio added an ncoming document.aaaaaaaaa aaaaaaaaaaaaaaaa aaaaaa aa aaaaaaaaaaa aaaaaaa aaaaaaaa aaaaaaaa</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="Log">
-                            <div className="Icon">
-                                <PiIcons.PiDotsNine size={'20px'}/> 
-                            </div>
-                            <div className="Text">
-                                <div className="DateTime">
-                                    <p>September 25, 2024 <span className='dot'>·</span> 10:23 AM </p> 
-                                </div>
-                                <div className="Event">
-                                    <p>Jazpher Carpio added an ncoming document.aaaaaaaaa aaaaaaaaaaaaaaaa aaaaaa aa aaaaaaaaaaa aaaaaaa aaaaaaaa aaaaaaaa</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="Log">
-                            <div className="Icon">
-                                <PiIcons.PiDotsNine size={'20px'}/> 
-                            </div>
-                            <div className="Text">
-                                <div className="DateTime">
-                                    <p>September 25, 2024 <span className='dot'>·</span> 10:23 AM </p> 
-                                </div>
-                                <div className="Event">
-                                    <p>Jazpher Carpio added an ncoming document.aaaaaaaaa aaaaaaaaaaaaaaaa aaaaaa aa aaaaaaaaaaa aaaaaaa aaaaaaaa aaaaaaaa</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="Log">
-                            <div className="Icon">
-                                <PiIcons.PiDotsNine size={'20px'}/> 
-                            </div>
-                            <div className="Text">
-                                <div className="DateTime">
-                                    <p>September 25, 2024 <span className='dot'>·</span> 10:23 AM </p> 
-                                </div>
-                                <div className="Event">
-                                    <p>Jazpher Carpio added an ncoming document.aaaaaaaaa aaaaaaaaaaaaaaaa aaaaaa aa aaaaaaaaaaa aaaaaaa aaaaaaaa aaaaaaaa</p>
-                                </div>
-                            </div>
-                        </div>
+                            </div>   
+                        ))}
                         
                     </div>
                     

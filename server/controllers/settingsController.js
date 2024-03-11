@@ -49,7 +49,24 @@ const updateDropdowns = asyncHandler(async (req, res) => {
     }
 })
 
+const getLogs = asyncHandler(async (req, res) => {
+    let q = `SELECT * FROM logs`
+
+
+    db.query(q, async(err, logs) => {
+        if (err) res.status(400).json({errorMessage: 'Query Error'})
+
+        if(logs.length > 0){
+            res.status(200).json({ hasData: true, logs: logs })
+        }
+        else{
+            res.status(200).json({ hasData: false })
+        }
+    })
+})
+
 export{
     getDropdowns,
-    updateDropdowns
+    updateDropdowns,
+    getLogs
 }

@@ -1,7 +1,7 @@
 import { Axios } from "../config"
 
 export default async function editDocument(payload) {
-    const { documentState, document_id } = payload
+    const { documentState, document_id, edited_By } = payload
     
     const data = {
         document_id: document_id,
@@ -21,6 +21,7 @@ export default async function editDocument(payload) {
         tracking: documentState.Tracking || {},
         urgent: documentState.Urgent || 0,
         status: documentState.Status,
+        edited_By: edited_By
     }
 
     try {

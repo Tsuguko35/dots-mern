@@ -30,6 +30,7 @@ import changeUserStatus from "./changeUserStatus";
 import getAllNotifications from "./getAllNotifications";
 import deleteNotification from "./deleteNotification";
 import forwardDocument from "./forwardDocument";
+import getLogs from "./getLogs";
 
 export {
     hasSidebar,
@@ -63,5 +64,6 @@ export {
     changeUserStatus,
     getAllNotifications,
     deleteNotification,
-    forwardDocument
+    forwardDocument,
+    getLogs
 }

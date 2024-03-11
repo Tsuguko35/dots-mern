@@ -235,10 +235,10 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                                             : input.options === "IPCR/OPCR" ?
                                                             (
                                                                 <React.Fragment>
-                                                                    <div className="Option" onClick={() => setDocumentState({...documentState, Document_Type: 'Approved'})}>
+                                                                    <div className="Option" onClick={() => setDocumentState({...documentState, Document_Type: 'IPCR'})}>
                                                                         <p>IPCR</p>
                                                                     </div>
-                                                                    <div className="Option" onClick={() => setDocumentState({...documentState, Document_Type: 'Pending'})}>
+                                                                    <div className="Option" onClick={() => setDocumentState({...documentState, Document_Type: 'OPCR'})}>
                                                                         <p>OPCR</p>
                                                                     </div>
                                                                 </React.Fragment>

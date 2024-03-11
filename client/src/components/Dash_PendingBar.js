@@ -22,14 +22,18 @@ ChartJS.register(
   Legend
 );
 
-function Dash_PendingBar() {
+function Dash_PendingBar({ userDetails }) {
     const [documents, setDocuments] = useState([])
 
     const getDocuments = async() => {
       const res = await getTableData({ documentType: 'All' })
       
       if(res?.status === 200){
-        setDocuments(res?.data.documents)
+        const documents = res?.data.documents
+        const filteredDocs = documents.filter(document => 
+          document.forward_To === userDetails.user_id || (document.forward_To.includes(userDetails.role) && !document.forward_To.includes(userDetails.user_id)) || (document.forward_To.includes('All') && !document.forward_To.includes(userDetails.user_id))
+        )
+        setDocuments(filteredDocs)
       }
       else{
         toast.error('Error fetching documents.')

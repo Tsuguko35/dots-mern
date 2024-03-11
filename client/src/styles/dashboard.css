@@ -82,11 +82,15 @@
 #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Middle{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
     grid-template-areas: 
     'graph1 graph2'
     'graph3 graph4';
     gap: 10px;
+}
+
+#Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Middle.Faculty{
+    grid-template-areas: 
+    'graph1 graph4'
 }
 
 #Dashboard > .wrapper  > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card{

@@ -46,8 +46,16 @@ function Dashboard() {
     if(docsRes?.status === 200){
       setDocumentsToFilter(docsRes.data?.documents)
       const currentDate = new Date();
-      const documentsArray = docsRes.data?.documents
-      
+      let documentsArray = []
+      if(userDetails.role === 'Faculty'){
+        const documents = docsRes.data?.documents
+        documentsArray = documents.filter(document => 
+          document.forward_To === userDetails.user_id || (document.forward_To.includes(userDetails.role) && !document.forward_To.includes(userDetails.user_id)) || (document.forward_To.includes('All') && !document.forward_To.includes(userDetails.user_id))
+        )
+      }
+      else{
+        documentsArray = docsRes.data?.documents
+      }
       const todayCount = documentsArray.filter(document => isSameDay(new Date(document.date_Received), currentDate)).length;
       counts.today = todayCount
     
@@ -62,7 +70,16 @@ function Dashboard() {
     }
 
     if(archiveRes?.status === 200){
-      const archiveArray = archiveRes.data?.archives
+      let archiveArray = []
+      if(userDetails.role === 'Faculty'){
+        const archives = archiveRes.data?.archives
+        archiveArray = archives.filter(document => 
+          document.forward_To === userDetails.user_id || (document.forward_To.includes(userDetails.role) && !document.forward_To.includes(userDetails.user_id)) || (document.forward_To.includes('All') && !document.forward_To.includes(userDetails.user_id))
+        )
+      }
+      else{
+        archiveArray = archiveRes.data?.archives
+      }
       const archiveCount = archiveArray.length
       counts.archive = archiveCount
     }
@@ -138,7 +155,6 @@ function Dashboard() {
     else{
       setDocuments(documentsToFilter);
     }
-    console.log(filters);
   }, [filters, documentsToFilter])
 
   return (
@@ -196,138 +212,145 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="Dashboard_Grid_Container Middle">
+          <div className={`Dashboard_Grid_Container Middle ${userDetails.role === 'Faculty' && 'Faculty'}`}>
             <div className="Dashboard_Grid_Card Graph1">
               <div className="Chart_Wrapper">
-                <Dash_PendingBar />
+                <Dash_PendingBar userDetails={userDetails}/>
               </div>
             </div>
-            <div className="Dashboard_Grid_Card Graph2">
-              <div className="Chart_Wrapper">
-                <Dash_DoughnutChart/>
+            {userDetails.role !== 'Faculty' && (
+              <div className="Dashboard_Grid_Card Graph2">
+                <div className="Chart_Wrapper">
+                  <Dash_DoughnutChart/>
+                </div>
               </div>
-            </div>
-            <div className="Dashboard_Grid_Card Graph3">
-              <div className="Chart_Wrapper">
-                <Dash_BarChart/>
+            )}
+            {userDetails.role !== 'Faculty' && (
+              <div className="Dashboard_Grid_Card Graph3">
+                <div className="Chart_Wrapper">
+                  <Dash_BarChart/>
+                </div>
               </div>
-            </div>
+            )}
             <div className="Dashboard_Grid_Card Graph4 Calendar">
               <div className="Chart_Wrapper">
                 <iframe className='Calendar' src="https://calendar.google.com/calendar/embed?src=carpio.johnjazpher.dc.3188%40gmail.com&ctz=Asia%2FManila" frameBorder="0" scrolling="no"></iframe>
               </div>
             </div>
           </div>
-          <div className="Dashboard_Grid_Container Bottom">
-            <div className="Dashboard_Grid_Card Box1">
-              <div className="Box_Wrapper">
-                <div className="Box_Title">
-                  <span>Travel Orders</span>
-                  <div className="Labels">
-                    <span>Name</span>
-                    <span>Count</span>
+          {userDetails.role !== 'Faculty' && (
+            <div className="Dashboard_Grid_Container Bottom">
+              <div className="Dashboard_Grid_Card Box1">
+                <div className="Box_Wrapper">
+                  <div className="Box_Title">
+                    <span>Travel Orders</span>
+                    <div className="Labels">
+                      <span>Name</span>
+                      <span>Count</span>
+                    </div>
+                  </div>
+                  <div className="Box_Content">
+                  {
+                    documents.filter(documents => documents.document_Type === 'Travel Order').length === 0 ? (
+                      <div className="Content">
+                          <div className="Name">
+                              <p>N/A</p>
+                          </div>
+                          <div className="Count">
+                              <p>N/A</p>
+                          </div>
+                      </div>
+                    ) : (
+                        documents.filter(documents => documents.document_Type === 'Travel Order').map(document => (
+                            <div className="Content" key={document.document_id}>
+                                <div className="Name">
+                                    <p>{document.contact_Person}</p>
+                                </div>
+                                <div className="Count">
+                                    <p>{documents.filter(doc => doc.document_Type === 'Travel Order' && doc.contact_Person === document.contact_Person).length}</p>
+                                </div>
+                            </div>
+                        ))
+                    )
+                  }
                   </div>
                 </div>
-                <div className="Box_Content">
-                {
-                  documents.filter(documents => documents.document_Type === 'Travel Order').length === 0 ? (
-                    <div className="Content">
-                        <div className="Name">
-                            <p>N/A</p>
-                        </div>
-                        <div className="Count">
-                            <p>N/A</p>
-                        </div>
+              </div>
+              <div className="Dashboard_Grid_Card Box2">
+                <div className="Box_Wrapper">
+                  <div className="Box_Title">
+                    <span>Faculty Training</span>
+                    <div className="Labels">
+                      <span>Name</span>
+                      <span>Count</span>
                     </div>
-                  ) : (
-                      documents.filter(documents => documents.document_Type === 'Travel Order').map(document => (
-                          <div className="Content" key={document.document_id}>
-                              <div className="Name">
-                                  <p>{document.contact_Person}</p>
-                              </div>
-                              <div className="Count">
-                                  <p>{documents.filter(doc => doc.document_Type === 'Travel Order' && doc.contact_Person === document.contact_Person).length}</p>
-                              </div>
+                  </div>
+                  <div className="Box_Content">
+                  {
+                    documents.filter(documents => documents.document_Type === 'Application for Leave').length === 0 ? (
+                      <div className="Content">
+                          <div className="Name">
+                              <p>N/A</p>
                           </div>
-                      ))
-                  )
-                }
+                          <div className="Count">
+                              <p>N/A</p>
+                          </div>
+                      </div>
+                    ) : (
+                        documents.filter(documents => documents.document_Type === 'Application for Leave').map(document => (
+                            <div className="Content" key={document.document_id}>
+                                <div className="Name">
+                                    <p>{document.contact_Person}</p>
+                                </div>
+                                <div className="Count">
+                                    <p>{documents.filter(doc => doc.document_Type === 'Application for Leave' && doc.contact_Person === document.contact_Person).length}</p>
+                                </div>
+                            </div>
+                        ))
+                    )
+                  }
+                  </div>
+                </div>
+              </div>
+              <div className="Dashboard_Grid_Card Box3">
+                <div className="Box_Wrapper">
+                  <div className="Box_Title">
+                    <span>Faculty Leave</span>
+                    <div className="Labels">
+                      <span>Name</span>
+                      <span>Count</span>
+                    </div>
+                  </div>
+                  <div className="Box_Content">
+                  {
+                    documents.filter(documents => documents.document_Type === 'Training Request Form').length === 0 ? (
+                      <div className="Content">
+                          <div className="Name">
+                              <p>N/A</p>
+                          </div>
+                          <div className="Count">
+                              <p>N/A</p>
+                          </div>
+                      </div>
+                    ) : (
+                        documents.filter(documents => documents.document_Type === 'Training Request Form').map(document => (
+                            <div className="Content" key={document.document_id}>
+                                <div className="Name">
+                                    <p>{document.contact_Person}</p>
+                                </div>
+                                <div className="Count">
+                                    <p>{documents.filter(doc => doc.document_Type === 'Training Request Form' && doc.contact_Person === document.contact_Person).length}</p>
+                                </div>
+                            </div>
+                        ))
+                    )
+                  }
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="Dashboard_Grid_Card Box2">
-              <div className="Box_Wrapper">
-                <div className="Box_Title">
-                  <span>Faculty Training</span>
-                  <div className="Labels">
-                    <span>Name</span>
-                    <span>Count</span>
-                  </div>
-                </div>
-                <div className="Box_Content">
-                {
-                  documents.filter(documents => documents.document_Type === 'Application for Leave').length === 0 ? (
-                    <div className="Content">
-                        <div className="Name">
-                            <p>N/A</p>
-                        </div>
-                        <div className="Count">
-                            <p>N/A</p>
-                        </div>
-                    </div>
-                  ) : (
-                      documents.filter(documents => documents.document_Type === 'Application for Leave').map(document => (
-                          <div className="Content" key={document.document_id}>
-                              <div className="Name">
-                                  <p>{document.contact_Person}</p>
-                              </div>
-                              <div className="Count">
-                                  <p>{documents.filter(doc => doc.document_Type === 'Application for Leave' && doc.contact_Person === document.contact_Person).length}</p>
-                              </div>
-                          </div>
-                      ))
-                  )
-                }
-                </div>
-              </div>
-            </div>
-            <div className="Dashboard_Grid_Card Box3">
-              <div className="Box_Wrapper">
-                <div className="Box_Title">
-                  <span>Faculty Leave</span>
-                  <div className="Labels">
-                    <span>Name</span>
-                    <span>Count</span>
-                  </div>
-                </div>
-                <div className="Box_Content">
-                {
-                  documents.filter(documents => documents.document_Type === 'Training Request Form').length === 0 ? (
-                    <div className="Content">
-                        <div className="Name">
-                            <p>N/A</p>
-                        </div>
-                        <div className="Count">
-                            <p>N/A</p>
-                        </div>
-                    </div>
-                  ) : (
-                      documents.filter(documents => documents.document_Type === 'Training Request Form').map(document => (
-                          <div className="Content" key={document.document_id}>
-                              <div className="Name">
-                                  <p>{document.contact_Person}</p>
-                              </div>
-                              <div className="Count">
-                                  <p>{documents.filter(doc => doc.document_Type === 'Training Request Form' && doc.contact_Person === document.contact_Person).length}</p>
-                              </div>
-                          </div>
-                      ))
-                  )
-                }
-                </div>
-              </div>
-            </div>
-          </div>
+          )}
+          
         </div>
         <div className="Dashboard_Table_Container">
           <div className="Dashboard_Table">

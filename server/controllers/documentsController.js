@@ -198,7 +198,10 @@ const addDocument = asyncHandler(async (req, res) => {
         if (err) return res.status(400).json({errorMessage: 'Query Error'})
 
         if(document){
-            // sendUrgentEmail({ sender: '', date: '', time: '', receiver: '' })
+            createLog({ action: 'Add', By: req.body.created_By, document_Name: req.body.document_Name, document_Type: req.body.document_Type})
+            if(parseInt(req.body.urgent) === 1){
+                sendUrgentEmail({ sender: req.body.created_By, receiver: req.body.forward_To, })
+            }
             if(req.body.forward_To){
                 const uniqueID = uuidv4()
                 const notificationData = [
@@ -241,6 +244,7 @@ const editDocument = asyncHandler(async (req, res) => {
     // Update all fields in the request body
     const updates = Object.entries(req.body)
         .filter(([key, value]) => key !== 'document_id')
+        .filter(([key, value]) => key !== 'edited_By')
         .map(([key, value]) => `${key} = ${typeof value === 'string' ? `'${value}'` : value}`)
         .join(', ');
 
@@ -251,6 +255,7 @@ const editDocument = asyncHandler(async (req, res) => {
             console.log(err);
             return res.status(400).json({ errorMessage: 'Query Error' });
         } else if (result.affectedRows > 0) {
+            createLog({ action: 'Edit', By: req.body.edited_By, document_Name: req.body.document_Name, document_Type: req.body.document_Type})
             return res.status(200).json({ hasData: true, document_id: document_id, message: 'Document updated successfully.' });
         } else {
             return res.status(400).json({ errorMessage: 'An error occurred while updating the document.' });
@@ -335,7 +340,7 @@ const forwardDocument = asyncHandler(async (req, res) => {
                         if(err) return reject(err)
     
                         if(notification){
-                            io.emit('notifications', {user_id: req.body.forward_To, action: 'Forward Document'})
+                            io.emit('notifications', {user_id: user_id, action: 'Forward Document'})
                             return resolve(notification)
                         }
                     })
@@ -358,7 +363,7 @@ const forwardDocument = asyncHandler(async (req, res) => {
 });
 
 const archiveDocument = asyncHandler(async (req, res) => {
-    const { document_id } = req.body;
+    const { document_id, archived_By } = req.body;
     const q = `SELECT * FROM documents WHERE document_id = '${document_id}'`;
 
     db.query(q, async (err, document) => {
@@ -386,9 +391,11 @@ const archiveDocument = asyncHandler(async (req, res) => {
 
             db.query(archiveQuery, async (err, archive) => {
                 if (err) {
+                    console.log(err);
                     return res.status(400).json({ errorMessage: 'Query Error' });
                 }
                 if (archive) {
+                    createLog({ action: 'Archive', By: archived_By, document_Name: dataToArchive.document_Name, document_Type: dataToArchive.document_Type})
                     const findFilesQuery = `SELECT * FROM document_files WHERE document_id = '${document_id}'`
                     db.query(findFilesQuery, async (err, files) => {
                         if (err) {
@@ -477,29 +484,34 @@ const deleteFilesAfterArchive = async (document_id) => {
     });
 };
 
+const sendUrgentEmail = async(props) => {
+    const sender = props.sender
+    const date = new Date().toLocaleDateString('en-us', {year: 'numeric', month: 'long', day: 'numeric'})
+    const time = new Date().toLocaleTimeString('en-us', { hour: 'numeric', minute: 'numeric', hour12: true})
 
-
-// const sendUrgentEmail = async(props) => {
-//     const sender = props.sender
-//     const date = new Date(props.date).toLocaleDateString('en-us', {year: 'numeric', month: 'long', day: 'numeric'})
-//     const time = formatTime(props.time)
-
-
-//     var receiver = props.receiver
-//     var subject = 'Urgent Document'
-//     var body = urgentEmailTemplate(sender, date, time)
-
-//     await mailer({ receiver, subject, body })
-//         .then(() => {
-//             console.log('sent');
-//             return res.status(200).json({
-//             status: 'success',
-//             })
-//         })
-//         .catch((error) => {
-//             return res.status(400)
-//         })
-// }
+    const getUser = `SELECT * FROM users WHERE user_id = '${props.receiver}'`
+    db.query(getUser, async(err, users) => {
+        if(err){
+            console.log(err);
+        }
+        else{
+            const user = users[0]
+            const email = user.email
+            var receiver = email
+            var subject = 'Urgent Document'
+            var body = urgentEmailTemplate(sender, date, time)
+            
+            console.log(`sending to ${email}`);
+            await mailer({ receiver, subject, body })
+                .then(() => {
+                    console.log('Email Sent.');
+                })
+                .catch((error) => {
+                    console.log('Failed to send mail.');
+                })
+                }
+    })
+}
 
 const getArchives = asyncHandler(async (req, res) => {
     const q = `SELECT * FROM archives`
@@ -551,6 +563,41 @@ const deleteNotification = asyncHandler(async (req, res) => {
         }
     });
 })
+
+const createLog = (props) => {
+    const uniqueID = uuidv4()
+    const currentDate = new Date()
+    let log = ''
+
+    if(props.action === 'Add'){
+        const location = props.document_Type === 'Communication' ? 'Communication Documents' : props.document_Type === 'Memorandum' ? 'Memorandum Documents' : 'Other Documents'
+        log = `${props.By} added ${props.document_Name} to ${location}`
+    }
+    else if(props.action === 'Edit'){
+        const location = props.document_Type === 'Communication' ? 'Communication Documents' : props.document_Type === 'Memorandum' ? 'Memorandum Documents' : 'Other Documents'
+        log = `${props.By} edited ${props.document_Name} in ${location}`
+    }
+    else if(props.action === 'Archive'){
+        log = `${props.By} archived ${props.document_Name}`
+    }
+
+
+    const q = "INSERT INTO logs (`log_id`, `datetime`, `log`) VALUES (?)";
+    const values = [
+        uniqueID,
+        currentDate,
+        log
+    ]
+
+    db.query(q, [values], async(err, logs) => {
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log('log created');
+        }
+    })
+}
 
 
 export{

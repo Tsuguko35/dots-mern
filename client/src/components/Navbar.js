@@ -169,14 +169,15 @@ function Navbar() {
           </Tooltip>
           <Menu
             anchorEl={notificationAnchor}
-            id="Navbar_Menu"
+            id="Navbar_Notification_Menu"
             open={openNotif}
             onClose={handleCloseNotification}
             PaperProps={{
               elevation: 0,
               sx: {
                 minWidth: '250px',
-                overflow: 'visible',
+                maxHeight: '400px',
+                overflowY: 'auto',
                 filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                 mt: 1.5,
                 '& .MuiAvatar-root': {

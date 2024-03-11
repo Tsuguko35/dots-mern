@@ -206,7 +206,15 @@
 }
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row.unread > .Table_Body_Details{
-    border: 2px solid var(--orange);
+    border: 2px solid var(--yellow);
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row.urgent > .Table_Body_Details{
+    border: 2px solid var(--error-red);
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row.unread.urgent > .Table_Body_Details{
+    border: 2px solid var(--error-red);
 }
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details:hover{

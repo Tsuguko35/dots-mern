@@ -298,14 +298,6 @@ function Comm_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                             {/* Right Side */}
                             <div className="Right_Side">
                                 <span className='divider mobile'></span>
-                                <div className="Urgent_Container">
-                                    <span className='Label'>Is the document urgent?(Yes if urgent)</span>
-                                    <div className="checkbox-wrapper-8">
-                                        <input className="tgl tgl-skewed" id="cb3-8" checked={documentState.Urgent === 1} type="checkbox" onChange={() => setDocumentState({...documentState, Urgent: documentState.Urgent === 0 ? 1 : 0})}/>
-                                        <label className="tgl-btn" data-tg-off="No" data-tg-on="Yes" htmlFor="cb3-8"></label>
-                                    </div>
-                                </div>
-                                <span className='divider'></span>
                                 <div className="Label">
                                     <span>Add Document File/s <span className='required'>*</span></span>
                                 </div>

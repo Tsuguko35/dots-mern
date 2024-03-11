@@ -144,7 +144,8 @@
 }
 
 /* Notifications */
-#Navbar_Menu .Menu_Item_Notification{
+
+#Navbar_Notification_Menu .Menu_Item_Notification{
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -157,11 +158,11 @@
     transition: all 250ms ease-in-out;
 }
 
-#Navbar_Menu .Menu_Item_Notification:hover {
+#Navbar_Notification_Menu .Menu_Item_Notification:hover {
     background-color: var(--bg2-white) !important;
 }
 
-#Navbar_Menu .Notification_Empty{
+#Navbar_Notification_Menu .Notification_Empty{
     width: 310px;
     height: 100%;
     padding: 10px 16px;
@@ -170,11 +171,11 @@
     align-items: center;
 }
 
-#Navbar_Menu .Notification_Empty > p{
+#Navbar_Notification_Menu .Notification_Empty > p{
     font-size: 14px;
 }
 
-#Navbar_Menu .Menu_Item_Notification > .Notification_Icon{
+#Navbar_Notification_Menu .Menu_Item_Notification > .Notification_Icon{
     background-color: var(--light-grey);
     display: flex;
     justify-content: center;
@@ -184,7 +185,7 @@
     border-radius: 50%;
 }
 
-#Navbar_Menu .Menu_Item_Notification > .Notification_Icon > .Menu_Icons{
+#Navbar_Notification_Menu .Menu_Item_Notification > .Notification_Icon > .Menu_Icons{
     color: white;
     width: 30px;
     height: 30px;
@@ -193,7 +194,7 @@
     align-items: center;
 }
 
-#Navbar_Menu .Menu_Item_Notification > .Notification_Text{
+#Navbar_Notification_Menu .Menu_Item_Notification > .Notification_Text{
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -201,36 +202,36 @@
     align-items: start;
 }
 
-#Navbar_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Date{
+#Navbar_Notification_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Date{
     color: var(--dark-grey);
     font-size: 10px;
 }
 
-#Navbar_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Label{
+#Navbar_Notification_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Label{
     color: var(--orange);
     font-size: 14px;
     font-weight: bold;
 }
 
-#Navbar_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Details{
+#Navbar_Notification_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Details{
     font-size: 12px;
     width: 100%;
 }
 
-#Navbar_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Details > p{
+#Navbar_Notification_Menu .Menu_Item_Notification > .Notification_Text > .Notification_Details > p{
     width: 220px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-#Navbar_Menu .Menu_Item_Notification > .Notification_IsRead{
+#Navbar_Notification_Menu .Menu_Item_Notification > .Notification_IsRead{
     height: 100%;
     display: flex;
     align-items: center;
 }
 
-#Navbar_Menu .Menu_Item_Notification > .Notification_IsRead > span{
+#Navbar_Notification_Menu .Menu_Item_Notification > .Notification_IsRead > span{
     content: '';
     width: 10px;
     height: 10px;

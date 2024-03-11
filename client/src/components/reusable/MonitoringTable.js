@@ -57,7 +57,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
     Forwarded_By: '',
     Urgent: 0,
     Tracking: {},
-    Created_By: userProfile.user_id
+    Created_By: userProfile.full_Name
   }
 
   const [documentState, setDocumentState] = useState(initialDocumentState)
@@ -314,7 +314,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
   //Edit Document Stuff
   const handleSubmitEdit = async(e) => {
     e.preventDefault()
-    const res = await editDocument({ documentState: documentState, document_id: editDocumentID})
+    const res = await editDocument({ documentState: documentState, document_id: editDocumentID, edited_By:userProfile.full_Name })
     if(res?.status === 200){
       if(filesToDelete.length !== 0){
         const delteFileRes = await deleteFiles({ file_Details: filesToDelete, document_id:  res.data?.document_id})
@@ -371,7 +371,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
       }).then(async(result) => {
         if(result.isConfirmed){
           toast.loading('Archiving. Please wait...')
-          const res = await archiveDocument({ document_id: props.document_id })
+          const res = await archiveDocument({ document_id: props.document_id, archived_By: userProfile.full_Name })
           if(res?.status === 200){
             toast.dismiss()
             toast.success(`${props.file_Name} has been archived`)

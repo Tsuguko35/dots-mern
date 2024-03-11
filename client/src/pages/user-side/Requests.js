@@ -2,15 +2,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import { PageHeader, RequestTable } from '../../components'
 import '../../styles/requests.css'
 import { useParams } from 'react-router-dom'
-import { getAllUsers, getTableData } from '../../utils'
+import { getTableData } from '../../utils'
 import toast from 'react-hot-toast'
 import { NotificationContext } from '../../context/context'
 
 function Requests() {
     const [documentsToFilter, setDocumentsToFilter] = useState([])
+    const [isTriggerNotification, setIsTriggerNotification] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [ documents, setDocuments ] = useState([])
-    const [users, setUsers] = useState([])
     const userDetails = JSON.parse(window.localStorage.getItem('profile')) || {}
     const { requestType } = useParams()
     const [filters, setFilters] = useState({
@@ -25,16 +25,16 @@ function Requests() {
     //Notifications
     const {
       notifications,
-      setNotifications
     } = useContext(NotificationContext)
 
     //Get table data
     const getTableDocuments = async() => {
-      setIsLoading(true)
+      if(!isTriggerNotification)setIsLoading(true)
+      
       const res = await getTableData({ documentType: requestType })
       
       if(res?.status === 200){
-        setIsLoading(false)
+        if(!isTriggerNotification) setIsLoading(false)
         setDocumentsToFilter(res.data?.documents)
       }
       else(
@@ -42,19 +42,10 @@ function Requests() {
       )
 
     }
-
-    const getUserOptions = async() => {
-      const res = await getAllUsers()
-      if(res?.status === 200){
-        setUsers(res.data?.users)
-      }
-      else(
-        toast.error('An error occured while fetching data.')
-      )
-    }
     
     useEffect(() => {
       if(documentsToFilter){
+        console.log(documentsToFilter);
         const filteredDocs = documentsToFilter.filter(document => 
           document.document_Name.toLowerCase().includes(filters.searchFilter.toLowerCase()) ||
           document.description.toLowerCase().includes(filters.searchFilter.toLowerCase())
@@ -80,12 +71,20 @@ function Requests() {
         )
 
         const sortedFilteredDocs = filteredDocs.sort((a, b) => {
-          if (a.date_Received !== b.date_Received) {
-              return new Date(b.date_Received + 'T' + b.time_Received) - new Date(a.date_Received + 'T' + a.time_Received);
+          // Place urgent documents on top regardless of date
+          if (a.urgent === 1 && b.urgent !== 1) {
+              return -1;
+          } else if (a.urgent !== 1 && b.urgent === 1) {
+              return 1;
           } else {
-              return new Date(b.time_Received) - new Date(a.time_Received);
+              // Sort by date and time if urgency is the same
+              if (a.date_Received !== b.date_Received) {
+                  return new Date(b.date_Received + 'T' + b.time_Received) - new Date(a.date_Received + 'T' + a.time_Received);
+              } else {
+                  return new Date(b.time_Received) - new Date(a.time_Received);
+              }
           }
-        })
+        });
     
         setDocuments(sortedFilteredDocs);
       }
@@ -97,16 +96,29 @@ function Requests() {
 
     useEffect(() => {
         document.title = `Requests`
+        setIsTriggerNotification(false)
         getTableDocuments()
-        getUserOptions()
-    }, [requestType, notifications])
+    }, [requestType])
+
+    useEffect(() => {
+      setIsTriggerNotification(true)
+      getTableDocuments()
+  }, [notifications])
 
   return (
     <section id='Requests' className='Requests'>
         <div className="wrapper">
           <PageHeader page={'Requests'}/>
           <div className="Requests_Table_Container">
-            <RequestTable documentType={requestType} documents={documents} setFilter={setFilters} filters={filters} getTableDcuments={getTableDocuments}/>
+            <RequestTable 
+              documentType={requestType} 
+              documents={documents} 
+              setFilter={setFilters} 
+              filters={filters} 
+              getTableDcuments={getTableDocuments} 
+              userDetails={userDetails}
+              isLoading={isLoading}
+            />
           </div>
         </div>
     </section>
