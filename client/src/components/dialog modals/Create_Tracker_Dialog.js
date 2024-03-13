@@ -18,7 +18,7 @@ import SignatureCanvas from 'react-signature-canvas'
 import { LoadingGear } from '../../assets/svg';
 import { addTracker } from '../../utils';
 
-function Create_Tracker_Dialog({ openCreateTracker, closeCreateTracker, document_id }) {
+function Create_Tracker_Dialog({ openCreateTracker, closeCreateTracker, document_id, userDetails, refreshTracker }) {
     const [error, setError] = useState({
         isError: false, 
         errorMessage: ''
@@ -44,9 +44,11 @@ function Create_Tracker_Dialog({ openCreateTracker, closeCreateTracker, document
             setError({ isError: true, errorMessage: 'All fields must be filled up.'})
         }
         else{
-            const res = await addTracker({signature: signature, tracker_Details: trackerDetails, document_id: trackerDetails.document_id})
+            const res = await addTracker({signature: signature, tracker_Details: trackerDetails, document_id: document_id, created_By: userDetails.full_Name})
             toast.dismiss()
             if(res?.status === 200){
+                refreshTracker()
+                closeCreateTracker(false)
                 toast.success('Added tracker successfully.')
             }
             else if(res?.status === 400){

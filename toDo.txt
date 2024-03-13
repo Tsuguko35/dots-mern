@@ -16,7 +16,7 @@ remove tracking to all document functions
 
 -------------------------------------------
 
-Finish signature(last work on signature addTracker)
+Finish signature(display on requests and archives)
 
 request tab functionality(check for bugs only)
 

@@ -32,7 +32,7 @@ const documentFilesUpload = multer({storage: fileStorage})
 const signatureStorage = multer.diskStorage({
     destination: './document_Files/signatures',
     filename: function(req, file, cb){
-        cb(null, `${req.query.document_id}-${file.originalname}`)
+        cb(null, `${req.query.tracker_id}-${file.originalname}`)
     }
 })
 const signatureUpload = multer({storage: signatureStorage})
@@ -52,6 +52,6 @@ router.post('/getNotifications', getNotifications)
 router.post('/deleteNotifications', deleteNotification)
 
 router.post('/getTrackers', getTrackers)
-router.post('/addTracker', signatureUpload.single('file'), addTracker)
+router.post('/addTracker', signatureUpload.array('file'), addTracker)
 
 export default router

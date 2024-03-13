@@ -581,32 +581,35 @@ const getTrackers = asyncHandler(async (req, res) => {
 
 const addTracker = asyncHandler(async (req, res) => {
     const { 
+        tracker_id,
         document_id,
-        signature_Name,
-        traker_Label,
+        tracker_Label,
         created_By
     } = req.body
 
-    const uniqueID = uuidv4()
+    console.log(req.body);
 
-    const q = "INSERT INTO document_trackers (`tracker_id`, `document_id`, `signature_Name`, `traker_label`, `date_Created`) VALUES (?)";
+    const q = "INSERT INTO document_trackers (`tracker_id`, `document_id`, `traker_label`, `date_Created`) VALUES (?)";
     const values = [
-        uniqueID,
+        tracker_id,
         document_id,
-        signature_Name,
-        traker_Label,
+        tracker_Label,
         new Date()
     ]
 
     db.query(q, [values],async(err, tracker) => {
-        if (err) return res.status(400).json({errorMessage: 'Query Error'})
+        if (err){
+            console.log(err);
+            return res.status(400).json({errorMessage: 'Query Error'})
+        } 
 
         if(tracker){
-            createLog({ action: 'Tracker', By: created_By, tracker_Label: traker_Label})
+            createLog({ action: 'Tracker', By: created_By, tracker_Label: tracker_Label})
 
             return res.status(200).json({ hasData: true, tracker: tracker})
         }
         else{
+            console.log(err);
             return res.status(400).json({errorMessage: 'An error occured while adding the tracker.'})
         }
     })

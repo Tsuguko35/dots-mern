@@ -1,3 +1,3 @@
-const documentFiles = 'document_Files'
+export const documentFiles = 'document_Files'
 
-export default documentFiles
+export const signatureFiles = 'signature_Files'

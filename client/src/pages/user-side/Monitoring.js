@@ -32,20 +32,22 @@ function Monitoring() {
         setIsLoading(false)
         setDocumentsToFilter(res.data?.documents)
 
-        const trackerRes = await getTrackers()
-        if(trackerRes?.status === 200) {
-          if(trackerRes.data?.hasData === true){
-            setTrackers(trackerRes.data?.trackers)
-          }
-        }
-        else{
-          toast.error(trackerRes?.errorMessage)
-        }
       }
       else(
         toast.error('An error occured while fetching data.')
       )
+    }
 
+    const getTrackerData = async() => {
+      const trackerRes = await getTrackers()
+      if(trackerRes?.status === 200) {
+        if(trackerRes.data?.hasData === true){
+          setTrackers(trackerRes.data?.trackers)
+        }
+      }
+      else{
+        toast.error(trackerRes?.errorMessage)
+      }
     }
 
     const getUserOptions = async() => {
@@ -97,10 +99,15 @@ function Monitoring() {
       
     }, [filters, documentsToFilter])
 
+    const refreshTrackers = () => {
+      getTrackerData()
+    }
+
     useEffect(() => {
       document.title = `${monitoringType} Monitoring`
       getTableDocuments()
       getUserOptions()
+      getTrackerData()
     }, [monitoringType])
 
     return (
@@ -108,7 +115,7 @@ function Monitoring() {
           <div className="wrapper">
             <PageHeader page={'Monitoring'}/>
             <div className="Monitoring_Table_Container">
-              <MonitoringTable documentType={`${monitoringType}`} isLoading={isLoading} documents={documents} refreshTableFunc={getTableDocuments} users={users} setFilter={setFilters} filters={filters} trackers={trackers}/>
+              <MonitoringTable documentType={`${monitoringType}`} isLoading={isLoading} documents={documents} refreshTableFunc={getTableDocuments} users={users} setFilter={setFilters} filters={filters} trackers={trackers} refreshTracker={refreshTrackers}/>
             </div>
           </div>
       </section>
