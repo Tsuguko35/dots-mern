@@ -37,7 +37,8 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: false }))
-app.use('/document_Files', express.static('./document_Files'));
+app.use('/document_Files', express.static('./document_Files/files'));
+app.use('/signature_Files', express.static('./document_Files/signatures'));
 app.locals.io = io
 
 // Connect Server

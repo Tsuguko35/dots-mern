@@ -12,7 +12,12 @@ filter graphs
 
 request history Filters
 
+remove tracking to all document functions
+
 -------------------------------------------
+
+Finish signature(last work on signature addTracker)
+
 request tab functionality(check for bugs only)
 
 status based notif click

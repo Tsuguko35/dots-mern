@@ -564,6 +564,55 @@ const deleteNotification = asyncHandler(async (req, res) => {
     });
 })
 
+const getTrackers = asyncHandler(async (req, res) => {
+    const q = `SELECT * FROM document_trackers`
+
+    db.query(q, async(err, trackers) => {
+        if (err) return res.status(400).json({errorMessage: 'Query Error'})
+
+        if(trackers.length > 0){
+            return res.status(200).json({ hasData: true, trackers: trackers })
+        }
+        else{
+            return res.status(200).json({ hasData: false })
+        }
+    })
+})
+
+const addTracker = asyncHandler(async (req, res) => {
+    const { 
+        document_id,
+        signature_Name,
+        traker_Label,
+        created_By
+    } = req.body
+
+    const uniqueID = uuidv4()
+
+    const q = "INSERT INTO document_trackers (`tracker_id`, `document_id`, `signature_Name`, `traker_label`, `date_Created`) VALUES (?)";
+    const values = [
+        uniqueID,
+        document_id,
+        signature_Name,
+        traker_Label,
+        new Date()
+    ]
+
+    db.query(q, [values],async(err, tracker) => {
+        if (err) return res.status(400).json({errorMessage: 'Query Error'})
+
+        if(tracker){
+            createLog({ action: 'Tracker', By: created_By, tracker_Label: traker_Label})
+
+            return res.status(200).json({ hasData: true, tracker: tracker})
+        }
+        else{
+            return res.status(400).json({errorMessage: 'An error occured while adding the tracker.'})
+        }
+    })
+})
+
+
 const createLog = (props) => {
     const uniqueID = uuidv4()
     const currentDate = new Date()
@@ -579,6 +628,9 @@ const createLog = (props) => {
     }
     else if(props.action === 'Archive'){
         log = `${props.By} archived ${props.document_Name}`
+    }
+    else if(props.action === 'Tracker'){
+        log = `${props.By} added a tracker named ${props.tracker_Label}`
     }
 
 
@@ -612,5 +664,7 @@ export{
     getArchives,
     getNotifications,
     deleteNotification,
-    forwardDocument
+    forwardDocument,
+    getTrackers,
+    addTracker
 }

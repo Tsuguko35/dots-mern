@@ -336,11 +336,31 @@
     display: flex;
     gap: 5px;
     width: 1000px;
+    height: 140px;
     padding: 10px 20px;
     background-color: var(--bg-white);
     border: 1px dotted var(--dark-grey);
     border-radius: 5px;
     overflow-x: auto;
+}
+
+#Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Add{
+    height: 100%;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Add > span{
+    color: var(--dark-grey);
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 250ms ease-in-out;
+}
+
+#Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Add > span:hover{
+    color: var(--orange);
 }
 
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item{

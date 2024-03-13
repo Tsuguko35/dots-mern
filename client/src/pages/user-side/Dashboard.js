@@ -251,7 +251,7 @@ function Dashboard() {
                   </div>
                   <div className="Box_Content">
                   {
-                    documents.filter(documents => documents.document_Type === 'Travel Order').length === 0 ? (
+                    documentsToFilter.filter(documents => documents.document_Type === 'Travel Order').length === 0 ? (
                       <div className="Content">
                           <div className="Name">
                               <p>N/A</p>
@@ -261,13 +261,13 @@ function Dashboard() {
                           </div>
                       </div>
                     ) : (
-                        documents.filter(documents => documents.document_Type === 'Travel Order').map(document => (
+                        documentsToFilter.filter(documents => documents.document_Type === 'Travel Order').map(document => (
                             <div className="Content" key={document.document_id}>
                                 <div className="Name">
                                     <p>{document.contact_Person}</p>
                                 </div>
                                 <div className="Count">
-                                    <p>{documents.filter(doc => doc.document_Type === 'Travel Order' && doc.contact_Person === document.contact_Person).length}</p>
+                                    <p>{documentsToFilter.filter(doc => doc.document_Type === 'Travel Order' && doc.contact_Person === document.contact_Person).length}</p>
                                 </div>
                             </div>
                         ))
@@ -287,7 +287,7 @@ function Dashboard() {
                   </div>
                   <div className="Box_Content">
                   {
-                    documents.filter(documents => documents.document_Type === 'Application for Leave').length === 0 ? (
+                    documentsToFilter.filter(documents => documents.document_Type === 'Application for Leave').length === 0 ? (
                       <div className="Content">
                           <div className="Name">
                               <p>N/A</p>
@@ -297,13 +297,13 @@ function Dashboard() {
                           </div>
                       </div>
                     ) : (
-                        documents.filter(documents => documents.document_Type === 'Application for Leave').map(document => (
+                      documentsToFilter.filter(documents => documents.document_Type === 'Application for Leave').map(document => (
                             <div className="Content" key={document.document_id}>
                                 <div className="Name">
                                     <p>{document.contact_Person}</p>
                                 </div>
                                 <div className="Count">
-                                    <p>{documents.filter(doc => doc.document_Type === 'Application for Leave' && doc.contact_Person === document.contact_Person).length}</p>
+                                    <p>{documentsToFilter.filter(doc => doc.document_Type === 'Application for Leave' && doc.contact_Person === document.contact_Person).length}</p>
                                 </div>
                             </div>
                         ))
@@ -323,7 +323,7 @@ function Dashboard() {
                   </div>
                   <div className="Box_Content">
                   {
-                    documents.filter(documents => documents.document_Type === 'Training Request Form').length === 0 ? (
+                    documentsToFilter.filter(documents => documents.document_Type === 'Training Request Form').length === 0 ? (
                       <div className="Content">
                           <div className="Name">
                               <p>N/A</p>
@@ -333,13 +333,13 @@ function Dashboard() {
                           </div>
                       </div>
                     ) : (
-                        documents.filter(documents => documents.document_Type === 'Training Request Form').map(document => (
+                        documentsToFilter.filter(documents => documents.document_Type === 'Training Request Form').map(document => (
                             <div className="Content" key={document.document_id}>
                                 <div className="Name">
                                     <p>{document.contact_Person}</p>
                                 </div>
                                 <div className="Count">
-                                    <p>{documents.filter(doc => doc.document_Type === 'Training Request Form' && doc.contact_Person === document.contact_Person).length}</p>
+                                    <p>{documentsToFilter.filter(doc => doc.document_Type === 'Training Request Form' && doc.contact_Person === document.contact_Person).length}</p>
                                 </div>
                             </div>
                         ))

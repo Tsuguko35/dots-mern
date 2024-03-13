@@ -31,6 +31,8 @@ import getAllNotifications from "./getAllNotifications";
 import deleteNotification from "./deleteNotification";
 import forwardDocument from "./forwardDocument";
 import getLogs from "./getLogs";
+import getTrackers from "./getTrackers";
+import addTracker from "./addTracker";
 
 export {
     hasSidebar,
@@ -65,5 +67,7 @@ export {
     getAllNotifications,
     deleteNotification,
     forwardDocument,
-    getLogs
+    getLogs,
+    getTrackers,
+    addTracker
 }

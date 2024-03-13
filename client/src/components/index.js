@@ -22,6 +22,7 @@ import View_Files from "./dialog modals/View_Files";
 import Request_Dialog from "./dialog modals/Request_Dialog";
 import System_Logs from "./System_Logs";
 import Create_Staff_Dialog from "./dialog modals/Create_Staff_Dialog";
+import Create_Tracker_Dialog from "./dialog modals/Create_Tracker_Dialog";
 
 export {
     Sidebar,
@@ -46,5 +47,6 @@ export {
     View_Files,
     Request_Dialog,
     System_Logs,
-    Create_Staff_Dialog
+    Create_Staff_Dialog,
+    Create_Tracker_Dialog
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../../styles/monitoring.css'
 import { MonitoringTable, PageHeader } from '../../components'
 import { useParams } from 'react-router-dom'
-import { getAllUsers, getTableData } from '../../utils'
+import { getAllUsers, getTableData, getTrackers } from '../../utils'
 import toast from 'react-hot-toast'
 
 function Monitoring() {
@@ -10,6 +10,7 @@ function Monitoring() {
     const [ documents, setDocuments ] = useState([])
     const [documentsToFilter, setDocumentsToFilter] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const [trackers, setTrackers] = useState([])
     const [users, setUsers] = useState([])
     const [filters, setFilters] = useState({
       searchFilter: '',
@@ -26,9 +27,20 @@ function Monitoring() {
       setIsLoading(true)
       const res = await getTableData({ documentType: monitoringType })
       
+      
       if(res?.status === 200){
         setIsLoading(false)
         setDocumentsToFilter(res.data?.documents)
+
+        const trackerRes = await getTrackers()
+        if(trackerRes?.status === 200) {
+          if(trackerRes.data?.hasData === true){
+            setTrackers(trackerRes.data?.trackers)
+          }
+        }
+        else{
+          toast.error(trackerRes?.errorMessage)
+        }
       }
       else(
         toast.error('An error occured while fetching data.')
@@ -96,7 +108,7 @@ function Monitoring() {
           <div className="wrapper">
             <PageHeader page={'Monitoring'}/>
             <div className="Monitoring_Table_Container">
-              <MonitoringTable documentType={`${monitoringType}`} isLoading={isLoading} documents={documents} refreshTableFunc={getTableDocuments} users={users} setFilter={setFilters} filters={filters}/>
+              <MonitoringTable documentType={`${monitoringType}`} isLoading={isLoading} documents={documents} refreshTableFunc={getTableDocuments} users={users} setFilter={setFilters} filters={filters} trackers={trackers}/>
             </div>
           </div>
       </section>

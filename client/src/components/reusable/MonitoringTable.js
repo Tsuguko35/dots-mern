@@ -28,12 +28,14 @@ import noResult from '../../assets/images/noResult.png'
 import toast from 'react-hot-toast'
 import { DocumentContext } from '../../context'
 import Swal from 'sweetalert2'
+import Create_Tracker_Dialog from '../dialog modals/Create_Tracker_Dialog'
 
 
-function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc, users, setFilter, filters }) {
+function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc, users, setFilter, filters, trackers }) {
   const [openAddDocs, setOpenAddDocs] = useState(false)
   const [openEditDocs, setOpenEditDocs] = useState(false)
   const [openViewDoc, setOpenViewDoc] = useState(false)
+  const [openCreateTracker, setOpenCreateTracker] = useState(false)
   const [userProfile, setUserProfile] = useState(JSON.parse(localStorage.getItem('profile')) || {})
   const windowWidth = GetWindowWidth()
   const [rotation, setRotation] = useState(0);
@@ -65,6 +67,9 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
   const [fileDetails, setFileDetails] = useState([])
   const [category, setCategory] = useState('')
   const [dropdowns, setDropdowns] = useState([])
+
+  //Tracker Stuff
+  const [trackerDocumentID, setTrackerDocumentID] = useState('')
 
   //Edit stuff
   const [initialEditFileDetails, setInitialEditFileDetails] = useState([])
@@ -402,6 +407,12 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
     }
   }
 
+  //Tracker Stuff
+  const handleOpenTracker = (document_id) => {
+    setTrackerDocumentID(document_id)
+    setOpenCreateTracker(true)
+  }
+
   return (
     <section id='Monitoring_Table' className='Monitoring_Table'>
       <DocumentContext.Provider value={{ 
@@ -453,6 +464,9 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
 
         {/* View Document */}
         <View_Document_Dialog openViewDoc={openViewDoc} setOpenViewDoc={setOpenViewDoc} document_id={editDocumentID}/>
+
+        {/* Create Tracker Dialog */}
+        <Create_Tracker_Dialog openCreateTracker={openCreateTracker} closeCreateTracker={setOpenCreateTracker} document_id={trackerDocumentID}/>
       </DocumentContext.Provider>
       
       <div className="wrapper">
@@ -628,22 +642,40 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
                                       <div className="Other_Details">
                                         <span>Tracker:</span>
                                         <div className="Tracker">
-                                          <div className="Tracker_Item">
-                                            <div className="Tracker_Details">
-                                              <div className="Signature">
-                                                <img src={Signature} alt="" />
+                                          {console.log(trackers)}
+                                          {trackers && trackers.filter(tracker => tracker.document_id === document.document_id).length === 0 ? (
+                                            <div className="Tracker_Item">
+                                              <div className="Tracker_Add">
+                                                <span onClick={() => handleOpenTracker(document.document_id)}>Add new</span>
                                               </div>
-                                              <p className="Tracker_Date">
-                                                March 2 , 2024
-                                              </p>
-                                              <p className="Tracker_Label">
-                                                Office of the President
-                                              </p>
                                             </div>
-                                            <div className="Right_Arrow">
-                                              <MdIcons.MdKeyboardDoubleArrowRight size={'30px'}/>
-                                            </div>
-                                          </div>
+                                          )
+                                          :
+                                          (
+                                            <>
+                                              <div className="Tracker_Item">
+                                                <div className="Tracker_Details">
+                                                  <div className="Signature">
+                                                    <img src={Signature} alt="" />
+                                                  </div>
+                                                  <p className="Tracker_Date">
+                                                    March 2 , 2024
+                                                  </p>
+                                                  <p className="Tracker_Label">
+                                                    Office of the President
+                                                  </p>
+                                                </div>
+                                                <div className="Right_Arrow">
+                                                  <MdIcons.MdKeyboardDoubleArrowRight size={'30px'}/>
+                                                </div>
+                                              </div>
+                                              <div className="Tracker_Item">
+                                                <div className="Tracker_Add">
+                                                  <span onClick={() => handleOpenTracker(document.document_id)}>Add new</span>
+                                                </div>
+                                              </div>
+                                            </>
+                                          )}
                                         </div>
                                       </div>
                                   </div>
