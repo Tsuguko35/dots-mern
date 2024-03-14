@@ -50,23 +50,24 @@ import { ENDPOINT } from '../constants'
 var socket
 
 function Navbar() {
+  //Notifications
+  const {
+    notifications,
+    setNotifications,
+    user
+  } = useContext(NotificationContext)
+
   const navigate = useNavigate()
   const { setToggleSidebar } = useContext(SidebarContext)
   const [anchorEl, setAnchorEl] = useState(null);
   const [notificationAnchor, setNotificationAnchor] = useState(null);
   const openNotif = Boolean(notificationAnchor)
-  const userDetails = JSON.parse(window.localStorage.getItem('profile')) || {}
+  const userDetails = user
   const firstLetterOfName = userDetails.full_Name ? userDetails.full_Name.charAt(0).toUpperCase() : 'A';
   const open = Boolean(anchorEl);
 
   const notifAudio = new Audio(notificationSound)
   notifAudio.preload = true;
-
-  //Notifications
-  const {
-    notifications,
-    setNotifications
-  } = useContext(NotificationContext)
 
   useEffect(() => {
     socket = io(ENDPOINT)

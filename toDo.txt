@@ -14,9 +14,9 @@ request history Filters
 
 remove tracking to all document functions
 
--------------------------------------------
+archive filter if Faculty
 
-Finish signature(display on requests and archives)
+-------------------------------------------
 
 request tab functionality(check for bugs only)
 
@@ -26,4 +26,6 @@ account settings functionality
 
 All filter on requests
 
-tracking
+printing
+
+templates

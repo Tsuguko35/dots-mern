@@ -26,6 +26,7 @@ function App() {
   const pagehasNavbar = hasNavbar(location, routes)
   const [toggleSidebar, setToggleSidebar] = useState(true)
   const [notifications, setNotifications] = useState([])
+  const [user, setUser] = useState({})
 
 
   // Define your custom theme
@@ -39,7 +40,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NotificationContext.Provider value={{notifications, setNotifications}}>
+      <NotificationContext.Provider value={{notifications, setNotifications, user, setUser}}>
         <SidebarContext.Provider value={{toggleSidebar, setToggleSidebar}}>
           <div id='Main_View' className='Main_View'>
             {pagehasSidebar && (

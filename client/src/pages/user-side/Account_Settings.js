@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { PageHeader, Timer } from '../../components'
 import '../../styles/account_settings.css'
 import { 
@@ -8,11 +8,15 @@ import {
 // Icons
 import * as CiIcons from 'react-icons/ci'
 import { useNavigate } from 'react-router-dom'
+import { NotificationContext } from '../../context/context'
 
 
 function Account_Settings() {
     const navigate = useNavigate()
-    const userDetails = JSON.parse(window.localStorage.getItem('profile'))
+    const {
+        user
+    } = useContext(NotificationContext)
+    const userDetails = user
     const firstLetterOfName = userDetails.full_Name ? userDetails.full_Name.charAt(0).toUpperCase() : 'A';
 
     useEffect(() => {

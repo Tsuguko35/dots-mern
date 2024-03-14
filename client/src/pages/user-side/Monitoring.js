@@ -42,7 +42,16 @@ function Monitoring() {
       const trackerRes = await getTrackers()
       if(trackerRes?.status === 200) {
         if(trackerRes.data?.hasData === true){
-          setTrackers(trackerRes.data?.trackers)
+          const sortedTrackers = trackerRes.data.trackers.sort((a, b) => {
+            // Convert date strings to Date objects for comparison
+            const dateA = new Date(a.date_Created);
+            const dateB = new Date(b.date_Created);
+            
+            // Compare dates
+            return dateA - dateB; // Descending order
+          });
+    
+          setTrackers(sortedTrackers);
         }
       }
       else{

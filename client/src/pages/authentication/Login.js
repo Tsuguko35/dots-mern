@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import '../../styles/login_and_registration.css'
 
@@ -50,6 +50,7 @@ import {
 } from '../../assets/svg'
 
 import * as IoIcons from 'react-icons/io'
+import { NotificationContext } from '../../context/context'
 
 
 function Login() {
@@ -57,6 +58,11 @@ function Login() {
   const [loginCredentials, setLoginCredentials] = useState({email: '', password: ''})
   const [error, setError] = useState({ isError: false, errorMessage: '' })
   const [submit, setSubmit] = useState(false)
+
+  const {
+    user,
+    setUser
+  } = useContext(NotificationContext)
 
   const handleSubmit = async(e) => {
     e.preventDefault()
@@ -73,6 +79,7 @@ function Login() {
           showConfirmButton: false,
           timer: 1000
         }).then(() => {
+          setUser(res?.data)
           window.localStorage.setItem('isLoggedIn', true)
           window.localStorage.setItem('user', res.data?.token)
           window.localStorage.setItem('profile', JSON.stringify(res.data))
@@ -138,7 +145,6 @@ function Login() {
         showConfirmButton: false,
         didOpen:async() => {
           Swal.showLoading()
-          
           if(isLoggedIn){
             const res = await validateUser({token})
             if(res?.status === 200){
@@ -149,8 +155,8 @@ function Login() {
                 showConfirmButton: false,
                 timer: 1000
               }).then(() => {
+                setUser(res?.data)
                 document.cookie = `token=${token}; path=/`
-                console.log(user);
                 if(user.status === 'Temporary'){
                   navigate('/Finish-Setup')
                 }

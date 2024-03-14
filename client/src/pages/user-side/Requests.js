@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { PageHeader, RequestTable } from '../../components'
 import '../../styles/requests.css'
 import { useParams } from 'react-router-dom'
-import { getTableData } from '../../utils'
+import { getTableData, getTrackers } from '../../utils'
 import toast from 'react-hot-toast'
 import { NotificationContext } from '../../context/context'
 
@@ -11,7 +11,11 @@ function Requests() {
     const [isTriggerNotification, setIsTriggerNotification] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [ documents, setDocuments ] = useState([])
-    const userDetails = JSON.parse(window.localStorage.getItem('profile')) || {}
+    const [trackers, setTrackers] = useState([])
+    const {
+      user
+    } = useContext(NotificationContext)
+    const userDetails = user
     const { requestType } = useParams()
     const [filters, setFilters] = useState({
       searchFilter: '',
@@ -42,6 +46,28 @@ function Requests() {
       )
 
     }
+
+    const getTrackerData = async() => {
+      const trackerRes = await getTrackers()
+      if(trackerRes?.status === 200) {
+        if(trackerRes.data?.hasData === true){
+          const sortedTrackers = trackerRes.data.trackers.sort((a, b) => {
+            // Convert date strings to Date objects for comparison
+            const dateA = new Date(a.date_Created);
+            const dateB = new Date(b.date_Created);
+            
+            // Compare dates
+            return dateA - dateB; // Descending order
+          });
+    
+          setTrackers(sortedTrackers);
+        }
+      }
+      else{
+        toast.error(trackerRes?.errorMessage)
+      }
+    }
+
     
     useEffect(() => {
       if(documentsToFilter){
@@ -98,12 +124,19 @@ function Requests() {
         document.title = `Requests`
         setIsTriggerNotification(false)
         getTableDocuments()
+        getTrackerData()
     }, [requestType])
 
     useEffect(() => {
       setIsTriggerNotification(true)
       getTableDocuments()
-  }, [notifications])
+      getTrackerData()
+    }, [notifications])
+
+  const refreshTrackers = () => {
+    getTrackerData()
+  }
+
 
   return (
     <section id='Requests' className='Requests'>
@@ -118,6 +151,8 @@ function Requests() {
               getTableDcuments={getTableDocuments} 
               userDetails={userDetails}
               isLoading={isLoading}
+              trackers={trackers} 
+              refreshTracker={refreshTrackers}
             />
           </div>
         </div>

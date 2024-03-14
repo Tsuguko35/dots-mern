@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import '../../styles/monitoring_table.css'
 
@@ -30,6 +30,7 @@ import { DocumentContext } from '../../context'
 import Swal from 'sweetalert2'
 import Create_Tracker_Dialog from '../dialog modals/Create_Tracker_Dialog'
 import { domain, signatureFiles } from '../../constants'
+import { NotificationContext } from '../../context/context'
 
 
 function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc, users, setFilter, filters, trackers, refreshTracker }) {
@@ -37,7 +38,10 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
   const [openEditDocs, setOpenEditDocs] = useState(false)
   const [openViewDoc, setOpenViewDoc] = useState(false)
   const [openCreateTracker, setOpenCreateTracker] = useState(false)
-  const [userProfile, setUserProfile] = useState(JSON.parse(localStorage.getItem('profile')) || {})
+  const {
+    user
+  } = useContext(NotificationContext)
+  const userProfile = user
   const windowWidth = GetWindowWidth()
   const [rotation, setRotation] = useState(0);
   const [openRow, setOpenRow] = useState(0)
@@ -652,7 +656,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
                                           (
                                             <>
                                             {trackers && trackers.filter(tracker => tracker.document_id === document.document_id).map((tracker) => (
-                                              <div className="Tracker_Item">
+                                              <div className="Tracker_Item" key={tracker.tracker_id}>
                                                 <div className="Tracker_Details">
                                                   <div className="Signature">
                                                     <img src={`${domain}${signatureFiles}/${tracker.tracker_id}-signature.png`} alt="" />

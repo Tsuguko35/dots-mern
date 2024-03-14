@@ -56,14 +56,18 @@ function Create_Tracker_Dialog({ openCreateTracker, closeCreateTracker, document
             }
         }
 
-
+        setTrackerDetails({
+            label: '',
+            document_id: ''
+        })
+        
         setSubmit(false)
     }
 
     const handleCancel = () => {
         setTrackerDetails({
-            signature: null,
             label: '',
+            document_id: ''
         })
         setError({
             isError: false, 

@@ -109,9 +109,8 @@ ul.rb li .timestamp {
 
 .item-title > .Signature{
     width: 50%;
-}
-.item-title > .Signature > img{
-    width: 100%;
+    height: 30px;
+    object-fit: contain;
 }
 
 .item-title > .Signature_Add{
@@ -247,6 +246,19 @@ ul.rb li .timestamp {
 
 .View_Dialog_Body > .wrapper > .Left_Side > .Document_Tracker_Container > .Tracker_Details{
     width: 100%;
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Tracker_Container > .Tracker_Details > .Tracker_Empty{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    padding: 10px 16px;
+}
+
+.View_Dialog_Body > .wrapper > .Left_Side > .Document_Tracker_Container > .Tracker_Details > .Tracker_Empty > span{
+    color: var(--light-black);
+    font-size: 14px;
 }
 
 .View_Dialog_Body > .wrapper > .Left_Side > .Document_Tracker_Container > .Label{

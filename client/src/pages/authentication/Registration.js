@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import '../../styles/login_and_registration.css'
 
@@ -38,6 +38,7 @@ import { otpRequest, otpVerify } from '../../utils'
 import OTPInput from 'react-otp-input'
 
 import { Timer } from '../../components'
+import { NotificationContext } from '../../context/context'
 
 
 function Registration() {
@@ -48,6 +49,11 @@ function Registration() {
   const [otp, setOtp] = useState(0)
   const [startTimer, setStartTimer] = useState(false)
   const [submit, setSubmit] = useState(false)
+
+  const {
+    user,
+    setUser
+  } = useContext(NotificationContext)
 
   const handleOTP = async(e) => {
     setError({ isError: false, errorMessage: '' })
@@ -220,6 +226,7 @@ function Registration() {
                 showConfirmButton: false,
                 timer: 1000
               }).then(() => {
+                setUser(res?.data)
                 document.cookie = `token=${token}; path=/`
                 if(user.status === 'Temporary'){
                   navigate('/Finish-Setup')

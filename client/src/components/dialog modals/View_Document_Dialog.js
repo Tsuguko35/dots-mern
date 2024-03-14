@@ -22,17 +22,55 @@ import { LoadingInfinite } from '../../assets/svg';
 import Signature from '../../assets/images/Sinature.png'
 import View_Files from './View_Files';
 import { DocumentContext } from '../../context';
-import { formatTimeAmPm, getDocumentData, getFiles } from '../../utils';
+import { formatTimeAmPm, getAllUsers, getDocumentData, getFiles, getTrackers } from '../../utils';
+import { domain, signatureFiles } from '../../constants';
 
 function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
     const theme = useTheme()
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [pdfToView, setPdfToView] = useState(null)
     const [detailsLoading, setDetailsLoading] = useState(false)
-    const [stepperLoading, setStepperLoading] = useState(false)
+    const [stepperLoading, setStepperLoading] = useState(true)
     const [filesLoading, setFilesLoading] = useState(false)
     const [ documents, setDocuments ] = useState({})
     const [fileDetails, setFileDetails] = useState([])
+
+    const [trackers, setTrackers] = useState([])
+    const [users, setUsers] = useState([])
+
+    const getTrackerData = async() => {
+        setStepperLoading(true)
+        const trackerRes = await getTrackers()
+        if(trackerRes?.status === 200) {
+            if(trackerRes.data?.hasData === true){
+                setStepperLoading(false)
+                const sortedTrackers = trackerRes.data.trackers.sort((a, b) => {
+                // Convert date strings to Date objects for comparison
+                const dateA = new Date(a.date_Created);
+                const dateB = new Date(b.date_Created);
+                
+                // Compare dates
+                return dateA - dateB; // Descending order
+                });
+        
+                setTrackers(sortedTrackers);
+            }
+        }
+        else{
+            toast.error(trackerRes?.errorMessage)
+        }
+        
+    }
+
+    const getUserOptions = async() => {
+        const res = await getAllUsers()
+        if(res?.status === 200){
+            setUsers(res.data?.users)
+        }
+        else(
+            toast.error('An error occured while fetching data.')
+        )
+    }
 
     //Get table data
     const getTableDocuments = async() => {
@@ -68,7 +106,9 @@ function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
     useEffect(() => {
         getTableDocuments()
         getFilesData()
-    }, [document_id])
+        getTrackerData()
+        getUserOptions()
+    }, [openViewDoc])
 
     return (
         <section id='View_Document_Dialog' className='View_Document_Dialog'>
@@ -136,7 +176,7 @@ function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
                                             </div>
                                             <div className="Detail_Group">
                                                 <span className="Label">Forwared To</span>
-                                                <p className="Detail">{ documents.forward_To || "N/A" }</p>
+                                                <p className="Detail">{ users.find(user => user.user_id === documents.forward_To)?.full_Name || "N/A" }</p>
                                             </div>
                                             <div className="Detail_Group">
                                                 <span className="Label">Comment/Note</span>
@@ -151,39 +191,45 @@ function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
                                     )
                                     }
                                 </div>
-                                {documents.tracker && (
-                                    <div className="Document_Tracker_Container">
-                                        <span className="Label">Document Tracker</span>
-                                        {!stepperLoading ? (
-                                            <div className="Tracker_Details">
+                                <div className="Document_Tracker_Container">
+                                    <span className="Label">Document Tracker</span>
+                                    {!stepperLoading ? (
+                                        <div className="Tracker_Details">
+                                            {trackers && trackers.filter(tracker => tracker.document_id === document_id).length > 0 ? (
                                                 <div className="rightbox">
                                                     <div className="rb-container">
                                                         <ul className="rb">
-                                                            { documents.tracker && documents.tracker.map((tracker) => (
+                                                            {trackers && trackers.filter(tracker => tracker.document_id === document_id).map((tracker) => (
                                                                 <li className="rb-item" ng-repeat="itembx">
                                                                     <div className="timestamp">
-                                                                        {tracker.signed_Time}
+                                                                        {new Date(tracker.date_Created).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'})}
                                                                     </div>
                                                                     <div className="item-title">
-                                                                        <span className='Office signature'>{tracker.tracker_Location}</span>
-                                                                        <img src={Signature} alt="" className="Signature" />
+                                                                        <span className='Office signature'>{tracker.traker_label}</span>
+                                                                        <img src={`${domain}${signatureFiles}/${tracker.tracker_id}-signature.png`} alt="Signature" className="Signature" />
                                                                     </div>
                                                                 </li>
-                                                            )) }
+                                                            ))}
                                                         </ul>
-
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )
-                                        :(
-                                            <div className="Loader">
-                                                <LoadingInfinite width='75px' height='75px'/>
-                                            </div>
-                                        )
-                                        }
-                                    </div>
-                                )}
+                                            )
+                                            :
+                                            (
+                                                <div className="Tracker_Empty">
+                                                    <span>No Tracking Data</span>
+                                                </div>
+                                            )
+                                            }
+                                        </div>
+                                    )
+                                    :(
+                                        <div className="Loader">
+                                            <LoadingInfinite width='75px' height='75px'/>
+                                        </div>
+                                    )
+                                    }
+                                </div>
                             </div>
                             <div className="Right_Side">
                                 <View_Files isFileLoading={filesLoading} setIsFileLoading={setFilesLoading} pdfToView={pdfToView} setPdfToView={setPdfToView} files={fileDetails || []}/>

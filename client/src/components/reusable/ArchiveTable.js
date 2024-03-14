@@ -20,8 +20,9 @@ import View_Document_Dialog from '../dialog modals/View_Document_Dialog'
 import Signature from '../../assets/images/Sinature.png'
 import noResult from '../../assets/images/noResult.png'
 import toast from 'react-hot-toast'
+import { domain, signatureFiles } from '../../constants'
 
-function ArchiveTable({documents, filters, setFilter}) {
+function ArchiveTable({documents, filters, setFilter, trackers, refreshTracker}) {
   const [rotation, setRotation] = useState(0);
   const [openRow, setOpenRow] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -218,22 +219,42 @@ function ArchiveTable({documents, filters, setFilter}) {
                                       <div className="Other_Details">
                                         <span>Tracker:</span>
                                         <div className="Tracker">
-                                          <div className="Tracker_Item">
-                                            <div className="Tracker_Details">
-                                              <div className="Signature">
-                                                <img src={Signature} alt="" />
+                                          {trackers && trackers.filter(tracker => tracker.document_id === document.archive_id || tracker.document_id === document.document_id).length === 0 ? (
+                                            
+                                            <div className="Tracker_Item">
+                                              {console.log(trackers, document.archive_id, document.document_id)}
+                                              <div className="Tracker_Add">
+                                                <span>No Tracker Data</span>
                                               </div>
-                                              <p className="Tracker_Date">
-                                                March 2 , 2024
-                                              </p>
-                                              <p className="Tracker_Label">
-                                                Office of the President
-                                              </p>
                                             </div>
-                                            <div className="Right_Arrow">
-                                              <MdIcons.MdKeyboardDoubleArrowRight size={'30px'}/>
-                                            </div>
-                                          </div>
+                                          )
+                                          :
+                                          (
+                                            <>
+                                            {trackers && trackers.filter(tracker => tracker.document_id === document.archive_id || tracker.document_id === document.document_id).map((tracker) => (
+                                              <div className="Tracker_Item" key={tracker.tracker_id}>
+                                                {console.log(tracker.tracker_id, document.archive_id, document.document_id)}
+                                                <div className="Tracker_Details">
+                                                  <div className="Signature">
+                                                    <img src={`${domain}${signatureFiles}/${tracker.tracker_id}-signature.png`} alt="Signature" />
+                                                  </div>
+                                                  <p className="Tracker_Date">
+                                                    {new Date(tracker.date_Created).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'})}
+                                                  </p>
+                                                  <p className="Tracker_Label">
+                                                    {tracker.traker_label}
+                                                  </p>
+                                                </div>
+                                                {trackers.filter(tracker => tracker.document_id === document.archive_id || tracker.document_id === document.document_id).length > 1 && (
+                                                  <div className="Right_Arrow">
+                                                    <MdIcons.MdKeyboardDoubleArrowRight size={'30px'}/>
+                                                  </div>
+                                                )}
+                                                
+                                              </div>
+                                            ))}
+                                            </>
+                                          )}
                                         </div>
                                       </div>
                                   </div>

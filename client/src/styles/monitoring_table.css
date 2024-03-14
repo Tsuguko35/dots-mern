@@ -377,18 +377,26 @@
 }
 
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details > .Signature > img{
-    width: 150px;
-    height: 100%;
+    width: 80px;
+    object-fit: contain;
+    height: 40px;
 }
 
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details > .Tracker_Date{
-    font-size: 13px;
+    font-size: 11px;
     color: var(--orange);
 }
 
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details > .Tracker_Label{
     font-size: 14px;
     color: var(--light-black);
+}
+
+#Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Right_Arrow{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Pagination */

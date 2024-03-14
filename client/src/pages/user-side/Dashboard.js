@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import '../../styles/dashboard.css'
 import { useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
@@ -9,10 +9,14 @@ import welcomeIMG from '../../assets/images/welcomeIMG.png'
 import * as HiIcons from 'react-icons/hi'
 import * as MdIcons from 'react-icons/md'
 import { getArchiveDocuments, getTableData } from '../../utils'
+import { NotificationContext } from '../../context/context'
 
 function Dashboard() {
   const navigate = useNavigate()
-  const userDetails = JSON.parse(window.localStorage.getItem('profile')) || {}
+  const {
+    user
+  } = useContext(NotificationContext)
+  const userDetails = user
   const [documents, setDocuments] = useState([])
   const [documentsToFilter, setDocumentsToFilter] = useState([])
   const [filters, setFilters] = useState({

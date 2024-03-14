@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ArchiveTable, PageHeader } from '../../components'
 import '../../styles/archive_table.css'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getArchiveDocuments } from '../../utils'
+import { getArchiveDocuments, getTrackers } from '../../utils'
 import toast from 'react-hot-toast'
 
 
@@ -20,6 +20,8 @@ function Archive_Table() {
     })
     //GetArchives Stuff
     const [isLoading, setIsLoading] = useState(false)
+
+    const [trackers, setTrackers] = useState([])
     const [archivedDocumentsToFilter, setArchivedDocumentsToFilter] = useState([])
     const [archivedDocuments, setArchivedDocuments] = useState([])
 
@@ -37,6 +39,28 @@ function Archive_Table() {
       )
 
     }
+
+    const getTrackerData = async() => {
+      const trackerRes = await getTrackers()
+      if(trackerRes?.status === 200) {
+        if(trackerRes.data?.hasData === true){
+          const sortedTrackers = trackerRes.data.trackers.sort((a, b) => {
+            // Convert date strings to Date objects for comparison
+            const dateA = new Date(a.date_Created);
+            const dateB = new Date(b.date_Created);
+            
+            // Compare dates
+            return dateA - dateB; // Descending order
+          });
+    
+          setTrackers(sortedTrackers);
+        }
+      }
+      else{
+        toast.error(trackerRes?.errorMessage)
+      }
+    }
+
 
     useEffect(() => {
       if(archivedDocumentsToFilter){
@@ -84,7 +108,13 @@ function Archive_Table() {
     useEffect(() => {
         document.title = `${archiveType} Documents Archive`
         getArchives()
+        getTrackerData()
     }, [])
+
+    const refreshTrackers = () => {
+      getTrackerData()
+    }
+  
   return (
     <section id='Archive_Table' className='Archive_Table'>
         <div className="wrapper">
@@ -95,7 +125,7 @@ function Archive_Table() {
             <p>{archiveType}</p>
           </div>
           <div className="Archive_Table_Container">
-            <ArchiveTable documents={archivedDocuments} setFilter={setFilters} filters={filters}/>
+            <ArchiveTable documents={archivedDocuments} setFilter={setFilters} filters={filters} trackers={trackers} refreshTracker={refreshTrackers}/>
           </div>
         </div>
     </section>

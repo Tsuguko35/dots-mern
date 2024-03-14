@@ -372,11 +372,31 @@
     display: flex;
     gap: 5px;
     width: 1000px;
+    height: 140px;
     padding: 10px 20px;
     background-color: var(--bg-white);
     border: 1px dotted var(--dark-grey);
     border-radius: 5px;
     overflow-x: auto;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Add{
+    height: 100%;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Add > span{
+    color: var(--dark-grey);
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 250ms ease-in-out;
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Add > span:hover{
+    color: var(--orange);
 }
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item{
@@ -393,18 +413,26 @@
 }
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details > .Signature > img{
-    width: 150px;
-    height: 100%;
+    width: 80px;
+    object-fit: contain;
+    height: 40px;
 }
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details > .Tracker_Date{
-    font-size: 13px;
+    font-size: 11px;
     color: var(--orange);
 }
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details > .Tracker_Label{
     font-size: 14px;
     color: var(--light-black);
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Right_Arrow{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
