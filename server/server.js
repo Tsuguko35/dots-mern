@@ -39,6 +39,7 @@ app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: false }))
 app.use('/document_Files', express.static('./document_Files/files'));
 app.use('/signature_Files', express.static('./document_Files/signatures'));
+app.use('/profile_Pic', express.static('./user_Files/profilePics'));
 app.locals.io = io
 
 // Connect Server

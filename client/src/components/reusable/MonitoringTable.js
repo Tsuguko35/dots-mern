@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import '../../styles/monitoring_table.css'
 
@@ -11,7 +11,7 @@ import * as GrIcons from 'react-icons/gr'
 import * as MdIcons from 'react-icons/md'
 import { Collapse, Menu, Tooltip } from '@mui/material'
 import { LoadingInfinite } from '../../assets/svg'
-import { GetWindowWidth, addDocument, checkFileType, formatDate, formatTime, getDropdownsData, getFiles, uploadFiles, editDocument, deleteFiles, archiveDocument } from '../../utils'
+import { GetWindowWidth, addDocument, checkFileType, formatDate, formatTime, getDropdownsData, getFiles, uploadFiles, editDocument, deleteFiles, archiveDocument, downloadReport } from '../../utils'
 
 //Dialogs
 import Comm_Add_Dialog from '../dialog modals/Comm_Add_Dialog'
@@ -32,6 +32,10 @@ import Create_Tracker_Dialog from '../dialog modals/Create_Tracker_Dialog'
 import { domain, signatureFiles } from '../../constants'
 import { NotificationContext } from '../../context/context'
 
+//Printing
+import ReactToPrint from 'react-to-print'
+import { ReportPrint } from '../ReportPrint'
+
 
 function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc, users, setFilter, filters, trackers, refreshTracker }) {
   const [openAddDocs, setOpenAddDocs] = useState(false)
@@ -47,6 +51,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
   const [openRow, setOpenRow] = useState(0)
   const [error, setError] = useState({ isError: false, errorMessage: '' })
   const [initialEditState, setInitialEditState] = useState({})
+  const printComponentRef = useRef();
   const initialDocumentState = {
     Date_Received: formatDate(new Date()),
     Time_Received: formatTime(new Date()),
@@ -416,6 +421,10 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
     setOpenCreateTracker(true)
   }
 
+  const handleDownloadReport = async() => {
+    await downloadReport()
+  }
+
   return (
     <section id='Monitoring_Table' className='Monitoring_Table'>
       <DocumentContext.Provider value={{ 
@@ -470,6 +479,11 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
 
         {/* Create Tracker Dialog */}
         <Create_Tracker_Dialog openCreateTracker={openCreateTracker} closeCreateTracker={setOpenCreateTracker} document_id={trackerDocumentID} userDetails={userProfile} refreshTracker={refreshTracker}/>
+
+        {/* Report Print */}
+        <div className="PrintReport" style={{ display: 'none' }}>
+          <ReportPrint ref={printComponentRef} documents={documents} document_Type={documentType}/>
+        </div>
       </DocumentContext.Provider>
       
       <div className="wrapper">
@@ -483,9 +497,23 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
             </span>
           </div>
           <div className="Table_Top_Right">
-            <button>
-              <HiIcons.HiOutlinePrinter size={'20px'}/> PRINT
-            </button>
+            <ReactToPrint 
+              trigger={() => {
+                return(
+                  <button>
+                    <HiIcons.HiOutlinePrinter size={'20px'}/> PRINT
+                  </button>
+                )
+              }}
+              content={() => printComponentRef.current}
+              documentTitle={`${documentType} Report`}
+              pageStyle={`
+                @page { 
+                  size: A4 portrait; 
+                  margin: 2mm;
+                }
+              `}
+            />
             <div className="Input_Group">
               <div className="Custom_Search">
                   <div className="Icon">

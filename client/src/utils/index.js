@@ -33,6 +33,10 @@ import forwardDocument from "./forwardDocument";
 import getLogs from "./getLogs";
 import getTrackers from "./getTrackers";
 import addTracker from "./addTracker";
+import SettingsRoute from "./settingsRoutes";
+import RoleBasedRoute from "./roleBasedRoutes";
+import addProfilePic from "./addProfilePic";
+import downloadReport from "./downloadReport";
 
 export {
     hasSidebar,
@@ -69,5 +73,9 @@ export {
     forwardDocument,
     getLogs,
     getTrackers,
-    addTracker
+    addTracker,
+    SettingsRoute,
+    RoleBasedRoute,
+    addProfilePic,
+    downloadReport
 }

@@ -11,6 +11,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import formatTime from '../utils/formatTime.js'
 import { urgentEmailTemplate } from '../utils/urgentEmailTemplate.js'
+import { buildPDF } from '../utils/reportPrintPdfTemplate.js'
 
 
 
@@ -654,6 +655,21 @@ const createLog = (props) => {
     })
 }
 
+const downloadReportPDF = asyncHandler(async (req, res) => {
+    const documents = []
+
+    const stream = res.writeHead(200, {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment; filename=form.pdf'
+    });
+
+    buildPDF(
+        documents,  
+        chunk => stream.write(chunk),
+        () => stream.end()
+    );
+})
+
 
 export{
     getDocuments,
@@ -669,5 +685,6 @@ export{
     deleteNotification,
     forwardDocument,
     getTrackers,
-    addTracker
+    addTracker,
+    downloadReportPDF
 }

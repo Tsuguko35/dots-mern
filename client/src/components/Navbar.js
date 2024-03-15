@@ -46,7 +46,7 @@ import notificationSound from '../assets/sounds/notification sound.mp3'
 
 //Socket IO
 import io from 'socket.io-client';
-import { ENDPOINT } from '../constants'
+import { ENDPOINT, domain, profile_Pic } from '../constants'
 var socket
 
 function Navbar() {
@@ -282,7 +282,7 @@ function Navbar() {
           <Typography className='Navbar_Date_and_Profile_Role' sx={{ minWidth: '75px'}}>{userDetails.role}</Typography>
 
           {/* Account Menu */}
-          <Tooltip title="Account settings">
+          <Tooltip title="Menu">
             <IconButton
               onClick={handleClick}
               size="small"
@@ -290,7 +290,9 @@ function Navbar() {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-              <Avatar sx={{ width: 45, height: 45 }}>{firstLetterOfName}</Avatar>
+              <Avatar src={`${domain}${profile_Pic}/${user.profilePic}`} className='Avatar'>
+                {user.profilePic ? null : firstLetterOfName}
+              </Avatar>
             </IconButton>
           </Tooltip>
           <Menu
@@ -330,7 +332,11 @@ function Navbar() {
           >
             <div className="Menu_Profile">
               <div className="Profile_Avatar">
-                <span><Avatar className='Avatar'>{firstLetterOfName}</Avatar></span>
+                <span>
+                  <Avatar src={`${domain}${profile_Pic}/${user.profilePic}`} className='Avatar'>
+                      {user.profilePic ? null : firstLetterOfName}
+                  </Avatar>
+                </span>
               </div>
               <div className="Profile_Name_Role">
                 <span className='Profile_Name'>{userDetails.full_Name}</span>
@@ -344,12 +350,17 @@ function Navbar() {
               </ListItemIcon>
               Account Settings
             </MenuItem>
-            <MenuItem onClick={() => redirect("SysSettings")} className='Menu_Item'>
-              <ListItemIcon>
-                <LuIcons.LuSettings2 size={'20px'} className='Menu_Icons'/>
-              </ListItemIcon>
-              System Settings
-            </MenuItem>
+
+            {/* Don't Show if the user is not a dean */}
+            {user.role === 'Dean' && (
+              <MenuItem onClick={() => redirect("SysSettings")} className='Menu_Item'>
+                <ListItemIcon>
+                  <LuIcons.LuSettings2 size={'20px'} className='Menu_Icons'/>
+                </ListItemIcon>
+                System Settings
+              </MenuItem>
+            )}
+
             <MenuItem onClick={() => logout()} className='Menu_Item'>
               <ListItemIcon>
                 <IoIcons.IoIosLogOut size={'20px'} className='Menu_Icons'/>

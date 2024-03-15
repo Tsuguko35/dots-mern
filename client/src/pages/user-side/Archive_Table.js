@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ArchiveTable, PageHeader } from '../../components'
 import '../../styles/archive_table.css'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getArchiveDocuments, getTrackers } from '../../utils'
 import toast from 'react-hot-toast'
+import { NotificationContext } from '../../context/context'
 
 
 function Archive_Table() {
@@ -20,6 +21,9 @@ function Archive_Table() {
     })
     //GetArchives Stuff
     const [isLoading, setIsLoading] = useState(false)
+    const {
+      user
+    } = useContext(NotificationContext)
 
     const [trackers, setTrackers] = useState([])
     const [archivedDocumentsToFilter, setArchivedDocumentsToFilter] = useState([])
@@ -88,6 +92,9 @@ function Archive_Table() {
         .filter(document => 
           document.status.toLowerCase().includes(filters.statusFilter.toLowerCase())
         )
+        .filter(document => 
+          user.role === 'Faculty' ? (document.forward_To === user.full_Name || document.forwarded_By === user.user_id || document.accepted_Rejected_By === user.user_id) : true
+        )
     
         const sortedFilteredDocs = filteredDocs.sort((a, b) => {
           if (a.date_Received !== b.date_Received) {
@@ -103,7 +110,7 @@ function Archive_Table() {
         setArchivedDocuments(archivedDocumentsToFilter);
       }
       
-    }, [filters, archivedDocumentsToFilter])
+    }, [filters, archivedDocumentsToFilter, user])
 
     useEffect(() => {
         document.title = `${archiveType} Documents Archive`

@@ -9,18 +9,66 @@ import {
 import * as CiIcons from 'react-icons/ci'
 import { useNavigate } from 'react-router-dom'
 import { NotificationContext } from '../../context/context'
+import { addProfilePic } from '../../utils'
+import toast from 'react-hot-toast'
+import { domain, profile_Pic } from '../../constants'
+import { validateUser } from '../../context'
 
 
 function Account_Settings() {
     const navigate = useNavigate()
     const {
-        user
+        user,
+        setUser
     } = useContext(NotificationContext)
+
     const userDetails = user
     const firstLetterOfName = userDetails.full_Name ? userDetails.full_Name.charAt(0).toUpperCase() : 'A';
 
+    const [profilePic, setProfilePic] = useState(null)
+    const [profileFile, setProfileFile] = useState(null)
+
+    const handleSubmit = async() => {
+        toast.loading('Please wait...')
+        if(profileFile){
+            const res = await addProfilePic({ file: profileFile, user_id: user.user_id })
+            toast.dismiss()
+            
+            if(res?.status === 200){
+                const token = window.localStorage.getItem('user')
+                const validateRes = await validateUser({token})
+                if(validateRes?.status === 200){
+                    toast.success('User settings saved successfully.')
+                    setUser(validateRes?.data)
+                }
+                else{
+                    toast.error('Error refreshing user details. refresh the page.')
+                }
+            }
+            else{
+                toast.error(res?.errorMessage)
+            }
+        }
+        else{
+            toast.dismiss()
+        }
+    }
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setProfileFile(e.target.files[0])
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setProfilePic(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     useEffect(() => {
         document.title = `Account Settings`
+        console.log(user);
     }, [])
 
     return (
@@ -30,11 +78,13 @@ function Account_Settings() {
                 <div className="Settings_Container">
                     <div className="Left-Side">
                         <div className="Profile_Pic">
-                            <Avatar className='Pic'>{firstLetterOfName}</Avatar>
+                            <Avatar src={!profilePic ? `${domain}${profile_Pic}/${user.profilePic}` : profilePic} className='Pic'>
+                                {user.profilePic || profilePic ? null : firstLetterOfName}
+                            </Avatar>
                             <div className="Pic_Change_Holder">
                                 <div className="Pic_Change">
                                     <CiIcons.CiImageOn size={'30px'}/>
-                                    <input type="file" accept='image/jpeg, image/png'/>
+                                    <input type="file" onChange={handleFileChange} accept='image/jpeg, image/png' />
                                 </div>
                             </div> 
                         </div>
@@ -63,9 +113,6 @@ function Account_Settings() {
                                     <div className="Value">
                                         <p>{userDetails.full_Name}</p>
                                     </div>
-                                    <div className="Info_Edit">
-                                        <span>Change Name</span>    
-                                    </div>
                                 </div>
                             </div>
                             <div className="Info">
@@ -75,9 +122,6 @@ function Account_Settings() {
                                 <div className="Info_Value">
                                     <div className="Value">
                                         <p>{userDetails.email}</p>
-                                    </div>
-                                    <div className="Info_Edit">
-                                        <span>Change Email</span>    
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +140,7 @@ function Account_Settings() {
                             </div>
                         </div>
                         <div className="Save_Profile">
-                            <button>Save</button>
+                            <button onClick={() => handleSubmit()}>Save</button>
                         </div>
                     </div>
                 </div>

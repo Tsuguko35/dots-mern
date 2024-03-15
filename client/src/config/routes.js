@@ -13,7 +13,7 @@ import {
     System_Settings,
     Templates
 } from "../pages"
-import { PrivateRoute } from "../utils"
+import { PrivateRoute, RoleBasedRoute, SettingsRoute } from "../utils"
 
 
 const routes = [
@@ -39,7 +39,7 @@ const routes = [
     },
     {
         path: '/Monitoring/:monitoringType',
-        component: <PrivateRoute><Monitoring /></PrivateRoute>
+        component: <PrivateRoute><RoleBasedRoute> <Monitoring /> </RoleBasedRoute></PrivateRoute>
     },
     {
         path: '/Archive/Folders',
@@ -55,7 +55,7 @@ const routes = [
     },
     {
         path: '/System-Settings',
-        component: <PrivateRoute><System_Settings /></PrivateRoute>
+        component: <PrivateRoute><SettingsRoute> <System_Settings /> </SettingsRoute></PrivateRoute>
     },
     {
         path: '/Account-Settings',

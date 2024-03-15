@@ -8,7 +8,7 @@ import welcomeIMG from '../../assets/images/welcomeIMG.png'
 // Icons
 import * as HiIcons from 'react-icons/hi'
 import * as MdIcons from 'react-icons/md'
-import { getArchiveDocuments, getTableData } from '../../utils'
+import { getArchiveDocuments, getTableData, getTrackers } from '../../utils'
 import { NotificationContext } from '../../context/context'
 
 function Dashboard() {
@@ -35,6 +35,33 @@ function Dashboard() {
     month: 0,
     year: 0
   })
+
+  //Tracking
+  const [trackers, setTrackers] = useState([])
+  const getTrackerData = async() => {
+    const trackerRes = await getTrackers()
+    if(trackerRes?.status === 200) {
+      if(trackerRes.data?.hasData === true){
+        const sortedTrackers = trackerRes.data.trackers.sort((a, b) => {
+          // Convert date strings to Date objects for comparison
+          const dateA = new Date(a.date_Created);
+          const dateB = new Date(b.date_Created);
+          
+          // Compare dates
+          return dateA - dateB; // Descending order
+        });
+  
+        setTrackers(sortedTrackers);
+      }
+    }
+    else{
+      toast.error(trackerRes?.errorMessage)
+    }
+  }
+
+  const refreshTrackers = () => {
+    getTrackerData()
+  }
 
   const getDocumentCounts = async() => {
     const docsRes = await getTableData({ documentType: 'All' })
@@ -112,15 +139,6 @@ function Dashboard() {
   }
 
   useEffect(() => {
-    document.title = 'Dashboard'
-    getDashboardData()
-  }, [])
-
-  useEffect(() => {
-    console.log(documentCounts);
-  }, [documentCounts])
-
-  useEffect(() => {
     if(documentsToFilter){
       const filteredDocs = documentsToFilter.filter(document => 
         document.document_Name.toLowerCase().includes(filters.searchFilter.toLowerCase()) ||
@@ -160,6 +178,13 @@ function Dashboard() {
       setDocuments(documentsToFilter);
     }
   }, [filters, documentsToFilter])
+
+  //Main Use Effect
+  useEffect(() => {
+    document.title = 'Dashboard'
+    getDashboardData()
+    getTrackerData()
+  }, [])
 
   return (
     <section id='Dashboard' className='Dashboard'>
@@ -358,7 +383,7 @@ function Dashboard() {
         </div>
         <div className="Dashboard_Table_Container">
           <div className="Dashboard_Table">
-            <ArchiveTable  setFilter={setFilters} filters={filters} documents={documents}/>
+            <ArchiveTable  setFilter={setFilters} filters={filters} documents={documents} trackers={trackers} refreshTracker={refreshTrackers}/>
           </div>
         </div>
       </div>

@@ -173,27 +173,35 @@ return (
                                 </div>
                             </Link>
                         </Collapse>
-                    <Link className={location.pathname.includes('/Monitoring') ? 'Nav_List_Item active' : 'Nav_List_Item'} onClick={(e) => setToggleMonitoring(!toggleMonitoring)}>
-                        <div className="Nav_Icon_Label">
-                            <span className='Nav_Item_Icon'><GoIcons.GoRows size={'30px'}/></span>
-                            <span className='Nav_Item_Label'>Monitoring</span>
-                        </div>
-                        <span className={toggleMonitoring ? 'Nav_Item_Collapse_Icon active' : 'Nav_Item_Collapse_Icon'}><RiIcons.RiArrowDropDownLine size={'35px'}/></span>
-                    </Link>
-                        <Collapse className='Nav_List_Collapse' in={toggleMonitoring} timeout="auto" unmountOnExit>
-                            <Link to={`/Monitoring/Communication`} className={location.pathname.includes('/Communication') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
-                                <span className='Nav_Item_onCollapse_Icon'><HiIcons.HiOutlineNewspaper size={'20px'}/></span>
-                                <span className='Nav_Item_Label'>Communications</span>
+                    
+                    {/* Dont Show Montiroing if Faculty */}
+                    {user.role !== 'Faculty' && (
+                        <>
+                            <Link className={location.pathname.includes('/Monitoring') ? 'Nav_List_Item active' : 'Nav_List_Item'} onClick={(e) => setToggleMonitoring(!toggleMonitoring)}>
+                                <div className="Nav_Icon_Label">
+                                    <span className='Nav_Item_Icon'><GoIcons.GoRows size={'30px'}/></span>
+                                    <span className='Nav_Item_Label'>Monitoring</span>
+                                </div>
+                                <span className={toggleMonitoring ? 'Nav_Item_Collapse_Icon active' : 'Nav_Item_Collapse_Icon'}><RiIcons.RiArrowDropDownLine size={'35px'}/></span>
                             </Link>
-                            <Link to={`/Monitoring/Memorandum`} className={location.pathname.includes('/Memorandum') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
-                                <span className='Nav_Item_onCollapse_Icon'><CiIcons.CiMemoPad size={'20px'}/></span>
-                                <span className='Nav_Item_Label'>Memorandums</span>
-                            </Link>
-                            <Link to={`/Monitoring/Other`} className={location.pathname.includes('/Other') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
-                                <span className='Nav_Item_onCollapse_Icon'><HiIcons.HiOutlineClipboardList size={'20px'}/></span>
-                                <span className='Nav_Item_Label'>Other Documents</span>
-                            </Link>
-                        </Collapse>
+                                <Collapse className='Nav_List_Collapse' in={toggleMonitoring} timeout="auto" unmountOnExit>
+                                    <Link to={`/Monitoring/Communication`} className={location.pathname.includes('/Communication') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
+                                        <span className='Nav_Item_onCollapse_Icon'><HiIcons.HiOutlineNewspaper size={'20px'}/></span>
+                                        <span className='Nav_Item_Label'>Communications</span>
+                                    </Link>
+                                    <Link to={`/Monitoring/Memorandum`} className={location.pathname.includes('/Memorandum') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
+                                        <span className='Nav_Item_onCollapse_Icon'><CiIcons.CiMemoPad size={'20px'}/></span>
+                                        <span className='Nav_Item_Label'>Memorandums</span>
+                                    </Link>
+                                    <Link to={`/Monitoring/Other`} className={location.pathname.includes('/Other') ? 'Nav_List_Collapse_Item active' : 'Nav_List_Collapse_Item'}>
+                                        <span className='Nav_Item_onCollapse_Icon'><HiIcons.HiOutlineClipboardList size={'20px'}/></span>
+                                        <span className='Nav_Item_Label'>Other Documents</span>
+                                    </Link>
+                                </Collapse>
+                        </>
+                    )}
+
+                    
                     <Link to={`/Archive/Folders`} className={location.pathname.includes('/Archive') ? 'Nav_List_Item active' : 'Nav_List_Item'} onClick={(e) => !toggleSidebar ? setToggleSidebar(false) : undefined}>
                         <div className="Nav_Icon_Label">
                             <span className='Nav_Item_Icon'><GoIcons.GoArchive size={'30px'}/></span>

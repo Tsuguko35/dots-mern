@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import generateOTP from '../utils/generateOTP.js'
 import { otpEmailTemplate } from '../utils/otpEmailTemplate.js'
 import mailer from '../utils/mailer.js'
+import { promises as fs } from 'fs'
 
 
 
@@ -46,7 +47,7 @@ const signIn = asyncHandler(async (req, res) => {
                     user_id: user[0].user_id,
                     role: user[0].role,
                     email: user[0].email,
-                    profilePic: user[0].profilePic,
+                    profilePic: user[0].profile_Pic,
                     full_Name: user[0].full_Name,
                     date_Created: user[0].date_Created,
                     status: user[0].status,
@@ -79,7 +80,7 @@ const validateUser = asyncHandler(async (req, res) => {
                     user_id: user[0].user_id,
                     role: user[0].role,
                     email: user[0].email,
-                    profilePic: user[0].profilePic,
+                    profilePic: user[0].profile_Pic,
                     full_Name: user[0].full_Name,
                     date_Created: user[0].date_Created,
                     status: user[0].status,
@@ -341,6 +342,44 @@ const finishStaffSetup = asyncHandler(async (req, res) => {
     })
 })
 
+const uploadUserProfilePic = asyncHandler(async (req, res) => {
+    const { user_id } = req.body;
+    const profilePic = req.files[0];
+
+    const selectQuery = "SELECT profile_Pic FROM users WHERE user_id = ?";
+    db.query(selectQuery, [user_id], async (err, result) => {
+        if (err) {
+            res.status(400).json({ errorMessage: 'Query Error' });
+        } else {
+
+            // If user has an existing profile picture, delete it from storage
+            const existingProfilePic = result[0].profile_Pic;
+            if (existingProfilePic) {
+                const filePath = `./user_Files/profilePics/${existingProfilePic}`;
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        console.error('Error deleting existing profile picture:', err);
+                    }
+                });
+            }
+
+            // Update the profile_Pic field with the new file
+            const updateQuery = "UPDATE users SET profile_Pic = ? WHERE user_id = ?";
+            db.query(updateQuery, [profilePic.filename, user_id], (err, result) => {
+                if (err) {
+                    res.status(400).json({ errorMessage: 'Query Error' });
+                } else {
+                    if (result.affectedRows > 0) {
+                        res.status(200).json({ success: true });
+                    } else {
+                        res.status(400).json({ errorMessage: 'Profile picture update failed.' });
+                    }
+                }
+            });
+        }
+    });
+});
+
 
 export {
     signIn,
@@ -354,5 +393,6 @@ export {
     getUsers,
     changeUserStatus,
     registerStaff,
-    finishStaffSetup
+    finishStaffSetup,
+    uploadUserProfilePic
 }

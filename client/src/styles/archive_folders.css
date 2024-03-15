@@ -15,6 +15,63 @@
     gap: 30px;
 }
 
+#Archive_Folders > .wrapper > .Archive_Folder_Empty{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    gap: 20px;
+}
+
+#Archive_Folders > .wrapper > .Archive_Folder_Empty > .Loader{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Archive_Folders > .wrapper > .Archive_Folder_Empty > .Empty_Image{
+    width: 350px;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+#Archive_Folders > .wrapper > .Archive_Folder_Empty > .Empty_Image > img{
+    width: 100%;
+    height: 100%;
+}
+
+#Archive_Folders > .wrapper > .Archive_Folder_Empty > .Empty_Label{
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    gap: 10px;
+}
+
+#Archive_Folders > .wrapper > .Archive_Folder_Empty > .Empty_Label > span{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Archive_Folders > .wrapper > .Archive_Folder_Empty > .Empty_Label > .Main_Label{
+    color: var(--light-black);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#Archive_Folders > .wrapper > .Archive_Folder_Empty > .Empty_Label > .Sub_Label{
+    color: var(--dark-grey);
+    font-size: 14px;
+}
+
 #Archive_Folders > .wrapper > .Folders_Container {
     width: 100%;
     display: flex;
