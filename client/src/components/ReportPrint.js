@@ -1,8 +1,49 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../styles/reportprint.css'
 import headerIMG from '../assets/images/0.png'
 
 export const ReportPrint = React.forwardRef((props, componentRef) => {
+    const tableRef = useRef(null);
+
+    useEffect(() => {
+        const table = tableRef.current;
+        if (!table) return;
+    
+        // Remove all existing row breaks
+        const breakRows = table.querySelectorAll('.break-row');
+        breakRows.forEach(breakRow => breakRow.remove());
+    
+        const maxHeight = 320;
+        let currentHeight = 0;
+        const tbodyRows = table.querySelectorAll('tbody tr');
+    
+        tbodyRows.forEach((row, index) => {
+            let rowHeight = 0;
+            const tds = row.querySelectorAll('td');
+            tds.forEach(td => {
+                const tdHeight = td.clientHeight; // Use clientHeight for the height calculation
+                rowHeight = Math.max(rowHeight, tdHeight);
+            });
+    
+            if (currentHeight + rowHeight > maxHeight) {
+                const breakRow = document.createElement('tr');
+                breakRow.classList.add('break-row');
+    
+                if (row.parentNode === table) {
+                    table.insertBefore(breakRow, row);
+                } else {
+                    const parent = row.parentNode;
+                    parent.insertBefore(breakRow, row);
+                }
+                currentHeight = 0; // Reset currentHeight for the next page
+            }
+    
+            // Increment the currentHeight with the rowHeight
+            currentHeight += rowHeight;
+        });
+    }, [props.documents, componentRef, props.document_Type]);
+
+
     return(
         <div ref={componentRef} id='Print_Container'> 
             <div className="wrapper">
@@ -15,8 +56,8 @@ export const ReportPrint = React.forwardRef((props, componentRef) => {
                     <p className="Sub">Bulacan State University Main Campus, Capitol Compound, McArthur Highway, Guinhawa, City of Malolos Bulacan</p>
                 </div>
                 
-                {props.documents && props.documents.map((document) => (
-                    <div className="Table_Container" key={document.document_id}>
+                
+                    <div className='Table_Container' ref={tableRef}>
                         <table>
                             <thead>
                                 <tr className='spacer'>
@@ -32,25 +73,85 @@ export const ReportPrint = React.forwardRef((props, componentRef) => {
                                     <th>Document Type</th>
                                     <th>Office/Department</th>
                                     <th>Received By</th>
-                                    <th class="Status">Status</th>
+                                    <th className="Status">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
-                                    <tr>
+                                {props.documents && props.documents.map((document) => (
+                                    <tr key={document.document_id}>
                                         <td>{document.document_Name}</td>
                                         <td>{document.date_Received}</td>
                                         <td>{document.document_Type}</td>
                                         <td>{document.office_Dept}</td>
                                         <td>{document.received_By}</td>
-                                        <td class="Status">{document.status}</td>
+                                        <td className="Status">{document.status}</td>
                                     </tr>
-                                
+                                ))}
+                                {props.documents && props.documents.map((document) => (
+                                    <tr key={document.document_id}>
+                                        <td>{document.document_Name}</td>
+                                        <td>{document.date_Received}</td>
+                                        <td>{document.document_Type}</td>
+                                        <td>{document.office_Dept}</td>
+                                        <td>{document.received_By}</td>
+                                        <td className="Status">{document.status}</td>
+                                    </tr>
+                                ))}
+                                {props.documents && props.documents.map((document) => (
+                                    <tr key={document.document_id}>
+                                        <td>{document.document_Name}</td>
+                                        <td>{document.date_Received}</td>
+                                        <td>{document.document_Type}</td>
+                                        <td>{document.office_Dept}</td>
+                                        <td>{document.received_By}</td>
+                                        <td className="Status">{document.status}</td>
+                                    </tr>
+                                ))}
+                                {props.documents && props.documents.map((document) => (
+                                    <tr key={document.document_id}>
+                                        <td>{document.document_Name}</td>
+                                        <td>{document.date_Received}</td>
+                                        <td>{document.document_Type}</td>
+                                        <td>{document.office_Dept}</td>
+                                        <td>{document.received_By}</td>
+                                        <td className="Status">{document.status}</td>
+                                    </tr>
+                                ))}
+                                {props.documents && props.documents.map((document) => (
+                                    <tr key={document.document_id}>
+                                        <td>{document.document_Name}</td>
+                                        <td>{document.date_Received}</td>
+                                        <td>{document.document_Type}</td>
+                                        <td>{document.office_Dept}</td>
+                                        <td>{document.received_By}</td>
+                                        <td className="Status">{document.status}</td>
+                                    </tr>
+                                ))}
+                                {props.documents && props.documents.map((document) => (
+                                    <tr key={document.document_id}>
+                                        <td>{document.document_Name}</td>
+                                        <td>{document.date_Received}</td>
+                                        <td>{document.document_Type}</td>
+                                        <td>{document.office_Dept}</td>
+                                        <td>{document.received_By}</td>
+                                        <td className="Status">{document.status}</td>
+                                    </tr>
+                                ))}
+                                {props.documents && props.documents.map((document) => (
+                                    <tr key={document.document_id}>
+                                        <td>{document.document_Name}</td>
+                                        <td>{document.date_Received}</td>
+                                        <td>{document.document_Type}</td>
+                                        <td>{document.office_Dept}</td>
+                                        <td>{document.received_By}</td>
+                                        <td className="Status">{document.status}</td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                         
                     </div>
-                ))}
+                
             </div>
         </div>
     )

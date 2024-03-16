@@ -14,6 +14,7 @@ import {
 import Create_Staff_Dialog from './dialog modals/Create_Staff_Dialog'
 import { changeUserStatus, getAllUsers } from '../utils'
 import toast from 'react-hot-toast'
+import { domain, profile_Pic } from '../constants'
 
 function Setting_Accounts() {
     const [openCreateStaff, setOpenCreateStaff] = useState(false)
@@ -128,7 +129,7 @@ function Setting_Accounts() {
                     {users.map((user) => (
                         <div className="Account">
                             <div className="Account_Profile_Pic">
-                                <Avatar className="Profile_Pic">{user.profile_Pic ? (<img src='' alt='Profile Pic'></img>) : (user.full_Name ? user.full_Name[0].toUpperCase() : user.email[0].toUpperCase())}</Avatar>
+                                <Avatar src={user.profile_Pic ? `${domain}${profile_Pic}/${user.profile_Pic}` : ''} className="Profile_Pic">{user.profile_Pic ? null : (user.full_Name ? user.full_Name[0].toUpperCase() : user.email[0].toUpperCase())}</Avatar>
                             </div>
                             <div className="Account_Email_Name_Status">
                                 <div className="Email_Name">

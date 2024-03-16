@@ -421,10 +421,6 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
     setOpenCreateTracker(true)
   }
 
-  const handleDownloadReport = async() => {
-    await downloadReport()
-  }
-
   return (
     <section id='Monitoring_Table' className='Monitoring_Table'>
       <DocumentContext.Provider value={{ 
@@ -481,7 +477,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
         <Create_Tracker_Dialog openCreateTracker={openCreateTracker} closeCreateTracker={setOpenCreateTracker} document_id={trackerDocumentID} userDetails={userProfile} refreshTracker={refreshTracker}/>
 
         {/* Report Print */}
-        <div className="PrintReport" style={{ display: 'none' }}>
+        <div className="PrintReport" style={{ visibility: 'hidden', position: 'fixed' }}>
           <ReportPrint ref={printComponentRef} documents={documents} document_Type={documentType}/>
         </div>
       </DocumentContext.Provider>

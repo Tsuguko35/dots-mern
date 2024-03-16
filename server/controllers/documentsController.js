@@ -1,19 +1,11 @@
 import asyncHandler from 'express-async-handler'
 import db from '../config/database.js'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import { v4 as uuidv4 } from 'uuid';
-import generateOTP from '../utils/generateOTP.js'
-import { otpEmailTemplate } from '../utils/otpEmailTemplate.js'
 import mailer from '../utils/mailer.js'
 import { promises as fs } from 'fs'
 import path from 'path'
-import formatTime from '../utils/formatTime.js'
 import { urgentEmailTemplate } from '../utils/urgentEmailTemplate.js'
-import { buildPDF } from '../utils/reportPrintPdfTemplate.js'
-
-
 
 dotenv.config()
 
@@ -655,21 +647,6 @@ const createLog = (props) => {
     })
 }
 
-const downloadReportPDF = asyncHandler(async (req, res) => {
-    const documents = []
-
-    const stream = res.writeHead(200, {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': 'attachment; filename=form.pdf'
-    });
-
-    buildPDF(
-        documents,  
-        chunk => stream.write(chunk),
-        () => stream.end()
-    );
-})
-
 
 export{
     getDocuments,
@@ -686,5 +663,4 @@ export{
     forwardDocument,
     getTrackers,
     addTracker,
-    downloadReportPDF
 }

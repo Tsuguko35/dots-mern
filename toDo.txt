@@ -24,4 +24,4 @@ templates
 
 if not printable delete pdf files in server and client utils
 
-print(divide by row or search how to break on max width)
+fix the print format

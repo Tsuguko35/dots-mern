@@ -3,6 +3,8 @@
         width: 100%;
         height: 100%;
         font-family: Calibri, sans-serif !important;
+        box-sizing: border-box;
+        print-color-adjust: exact;
     }
     
     #Print_Container > .wrapper{
@@ -38,7 +40,7 @@
 
     #Print_Container > .wrapper > .Footer{
         position: fixed;
-        bottom: 70px;
+        bottom: 60px;
         left: 0;
         right: 0;
         width: 100%;
@@ -51,75 +53,65 @@
     }
 
     #Print_Container > .wrapper > .Footer > .Main{
-        font-size: 12px;
+        font-size: 10px;
         font-weight: bold;
     }
 
     #Print_Container > .wrapper > .Footer > .Sub{
-        font-size: 10px;
+        font-size: 8px;
     }
 
     #Print_Container > .wrapper > .Table_Container{
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
         position: relative;
         gap: 20px;
         z-index: 1;
-        page-break-after: always;
     }
 
     #Print_Container > .wrapper > .Table_Container > table{
         width: 100%;
         border-collapse: collapse;
         table-layout: fixed;
-        /* height: 100px;
-        page-break-inside: auto; */
     }
 
-    /* #Print_Container > .wrapper > .Table_Container > table tr:nth-child(odd) {
-        page-break-before: always;
-    } */
-    
-    /* Apply page break after the even rows to ensure the table is not split awkwardly */
-    /* #Print_Container > .wrapper > .Table_Container > table tr:nth-child(even) {
+    .break-row{
         page-break-after: always;
-    } */
+    }
 
     #Print_Container tr{
         print-color-adjust: exact;
     }
-
-    
 
     #Print_Container tbody > tr:nth-child(odd){
         background-color: white;
     }
 
     #Print_Container tbody > tr:nth-child(even){
-        background-color: var(--bg2-white);
+        background-color: whitesmoke;
     }
 
     #Print_Container th, #Print_Container td{
         width: 10%;
         word-wrap: break-word;
         padding: 3px 5px;
-        border: 1px solid var(--bg2-white);
+        border: 1px solid whitesmoke;
     }
 
     #Print_Container th{
         font-size: 12px;
+        line-height: 1.5;
         font-weight: 300;
         background-color: var(--bg2-white);
+        border: 1px solid var(--bg2-white);
     }
 
     #Print_Container td{
         color: var(--light-black);
-        min-height: 35px !important;
+        min-height: 50px;
         font-size: 12px;
     }
+
+    
 
     #Print_Container thead > .spacer{
         height: 250px;

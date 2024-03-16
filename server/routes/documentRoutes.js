@@ -5,7 +5,6 @@ import {
     archiveDocument,
     deleteFiles,
     deleteNotification,
-    downloadReportPDF,
     editDocument,
     forwardDocument,
     getArchives,
@@ -54,7 +53,5 @@ router.post('/deleteNotifications', deleteNotification)
 
 router.post('/getTrackers', getTrackers)
 router.post('/addTracker', signatureUpload.array('file'), addTracker)
-
-router.get('/downloadReportPDF', downloadReportPDF)
 
 export default router
