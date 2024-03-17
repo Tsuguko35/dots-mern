@@ -37,6 +37,9 @@ import SettingsRoute from "./settingsRoutes";
 import RoleBasedRoute from "./roleBasedRoutes";
 import addProfilePic from "./addProfilePic";
 import downloadReport from "./downloadReport";
+import uploadTemplates from "./uploadTemplates";
+import getTemplatesData from "./getTemplates";
+import deleteTemplate from "./deleteTemplate";
 
 export {
     hasSidebar,
@@ -77,5 +80,8 @@ export {
     SettingsRoute,
     RoleBasedRoute,
     addProfilePic,
-    downloadReport
+    downloadReport,
+    uploadTemplates,
+    getTemplatesData,
+    deleteTemplate
 }

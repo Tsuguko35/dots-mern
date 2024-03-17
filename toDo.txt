@@ -12,16 +12,11 @@ remove tracking to all document functions
 
 image download
 
--------------------------------------------
+responsiveness
 
+-------------------------------------------
 request tab functionality(check for bugs only)
 
 status based notif click
-
-printing
-
-templates
-
-if not printable delete pdf files in server and client utils
 
 fix the print format

@@ -14,3 +14,263 @@
     padding: 20px 30px;
     gap: 30px;
 }
+
+#Templates > .wrapper > .Templates_Container{
+    width: 100%;
+    height: 100%;
+}
+
+#Templates > .wrapper > .Templates_Container > .Actions{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#Templates > .wrapper > .Templates_Container > .Actions > .Add_Template > button{
+    width: 210px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--light-black);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+#Templates > .wrapper > .Templates_Container > .Actions > .Add_Template > button:hover{
+    background-color: var(--orange);
+}
+
+#Templates > .wrapper > .Templates_Container > .Actions > .Search_Template{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 100%;
+}
+
+#Templates > .wrapper > .Templates_Container > .Actions > .Search_Template > .Year_Select{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    position: relative;
+    width: 200px;
+    height: 40px;
+    gap: 10px;
+}
+
+#Templates > .wrapper > .Templates_Container > .Actions > .Search_Template > .Year_Select > select{
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    outline: none;
+    border: 1px solid var(--light-grey);
+    border-radius: 5px;
+    background-color: transparent;
+    color: var(--light-black);
+    text-align: end;
+    cursor: pointer;
+}
+
+#Templates > .wrapper > .Templates_Container > .Actions > .Search_Template > .Year_Select > select:focus-visible{
+    border: 1px solid var(--orange);
+}
+
+#Templates > .wrapper > .Templates_Container > .Actions > .Search_Template > .Year_Select > .Select_Icon{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+}
+
+#Templates > .wrapper > .Templates_Container > .Actions > .Search_Template > .Year_Select > .Select_Icon > .Icon{
+    width: 20px;
+    height: 20px;
+    color: var(--dark-grey);
+}
+
+#Year:focus-visible + .Select_Icon > .Icon{
+    color: var(--orange);
+}
+
+
+/* Templates */
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 10px 0px;
+    flex-direction: column;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Empty{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Empty > .Icon{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Empty > .Icon > img{
+    width: 300px;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Empty > .Label{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Empty > .Label > p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Empty > .Label > .Main{
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--light-black);
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Empty > .Label > .Sub{
+    font-size: 14px;
+    color: var(--dark-grey);
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 300px;
+    background-color: white;
+    border-radius: 5px;
+    position: relative;
+    box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item:hover{
+    outline: 1px solid var(--orange);
+}
+
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item > .Template_Icon{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: var(--bg2-white);
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item > .Template_Icon > .Icon{
+    width: 150px;
+    transform: translateY(30px);
+    transition: all 250ms ease-in-out;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item:hover > .Template_Icon > .Icon{
+    width: 170px;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item > .Template_Bottom{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    height: 50%;
+    padding: 15px 24px;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item > .Template_Bottom > .Template_Label{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item > .Template_Bottom > .Template_Label .Name{
+    color: var(--light-black);
+    font-size: 16px;
+    width: 350px;
+    white-space: nowrap;
+    text-align: center;
+    cursor: default;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 250ms ease-in-out;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item > .Template_Bottom > .Template_Label > .Year{
+    color: var(--dark-grey);
+    font-size: 14px;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item > .Template_Bottom > .Template_Actions{
+    display: flex;
+    width: 100%;
+    flex-direction: row-reverse;
+    justify-content: end;
+    align-items: center;
+    gap: 5px;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item > .Template_Bottom > .Template_Actions > button{
+    width: 100px;
+    background: var(--light-black);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    height: 35px;
+    transition: all 250ms ease-in-out;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item > .Template_Bottom > .Template_Actions > button:hover{
+    background-color: var(--orange);
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item > .Template_Bottom > .Template_Actions > span{
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--light-black);
+    border-radius: 5px;
+    border: 1px solid var(--light-black);
+    width: 100px;
+    height: 35px;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+
+#Templates > .wrapper > .Templates_Container > .Templates_Grid > .Grid_Container > .Template_Item > .Template_Bottom > .Template_Actions > span:hover{
+    color: var(--red);
+    border-color: var(--red);
+}
+

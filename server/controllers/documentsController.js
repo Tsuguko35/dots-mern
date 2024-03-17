@@ -74,7 +74,7 @@ const getFiles = asyncHandler(async (req, res) => {
 
 const deleteFiles = asyncHandler(async (req, res) => {
     const fileDetails = JSON.parse(req.body.file_Details);
-    const uploadPath = './document_Files';
+    const uploadPath = './document_Files/files';
 
     const deleteFile = fileDetails.map((file) => {
         if(file.file_id){

@@ -488,9 +488,11 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
             <button onClick={() => setOpenAddDocs(true)}>
               <MdIcons.MdOutlineAdd size={'20px'}/> ADD NEW DOCUMENT
             </button>
-            <span onClick={() => {refreshTable() ; refreshTableFunc()}}>
-              <IoIcons.IoMdRefresh size={'35px'} style={{transform: `rotate(${rotation}deg)`, transition: 'transform 1s'}}/>
-            </span>
+            <Tooltip title="Refresh">
+              <span onClick={() => {refreshTable() ; refreshTableFunc()}}>
+                <IoIcons.IoMdRefresh size={'35px'} style={{transform: `rotate(${rotation}deg)`, transition: 'transform 1s'}}/>
+              </span>
+            </Tooltip>
           </div>
           <div className="Table_Top_Right">
             <ReactToPrint 
@@ -627,19 +629,29 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
                               <div className="Table_Body_Row" key={document.document_id}>
                                 <div className="Table_Body_Details">
                                   <div onClick={() => openToggleRow(document.document_id)}>
-                                    <p>{document.document_Name}</p>
+                                    <Tooltip title={document.document_Name}>
+                                      <p>{document.document_Name}</p>
+                                    </Tooltip>
                                   </div>
                                   <div onClick={() => openToggleRow(document.document_id)}>
-                                    <p>{document.document_Type}</p>
+                                    <Tooltip title={document.document_Type}>
+                                      <p>{document.document_Type}</p>
+                                    </Tooltip>
                                   </div>
                                   <div onClick={() => openToggleRow(document.document_id)} className='ReceivedBy'>
-                                    <p>{document.received_By}</p>
+                                    <Tooltip title={document.received_By}>
+                                      <p>{document.received_By}</p>
+                                    </Tooltip>
                                   </div>
                                   <div onClick={() => openToggleRow(document.document_id)} className='OfficeDept'>
-                                    <p>{document.office_Dept}</p>
+                                    <Tooltip title={document.office_Dept}>
+                                      <p>{document.office_Dept}</p>
+                                    </Tooltip>
                                   </div>
                                   <div onClick={() => openToggleRow(document.document_id)} className='DateReceived'>
-                                    <p>{document.date_Received}</p>
+                                    <Tooltip title={document.date_Received}>
+                                      <p>{document.date_Received}</p>
+                                    </Tooltip>
                                   </div>
                                   <div className={`Status ${document.status === "Approved" ? "Approved" : document.status === "Pending" ? "Ongoing" : document.status === "Rejected" ? "Rejected" : ''}`} onClick={() => openToggleRow(document.document_id)}>
                                     <p>{document.status}</p>

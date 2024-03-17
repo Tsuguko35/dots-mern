@@ -217,7 +217,7 @@
     padding: 0px 10px;
 }
 
-#Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > div > p{
+#Archive_Table_Component > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > div p{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

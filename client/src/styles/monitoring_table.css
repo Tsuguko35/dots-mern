@@ -40,6 +40,7 @@
     box-shadow: 0 4px 2px -2px rgba(187, 187, 187, 0.5);
     transition: all 250ms ease-in-out;
     cursor: pointer;
+    gap: 10px;
 }
 
 #Monitoring_Table > .wrapper > .Table_Top > .Table_Top_Left > button:hover{
@@ -81,6 +82,7 @@
     box-shadow: 0 4px 2px -2px rgba(187, 187, 187, 0.5);
     transition: all 250ms ease-in-out;
     cursor: pointer;
+    gap: 10px;
 }
 
 #Monitoring_Table > .wrapper > .Table_Top > .Table_Top_Right > button:hover{
@@ -219,7 +221,7 @@
     padding: 0px 10px;
 }
 
-#Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > div > p{
+#Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > div p{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

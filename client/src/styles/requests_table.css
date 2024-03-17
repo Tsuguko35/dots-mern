@@ -229,7 +229,7 @@
     padding: 0px 10px;
 }
 
-#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > div > p{
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > div p{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

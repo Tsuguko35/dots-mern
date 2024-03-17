@@ -315,6 +315,97 @@
 }
 
 
+/* Upload Files */
+
+.Template_Upload{
+    position: relative;
+    width: 100%;
+    height: 125px;
+    background-color: var(--bg2-white);
+    border: 2px dotted var(--dark-grey);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.Template_Upload > .Icon{
+    color: var(--dark-grey);
+}
+
+.Template_Upload > .Main{
+    font-size: 14px;
+    color: var(--dark-grey);
+}
+
+.Template_Upload > .Sub{
+    font-size: 12px;
+    color: var(--dark-grey);
+}
+
+.Template_Files{
+    width: 100%;
+    height: 200px;
+    margin-top: 20px;
+    overflow-y: auto;
+}
+
+.Template_Files > .File{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.Template_Files > .File > .Icon{
+    width: 30px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Template_Files > .File > .File_Label{
+    width: 100%;
+}
+
+.Template_Files > .File > .File_Label > .Name{
+    color: var(--light-black);
+    width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+}
+
+.Template_Files > .File > .File_Label > .Size{
+    color: var(--dark-grey);
+    font-size: 12px;
+}
+
+.Template_Files > .File > .Remove{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+}
+
+.Template_Files > .File > .Remove:hover{
+    color: var(--red);
+}
+
+.Template_Upload > input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
 /* -------------------------------------------------------------------------------------------- */
 @media only screen and (max-width: 1600px) {
     .Dialog_Body > .wrapper > .Left_Side{

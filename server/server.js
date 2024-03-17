@@ -6,7 +6,7 @@ import { Server } from 'socket.io'
 import cookieParser from 'cookie-parser'
 
 import db from './config/database.js'
-import { documentRoutes, settingsRoutes, userRoutes } from './routes/index.js'
+import { documentRoutes, settingsRoutes, templateRoutes, userRoutes } from './routes/index.js'
 import generateOTP from './utils/generateOTP.js'
 import { otpEmailTemplate } from './utils/otpEmailTemplate.js'
 import mailer from './utils/mailer.js'
@@ -37,9 +37,14 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: false }))
+
+
 app.use('/document_Files', express.static('./document_Files/files'));
 app.use('/signature_Files', express.static('./document_Files/signatures'));
 app.use('/profile_Pic', express.static('./user_Files/profilePics'));
+app.use('/template', express.static('./template_Files/templates'));
+
+
 app.locals.io = io
 
 // Connect Server
@@ -70,6 +75,9 @@ app.use('/api/document', documentRoutes)
 
 // Settings Routes
 app.use('/api/settings', settingsRoutes)
+
+// Template Routes
+app.use('/api/template', templateRoutes)
 
 // User Routes
 app.use('/api/user', userRoutes)

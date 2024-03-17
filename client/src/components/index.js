@@ -24,6 +24,7 @@ import System_Logs from "./System_Logs";
 import Create_Staff_Dialog from "./dialog modals/Create_Staff_Dialog";
 import Create_Tracker_Dialog from "./dialog modals/Create_Tracker_Dialog";
 import { ReportPrint } from "./ReportPrint";
+import Add_Template_Dialog from "./dialog modals/Template_Add_Dialog";
 
 export {
     Sidebar,
@@ -50,5 +51,6 @@ export {
     System_Logs,
     Create_Staff_Dialog,
     Create_Tracker_Dialog,
-    ReportPrint
+    ReportPrint,
+    Add_Template_Dialog
 }
