@@ -108,14 +108,14 @@ function ArchiveFolders() {
               {archivedDocuments.length > 0 ? (
                 <div className="Folders_Container">
                   {years.map((year) => (
-                    <div className={collapseYear === year ? "Folder_Year_Grid active" : "Folder_Year_Grid"} onClick={() => toggleCollapse(year)}>
+                    <div key={year} className={collapseYear === year ? "Folder_Year_Grid active" : "Folder_Year_Grid"} onClick={() => toggleCollapse(year)}>
                       <div className="Folder_Year">
                         <h3>Year <span style={{color: "#FF8911"}}>&#183;</span> {year}</h3>
                       </div>
                       <Collapse in={collapseYear === year} timeout={'auto'} unmountOnExit>
                         <div className="Folder_Grid">
-                          {getUniqueDocumentTypes(year).map((documentType) => (
-                            <Link to={`/Archive/Tables/${year}/${documentType}`} className="Folder">
+                          {getUniqueDocumentTypes(year).map((documentType, index) => (
+                            <Link key={index} to={`/Archive/Tables/${year}/${documentType}`} className="Folder">
                               <div className="Folder_Icon">
                                 <IoIcons.IoMdFolder size={'35px'}/>
                               </div>

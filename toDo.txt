@@ -4,15 +4,11 @@ Error Checking all pages
 
 add X to inputs
 
-date bug when closing add edit dialog
-
 request history Filters
 
-remove tracking to all document functions
-
-image download
-
 responsiveness
+
+empty for request, accounts, logs, acrvhies
 
 -------------------------------------------
 request tab functionality(check for bugs only)
@@ -20,3 +16,7 @@ request tab functionality(check for bugs only)
 status based notif click
 
 fix the print format
+
+base template year on year filter
+
+disbale styles on all input and buttons

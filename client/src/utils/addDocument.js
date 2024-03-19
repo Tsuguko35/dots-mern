@@ -6,6 +6,11 @@ import { v4 as uuid } from "uuid"
 export default async function addDocument(payload) {
     const { documentState } = payload
     const uniqueID = uuid()
+
+    const dateToday = new Date()
+    const year = dateToday.getFullYear()
+    const month = dateToday.getMonth()
+    const day = dateToday.getDate()
     
     const data = {
         document_id: uniqueID,
@@ -25,7 +30,8 @@ export default async function addDocument(payload) {
         tracking: documentState.Tracking,
         urgent: documentState.Urgent,
         status: documentState.Status,
-        created_By: documentState.Created_By
+        created_By: documentState.Created_By,
+        date_Added: `${year}-${month}=${day}`
     }
 
     try {

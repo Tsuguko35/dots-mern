@@ -8,14 +8,13 @@ const PrivateRoute = ({children}) => {
     const navigate = useNavigate()
 
     const {
-        user,
         setUser
     } = useContext(NotificationContext)
 
     useEffect(() => {
         async function validate(){
             const isLoggedIn = window.localStorage.getItem('isLoggedIn')
-            const token = window.localStorage.getItem('user')
+            const token = window.localStorage.getItem('dotsUser')
             if(isLoggedIn){
                 const res = await validateUser({token})
                 if(res?.status === 200){
@@ -30,7 +29,7 @@ const PrivateRoute = ({children}) => {
         }
         
         validate()
-    }, []);
+    }, [children, navigate, setUser]);
 
     return children
 }

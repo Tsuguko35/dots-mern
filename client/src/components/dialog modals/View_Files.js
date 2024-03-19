@@ -14,24 +14,24 @@ import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 
 //PDF
-import ReactToPdf from "react-to-pdf";
-import { Document, Page, pdfjs } from 'react-pdf'
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
 
 import { LoadingInfinite } from '../../assets/svg';
-import { GetWindowWidth, ViewDocuments, ViewPdf } from '../../utils';
+import { GetWindowWidth, ViewPdf } from '../../utils';
 
 import { ReactComponent as PDF } from '../../assets/svg/icons/PDF_icon.svg'
 import { ReactComponent as DOCX } from '../../assets/svg/icons/DOCX_icon.svg'
 import { ReactComponent as XLSX } from '../../assets/svg/icons/XLSX_icon.svg'
 
-import pdfFile from '../../assets/images/pdf.pdf'
-
 import * as MdIcons from 'react-icons/md'
 import { documentFiles, domain } from '../../constants';
+import toast from 'react-hot-toast';
 
-function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView, files}) {
+import JSZip from 'jszip';
+import JSZipUtils from 'jszip-utils';
+
+function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView, files, documentName}) {
     const [value, setValue] = useState('1');
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -116,6 +116,74 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView, f
         }
     }
 
+    const handleDownloadImages = async() => {
+        toast.loading('Please wait...')
+        if(imageFiles.length === 1){
+            const {document_id, file_Name} = imageFiles[0]
+            const url = `${domain}${documentFiles}/${document_id}-${file_Name}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const blob = await response.blob();
+                const objectUrl = URL.createObjectURL(blob);
+    
+                const link = document.createElement('a');
+                link.href = objectUrl;
+                link.download = file_Name;
+
+                document.body.appendChild(link);
+                link.click();
+
+                document.body.removeChild(link);
+
+                URL.revokeObjectURL(objectUrl);
+                toast.dismiss()
+                toast.success('Download started')
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+                toast.dismiss()
+                toast.success('Download failed')
+            }
+        }
+        else if(imageFiles.length > 1){
+            const zip = new JSZip()
+
+            for(const file of imageFiles){
+                const {document_id, file_Name} = file
+                const url = `${domain}${documentFiles}/${document_id}-${file_Name}`;
+
+                try{
+                    // Fetch image content
+                    const response = await JSZipUtils.getBinaryContent(url)
+
+                    zip.file(file_Name, response, {binary: true})
+                }
+                catch (error) {
+                    console.error(`Failed to fetch ${url}:`, error);
+                }
+            }
+
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+            const zipUrl = URL.createObjectURL(zipBlob);
+
+            const link = document.createElement('a');
+            link.href = zipUrl;
+            link.download = `${documentName} Images.zip`;
+
+            document.body.appendChild(link);
+            link.click();
+
+            document.body.removeChild(link);
+            URL.revokeObjectURL(zipUrl);
+            toast.dismiss()
+            toast.success('Download started')
+        }
+    }
+
     return (
         <section id='View_Files' className='View_Files'>
             {/* View PDF */}
@@ -133,6 +201,9 @@ function View_Files({isFileLoading, setIsFileLoading, pdfToView, setPdfToView, f
                     {!isFileLoading ? (
                         <React.Fragment>
                             <TabPanel className='Tab_Panel' value='1'>
+                                <div className="Image_Download">
+                                    <button onClick={() => handleDownloadImages()}><MdIcons.MdOutlineFileDownload size={'20px'}/>Download Image/s</button>
+                                </div>
                                 <ImageList cols={imageCols} gap={8}>
                                     {imageFiles.map((img, index) => (
                                         <ImageListItem className='Image_Item_Holder' key={img.file_id} onClick={() => openLightbox(index)}>

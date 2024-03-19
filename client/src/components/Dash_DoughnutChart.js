@@ -123,8 +123,6 @@ const Dash_DoughnutChart = () => {
           },
         ],
     };
-
-    console.log(data);
     return <Doughnut data={data} options={options}/>
 };
 

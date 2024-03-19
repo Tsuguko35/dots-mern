@@ -42,10 +42,6 @@ function Setting_Dropdowns() {
         setDropdowns(updatedDropdowns);
     };
 
-    useEffect(() => {
-        console.log(dropdowns);
-    }, [dropdowns])
-
     const handleDropdownSave = async() => {
         setIsLoading(true)
         const res = await updateDropdownsData({ dropdowns: dropdowns })

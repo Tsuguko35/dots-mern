@@ -1,5 +1,4 @@
 import { Axios } from "../config"
-import { v4 as uuid } from "uuid"
 
 export default async function addProfilePic(payload) {
     const { file, user_id } = payload

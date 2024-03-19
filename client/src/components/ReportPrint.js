@@ -87,66 +87,6 @@ export const ReportPrint = React.forwardRef((props, componentRef) => {
                                         <td className="Status">{document.status}</td>
                                     </tr>
                                 ))}
-                                {props.documents && props.documents.map((document) => (
-                                    <tr key={document.document_id}>
-                                        <td>{document.document_Name}</td>
-                                        <td>{document.date_Received}</td>
-                                        <td>{document.document_Type}</td>
-                                        <td>{document.office_Dept}</td>
-                                        <td>{document.received_By}</td>
-                                        <td className="Status">{document.status}</td>
-                                    </tr>
-                                ))}
-                                {props.documents && props.documents.map((document) => (
-                                    <tr key={document.document_id}>
-                                        <td>{document.document_Name}</td>
-                                        <td>{document.date_Received}</td>
-                                        <td>{document.document_Type}</td>
-                                        <td>{document.office_Dept}</td>
-                                        <td>{document.received_By}</td>
-                                        <td className="Status">{document.status}</td>
-                                    </tr>
-                                ))}
-                                {props.documents && props.documents.map((document) => (
-                                    <tr key={document.document_id}>
-                                        <td>{document.document_Name}</td>
-                                        <td>{document.date_Received}</td>
-                                        <td>{document.document_Type}</td>
-                                        <td>{document.office_Dept}</td>
-                                        <td>{document.received_By}</td>
-                                        <td className="Status">{document.status}</td>
-                                    </tr>
-                                ))}
-                                {props.documents && props.documents.map((document) => (
-                                    <tr key={document.document_id}>
-                                        <td>{document.document_Name}</td>
-                                        <td>{document.date_Received}</td>
-                                        <td>{document.document_Type}</td>
-                                        <td>{document.office_Dept}</td>
-                                        <td>{document.received_By}</td>
-                                        <td className="Status">{document.status}</td>
-                                    </tr>
-                                ))}
-                                {props.documents && props.documents.map((document) => (
-                                    <tr key={document.document_id}>
-                                        <td>{document.document_Name}</td>
-                                        <td>{document.date_Received}</td>
-                                        <td>{document.document_Type}</td>
-                                        <td>{document.office_Dept}</td>
-                                        <td>{document.received_By}</td>
-                                        <td className="Status">{document.status}</td>
-                                    </tr>
-                                ))}
-                                {props.documents && props.documents.map((document) => (
-                                    <tr key={document.document_id}>
-                                        <td>{document.document_Name}</td>
-                                        <td>{document.date_Received}</td>
-                                        <td>{document.document_Type}</td>
-                                        <td>{document.office_Dept}</td>
-                                        <td>{document.received_By}</td>
-                                        <td className="Status">{document.status}</td>
-                                    </tr>
-                                ))}
                             </tbody>
                         </table>
                         

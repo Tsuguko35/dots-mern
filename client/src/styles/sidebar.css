@@ -87,7 +87,7 @@
     width: 100%;
     position: relative;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     height: 200px;
     cursor: default;
@@ -106,7 +106,7 @@
 #Sidebar > .wrapper > .content > .Nav_Header_Title > .Nav_Header_Dep_Name {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     margin-left: 5px;
     font-size: 13px;
 }
@@ -123,14 +123,14 @@
 }
 
 #Sidebar > .wrapper > .content > .Nav_Header_Title > .Nav_Header_Dep_Name > span {
-    font-family: "Kode Mono";
-    font-size: 17px;
+    font-family: Consolas;
+    font-size: 20px;
     width: 148px;
     color: white;
     height: 30px;
     background-color: var(--orange);
     padding: 5px 10px;
-    letter-spacing: 20px;
+    letter-spacing: 15px;
     text-align: center;
     font-weight: 700;
     display: flex;
@@ -145,7 +145,7 @@
     width: 100%;
     position: relative;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
     height: 50px;
     user-select: none;
@@ -188,7 +188,7 @@
 #Sidebar > .wrapper > .content > .Nav_List > .Nav_List_Item > .Nav_Icon_Label {
     width: 100%;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -205,7 +205,7 @@
 #Sidebar > .wrapper > .content > .Nav_List .Nav_List_Collapse_Item > .Nav_Icon_Label {
     width: 100%;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -213,7 +213,7 @@
     padding: 10px 10px;
     padding-left: 20px;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     transition: all 250ms ease-in-out;
     cursor: pointer;
@@ -235,7 +235,7 @@
     color: #FFF;
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1280px) {
     #Sidebar{
         background-color: rgba(0, 0, 0, 0.25);
     }

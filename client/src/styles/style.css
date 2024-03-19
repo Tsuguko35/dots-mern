@@ -43,6 +43,15 @@ a {
     transition: all 150ms ease-in-out;
 }
 
+button{
+  outline: none;
+}
+
+button[disabled], button.disabled{
+  background-color: var(--light-grey) !important;
+  cursor: default !important;
+}
+
 a:hover {
     color: purple;
 }
@@ -261,25 +270,31 @@ a:hover {
   height: 40px;
   position: relative;
   min-width: 200px;
+  width: 100%;
 }
 
 .Input_Group > .Custom_Search > .Icon{
+  position: relative;
   padding-left: 5px;
   color: var(--dark-grey);
   display: flex;
   align-items: center;
+  z-index: 5;
 }
 
 .Input_Group > .Custom_Search > input{
+  position: relative;
   width: 100%;
   height: 100%;
   position: absolute;
   background-color: transparent;
   border: none;
   outline: 1px solid var(--light-grey);
+  background-color: white;
   padding: 5px 10px;
   padding-left: 30px;
   border-radius: 5px;
+  z-index: 4;
 }
 
 .Input_Group > .Custom_Search > input:focus-visible{
@@ -290,7 +305,7 @@ a:hover {
 .Input_Group > .Custom_Password{
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   height: 50px;
   position: relative;
   width: 100%;
@@ -335,7 +350,7 @@ a:hover {
 .Input_Group > .Custom_Email{
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   height: 50px;
   position: relative;
   width: 100%;
@@ -388,8 +403,47 @@ a:hover {
   outline: 1px solid var(--orange);
 }
 
-@media only screen and (max-width: 1024px) {
+
+/* Scroll Up */
+.Scroll_Top{
+  display: flex;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  opacity: 0;
+  transition: opacity 250ms ease-in-out;
+}
+
+.Scroll_Top.hide{
+  display: none;
+}
+
+.Scroll_Top.visible{
+  opacity: 1;
+}
+
+.Scroll_Top > span{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: var(--light-black);
+  color: white;
+  cursor: pointer;
+}
+
+
+@media only screen and (max-width: 1280px) {
   #Main_View > .Sidebar{
     position: fixed;
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  #Main_View > .Main_Content > .Content.Sidebar {
+    width: 100%;
+    max-width: 1080px;
   }
 }

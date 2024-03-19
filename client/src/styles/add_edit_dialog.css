@@ -149,6 +149,10 @@
 
 .Dialog_Top > .Dialog_Title{
     font-size: 18px;
+    width: 700px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .Dialog_Top > .Dialog_Close{
@@ -408,7 +412,7 @@
 .Dialog_Actions{
     width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     gap: 5px;
 }
 
@@ -458,12 +462,18 @@
 }
 
 @media only screen and (max-width: 1024px) {
-
+    .Dialog_Top > .Dialog_Title{
+        width: 700px;
+    }
 }
 
 @media only screen and (max-width: 912px) {
     .Dialog_Body > .wrapper > .Left_Side{
         height: 600px;
+    }
+
+    .Dialog_Top > .Dialog_Title{
+        width: 600px;
     }
 
     .Dialog_Body > .wrapper > .Right_Side > .Files {
@@ -489,6 +499,10 @@
         flex-direction: column;
     }
 
+    .Dialog_Top > .Dialog_Title{
+        width: 300px;
+    }
+
     .Dialog_Body > .wrapper > .Left_Side{
         width: 100%;
     }
@@ -503,14 +517,28 @@
 }
 
 @media only screen and (max-width: 390px) {
+    .Dialog_Body > .wrapper > .Left_Side{
+        padding: 10px 16px;
+    }
+    .Dialog_Body > .wrapper > .Right_Side{
+        padding: 10px 16px;
+    }
     .Dialog_Body > .wrapper > .Left_Side > .Date_Time{
         flex-direction: column;
+    }
+
+    .Dialog_Top > .Dialog_Title{
+        width: 250px;
     }
 }
 
 @media only screen and (max-width: 320px) {
     .Dialog_Body > .wrapper > .Left_Side{
         height: 600px;
+    }
+
+    .Dialog_Top > .Dialog_Title{
+        width: 200px;
     }
 
     .Dialog_Body > .wrapper > .Right_Side > .Files {

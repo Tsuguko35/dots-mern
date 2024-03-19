@@ -99,6 +99,15 @@
     gap: 10px;
 }
 
+#login_and_registration .Login_Timer{
+    font-size: 14px;
+    color: var(--light-black);
+}
+
+#login_and_registration .Login_Timer > p > span{
+    color: var(--orange);
+}
+
 #login_and_registration .login_button{
     width: 100%;
     height: 40px;

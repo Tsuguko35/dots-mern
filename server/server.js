@@ -1,16 +1,16 @@
 import cors from 'cors'
 import dotenv from 'dotenv'
-import express, { json } from 'express'
+import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
 import cookieParser from 'cookie-parser'
 
 import db from './config/database.js'
 import { documentRoutes, settingsRoutes, templateRoutes, userRoutes } from './routes/index.js'
-import generateOTP from './utils/generateOTP.js'
-import { otpEmailTemplate } from './utils/otpEmailTemplate.js'
-import mailer from './utils/mailer.js'
 import bodyParser from 'body-parser'
+
+import cron from 'node-cron'
+import { checkDocumentsToArchive, checkPendingDocuments } from './controllers/scheduledFunctions.js'
 
 
 
@@ -81,5 +81,9 @@ app.use('/api/template', templateRoutes)
 
 // User Routes
 app.use('/api/user', userRoutes)
+
+// Cron schedules
+cron.schedule('0 * * * *', checkDocumentsToArchive)
+cron.schedule('0 0 * * *', checkPendingDocuments)
 
 server.listen(port, () => console.log(`Server started on port ${port}`))

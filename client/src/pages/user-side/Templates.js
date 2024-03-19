@@ -143,6 +143,17 @@ function Templates() {
                 <button onClick={() => setOpenAddTemplate(true)}>
                     <MdIcons.MdOutlineAdd size={'20px'}/> ADD NEW TEMPLATE
                 </button>
+                <div className="Year_Select">
+                  <div className="Select_Icon">
+                    <MdIcons.MdCalendarMonth className='Icon' id='Icon'/>
+                  </div>
+                  <select name="Year" id="Year" onChange={(e) => setFilters({...filters, year: e.target.value})}>
+                    <option value=''>All Templates</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                  </select>
+                </div>
               </div>
               <div className="Search_Template">
                 <div className="Year_Select">

@@ -28,7 +28,7 @@ import { inputs } from '../../utils';
 
 function Other_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
     const theme = useTheme()
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [filteredInputs, setFilteredInputs] = useState([])
     const [openOptions, setOpenOptions] = useState('')
     const {

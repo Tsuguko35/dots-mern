@@ -71,7 +71,6 @@ function Requests() {
     
     useEffect(() => {
       if(documentsToFilter){
-        console.log(documentsToFilter);
         const filteredDocs = documentsToFilter.filter(document => 
           document.document_Name.toLowerCase().includes(filters.searchFilter.toLowerCase()) ||
           document.description.toLowerCase().includes(filters.searchFilter.toLowerCase())

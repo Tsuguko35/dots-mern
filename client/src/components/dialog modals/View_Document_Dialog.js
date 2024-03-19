@@ -27,7 +27,7 @@ import { domain, signatureFiles } from '../../constants';
 
 function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
     const theme = useTheme()
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [pdfToView, setPdfToView] = useState(null)
     const [detailsLoading, setDetailsLoading] = useState(false)
     const [stepperLoading, setStepperLoading] = useState(true)
@@ -179,6 +179,18 @@ function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
                                                 <p className="Detail">{ users.find(user => user.user_id === documents.forward_To)?.full_Name || "N/A" }</p>
                                             </div>
                                             <div className="Detail_Group">
+                                                <span className="Label">Accepted/Rejected By</span>
+                                                <p className="Detail">{documents.accepted_Rejected_By ? users.find(user => user.user_id === documents.accepted_Rejected_By)?.full_Name || "N/A" : 'Pending' }</p>
+                                            </div>
+                                            <div className="Detail_Group">
+                                                <span className="Label">Accepted/Rejected in</span>
+                                                <p className="Detail">{documents.accepted_Rejected_By ? new Date(documents.accepted_Rejected_Date).toLocaleDateString('en-us', {year: 'numeric', month: 'long', day: 'numeric'}) : 'Pending'}</p>
+                                            </div>
+                                            <div className="Detail_Group">
+                                                <span className="Label">Added By</span>
+                                                <p className="Detail">{ users.find(user => user.user_id === documents.created_By)?.full_Name || "N/A" }</p>
+                                            </div>
+                                            <div className="Detail_Group">
                                                 <span className="Label">Comment/Note</span>
                                                 <p className="Detail">{ documents.comment || "N/A" }</p>
                                             </div>
@@ -232,7 +244,7 @@ function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
                                 </div>
                             </div>
                             <div className="Right_Side">
-                                <View_Files isFileLoading={filesLoading} setIsFileLoading={setFilesLoading} pdfToView={pdfToView} setPdfToView={setPdfToView} files={fileDetails || []}/>
+                                <View_Files isFileLoading={filesLoading} setIsFileLoading={setFilesLoading} pdfToView={pdfToView} setPdfToView={setPdfToView} files={fileDetails || []} documentName={ documents.document_Name }/>
                             </div>
                         </div>
                     </div>

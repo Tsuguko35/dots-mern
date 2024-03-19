@@ -276,7 +276,6 @@ const forwardDocument = asyncHandler(async (req, res) => {
     if (!Array.isArray(user_ids)) {
         user_ids = [user_ids];
     }
-    console.log(req.body['user_ids[]']);
 
     const io = req.app.locals.io
 

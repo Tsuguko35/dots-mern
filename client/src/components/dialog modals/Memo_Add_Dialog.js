@@ -26,7 +26,7 @@ import { DocumentContext } from '../../context';
 
 function Memo_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
     const theme = useTheme()
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [openOptions, setOpenOptions] = useState('')
     const {
         error, 

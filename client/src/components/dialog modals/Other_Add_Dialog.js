@@ -26,7 +26,7 @@ import { inputs } from '../../utils';
 
 function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
     const theme = useTheme()
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [filteredInputs, setFilteredInputs] = useState([])
     const [openOptions, setOpenOptions] = useState('')
     const {

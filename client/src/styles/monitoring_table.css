@@ -113,6 +113,10 @@
     gap: 20px;
 }
 
+#Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container{
+    padding-top: 5px;
+}
+
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Empty{
     width: 100%;
     height: 100%;
@@ -162,9 +166,11 @@
 }
 
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header > .Table_Header_Label{
+    width: 123px;
+    font-size: 15px;
     font-weight: bold;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow:ellipsis;
     white-space: nowrap;
 }
 
@@ -225,13 +231,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 14px;
     width: 145px;
 }
 
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .Actions {
     width: 100%;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
 }
@@ -262,7 +269,7 @@
     cursor: pointer;
 }
 
-#Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .Actions > .Archive{
+#Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .Actions .Archive{
     width: 35px;
     height: 35px;
     display: flex;
@@ -275,9 +282,14 @@
     cursor: pointer;
 }
 
+#Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .Actions .MuiBadge-badge{
+    font-size: 10px;
+    width: 42px;
+}
+
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .Status{
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -312,8 +324,8 @@
     box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
     display: flex;
     flex-direction: column;
-    justify-content: start;
-    align-items: start;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 10px;
     color: var(--dark-grey);
 }
@@ -391,6 +403,14 @@
 
 #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details > .Tracker_Label{
     font-size: 14px;
+    width: 100px;
+    height: 2rem;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
     color: var(--light-black);
 }
 
@@ -410,7 +430,7 @@
 #Monitoring_Table > .wrapper > .Table_Pagination{
     width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     gap: 10px;
 }
 
@@ -446,7 +466,25 @@
     border-color: var(--light-black);
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1440px) {
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .ReceivedBy {
+        display: none;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.ReceivedBy{
+        display: none;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container{
+        overflow-x: hidden;
+    }
+}
+
+@media only screen and (max-width: 1368px) {
     #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .ReceivedBy {
         display: none;
     }
@@ -468,6 +506,38 @@
     #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.OfficeDept{
         display: none;
     }
+
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker{
+        width: 800px;
+    }
+}
+
+@media only screen and (max-width: 1280px) {
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .ReceivedBy {
+        display: none;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.ReceivedBy{
+        display: none;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > p{
+        width: 750px;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .OfficeDept {
+        display: none;
+    }
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.OfficeDept{
+        display: none;
+    }
+
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker{
+        width: 770px;
+    }
 }
 
 @media only screen and (max-width: 912px) {
@@ -475,7 +545,7 @@
         display: none;
     }
     #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details{
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
     #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.OfficeDept{
         display: none;
@@ -484,10 +554,14 @@
         display: none;
     }
     #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
     #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > p{
         width: 500px;
+    }
+
+    #Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker{
+        width: 510px;
     }
 }
 
@@ -495,7 +569,7 @@
 
     #Monitoring_Table > .wrapper > .Table_Top{
         flex-direction: column;
-        align-items: start;
+        align-items: flex-start;
         gap: 20px;
     }
     #Monitoring_Table > .wrapper > .Table_Top > .Table_Top_Left{
@@ -533,12 +607,14 @@
     #Monitoring_Table .Table_Row > .Table_Header_Container{
         display: flex;
         flex-direction: column;
+        width: 100%;
         gap: 10px;
     }
 
     #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header{
         display: flex;
-        align-items: center;
+        justify-content: space-between;
+        align-items: flex-start;
     }
 
     #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > span{
@@ -547,10 +623,8 @@
     }
     #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > p{
         color: var(--light-black);
-        width: 50%;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        width: 55%;
+        word-wrap: break-word;
     }
     #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Status{
         color: #4682B4;
@@ -567,8 +641,9 @@
 
     #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions{
         display: flex;
-        justify-content: start;
-        align-items: center;
+        width: 55%;
+        justify-content: flex-start;
+        align-items: flex-start;
         gap: 10px;
     }
 

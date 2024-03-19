@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { PageHeader, Timer } from '../../components'
+import { PageHeader} from '../../components'
 import '../../styles/account_settings.css'
 import { 
     Avatar,
@@ -68,7 +68,6 @@ function Account_Settings() {
 
     useEffect(() => {
         document.title = `Account Settings`
-        console.log(user);
     }, [])
 
     return (
@@ -130,7 +129,7 @@ function Account_Settings() {
                                     <span>Password</span>
                                 </div>
                                 <div className="Info_Value">
-                                    <div className="Value">
+                                    <div className="Value Password">
                                         <p>**********</p>
                                     </div>
                                     <div className="Info_Edit" onClick={() => navigate('/Reset-Password')}>

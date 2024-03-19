@@ -76,12 +76,13 @@ function RequestTable({documentType, documents, filters, setFilter, getTableDcum
 
   const removeNotification = async(document_id) => {
     const notification_id = notifications.find(notif => notif.document_id === document_id && notif.user_id === userDetails.user_id)?.notification_id
+    if(notification_id){
+      const res = await deleteNotification({ notification_id: notification_id, forward_To: userDetails.user_id})
 
-    const res = await deleteNotification({ notification_id: notification_id, forward_To: userDetails.user_id})
-
-    if(res?.status === 200){
-      getTableDcuments()
-    }
+      if(res?.status === 200){
+        getTableDcuments()
+      }
+    }  
   }
 
   return (
@@ -109,7 +110,7 @@ function RequestTable({documentType, documents, filters, setFilter, getTableDcum
                   <div className="Icon">
                       <IoIcons.IoIosSearch size={'20px'}/>
                   </div>
-                  <input className='Input' type="text" placeholder='Search...'/>
+                  <input value={filters.searchFilter} className='Input' type="text" placeholder='Search...' onChange={(e) => setFilter({...filters, searchFilter: e.target.value})}/>
               </div>
             </div>
           </div>
@@ -278,7 +279,7 @@ function RequestTable({documentType, documents, filters, setFilter, getTableDcum
                                         </div>
                                         <div className='Other_Details'>
                                           <span>Comment:</span>
-                                          <p>{document.comment ? document.comment : <p style={{color: '#A5A6A6'}}>N/A</p>}</p>
+                                          {document.comment ? <p>{document.comment}</p> : <p style={{color: '#A5A6A6'}}>N/A</p>}
                                         </div>
                                         <div className="Other_Details">
                                           <span>Tracker:</span>
@@ -378,7 +379,7 @@ function RequestTable({documentType, documents, filters, setFilter, getTableDcum
                                     <span className='Table_Header_Label'>Action:</span>
                                     <div className='Actions'>
                                         <Tooltip title="View Document">
-                                          <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
+                                          <button className="Action View" onClick={() => openDoc(document.document_id)}><GrIcons.GrView size={'20px'}/></button>
                                         </Tooltip>
                                         {documentType === 'Pending' ? (
                                           <React.Fragment>

@@ -160,7 +160,7 @@
     width: 195px;
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1440px) {
     #Archive_Folders > .wrapper > .Folders_Container > .Folder_Year_Grid .Folder_Grid {
         grid-template-columns: 1fr 1fr 1fr;
     }

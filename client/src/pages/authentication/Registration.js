@@ -206,7 +206,7 @@ function Registration() {
 
     async function validate(){
       const isLoggedIn = window.localStorage.getItem('isLoggedIn')
-      const token = window.localStorage.getItem('user')
+      const token = window.localStorage.getItem('dotsUser')
       const user = window.localStorage.getItem('profile')
       Swal.fire({
         title: 'Please wait...',

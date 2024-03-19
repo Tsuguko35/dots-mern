@@ -14,7 +14,7 @@
 #Setting_Printing > .wrapper > .Printing_Top{
     width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
     padding: 5px 20px;
 }
@@ -135,7 +135,7 @@
     }
 
     #Setting_Printing > .wrapper > .Printing_Header_Footer{
-        justify-content: start;
+        justify-content: flex-start;
 
     }
 }

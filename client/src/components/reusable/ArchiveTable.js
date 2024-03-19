@@ -224,7 +224,7 @@ function ArchiveTable({documents, filters, setFilter, trackers, refreshTracker})
                                       </div>
                                       <div className='Other_Details'>
                                         <span>Comment:</span>
-                                        <p>{document.comment ? document.comment : <p style={{color: '#A5A6A6'}}>N/A</p>}</p>
+                                        {document.comment ? <p>{document.comment}</p> : <p style={{color: '#A5A6A6'}}>N/A</p>}
                                       </div>
                                       <div className="Other_Details">
                                         <span>Tracker:</span>
@@ -232,7 +232,6 @@ function ArchiveTable({documents, filters, setFilter, trackers, refreshTracker})
                                           {trackers && trackers.filter(tracker => tracker.document_id === document.archive_id || tracker.document_id === document.document_id).length === 0 ? (
                                             
                                             <div className="Tracker_Item">
-                                              {console.log(trackers, document.archive_id, document.document_id)}
                                               <div className="Tracker_Add">
                                                 <span>No Tracker Data</span>
                                               </div>
@@ -243,7 +242,6 @@ function ArchiveTable({documents, filters, setFilter, trackers, refreshTracker})
                                             <>
                                             {trackers && trackers.filter(tracker => tracker.document_id === document.archive_id || tracker.document_id === document.document_id).map((tracker) => (
                                               <div className="Tracker_Item" key={tracker.tracker_id}>
-                                                {console.log(tracker.tracker_id, document.archive_id, document.document_id)}
                                                 <div className="Tracker_Details">
                                                   <div className="Signature">
                                                     <img src={`${domain}${signatureFiles}/${tracker.tracker_id}-signature.png`} alt="Signature" />
@@ -327,7 +325,7 @@ function ArchiveTable({documents, filters, setFilter, trackers, refreshTracker})
                                     <span className='Table_Header_Label'>Action:</span>
                                     <div className='Actions'>
                                         <Tooltip title="View Document">
-                                          <button className="Action View"><GrIcons.GrView size={'20px'}/></button>
+                                          <button className="Action View" onClick={() => openDoc(document.archive_id || document.document_id)}><GrIcons.GrView size={'20px'}/></button>
                                         </Tooltip>
                                     </div>
                                   </div>

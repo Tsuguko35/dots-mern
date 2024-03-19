@@ -29,7 +29,6 @@ function System_Logs() {
 
     useEffect(() => {
         if(logsToFilter){
-            console.log(logsToFilter);
             const filteredLogs = logsToFilter.filter(log => 
                 log.log.toLowerCase().includes(filters.search.toLowerCase())
             )

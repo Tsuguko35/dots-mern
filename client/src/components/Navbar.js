@@ -73,10 +73,12 @@ function Navbar() {
     socket = io(ENDPOINT)
 
     socket.on('notifications', (user_id) => {
-      if(userDetails.user_id === user_id.user_id){
-        getNotifications()
-        if(user_id.action !== "Delete Notification"){
-          notifAudio.play()
+      if(user){
+        if(userDetails.user_id === user_id.user_id){
+          getNotifications()
+          if(user_id.action !== "Delete Notification"){
+            notifAudio.play()
+          }
         }
       }
     })
@@ -84,18 +86,20 @@ function Navbar() {
     return () => {
       socket.close()
     }
-  }, [])
+  }, [user])
 
   useEffect(() => {
     getNotifications()
-  }, [])
+  }, [user])
 
   const getNotifications = async() => {
     const res = await getAllNotifications()
     if(res?.status === 200){
       if(res.data?.notifications){
         const notificationData = res.data?.notifications
-        setNotifications(notificationData.filter(notification => notification.user_id === userDetails.user_id))
+        if(user){
+          setNotifications(notificationData.filter(notification => notification.user_id === userDetails.user_id))
+        }
       }
     }
     else{

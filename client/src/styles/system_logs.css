@@ -145,8 +145,14 @@
     word-wrap: break-word;
 }
 
-@media only screen and (max-width: 1600px) {
+@media only screen and (max-width: 1440px) {
+    #System_Logs > .wrapper > .System_Logs_Container > .Logs > .Log > .Text > .Event > p{
+        width: 630px;
+    }
 
+    .checkbox-wrapper-46 .cbx span:last-child{
+        font-size: 14px !important;
+    }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -159,7 +165,11 @@
     }
 
     #System_Logs > .wrapper > .System_Logs_Container > .Logs > .Log > .Text > .Event > p{
-        width: 600px;
+        width: 550px;
+    }
+
+    .checkbox-wrapper-46 .cbx span:last-child{
+        font-size: 13px !important;
     }
 }
 
@@ -202,6 +212,10 @@
     #System_Logs > .wrapper > .System_Logs_Container > .Logs > .Log > .Text > .DateTime{
         font-size: 12px;
     }
+
+    .checkbox-wrapper-46 .cbx span:last-child{
+        font-size: 12px !important;
+    }
 }
 
 @media only screen and (max-width: 320px) {
@@ -210,5 +224,8 @@
     }
     #System_Logs > .wrapper > .System_Logs_Container > .Logs > .Log > .Text > .DateTime{
         font-size: 12px;
+    }
+    .checkbox-wrapper-46 .cbx span:last-child{
+        font-size: 11px !important;
     }
 }

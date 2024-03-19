@@ -8,7 +8,6 @@ const SettingsRoute = ({children}) => {
 
     const {
         user,
-        setUser
     } = useContext(NotificationContext)
 
     useEffect(() => {

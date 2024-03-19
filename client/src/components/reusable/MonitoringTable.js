@@ -9,7 +9,7 @@ import * as HiIcons from 'react-icons/hi'
 import * as GoIcons from 'react-icons/go'
 import * as GrIcons from 'react-icons/gr'
 import * as MdIcons from 'react-icons/md'
-import { Collapse, Menu, Tooltip } from '@mui/material'
+import { Badge, Collapse, Menu, Tooltip } from '@mui/material'
 import { LoadingInfinite } from '../../assets/svg'
 import { GetWindowWidth, addDocument, checkFileType, formatDate, formatTime, getDropdownsData, getFiles, uploadFiles, editDocument, deleteFiles, archiveDocument, downloadReport } from '../../utils'
 
@@ -281,15 +281,17 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
 
 
   const hasDocumentStateBeenModified = (currentState, initialState) => {
-    // Create a copy of the initial state to avoid mutating the original
+    // Create copies
+    const currentStateCopy = { ...currentState };
     const initialStateCopy = { ...initialState };
-    // Remove Date_Received and Time_Received from the copies
+
+    // Remove Date_Received and Time_Received
+    delete currentStateCopy.Date_Received;
+    delete currentStateCopy.Time_Received;
     delete initialStateCopy.Date_Received;
     delete initialStateCopy.Time_Received;
-    delete currentState.Date_Received;
-    delete currentState.Time_Received;
-    // Compare the modified copies
-    return JSON.stringify(initialStateCopy) !== JSON.stringify(currentState);
+
+    return JSON.stringify(initialStateCopy) !== JSON.stringify(currentStateCopy);
   }
 
   const handleCancel = (action) => {
@@ -322,7 +324,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
         }
       });
     } else {
-        resetState();
+      resetState();
     }
   };
 
@@ -420,6 +422,26 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
     setTrackerDocumentID(document_id)
     setOpenCreateTracker(true)
   }
+
+  const calculateDaysLeft = (dateProp) => {
+    // Convert date string to Date object
+    const date = new Date(dateProp);
+    
+    // Calculate the date 30 days after the provided date
+    const dateAfter30Days = new Date(date.getTime() + (30 * 24 * 60 * 60 * 1000));
+    
+    // Get current date
+    const currentDate = new Date();
+    
+    // Calculate the difference in milliseconds between the calculated date and the current date
+    const differenceMilliseconds = dateAfter30Days.getTime() - currentDate.getTime();
+    
+    // Calculate the number of days left until 30 days after the provided date
+    const daysLeftUntil30DaysAfter = Math.ceil(differenceMilliseconds / (1000 * 3600 * 24));
+    
+    // Return the number of days left until 30 days after the date
+    return daysLeftUntil30DaysAfter;
+  };
 
   return (
     <section id='Monitoring_Table' className='Monitoring_Table'>
@@ -664,7 +686,16 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
                                       <button className="Edit" onClick={() => openEdit({ id: document.document_id })}><FaIcons.FaRegEdit size={'20px'}/></button>
                                     </Tooltip>
                                     <Tooltip title="Archive Document">
-                                      <button className="Archive" onClick={() => handleArchiveFile({ document_id: document.document_id, file_Name: document.document_Name, status: document.status })}><GoIcons.GoArchive size={'20px'}/></button>
+                                      {(calculateDaysLeft(document.date_Added) <= 7 && (document.status === 'Approved' || document.status === 'Rejected') )? (
+                                          <Badge color='error' badgeContent={`${calculateDaysLeft(document.date_Added)} days`} anchorOrigin={{vertical: 'top', horizontal: 'right' }}>
+                                              <button className="Archive" onClick={() => handleArchiveFile({ document_id: document.document_id, file_Name: document.document_Name, status: document.status })}><GoIcons.GoArchive size={'20px'}/></button>
+                                          </Badge>
+                                      )
+                                      :
+                                      (
+                                          <button className="Archive" onClick={() => handleArchiveFile({ document_id: document.document_id, file_Name: document.document_Name, status: document.status })}><GoIcons.GoArchive size={'20px'}/></button>
+                                      )
+                                      }
                                     </Tooltip>
                                   </div>
                                 </div>
@@ -676,7 +707,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
                                       </div>
                                       <div className='Other_Details'>
                                         <span>Comment:</span>
-                                        <p>{document.comment ? document.comment : <p style={{color: '#A5A6A6'}}>N/A</p>}</p>
+                                        {document.comment ? <p>{document.comment}</p> : <p style={{color: '#A5A6A6'}}>N/A</p>}
                                       </div>
                                       <div className="Other_Details">
                                         <span>Tracker:</span>

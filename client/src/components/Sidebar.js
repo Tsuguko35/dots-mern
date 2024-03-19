@@ -86,7 +86,7 @@ function Sidebar() {
     
 
     useEffect(() => {
-        if(windowWidth > 1024){
+        if(windowWidth > 1280){
             setToggleSidebar(true)
         }
         else{
@@ -97,7 +97,7 @@ function Sidebar() {
 
     useEffect(() => {
         function handleClickOutside(event) {
-            if(windowWidth <= 1024){
+            if(windowWidth <= 1280){
                 if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
                     setToggleSidebar(false)
                 }
@@ -116,7 +116,7 @@ return (
     <section id='Sidebar' className={toggleSidebar ? 'Sidebar' : 'Sidebar_Close'}>
         <div className='wrapper'>
             <div className="content" ref={sidebarRef}>
-                {(windowWidth <= 1024) && (
+                {(windowWidth <= 1280) && (
                     <div className="Nav_Header" >
                         <RiIcons.RiCloseLine size={'30px'} onClick={(e) => setToggleSidebar(false)}/>
                     </div>

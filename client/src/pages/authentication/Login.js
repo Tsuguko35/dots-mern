@@ -5,25 +5,12 @@ import '../../styles/login_and_registration.css'
 import toast, { Toaster } from 'react-hot-toast'
 import { 
   Box,
-  Container,
-  CssBaseline, 
-  Grid, 
-  IconButton, 
-  InputAdornment, 
-  OutlinedInput, 
-  Paper, 
-  TextField, 
   Typography
 } from '@mui/material'
 
 import { 
   Button,
-  FormControl 
 } from '@mui/base'
-
-import { 
-  Visibility, VisibilityOff 
-} from '@mui/icons-material'
 
 import { 
   Link, useNavigate 
@@ -39,7 +26,6 @@ import {
 
 import { 
   logInUser, 
-  useDotsContext, 
   validateUser
 } from '../../context'
 
@@ -51,6 +37,7 @@ import {
 
 import * as IoIcons from 'react-icons/io'
 import { NotificationContext } from '../../context/context'
+import { Timer } from '../../components'
 
 
 function Login() {
@@ -58,14 +45,16 @@ function Login() {
   const [loginCredentials, setLoginCredentials] = useState({email: '', password: ''})
   const [error, setError] = useState({ isError: false, errorMessage: '' })
   const [submit, setSubmit] = useState(false)
+  const [maxAttempts, setMaxAttempts] = useState(false)
+  const [loginAttempts, setLoginAttempts] = useState(parseInt(localStorage.getItem('loginAttemptCount')) || 0)
 
   const {
-    user,
     setUser
   } = useContext(NotificationContext)
 
   const handleSubmit = async(e) => {
     e.preventDefault()
+    addLoginAttempt()
     setSubmit(true)
     const res = await logInUser({email: loginCredentials.email, password: loginCredentials.password})
     if(res?.status === 200){
@@ -81,7 +70,7 @@ function Login() {
         }).then(() => {
           setUser(res?.data)
           window.localStorage.setItem('isLoggedIn', true)
-          window.localStorage.setItem('user', res.data?.token)
+          window.localStorage.setItem('dotsUser', res.data?.token)
           window.localStorage.setItem('profile', JSON.stringify(res.data))
           navigate('/Dashboard')
         })
@@ -99,7 +88,7 @@ function Login() {
           timer: 1000
         }).then(() => {
           window.localStorage.setItem('isLoggedIn', true)
-          window.localStorage.setItem('user', res.data?.token)
+          window.localStorage.setItem('dotsUser', res.data?.token)
           window.localStorage.setItem('profile', JSON.stringify(res.data))
           navigate('/Finish-Setup')
         })
@@ -115,6 +104,30 @@ function Login() {
       setLoginCredentials({ ...loginCredentials, password: '' })
     }
 
+  }
+
+  const getAttemptCount = () => {
+    const count = localStorage.getItem('loginAttemptCount');
+    return count ? parseInt(count) : 0;
+  };
+  
+  const addLoginAttempt = () => {
+    const count = getAttemptCount() + 1;
+    setLoginAttempts(count)
+    localStorage.setItem('loginAttemptCount', count);
+  }
+
+  useEffect(() => {
+    if(loginAttempts === 5){
+      setMaxAttempts(true)
+    }
+  }, [loginAttempts])
+
+  const resetAttempts = () => {
+    setLoginAttempts(0)
+    setMaxAttempts(false)
+    localStorage.removeItem('timerTime')
+    localStorage.removeItem('loginAttemptCount')
   }
 
 
@@ -136,7 +149,7 @@ function Login() {
 
     async function validate(){
       const isLoggedIn = window.localStorage.getItem('isLoggedIn')
-      const token = window.localStorage.getItem('user')
+      const token = window.localStorage.getItem('dotsUser')
       const user = JSON.parse(window.localStorage.getItem('profile'))
       Swal.fire({
         title: 'Please wait...',
@@ -155,6 +168,13 @@ function Login() {
                 showConfirmButton: false,
                 timer: 1000
               }).then(() => {
+                //Clear login Attempts
+                setLoginAttempts(0)
+                setMaxAttempts(false)
+                localStorage.removeItem('timerTime')
+                localStorage.removeItem('loginAttemptCount')
+
+
                 setUser(res?.data)
                 document.cookie = `token=${token}; path=/`
                 if(user.status === 'Temporary'){
@@ -167,7 +187,7 @@ function Login() {
               
             }else{
               window.localStorage.removeItem('isLoggedIn')
-              window.localStorage.removeItem('user')
+              window.localStorage.removeItem('dotsUser')
               window.localStorage.removeItem('profile')
               window.localStorage.removeItem('username')
               window.localStorage.removeItem('email')
@@ -219,6 +239,7 @@ function Login() {
                   <input 
                     className='Input' 
                     type="email" 
+                    disabled={submit || maxAttempts}
                     autoComplete='true' 
                     placeholder='Email Address' 
                     value={loginCredentials.email}
@@ -231,7 +252,8 @@ function Login() {
                   <input 
                     className='Input' 
                     type={showPassword.some(showPass => showPass.for === "Password") ? 'text': 'password'}
-                    placeholder='Password' 
+                    placeholder='Password'
+                    disabled={submit || maxAttempts}
                     value={loginCredentials.password}
                     onChange={(e) => setLoginCredentials({...loginCredentials ,password: e.target.value})}/>
                   <div className="Icon" onClick={() => handleClickShowPassword("Password")}>
@@ -239,9 +261,11 @@ function Login() {
                   </div>
               </div>
             </div>
-            {/* {isDisabled ? <Typography component="div" sx={{display: "flex", justifyContent: "center", alignItems: "center", color: "red"}}>
-                {loginAttempts} Attempts failed. Please wait for {remainingTime}
-            </Typography>: ""} */}
+            {maxAttempts && (
+              <div className="Login_Timer">
+                <p>Too many attempts. Please wait for <span><Timer initialTime={60} onTimeout={resetAttempts}/> second/s.</span></p>
+              </div>
+            )}
             {error.isError && (
               <div className="errorMessage">
                 <p>{error.errorMessage}</p>
@@ -255,7 +279,7 @@ function Login() {
             </Box>
             
             <Button
-                disabled={submit}
+                disabled={submit || maxAttempts}
                 type="submit"
                 variant="contained"
                 className='login_button'

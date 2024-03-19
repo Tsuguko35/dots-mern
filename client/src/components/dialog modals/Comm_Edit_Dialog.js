@@ -26,7 +26,7 @@ import { formatFileSize } from '../../utils';
 
 function Comm_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
     const theme = useTheme()
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [openOptions, setOpenOptions] = useState('')
     const {
         error, 

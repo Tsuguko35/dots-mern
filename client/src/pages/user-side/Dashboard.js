@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import '../../styles/dashboard.css'
 import { useNavigate } from 'react-router-dom'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { ArchiveTable, Dash_BarChart, Dash_DoughnutChart, Dash_PendingBar, PageHeader } from '../../components'
 import welcomeIMG from '../../assets/images/welcomeIMG.png'
 

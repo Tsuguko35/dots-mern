@@ -137,7 +137,7 @@
 }
 
 #Setting_Accounts > .wrapper > .Accounts_List{
-    height: 550px;
+    max-height: 550px;
     overflow-y: auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -227,7 +227,7 @@
     height: 100%;
     width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
 }
 
@@ -241,16 +241,13 @@
     color: var(--orange);
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1440px) {
     #Setting_Accounts > .wrapper > .Accounts_List{
         grid-template-columns: 1fr 1fr;
     }
 }
 
 @media only screen and (max-width: 912px) {
-    #Setting_Accounts > .wrapper > .Accounts_List > .Account{
-        height: 75px;
-    }
     #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Profile_Pic > .Profile_Pic{
         width: 50px;
         height: 50px;
@@ -270,7 +267,7 @@
 
     #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Left{
         width: 100%;
-        justify-content: start;
+        justify-content: flex-start;
     }
     
     #Setting_Accounts > .wrapper > .Accounts_Top{
@@ -314,7 +311,7 @@
 
     #Setting_Accounts > .wrapper > .Accounts_List{
         grid-template-columns: 1fr;
-        height: 520px;
+        max-height: 520px;
     }
 
     #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status{

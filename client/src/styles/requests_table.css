@@ -14,7 +14,7 @@
 
 #Requests_Table > .wrapper > .Table_Top{
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
 }
 
@@ -158,6 +158,8 @@
 }
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header > .Table_Header_Label{
+    width: 123px;
+    font-size: 15px;
     font-weight: bold;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -233,13 +235,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 14px;
     width: 145px;
 }
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .Actions {
     width: 100%;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
 }
@@ -311,7 +314,7 @@
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .Status{
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -346,8 +349,8 @@
     box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
     display: flex;
     flex-direction: column;
-    justify-content: start;
-    align-items: start;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 10px;
     color: var(--dark-grey);
 }
@@ -425,6 +428,14 @@
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker > .Tracker_Item > .Tracker_Details > .Tracker_Label{
     font-size: 14px;
+    width: 100px;
+    height: 2rem;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
     color: var(--light-black);
 }
 
@@ -445,7 +456,7 @@
 #Requests_Table > .wrapper > .Table_Pagination{
     width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     gap: 10px;
 }
 
@@ -481,7 +492,25 @@
     border-color: var(--light-black);
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1440px) {
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .ReceivedBy {
+        display: none;
+    }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.ReceivedBy{
+        display: none;
+    }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Requests_Table > .wrapper > .Table_Container{
+        overflow-x: hidden;
+    }
+}
+
+@media only screen and (max-width: 1368px) {
     #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .ReceivedBy {
         display: none;
     }
@@ -497,29 +526,63 @@
     #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > p{
         width: 750px;
     }
-}
-
-@media only screen and (max-width: 912px) {
     #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .OfficeDept {
         display: none;
     }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.OfficeDept{
+        display: none;
+    }
+
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker{
+        width: 770px;
+    }
+}
+
+@media only screen and (max-width: 1280px) {
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .ReceivedBy {
+        display: none;
+    }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.ReceivedBy{
+        display: none;
+    }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.OfficeDept{
+        display: none;
+    }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.OfficeDept{
+        display: none;
+    }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .OfficeDept {
+        display: none;
+    }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > p{
+        width: 700px;
+    }
+}
+
+@media only screen and (max-width: 912px) {
     #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details > .DateReceived {
         display: none;
     }
     #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details{
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.OfficeDept{
-        display: none;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
     #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container > .Tabler_Header.DateReceived{
         display: none;
     }
     #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Header_Container {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
     #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > p{
         width: 500px;
+    }
+    #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row .Table_Body_Other_Details > .Other_Details > .Tracker{
+        width: 510px;
     }
 }
 
@@ -527,7 +590,7 @@
 
     #Requests_Table > .wrapper > .Table_Top{
         flex-direction: column;
-        align-items: start;
+        align-items: flex-start;
         gap: 20px;
     }
     #Requests_Table > .wrapper > .Table_Top > .Table_Top_Left{
@@ -565,6 +628,7 @@
     #Requests_Table .Table_Row > .Table_Header_Container{
         display: flex;
         flex-direction: column;
+        width: 100%;
         gap: 10px;
     }
 
@@ -579,10 +643,8 @@
     }
     #Requests_Table .Table_Row > .Table_Header_Container > .Tabler_Header > p{
         color: var(--light-black);
-        width: 50%;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        width: 55%;
+        word-wrap: break-word;
     }
     #Requests_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Status{
         color: #4682B4;
@@ -599,7 +661,8 @@
 
     #Requests_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions{
         display: flex;
-        justify-content: start;
+        width: 55%;
+        justify-content: flex-start;
         align-items: center;
         gap: 10px;
     }
