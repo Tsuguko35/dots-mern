@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "homepage": "https://cvrs.slarenasitsolutions.com/",
   "private": true,
   "dependencies": {
     "@cyntler/react-doc-viewer": "^1.14.1",

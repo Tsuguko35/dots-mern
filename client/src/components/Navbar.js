@@ -73,6 +73,7 @@ function Navbar() {
     socket = io(ENDPOINT)
 
     socket.on('notifications', (user_id) => {
+      console.log(user);
       if(user){
         if(userDetails.user_id === user_id.user_id){
           getNotifications()
