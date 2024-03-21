@@ -22,7 +22,7 @@ const server = http.createServer(app)
 const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-        origin: 'https://cvrs.slarenasitsolutions.com',  
+        origin: 'https://cvrs.slarenasitsolutions.com',   
         methods: ['GET', 'POST', 'PUT'],
         credentials: true,
     },
