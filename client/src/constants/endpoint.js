@@ -1,3 +1,3 @@
-const ENDPOINT = 'http://localhost:8080'
+const ENDPOINT = 'https://cvrs.slarenasitsolutions.com'
 
 export default ENDPOINT
