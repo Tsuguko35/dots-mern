@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import db from '../config/database.js'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import { v4 as uuidv4 } from 'uuid';

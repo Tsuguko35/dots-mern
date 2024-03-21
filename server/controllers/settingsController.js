@@ -1,12 +1,5 @@
 import asyncHandler from 'express-async-handler'
 import db from '../config/database.js'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
-import { v4 as uuidv4 } from 'uuid';
-import generateOTP from '../utils/generateOTP.js'
-import { otpEmailTemplate } from '../utils/otpEmailTemplate.js'
-import mailer from '../utils/mailer.js'
 
 const getDropdowns = asyncHandler(async (req, res) => {
     let q = `SELECT * FROM dropdowns`
