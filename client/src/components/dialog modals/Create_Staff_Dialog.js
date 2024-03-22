@@ -166,7 +166,7 @@ function Create_Staff_Dialog({ openCreateStaff, closeCreateStaff }) {
 
                             {/* Other Inputs */}
                             <div className="Input_Group staff">
-                                <span className='Input_Label'>Temporary Password</span>
+                                <span className='Input_Label'>Temporary Password<span className='required'>*</span></span>
                                 <div className={!error.isError ? "Custom_Password" : "Custom_Password error"}>
                                     <input 
                                         disabled={submit}
@@ -185,7 +185,7 @@ function Create_Staff_Dialog({ openCreateStaff, closeCreateStaff }) {
 
                             {/* Other Inputs */}
                             <div className="Input_Group staff">
-                                <span className='Input_Label'>Confirm Temporary Password</span>
+                                <span className='Input_Label'>Confirm Temporary Password<span className='required'>*</span></span>
                                 <div className={!error.isError ? "Custom_Password" : "Custom_Password error"}>
                                     <input 
                                         disabled={submit}

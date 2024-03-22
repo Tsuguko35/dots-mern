@@ -66,7 +66,6 @@ function Sidebar() {
 
         notifications.filter(notification => notification.isRead === 0).forEach(notification => {
             const status = documents.find(document => document.document_id === notification.document_id)?.status
-            console.log(status);
             if(status !== 'Approved' && status !== 'Rejected'){
                 setPendingNotification(true)
             }

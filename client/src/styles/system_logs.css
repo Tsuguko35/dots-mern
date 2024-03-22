@@ -77,6 +77,45 @@
     flex-direction: column;
 }
 
+#System_Logs > .wrapper > .System_Logs_Container > .Table_Empty{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Image{
+    text-align: center;
+}
+
+#System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Image > img{
+    width: 300px;
+}
+
+#System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Labels{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+#System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Labels > span{
+    text-align: center;
+}
+
+#System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Labels > .Main_Label{
+    font-weight: bold;
+    color: var(--light-black);
+    font-size: 18px;
+}
+
+#System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Labels > .Sub_Label{
+    color: var(--dark-grey);
+    font-size: 14px;
+}
+
 #System_Logs > .wrapper > .System_Logs_Container > .Logs{
     width: 100%;
     height: 500px;
@@ -203,6 +242,18 @@
     #System_Logs > .wrapper > .System_Logs_Container > .Logs{
         height: 350px;
     }
+
+    #System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Image > img{
+        width: 250px;
+    }
+
+    #System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Labels > .Main_Label{
+        font-size: 16px;
+    }
+    
+    #System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Labels > .Sub_Label{
+        font-size: 12px;
+    }
 }
 
 @media only screen and (max-width: 390px) {
@@ -227,5 +278,17 @@
     }
     .checkbox-wrapper-46 .cbx span:last-child{
         font-size: 11px !important;
+    }
+
+    #System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Image > img{
+        width: 200px;
+    }
+
+    #System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Labels > .Main_Label{
+        font-size: 14px;
+    }
+    
+    #System_Logs > .wrapper > .System_Logs_Container > .Table_Empty > .Empty_Labels > .Sub_Label{
+        font-size: 10px;
     }
 }

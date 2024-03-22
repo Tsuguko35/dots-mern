@@ -22,6 +22,7 @@ function Templates() {
   const [templates, setTemplates] = useState([])
   const [templatesToFilter, setTemplatesToFilter] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [optionYears, setOptionYears] = useState([])
   const [filters, setFilters] = useState({
     year: '',
     search: ''
@@ -85,7 +86,14 @@ function Templates() {
       .filter(templates => 
         templates.template_Name.toLowerCase().includes(filters.search.toLowerCase())
       )
+
+      let yearsSet = new Set()
+      templatesToFilter.forEach(template => {
+        const year = template.date_Added.substring(0, 4)
+        yearsSet.add(year)
+      })
   
+      setOptionYears(Array.from(yearsSet))
       setTemplates(filteredTemplate)
     }
     else{
@@ -149,9 +157,9 @@ function Templates() {
                   </div>
                   <select name="Year" id="Year" onChange={(e) => setFilters({...filters, year: e.target.value})}>
                     <option value=''>All Templates</option>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
+                    {optionYears.length > 0 && optionYears.map((year, index) => (
+                      <option key={`${index}-${year}`} value={year}>{year}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -162,9 +170,9 @@ function Templates() {
                   </div>
                   <select name="Year" id="Year" onChange={(e) => setFilters({...filters, year: e.target.value})}>
                     <option value=''>All Templates</option>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
+                    {optionYears.length > 0 && optionYears.map((year, index) => (
+                      <option key={`${index}-${year}`} value={year}>{year}</option>
+                    ))}
                   </select>
                 </div>
                 <div className="Input_Group">

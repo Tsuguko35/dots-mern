@@ -579,6 +579,46 @@
         overflow-y: auto;
     }
 
+    #Archive_Table_Component .Table_Row_Container_Mobile > .Table_Empty{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    #Archive_Table_Component .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image{
+        text-align: center;
+    }
+
+    #Archive_Table_Component .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image > img{
+        width: 225px;
+        height: 225px;
+    }
+
+    #Archive_Table_Component .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #Archive_Table_Component .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > span{
+        width: 100%;
+        text-align: center;
+    }
+
+    #Archive_Table_Component .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Main_Label{
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    #Archive_Table_Component .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Sub_Label{
+        color: var(--dark-grey);
+        font-size: 13px;
+    }
+
     #Archive_Table_Component .Table_Row{
         width: 100%;
         display: flex;
@@ -674,6 +714,19 @@
 }
 
 @media only screen and (max-width: 320px) {
+    #Archive_Table_Component .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image > img{
+        width: 180px;
+        height: 180px;
+    }
 
+    #Archive_Table_Component .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Main_Label{
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    #Archive_Table_Component .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Sub_Label{
+        color: var(--dark-grey);
+        font-size: 11px;
+    }
 }
 

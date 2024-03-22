@@ -34,8 +34,14 @@ function Requests() {
     //Get table data
     const getTableDocuments = async() => {
       if(!isTriggerNotification)setIsLoading(true)
+      let res = null
       
-      const res = await getTableData({ documentType: requestType })
+      if(requestType === 'History'){
+        res = await getTableData({ documentType: 'All' })
+      }
+      else{
+        res = await getTableData({ documentType: requestType })
+      }
       
       if(res?.status === 200){
         if(!isTriggerNotification) setIsLoading(false)
@@ -92,8 +98,20 @@ function Requests() {
           document.status.toLowerCase().includes(filters.statusFilter.toLowerCase())
         )
         .filter(document => 
-          document.forward_To === userDetails.user_id || (document.forward_To.includes(userDetails.role) && !document.forward_To.includes(userDetails.user_id)) || (document.forward_To.includes('All') && !document.forward_To.includes(userDetails.user_id))
+          (requestType !== 'History' &&
+            ((document.forward_To === userDetails.user_id) || 
+            (document.forward_To.includes(userDetails.role) && !document.forward_To.includes(userDetails.user_id)) || 
+            (document.forward_To.includes('All') && !document.forward_To.includes(userDetails.user_id)))
+          ) 
+          || 
+          (requestType === 'History' &&
+            document.accepted_Rejected_By === userDetails.user_id || 
+            document.created_By === userDetails.full_Name
+          )
+          
         )
+
+        console.log(filteredDocs);
 
         const sortedFilteredDocs = filteredDocs.sort((a, b) => {
           // Place urgent documents on top regardless of date
@@ -121,6 +139,7 @@ function Requests() {
 
     useEffect(() => {
         document.title = `Requests`
+        setIsLoading(true)
         setIsTriggerNotification(false)
         getTableDocuments()
         getTrackerData()
@@ -152,6 +171,7 @@ function Requests() {
               isLoading={isLoading}
               trackers={trackers} 
               refreshTracker={refreshTrackers}
+              requestType={requestType}
             />
           </div>
         </div>

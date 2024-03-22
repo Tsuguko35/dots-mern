@@ -171,7 +171,7 @@ function Add_Template_Dialog({ openAddTemplate, closeAddTemplate, getTemplates }
                             </div>
                             <p className='Main'>Click to upload</p>
                             <p className='Sub'>.doc, .docx, .pdf, .xls, .xlsx</p>
-                            <input type="file" onChange={(e) => handleUploadTemplate(e.target.files)} required multiple accept='application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'/>
+                            <input type="file" disabled={submit} onChange={(e) => handleUploadTemplate(e.target.files)} required multiple accept='application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'/>
                         </div>
 
                         {/* Template Files */}

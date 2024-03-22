@@ -207,7 +207,9 @@
 }
 
 @media only screen and (max-width: 1024px){
-
+    #Account_Settings > .wrapper{
+        padding: 10px 15px;
+    }
 }
 
 @media only screen and (max-width: 912px) {

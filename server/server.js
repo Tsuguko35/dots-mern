@@ -22,7 +22,7 @@ const server = http.createServer(app)
 const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-        origin: 'https://cvrs.slarenasitsolutions.com',   
+        origin: process.env.ORIGIN,   
         methods: ['GET', 'POST', 'PUT'],
         credentials: true,
     },
@@ -34,12 +34,12 @@ app.use(cors({
     credentials: true 
 }))
 
-app.use('/api', (req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://cvrs.slarenasitsolutions.com');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-});
+// app.use('/api', (req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', 'https://cvrs.slarenasitsolutions.com');
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT');
+//     res.header('Access-Control-Allow-Credentials', 'true');
+//     next();
+// });
 app.use(express.json())
 app.use(cookieParser())
 app.use(bodyParser.json())

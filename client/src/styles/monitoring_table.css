@@ -593,6 +593,46 @@
         overflow-y: auto;
     }
 
+    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image{
+        text-align: center;
+    }
+
+    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image > img{
+        width: 225px;
+        height: 225px;
+    }
+
+    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > span{
+        width: 100%;
+        text-align: center;
+    }
+
+    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Main_Label{
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Sub_Label{
+        color: var(--dark-grey);
+        font-size: 13px;
+    }
+
     #Monitoring_Table .Table_Row{
         width: 100%;
         display: flex;
@@ -647,7 +687,7 @@
         gap: 10px;
     }
 
-    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action{
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions  .Action{
         width: 30px;
         height: 30px;
         display: flex;
@@ -659,16 +699,21 @@
         cursor: pointer;
     }
 
-    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.View{
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions  .Action.View{
         background-color: var(--orange);
     }
 
-    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.Edit{
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions  .Action.Edit{
         background-color: #4682B4;
     }
 
-    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions > .Action.Archive{
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions  .Action.Archive{
         background-color: #93C572;
+    }
+
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions .MuiBadge-badge{
+        font-size: 10px;
+        width: 45px;
     }
 
     #Archive_Table_Component > .wrapper > .Table_Top > .Table_Top_Right > *{
@@ -697,6 +742,19 @@
 }
 
 @media only screen and (max-width: 320px) {
+    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image > img{
+        width: 180px;
+        height: 180px;
+    }
 
+    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Main_Label{
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Sub_Label{
+        color: var(--dark-grey);
+        font-size: 11px;
+    }
 }
 

@@ -199,7 +199,6 @@
 @media only screen and (max-width: 912px) {
     #login_and_registration > .wrapper{
         gap: 25px;
-        padding: 10px;
     }
 
     #login_and_registration .side_illustration {
@@ -210,7 +209,6 @@
 @media only screen and (max-width: 450px) {
     #login_and_registration > .wrapper{
         gap: 25px;
-        padding: 10px;
     }
 
     #login_and_registration .login_form {
@@ -232,8 +230,10 @@
 
 @media only screen and (max-width: 450px) {
     #login_and_registration > .wrapper{
-        gap: 25px;
-        padding: 10px;
+        width: 100% !important;
+        height: 100%;
+        padding: 0px;
+        margin: 0px;
     }
 
     #login_and_registration .login_form {

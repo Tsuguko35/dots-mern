@@ -14,7 +14,7 @@
 
 #Requests_Table > .wrapper > .Table_Top{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -31,32 +31,34 @@
     align-items: center;
 }
 
-#Requests_Table > .wrapper > .Table_Top > .Table_Top_Left > button{
-    height: 40px;
-    padding: 10px 20px;
-    border: none;
-    background-color: var(--light-black);
-    color: white;
-    font-weight: bold;
+#Requests_Table > .wrapper > .Table_Top > .Table_Top_Left > .Legend{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+#Requests_Table > .wrapper > .Table_Top > .Table_Top_Left > .Legend > .Legend_Item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+#Requests_Table > .wrapper > .Table_Top > .Table_Top_Left > .Legend > .Legend_Item > p {
+    color: var(--light-black);
+    font-size: 14px;
+}
+
+#Requests_Table > .wrapper > .Table_Top > .Table_Top_Left > .Legend > .Legend_Item > span{
+    content: '';
+    width: 20px;
+    height: 20px;
     border-radius: 5px;
-    box-shadow: 0 4px 2px -2px rgba(187, 187, 187, 0.5);
-    transition: all 250ms ease-in-out;
-    cursor: pointer;
+    background-color: var(--error-red);
 }
 
-#Requests_Table > .wrapper > .Table_Top > .Table_Top_Left > button:hover{
-    background-color: var(--dark-orange);
-}
-
-#Requests_Table > .wrapper > .Table_Top > .Table_Top_Left > span{
-    color: var(--dark-grey);
-    transition: all 250ms ease-in-out;
-    user-select: none;
-    cursor: pointer;
-}
-
-#Requests_Table > .wrapper > .Table_Top > .Table_Top_Left > span:hover{
-    color: var(--orange);
+#Requests_Table > .wrapper > .Table_Top > .Table_Top_Left > .Legend > .Legend_Item > span.Unread{
+    background-color: var(--yellow);
 }
 
 #Requests_Table > .wrapper > .Table_Top > .Table_Top_Right{
@@ -614,6 +616,46 @@
         overflow-y: auto;
     }
 
+    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image{
+        text-align: center;
+    }
+
+    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image > img{
+        width: 225px;
+        height: 225px;
+    }
+
+    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > span{
+        width: 100%;
+        text-align: center;
+    }
+
+    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Main_Label{
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Sub_Label{
+        color: var(--dark-grey);
+        font-size: 13px;
+    }
+
     #Requests_Table .Table_Row{
         width: 100%;
         display: flex;
@@ -717,6 +759,19 @@
 }
 
 @media only screen and (max-width: 320px) {
+    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image > img{
+        width: 180px;
+        height: 180px;
+    }
 
+    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Main_Label{
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Sub_Label{
+        color: var(--dark-grey);
+        font-size: 11px;
+    }
 }
 

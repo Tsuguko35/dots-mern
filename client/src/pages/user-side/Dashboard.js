@@ -19,6 +19,7 @@ function Dashboard() {
   const userDetails = user
   const [documents, setDocuments] = useState([])
   const [documentsToFilter, setDocumentsToFilter] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const [filters, setFilters] = useState({
     searchFilter: '',
     docuNameFilter: '',
@@ -64,6 +65,7 @@ function Dashboard() {
   }
 
   const getDocumentCounts = async() => {
+    setIsLoading(true)
     const docsRes = await getTableData({ documentType: 'All' })
     const archiveRes = await getArchiveDocuments()
 
@@ -76,6 +78,7 @@ function Dashboard() {
 
     if(docsRes?.status === 200){
       setDocumentsToFilter(docsRes.data?.documents)
+      setIsLoading(false)
       const currentDate = new Date();
       let documentsArray = []
       if(userDetails.role === 'Faculty'){
@@ -163,6 +166,9 @@ function Dashboard() {
       .filter(document => 
         document.forward_To === userDetails.user_id || (document.forward_To.includes(userDetails.role) && !document.forward_To.includes(userDetails.user_id))
       )
+      .filter(document =>
+        new Date(document.date_Received) >= new Date(new Date().getTime() - (3 * 24 * 60 * 60 * 1000))
+      );  
 
       const sortedFilteredDocs = filteredDocs.sort((a, b) => {
         if (a.date_Received !== b.date_Received) {
@@ -383,7 +389,7 @@ function Dashboard() {
         </div>
         <div className="Dashboard_Table_Container">
           <div className="Dashboard_Table">
-            <ArchiveTable  setFilter={setFilters} filters={filters} documents={documents} trackers={trackers} refreshTracker={refreshTrackers}/>
+            <ArchiveTable  setFilter={setFilters} filters={filters} documents={documents} trackers={trackers} refreshTracker={refreshTrackers} isLoading={isLoading}/>
           </div>
         </div>
       </div>

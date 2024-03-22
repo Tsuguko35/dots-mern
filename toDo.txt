@@ -1,22 +1,6 @@
 button loadings
 
 Error Checking all pages
-
-add X to inputs
-
-request history Filters
-
-responsiveness
-
-empty for request, accounts, logs, acrvhies
-
 -------------------------------------------
-request tab functionality(check for bugs only)
-
-status based notif click
 
 fix the print format
-
-base template year on year filter
-
-disbale styles on all input and buttons

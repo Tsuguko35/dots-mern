@@ -23,8 +23,9 @@ import { ReactComponent as DOCX } from '../../assets/svg/icons/DOCX_icon.svg'
 import { ReactComponent as XLSX } from '../../assets/svg/icons/XLSX_icon.svg'
 import { DocumentContext } from '../../context';
 import { formatFileSize } from '../../utils';
+import { LoadingGear } from '../../assets/svg';
 
-function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
+function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs, submit }) {
     const theme = useTheme()
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [openOptions, setOpenOptions] = useState('')
@@ -88,11 +89,11 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                     <div className="Date_Time">
                                             <div className="Input_Group">
                                                 <span className='Input_Label'>Date Received <span className='required'>*</span></span>
-                                                <input required className='Input' type="date" value={documentState.Date_Received || ''} onChange={(e) => setDocumentState({...documentState, Date_Received: e.target.value})}/>
+                                                <input required disabled={submit && submit === true} className='Input' type="date" value={documentState.Date_Received || ''} onChange={(e) => setDocumentState({...documentState, Date_Received: e.target.value})}/>
                                             </div>
                                             <div className="Input_Group">
                                                 <span className='Input_Label'>Time Received <span className='required'>*</span></span>
-                                                <input required className='Input' type="time" value={documentState.Time_Received || ''} onChange={(e) => setDocumentState({...documentState, Time_Received: e.target.value})}/>
+                                                <input required disabled={submit && submit === true} className='Input' type="time" value={documentState.Time_Received || ''} onChange={(e) => setDocumentState({...documentState, Time_Received: e.target.value})}/>
                                             </div>
                                         </div>
 
@@ -108,6 +109,7 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                             value={documentState.Incoming_Outgoing || ''}
                                             onFocus={() => showOptions("Incoming/Outgoing")} 
                                             onBlur={() => closeOptions()}
+                                            disabled={submit && submit === true}
                                         />
                                         <div className={openOptions === "Incoming/Outgoing" ? "Options show" : "Options"}>
                                             <div className="Option" onClick={() => setDocumentState({...documentState, Incoming_Outgoing: 'Incoming'})}>
@@ -130,6 +132,7 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                             maxLength={100}
                                             value={documentState.Document_Name || ''} 
                                             onChange={(e) => setDocumentState({...documentState, Document_Name: e.target.value})} 
+                                            disabled={submit && submit === true}
                                         />
                                     </div>
 
@@ -146,6 +149,7 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                             onChange={(e) => setDocumentState({...documentState, Office_Dept: e.target.value})}
                                             onFocus={() => showOptions("Office/Dept")} 
                                             onBlur={() => closeOptions()}
+                                            disabled={submit && submit === true}
                                         />
                                         <div className={openOptions === "Office/Dept" ? "Options show" : "Options"}>
                                             {dropdowns && dropdowns.filter(dropdown => dropdown.option_For === 'Office/Dept').map((dropdown) => (
@@ -172,6 +176,7 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                             onBlur={() => closeOptions()}
                                             value={documentState.Received_By || ''} 
                                             onChange={(e) => setDocumentState({...documentState, Received_By: e.target.value})} 
+                                            disabled={submit && submit === true}
                                         />
                                         <div className={openOptions === "Received By" ? "Options show" : "Options"}>
                                             {users && users.filter(user => user.role !== 'Faculty' && user.full_Name.toLowerCase().includes(documentState.Received_By.toLowerCase())).length !== 0 ? (
@@ -205,6 +210,7 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                             onBlur={() => closeOptions()}
                                             value={documentState.Contact_Person || ''}
                                             onChange={(e) => setDocumentState({...documentState, Contact_Person: e.target.value})} 
+                                            disabled={submit && submit === true}
                                         />
                                     </div>
 
@@ -219,6 +225,7 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                             maxLength={1000}
                                             value={documentState.Description || ''} 
                                             onChange={(e) => setDocumentState({...documentState, Description: e.target.value})} 
+                                            disabled={submit && submit === true}
                                         />
                                     </div>
 
@@ -232,6 +239,7 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                             maxLength={1000} 
                                             value={documentState.Comment_Note || ''} 
                                             onChange={(e) => setDocumentState({...documentState, Comment_Note: e.target.value})} 
+                                            disabled={submit && submit === true}
                                         />
                                     </div>
 
@@ -248,6 +256,7 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                             onBlur={() => closeOptions()}
                                             value={documentState.Status || ''} 
                                             onChange={(e) => setDocumentState({...documentState, Status: e.target.value})} 
+                                            disabled={submit && submit === true}
                                         />
                                         <div className={openOptions === "Status" ? "Options show" : "Options"}>
                                             <div className="Option" onClick={(e) => setDocumentState({...documentState, Status: 'Approved'})}>
@@ -273,6 +282,7 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                             value={users.find(user => user.user_id === documentState.Forward_To)?.full_Name || ''}
                                             onFocus={() => showOptions("Forward To")} 
                                             onBlur={() => closeOptions()}
+                                            disabled={submit && submit === true}
                                         />
                                         <div className={openOptions === "Forward To" ? "Options show" : "Options"}>
                                             {users.filter(user => user.user_id !== userProfile.user_id).length !== 0 ? (
@@ -307,7 +317,7 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                                             </div>
                                             <p className='Main'>Click to upload</p>
                                             <p className='Sub'>.png, .jpeg, .jpg, .doc, .docx, .pdf, .xls, .xlsx</p>
-                                            <input required={fileDetails.length === 0} type="file" onChange={(e) => handleFileSelect(e.target.files)} multiple capture="environment" accept='image/jpeg, image/png, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'/>
+                                            <input required={fileDetails.length === 0} disabled={submit && submit === true} type="file" onChange={(e) => handleFileSelect(e.target.files)} multiple capture="environment" accept='image/jpeg, image/png, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'/>
                                         </div>
                                         {error.isError && (
                                             <div className="errorMessage">
@@ -358,7 +368,13 @@ function Memo_Edit_Dialog({ openEditDocs,  setOpenEditDocs }) {
                             Cancel
                         </button>
                         <button type='submit' form='edit_Form' className='Dialog_Submit'>
-                            Submit
+                            {submit && submit === true ? (
+                                <LoadingGear width='40px' height='40px'/>
+                            )
+                            :
+                            (
+                                'Submit' 
+                            )}
                         </button>
                     </div>
                 </DialogActions>

@@ -263,7 +263,9 @@ const forwardDocument = asyncHandler(async (req, res) => {
         comment,
         status,
         forward_To,
+        forward_To_Name,
         forwarded_By,
+        forwarded_By_Name,
         action,
         forwarded_Datetime,
         accepted_Rejected_Date,
@@ -312,6 +314,7 @@ const forwardDocument = asyncHandler(async (req, res) => {
             console.log(err);
             return res.status(400).json({ errorMessage: 'Query Error' });
         } else if (result.affectedRows > 0) {
+            createLog({ action: action, By: forwarded_By_Name, document_Name: document_Name, To: forward_To, To_Name: forward_To_Name})
             const createNotifications = user_ids.map((user_id) => {
                 return new Promise((resolve, reject) => {
                     const uniqueID = uuidv4()
@@ -320,8 +323,8 @@ const forwardDocument = asyncHandler(async (req, res) => {
                         user_id,
                         document_id,
                         0,
-                        'Forward',
-                        `${document_Name} is ${action === 'Forward' ? 'Forwarded' : action}.`,
+                        action,
+                        `${document_Name} is ${action === 'Forward' ? 'Forwarded' : action === 'Approve' ? 'Approved' : action === 'Reject' && 'Rejected'}.`,
                         new Date()
                     ]
     
@@ -626,6 +629,15 @@ const createLog = (props) => {
     }
     else if(props.action === 'Tracker'){
         log = `${props.By} added a tracker named ${props.tracker_Label}`
+    }
+    else if(props.action === 'Forward'){
+        log = `${props.By} forwarded ${props.document_Name} to ${props.To.includes('All') ? 'all users' : props.To.includes('Clerk') ? 'all clerks' : props.To.includes('Faculty') ? 'all faculty' : props.To_Name}`
+    }
+    else if(props.action === 'Approve'){
+        log = `${props.By} approved the document ${props.document_Name} and forwarded it to ${props.To.includes('All') ? 'all users' : props.To.includes('Clerk') ? 'all clerks' : props.To.includes('Faculty') ? 'all faculty' : props.To_Name}`
+    }
+    else if(props.action === 'Reject'){
+        log = `${props.By} rejected the document ${props.document_Name} and forwarded it to ${props.To.includes('All') ? 'all users' : props.To.includes('Clerk') ? 'all clerks' : props.To.includes('Faculty') ? 'all faculty' : props.To_Name}`
     }
 
 

@@ -7,8 +7,10 @@ export default async function forwardDocument(payload) {
         document_id,
         status,
         forward_To,
+        forward_To_Name,
         action,
         forwarded_By,
+        forwarded_By_Name,
         comment
     } = payload
 
@@ -38,7 +40,9 @@ export default async function forwardDocument(payload) {
             comment: comment,
             status: status, 
             forward_To: forward_To,
+            forward_To_Name,
             forwarded_By: forwarded_By,
+            forwarded_By_Name,
             user_ids: user_ids,
             action: action,
             forwarded_Datetime: new Date(),

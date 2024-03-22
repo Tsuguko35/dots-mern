@@ -36,7 +36,7 @@ import {
   Settings 
 } from '@mui/icons-material'
 import { 
-  DateTime, formatDate, formatTime, getAllNotifications 
+  DateTime, formatDate, formatTime, getAllNotifications, getDocumentData, getTableData 
 } from '../utils'
 import { useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
@@ -65,6 +65,7 @@ function Navbar() {
   const userDetails = user
   const firstLetterOfName = userDetails.full_Name ? userDetails.full_Name.charAt(0).toUpperCase() : 'A';
   const open = Boolean(anchorEl);
+  const [documents, setDocuments] = useState([])
 
   const notifAudio = new Audio(notificationSound)
   notifAudio.preload = true;
@@ -73,7 +74,6 @@ function Navbar() {
     socket = io(ENDPOINT)
 
     socket.on('notifications', (user_id) => {
-      console.log(user);
       if(user){
         if(userDetails.user_id === user_id.user_id){
           getNotifications()
@@ -91,13 +91,17 @@ function Navbar() {
 
   useEffect(() => {
     getNotifications()
+    getDocuments()
   }, [user])
 
   const getNotifications = async() => {
     const res = await getAllNotifications()
     if(res?.status === 200){
       if(res.data?.notifications){
-        const notificationData = res.data?.notifications
+        let notificationData = res.data?.notifications;
+
+        // Sort by date_Created in descending order
+        notificationData.sort((a, b) => new Date(b.date_Created.replace(" ", "T")) - new Date(a.date_Created.replace(" ", "T")));
         if(user){
           setNotifications(notificationData.filter(notification => notification.user_id === userDetails.user_id))
         }
@@ -106,6 +110,18 @@ function Navbar() {
     else{
       toast.error('Failed to get notifications')
     }
+  }
+
+  const getDocuments = async() => {
+    const res = await getTableData({ documentType: 'All' })
+
+    if(res?.status === 200){
+      setDocuments(res.data?.documents)
+    }
+    else{
+      toast.error('Failed to get documents for notification.')
+    }
+
   }
 
   const handleClick = (event) => {
@@ -145,15 +161,16 @@ function Navbar() {
     }
   }
 
-  const goToNotif = (action) => {
-    if(action === 'Forward'){
-      navigate('/Requests/Pending')
-    }
-    else if (action === 'Approved'){
+  const goToNotif = (document_id) => {
+    const status = documents.find(document => document.document_id === document_id)?.status
+    if(status === 'Approved'){
       navigate('/Requests/Approved')
     }
-    else{
+    else if (status === 'Rejected'){
       navigate('/Requests/Rejected')
+    }
+    else{
+      navigate('/Requests/Pending')
     }
   }
 
@@ -219,7 +236,7 @@ function Navbar() {
               :
               (
                 notifications.map((notification) => (
-                  <MenuItem className='Menu_Item_Notification' key={notification.notification_id} onClick={() => goToNotif(notification.notification_Type)}>
+                  <MenuItem className='Menu_Item_Notification' key={notification.notification_id} onClick={() => goToNotif(notification.document_id)}>
                     <ListItemIcon className='Notification_Icon'>
                       {notification.notification_Type === 'Forward' ? 
                           (

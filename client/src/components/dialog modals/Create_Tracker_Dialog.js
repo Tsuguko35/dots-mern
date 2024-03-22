@@ -41,6 +41,7 @@ function Create_Tracker_Dialog({ openCreateTracker, closeCreateTracker, document
         })
 
         if(signature.isEmpty()){
+            toast.dismiss()
             setError({ isError: true, errorMessage: 'All fields must be filled up.'})
         }
         else{
@@ -49,18 +50,16 @@ function Create_Tracker_Dialog({ openCreateTracker, closeCreateTracker, document
             if(res?.status === 200){
                 refreshTracker()
                 closeCreateTracker(false)
+                setTrackerDetails({
+                    label: '',
+                    document_id: ''
+                })
                 toast.success('Added tracker successfully.')
             }
             else if(res?.status === 400){
                 toast.error('Adding tracker failed.')
             }
         }
-
-        setTrackerDetails({
-            label: '',
-            document_id: ''
-        })
-        
         setSubmit(false)
     }
 
@@ -108,8 +107,10 @@ function Create_Tracker_Dialog({ openCreateTracker, closeCreateTracker, document
                             {/* Signature Box */}
                             <div className="Signature_Container">
                                 <span className='Signature_Label'>Tracker Signature<span className='required'>*</span></span>
-                                <div className="Signature_Box">
-                                    <SignatureCanvas ref={data => setSignature(data)} canvasProps={{className: 'Signature_Canvas'}}/>
+                                <div className={!error.isError ? "Signature_Box" : "Signature_Box error"}>
+                                    {!submit && (
+                                        <SignatureCanvas ref={data => setSignature(data)} canvasProps={{className: 'Signature_Canvas'}}/>
+                                    )}
                                 </div>
                                 <span className='Signature_Clear' onClick={() => handleClear()}>Clear Signature</span>
                             </div>

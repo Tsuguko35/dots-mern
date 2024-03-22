@@ -14,24 +14,30 @@ import {
 import Create_Staff_Dialog from './dialog modals/Create_Staff_Dialog'
 import { changeUserStatus, getAllUsers } from '../utils'
 import toast from 'react-hot-toast'
+import noResult from '../assets/images/noResult.png'
 import { domain, profile_Pic } from '../constants'
+import { LoadingInfinite } from '../assets/svg'
 
 function Setting_Accounts() {
     const [openCreateStaff, setOpenCreateStaff] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [displayAccounts, setDisplayAccounts] = useState('Approved')
     const [usersToFilter, setUsersToFilter] = useState([])
     const [anchorEl, setAnchorEl] = useState(null);
     const [userID, setUserID] = useState('');
     const [isUserActive, setIsUserActive] = useState('')
     const [users, setUsers] = useState([])
+    const [userSearch, setUSerSearch] = useState('')
 
     const changeDisplayedAccounts = (status) => {
         setDisplayAccounts(status)
     }
 
     const getUsers = async() => {
+        setIsLoading(true)
         const res = await getAllUsers()
         if(res?.status === 200){
+            setIsLoading(false)
             setUsersToFilter(res.data?.users)
         }
         else{
@@ -57,12 +63,16 @@ function Setting_Accounts() {
             } else if (displayAccounts === 'Temporary') {
                 filteredUsers = filteredUsers.filter(user => user.status === 'Temporary');
             }
+
+            filteredUsers = filteredUsers.filter(user => 
+                user.full_Name.toLowerCase().includes(userSearch.toLowerCase()) || user.email.toLowerCase().includes(userSearch.toLowerCase())
+            )
     
             setUsers(filteredUsers);
         } else {
             setUsers(usersToFilter);
         }
-    },[usersToFilter, displayAccounts])
+    },[usersToFilter, displayAccounts, userSearch])
 
     const handleOpenMenu = (event, user_id, status) => {
         setAnchorEl(event.currentTarget);
@@ -120,73 +130,96 @@ function Setting_Accounts() {
                                 <div className="Icon">
                                     <IoIcons.IoIosSearch size={'20px'}/>
                                 </div>
-                                <input className='Input' type="text" placeholder='Search...'/>
+                                <input className='Input' value={userSearch} type="text" placeholder='Search...' onChange={(e) => setUSerSearch(e.target.value)}/>
+                                <div className={`Close_Icon ${userSearch && 'visible'}`}>
+                                    <MdIcons.MdOutlineClose size={'25px'} onClick={(e) => setUSerSearch('')}/>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="Accounts_List">
-                    {users.map((user) => (
-                        <div className="Account">
-                            <div className="Account_Profile_Pic">
-                                <Avatar src={user.profile_Pic ? `${domain}${profile_Pic}/${user.profile_Pic}` : ''} className="Profile_Pic">{user.profile_Pic ? null : (user.full_Name ? user.full_Name[0].toUpperCase() : user.email[0].toUpperCase())}</Avatar>
-                            </div>
-                            <div className="Account_Email_Name_Status">
-                                <div className="Email_Name">
-                                    <p className="Name">{user.full_Name || user.role}</p>
-                                    <p className="Email">{user.email}</p>
-                                    
-                                </div>
-                                <div className={`Status ${user.status}`}>
-                                    <p>{user.status}</p>
-                                </div>
-                            </div>
-                            <div className="Account_Options">
-                                {displayAccounts === "Approved" && (
-                                    <Tooltip title="Options">
-                                        <div className="Status_Icon" >
-                                            <MdIcons.MdOutlineMoreVert size={"25px"}  onClick={(e) => handleOpenMenu(e, user.user_id, user.status)}/>
-                                        </div>
-                                    </Tooltip>
-                                )}
-                            </div>
-                            
+                {isLoading && (
+                    <div className="Loader">
+                        <LoadingInfinite width='150px' height='150px'/>
+                    </div>
+                )}
+
+                {(!isLoading && users.length === 0) && (
+                    <div className="Table_Empty">
+                        <div className="Empty_Image">
+                            <img src={noResult} alt="No Result" />
                         </div>
-                    ))}
-                    <Menu
-                        anchorEl={anchorEl}
-                        id="Filter_Menu"
-                        open={anchorEl && userID !== ''}
-                        onClose={() => setAnchorEl(null)}
-                        PaperProps={{
-                        elevation: 0,
-                        sx: {
-                            minWidth: '150px',
-                            minHeight: '40px',
-                            overflow: 'visible',
-                            padding: '0px 5px',
-                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                            '& .MuiAvatar-root': {
-                            width: 32,
-                            height: 32,
+                        <div className="Empty_Labels">
+                            <span className="Main_Label">NO USER/S FOUND!</span>
+                            <span className="Sub_Label">Click the add new staff button to add staff users.</span>
+                        </div>
+                    </div>
+                )}
+                {(!isLoading && users.length > 0) && (
+                    <div className="Accounts_List">
+                        {users.map((user) => (
+                            <div className="Account">
+                                <div className="Account_Profile_Pic">
+                                    <Avatar src={user.profile_Pic ? `${domain}${profile_Pic}/${user.profile_Pic}` : ''} className="Profile_Pic">{user.profile_Pic ? null : (user.full_Name ? user.full_Name[0].toUpperCase() : user.email[0].toUpperCase())}</Avatar>
+                                </div>
+                                <div className="Account_Email_Name_Status">
+                                    <div className="Email_Name">
+                                        <p className="Name">{user.full_Name || user.role}</p>
+                                        <p className="Email">{user.email}</p>
+                                        
+                                    </div>
+                                    <div className={`Status ${user.status}`}>
+                                        <p>{user.status}</p>
+                                    </div>
+                                </div>
+                                <div className="Account_Options">
+                                    {displayAccounts === "Approved" && (
+                                        <Tooltip title="Options">
+                                            <div className="Status_Icon" >
+                                                <MdIcons.MdOutlineMoreVert size={"25px"}  onClick={(e) => handleOpenMenu(e, user.user_id, user.status)}/>
+                                            </div>
+                                        </Tooltip>
+                                    )}
+                                </div>
+                                
+                            </div>
+                        ))}
+                        <Menu
+                            anchorEl={anchorEl || ''}
+                            id="Filter_Menu"
+                            open={anchorEl && userID !== ''}
+                            onClose={() => setAnchorEl(null)}
+                            PaperProps={{
+                            elevation: 0,
+                            sx: {
+                                minWidth: '150px',
+                                minHeight: '40px',
+                                overflow: 'visible',
+                                padding: '0px 5px',
+                                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                '& .MuiAvatar-root': {
+                                width: 32,
+                                height: 32,
+                                },
                             },
-                        },
-                        }}
-                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                        anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
-                    >
-                        <div className={`User_Options ${isUserActive}`}>
-                            {isUserActive === "Active" ? (
-                                <p onClick={() => handleAccountStatusChange('Deactivated')}><span><FaIcons.FaUserAltSlash size={'20px'}/></span>Deactivate Account</p>
-                            )
-                            :
-                            (
-                                <p onClick={() => handleAccountStatusChange('Active')}><span><FaIcons.FaUserCheck size={'20px'}/></span>Activate Account</p>
-                            )}
-                            
-                        </div>
-                    </Menu>
-                </div>
+                            }}
+                            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                            anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+                        >
+                            <div className={`User_Options ${isUserActive}`}>
+                                {isUserActive === "Active" ? (
+                                    <p onClick={() => handleAccountStatusChange('Deactivated')}><span><FaIcons.FaUserAltSlash size={'20px'}/></span>Deactivate Account</p>
+                                )
+                                :
+                                (
+                                    <p onClick={() => handleAccountStatusChange('Active')}><span><FaIcons.FaUserCheck size={'20px'}/></span>Activate Account</p>
+                                )}
+                                
+                            </div>
+                        </Menu>
+                    </div>
+                )}
+                
             </div>
         </section>
     )

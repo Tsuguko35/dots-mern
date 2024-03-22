@@ -120,7 +120,6 @@
     display: flex;
     align-items: center;
     color: var(--dark-grey);
-    transition: all 250ms ease-in-out;
     cursor: pointer;
 }
 
@@ -129,11 +128,51 @@
 }
 
 #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group:hover{
+    transition: color 250ms ease-in-out;
     color: var(--light-black);
 }
 
 #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group.active{
     color: var(--orange);
+}
+
+#Setting_Accounts > .wrapper > .Table_Empty{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#Setting_Accounts > .wrapper > .Table_Empty > .Empty_Image{
+    text-align: center;
+}
+
+#Setting_Accounts > .wrapper > .Table_Empty > .Empty_Image > img{
+    width: 300px;
+}
+
+#Setting_Accounts > .wrapper > .Table_Empty > .Empty_Labels{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+#Setting_Accounts > .wrapper > .Table_Empty > .Empty_Labels > span{
+    text-align: center;
+}
+
+#Setting_Accounts > .wrapper > .Table_Empty > .Empty_Labels > .Main_Label{
+    font-weight: bold;
+    color: var(--light-black);
+    font-size: 18px;
+}
+
+#Setting_Accounts > .wrapper > .Table_Empty > .Empty_Labels > .Sub_Label{
+    color: var(--dark-grey);
+    font-size: 14px;
 }
 
 #Setting_Accounts > .wrapper > .Accounts_List{
@@ -271,12 +310,19 @@
     }
     
     #Setting_Accounts > .wrapper > .Accounts_Top{
-        flex-direction: column;
         gap: 10px;
     }
     
     #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group{
         width: 100px;
+    }
+
+    #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters{
+        gap: 5px;
+    }
+
+    #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group > .Label{
+        font-size: 14px;
     }
 }
 
@@ -317,6 +363,10 @@
     #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status{
         padding: 0;
     }
+
+    #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group > .Label{
+        text-align: center;
+    }
 }
 
 @media only screen and (max-width: 414px) {
@@ -330,6 +380,18 @@
     
     #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Email{
         width: 140px;
+    }
+
+    #Setting_Accounts > .wrapper > .Table_Empty > .Empty_Image > img{
+        width: 250px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Table_Empty > .Empty_Labels > .Main_Label{
+        font-size: 16px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Table_Empty > .Empty_Labels > .Sub_Label{
+        font-size: 12px;
     }
 }
 
@@ -358,5 +420,21 @@
     
     #Setting_Accounts > .wrapper > .Accounts_List > .Account > .Account_Email_Name_Status > .Email_Name > .Email{
         width: 90px;
+    }
+
+    #Setting_Accounts > .wrapper > .Accounts_Top > .Accounts_Top_Right > .Filters > .Filter_Group > .Label{
+        font-size: 12px;
+    }
+
+    #Setting_Accounts > .wrapper > .Table_Empty > .Empty_Image > img{
+        width: 200px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Table_Empty > .Empty_Labels > .Main_Label{
+        font-size: 14px;
+    }
+    
+    #Setting_Accounts > .wrapper > .Table_Empty > .Empty_Labels > .Sub_Label{
+        font-size: 10px;
     }
 }

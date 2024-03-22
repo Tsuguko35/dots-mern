@@ -284,6 +284,10 @@
     border: 1px solid var(--light-grey);
 }
 
+.Inputs > .Signature_Container > .Signature_Box.error{
+    border-color: var(--red);
+}
+
 .Inputs > .Signature_Container > .Signature_Box > .Signature_Canvas {
     width: 100%;
     height: 100%;
@@ -460,11 +464,27 @@
     .divider.mobile{
         display: block;
     }
+
+    .radio-input {
+        --container_width: 310px;
+    }
+
+    .radio-input span{
+        text-align: center;
+    }
 }
 
 @media only screen and (max-width: 390px) {
     .Dialog_Body > .wrapper > .Left_Side > .Date_Time{
         flex-direction: column;
+    }
+
+    .radio-input {
+        --container_width: 250px;
+    }
+
+    .radio-input span{
+        text-align: center;
     }
 }
 
@@ -488,5 +508,14 @@
     }
     .Dialog_Body > .wrapper > .Right_Side > .Files > .File > .Icon {
         width: 35px !important;
+    }
+
+    .radio-input {
+        --container_width: 200px;
+    }
+
+    .radio-input span{
+        text-align: center;
+        font-size: 12px;
     }
 }

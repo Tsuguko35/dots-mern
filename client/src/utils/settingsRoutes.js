@@ -11,7 +11,7 @@ const SettingsRoute = ({children}) => {
     } = useContext(NotificationContext)
 
     useEffect(() => {
-        if(user){
+        if(user.role){
             if(user.role !== 'Dean'){
                 navigate('/Dashboard')
             }

@@ -51,6 +51,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
   const [openRow, setOpenRow] = useState(0)
   const [error, setError] = useState({ isError: false, errorMessage: '' })
   const [initialEditState, setInitialEditState] = useState({})
+  const [submit, setSubmit] = useState(false)
   const printComponentRef = useRef();
   const initialDocumentState = {
     Date_Received: formatDate(new Date()),
@@ -209,12 +210,14 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
 
   const handleSubmit = async(e) => {
     e.preventDefault()
+    setSubmit(true)
     const documentRes = await addDocument({ documentState: documentState})
 
     if(documentRes?.status === 200){
       const fileUploadRes = await uploadFiles({ files: documentFiles, file_Details: fileDetails, document_id:  documentRes.data?.document_id})
 
       if(fileUploadRes?.status === 200){
+        
         toast.success('Added document successfully.', {position: 'bottom-center'})
         setOpenAddDocs(false)
         refreshTableFunc()
@@ -227,7 +230,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
     else{
       toast.error('An error occured while uploading the document.')
     }
-    
+    setSubmit(false)
   }
 
   const handleFileSelect = (selectedFiles) => {
@@ -331,6 +334,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
   //Edit Document Stuff
   const handleSubmitEdit = async(e) => {
     e.preventDefault()
+    setSubmit(true)
     const res = await editDocument({ documentState: documentState, document_id: editDocumentID, edited_By:userProfile.full_Name })
     if(res?.status === 200){
       if(filesToDelete.length !== 0){
@@ -364,6 +368,7 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
     else{
       toast.error('An error occured while editing the document.')
     }
+    setSubmit(false)
   }
 
 
@@ -470,25 +475,25 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
 
         {/* Add Dialogs */}
         {documentType === "Communication" ? (
-          <Comm_Add_Dialog openAddDocs={openAddDocs} setOpenAddDocs={setOpenAddDocs}/>
+          <Comm_Add_Dialog openAddDocs={openAddDocs} setOpenAddDocs={setOpenAddDocs} submit={submit}/>
         )
         :documentType === "Memorandum" ? (
-          <Memo_Add_Dialog openAddDocs={openAddDocs} setOpenAddDocs={setOpenAddDocs}/>
+          <Memo_Add_Dialog openAddDocs={openAddDocs} setOpenAddDocs={setOpenAddDocs} submit={submit}/>
         )
         :documentType === "Other" &&(
-          <Other_Add_Dialog openAddDocs={openAddDocs} setOpenAddDocs={setOpenAddDocs}/>
+          <Other_Add_Dialog openAddDocs={openAddDocs} setOpenAddDocs={setOpenAddDocs} submit={submit}/>
         )
         }
 
         {/* Edit Dialogs */}
         {documentType === "Communication" ? (
-          <Comm_Edit_Dialog openEditDocs={openEditDocs} setOpenEditDocs={setOpenEditDocs}/>
+          <Comm_Edit_Dialog openEditDocs={openEditDocs} setOpenEditDocs={setOpenEditDocs} submit={submit}/>
         )
         :documentType === "Memorandum" ? (
-          <Memo_Edit_Dialog openEditDocs={openEditDocs} setOpenEditDocs={setOpenEditDocs}/>
+          <Memo_Edit_Dialog openEditDocs={openEditDocs} setOpenEditDocs={setOpenEditDocs} submit={submit}/>
         )
         :documentType === "Other" &&(
-          <Other_Edit_Dialog openEditDocs={openEditDocs} setOpenEditDocs={setOpenEditDocs}/>
+          <Other_Edit_Dialog openEditDocs={openEditDocs} setOpenEditDocs={setOpenEditDocs} submit={submit}/>
         )
         }
 
@@ -540,6 +545,9 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
                       <IoIcons.IoIosSearch size={'20px'}/>
                   </div>
                   <input value={filters.searchFilter} className='Input' type="text" placeholder='Search...' onChange={(e) => setFilter({...filters, searchFilter: e.target.value})}/>
+                  <div className={`Close_Icon ${filters.searchFilter && 'visible'}`}>
+                    <MdIcons.MdOutlineClose size={'25px'} onClick={(e) => setFilter({...filters, searchFilter: ''})}/>
+                  </div>
               </div>
             </div>
           </div>
@@ -636,6 +644,9 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
                                         placeholder='Type filter...' 
                                         value={filters[filterFor] || ''}
                                         onChange={(e) => setFilter({...filters , [filterFor]: e.target.value})}/>
+                                        <div className={`Close_Icon ${filters[filterFor] && 'visible'}`}>
+                                          <MdIcons.MdOutlineClose size={'25px'} onClick={(e) => setFilter({...filters, [filterFor]: ''})}/>
+                                        </div>
                                   </div>
                                 </div>
                               </div>
@@ -778,52 +789,78 @@ function MonitoringTable({ documentType, documents, isLoading, refreshTableFunc,
                       <React.Fragment>
                         <div className="Table_Row_Container_Mobile">
                           <React.Fragment>
-                            {documents.map((document) => (
-                              <div className="Table_Row" key={document.document_id}>
-                                <div className="Table_Header_Container">
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Document Name:</span>
-                                    <p>{document.document_Name}</p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Document Type:</span>
-                                    <p>{document.document_Type}</p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Received By:</span>
-                                    <p>{document.received_By}</p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Office/Dept:</span>
-                                    <p>{document.office_Dept}</p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Date Received:</span>
-                                    <p>{document.date_Received}</p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Status:</span>
-                                    <p className={`Status ${document.status === "Approved" ? "Approved" : document.status === "Pending" ? "Ongoing" : document.status === "Rejected" ? "Rejected" : ''}`}>
-                                      {document.status}
-                                    </p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Action:</span>
-                                    <div className='Actions'>
-                                        <Tooltip title="View Document">
-                                          <button className="Action View" onClick={() => openDoc(document.document_id)}><GrIcons.GrView size={'20px'}/></button>
-                                        </Tooltip>
-                                        <Tooltip title="Edit Document">
-                                          <button className="Action Edit" onClick={() => openEdit({ id: document.document_id })}><FaIcons.FaRegEdit size={'20px'}/></button>
-                                        </Tooltip>
-                                        <Tooltip title="Archive Document">
-                                          <button className="Action Archive"><GoIcons.GoArchive size={'20px'}/></button>
-                                        </Tooltip>
+                            {documents && documents.length > 0 ? (
+                              <>
+                                {documents.map((document) => (
+                                  <div className="Table_Row" key={document.document_id}>
+                                    <div className="Table_Header_Container">
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Document Name:</span>
+                                        <p>{document.document_Name}</p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Document Type:</span>
+                                        <p>{document.document_Type}</p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Received By:</span>
+                                        <p>{document.received_By}</p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Office/Dept:</span>
+                                        <p>{document.office_Dept}</p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Date Received:</span>
+                                        <p>{document.date_Received}</p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Status:</span>
+                                        <p className={`Status ${document.status === "Approved" ? "Approved" : document.status === "Pending" ? "Ongoing" : document.status === "Rejected" ? "Rejected" : ''}`}>
+                                          {document.status}
+                                        </p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Action:</span>
+                                        <div className='Actions'>
+                                            <Tooltip title="View Document">
+                                              <button className="Action View" onClick={() => openDoc(document.document_id)}><GrIcons.GrView size={'20px'}/></button>
+                                            </Tooltip>
+                                            <Tooltip title="Edit Document">
+                                              <button className="Action Edit" onClick={() => openEdit({ id: document.document_id })}><FaIcons.FaRegEdit size={'20px'}/></button>
+                                            </Tooltip>
+                                            <Tooltip title="Archive Document">
+                                              {(calculateDaysLeft(document.date_Added) <= 7 && (document.status === 'Approved' || document.status === 'Rejected') )? (
+                                                <Badge color='error' badgeContent={`${calculateDaysLeft(document.date_Added)} days`} anchorOrigin={{vertical: 'top', horizontal: 'right' }}>
+                                                    <button className="Action Archive" onClick={() => handleArchiveFile({ document_id: document.document_id, file_Name: document.document_Name, status: document.status })}><GoIcons.GoArchive size={'20px'}/></button>
+                                                </Badge>
+                                              )
+                                              :
+                                              (
+                                                <button className="Action Archive" onClick={() => handleArchiveFile({ document_id: document.document_id, file_Name: document.document_Name, status: document.status })}><GoIcons.GoArchive size={'20px'}/></button>
+                                              )
+                                              }
+                                            </Tooltip>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
+                                ))}
+                              </>
+                            )
+                            :
+                            (
+                              <div className="Table_Empty">
+                                <div className="Empty_Image">
+                                  <img src={noResult} alt="No Result" />
+                                </div>
+                                <div className="Empty_Labels">
+                                  <span className="Main_Label">NO DOCUMENTS FOUND!</span>
+                                  <span className="Sub_Label">Click the add new document button to add documents.</span>
                                 </div>
                               </div>
-                            ))}
+                            )
+                            }
                           </React.Fragment>
                         </div>
                       </React.Fragment>

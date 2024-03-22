@@ -11,7 +11,7 @@ const RoleBasedRoute = ({children}) => {
     } = useContext(NotificationContext)
 
     useEffect(() => {
-        if(user){
+        if(user.role){
             if(user.role === 'Faculty'){
                 navigate('/Dashboard')
             }

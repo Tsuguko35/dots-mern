@@ -7,10 +7,10 @@ export default async function addDocument(payload) {
     const { documentState } = payload
     const uniqueID = uuid()
 
-    const dateToday = new Date()
-    const year = dateToday.getFullYear()
-    const month = dateToday.getMonth()
-    const day = dateToday.getDate()
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
     
     const data = {
         document_id: uniqueID,
@@ -31,7 +31,7 @@ export default async function addDocument(payload) {
         urgent: documentState.Urgent,
         status: documentState.Status,
         created_By: documentState.Created_By,
-        date_Added: `${year}-${month}=${day}`
+        date_Added: `${year}-${month}-${day}`
     }
 
     try {

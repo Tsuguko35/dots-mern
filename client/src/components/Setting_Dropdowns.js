@@ -73,9 +73,9 @@ function Setting_Dropdowns() {
                             <div className="Dropdown_Input">
                                 <textarea 
                                     rows="15"
-                                    spellcheck="false"   
-                                    autocorrect="off" 
-                                    autocapitalize="none"
+                                    spellCheck="false"   
+                                    autoCorrect="off" 
+                                    autoCapitalize="none"
                                     maxLength={16500}
                                     placeholder='Input dropdown options...' 
                                     value={dropdown.dropdown_option.split(', ').join('\n')}

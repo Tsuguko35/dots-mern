@@ -54,7 +54,6 @@ function Login() {
 
   const handleSubmit = async(e) => {
     e.preventDefault()
-    addLoginAttempt()
     setSubmit(true)
     const res = await logInUser({email: loginCredentials.email, password: loginCredentials.password})
     if(res?.status === 200){
@@ -69,6 +68,8 @@ function Login() {
           timer: 1000
         }).then(() => {
           setUser(res?.data)
+          localStorage.removeItem('timerTime')
+          localStorage.removeItem('loginAttemptCount')
           window.localStorage.setItem('isLoggedIn', true)
           window.localStorage.setItem('dotsUser', res.data?.token)
           window.localStorage.setItem('profile', JSON.stringify(res.data))
@@ -100,6 +101,7 @@ function Login() {
 
     if(res?.status === 400){
       setSubmit(false)
+      addLoginAttempt()
       setError({ isError: true, errorMessage: res.errorMessage })
       setLoginCredentials({ ...loginCredentials, password: '' })
     }
@@ -238,9 +240,9 @@ function Login() {
               <div className={!error.isError ? "Custom_Email" : "Custom_Email error"}>
                   <input 
                     className='Input' 
-                    type="email" 
+                    type="email"
                     disabled={submit || maxAttempts}
-                    autoComplete='true' 
+                    autoComplete='true'
                     placeholder='Email Address' 
                     value={loginCredentials.email}
                     onChange={(e) => setLoginCredentials({...loginCredentials ,email: e.target.value})}/>

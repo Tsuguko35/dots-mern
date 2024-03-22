@@ -42,14 +42,6 @@ function System_Settings() {
         )
     }
 
-    const getAccounts = () => {
-        
-    }
-
-    const getLogs = () => {
-        
-    }
-
     const [value, setValue] = React.useState('1');
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -66,14 +58,14 @@ function System_Settings() {
                         <TabList variant='scrollable' scrollButtons allowScrollButtonsMobile onChange={handleChange}>
                             <Tab label="Accounts" value="1" />
                             <Tab label="Dropdowns" value="2" />
-                            <Tab label="Printing" value="3" />
+                            {/* <Tab label="Printing" value="3" /> */}
                             <Tab label="System Logs" value="4" />
                         </TabList>
                         </Box>
                         <SettingsContext.Provider value={{ dropdowns, setDropdowns }}>
                             <TabPanel value="1" className='Tab_Panel'><Setting_Accounts /></TabPanel>
                             <TabPanel value="2" className='Tab_Panel'>{isLoading ? (<div className="Loader"><LoadingInfinite width='150px' height='150px'/></div>) : <Setting_Dropdowns />}</TabPanel>
-                            <TabPanel value="3" className='Tab_Panel'><Setting_Printing /></TabPanel>
+                            {/* <TabPanel value="3" className='Tab_Panel'><Setting_Printing /></TabPanel> */}
                             <TabPanel value="4" className='Tab_Panel'><System_Logs /></TabPanel>
                         </SettingsContext.Provider>
                     </TabContext>

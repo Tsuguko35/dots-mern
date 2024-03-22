@@ -27,6 +27,12 @@
     background-color: white;
 }
 
+@media only screen and (max-width: 1024px) {
+    #Monitoring > .wrapper {
+        padding: 10px 15px;
+    }
+}
+
 @media only screen and (max-width: 500px) {
     #Monitoring > .wrapper > .Monitoring_Table_Container{
         padding: 10px 20px;

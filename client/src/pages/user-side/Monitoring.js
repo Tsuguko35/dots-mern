@@ -114,6 +114,7 @@ function Monitoring() {
 
     useEffect(() => {
       document.title = `${monitoringType} Monitoring`
+      setIsLoading(true)
       getTableDocuments()
       getUserOptions()
       getTrackerData()

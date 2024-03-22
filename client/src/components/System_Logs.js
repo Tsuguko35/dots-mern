@@ -4,11 +4,15 @@ import '../styles/system_logs.css'
 
 import * as PiIcons from 'react-icons/pi'
 import * as IoIcons from 'react-icons/io'
+import * as MdIcons from 'react-icons/md'
 import { getLogs } from '../utils'
+import noResult from '../assets/images/noResult.png'
 import toast from 'react-hot-toast'
+import { LoadingInfinite } from '../assets/svg'
 
 function System_Logs() {
     const [logs, setLogs] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     const [logsToFilter, setLogsToFilter] = useState([])
     const [filters, setFilters] = useState({
         date: '',
@@ -17,9 +21,11 @@ function System_Logs() {
     })
 
     const getLogsData = async() => {
+        setIsLoading(true)
         const res = await getLogs()
 
         if(res?.status === 200){
+            setIsLoading(false)
             setLogsToFilter(res.data?.logs)
         }
         else{
@@ -147,29 +153,49 @@ function System_Logs() {
                                 <IoIcons.IoIosSearch size={'20px'}/>
                             </div>
                             <input className='Input' type="text" placeholder='Search...' value={filters.search} onChange={(e) => setFilters({...filters, search: e.target.value})}/>
+                            <div className={`Close_Icon ${filters.search && 'visible'}`}>
+                                <MdIcons.MdOutlineClose size={'25px'} onClick={(e) => setFilters({...filters, search: ''})}/>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="System_Logs_Container">
-                    <div className="Logs">
-                        {logs.map((log) => (
-                            <div className="Log" key={log.log_id}>
-                                <div className="Icon">
-                                    <PiIcons.PiDotsNine size={'20px'}/> 
-                                </div>
-                                <div className="Text">
-                                    <div className="DateTime">
-                                        <p>{new Date(log.datetime).toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'})} <span className='dot'>·</span> {new Date(log.datetime).toLocaleTimeString('en-us', { hour: 'numeric', minute: 'numeric', hour12: true})} </p> 
+                    {isLoading && (
+                        <div className="Loader">
+                            <LoadingInfinite width='150px' height='150px'/>
+                        </div>
+                    )}
+                    {(!isLoading && logs.length === 0) && (
+                        <div className="Table_Empty">
+                            <div className="Empty_Image">
+                                <img src={noResult} alt="No Result" />
+                            </div>
+                            <div className="Empty_Labels">
+                                <span className="Main_Label">NO LOGS FOUND!</span>
+                                <span className="Sub_Label">Click the add new staff button to add staff users.</span>
+                            </div>
+                        </div>
+                    )}
+                    {!isLoading && (
+                        <div className="Logs">
+                            {logs.length > 0 && logs.map((log) => (
+                                <div className="Log" key={log.log_id}>
+                                    <div className="Icon">
+                                        <PiIcons.PiDotsNine size={'20px'}/> 
                                     </div>
-                                    <div className="Event">
-                                        <p>{log.log}</p>
+                                    <div className="Text">
+                                        <div className="DateTime">
+                                            <p>{new Date(log.datetime).toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'})} <span className='dot'>·</span> {new Date(log.datetime).toLocaleTimeString('en-us', { hour: 'numeric', minute: 'numeric', hour12: true})} </p> 
+                                        </div>
+                                        <div className="Event">
+                                            <p>{log.log}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>   
-                        ))}
-                        
-                    </div>
-                    
+                                </div>   
+                            ))}
+                            
+                        </div>
+                    )}
                 </div>
             </div>
         </section>

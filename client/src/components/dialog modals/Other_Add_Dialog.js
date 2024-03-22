@@ -23,8 +23,9 @@ import { formatFileSize, getDropdownsData } from '../../utils';
 import { DocumentContext } from '../../context';
 
 import { inputs } from '../../utils';
+import { LoadingGear } from '../../assets/svg';
 
-function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
+function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs, submit }) {
     const theme = useTheme()
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [filteredInputs, setFilteredInputs] = useState([])
@@ -119,6 +120,7 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                         onChange={(e) => setDocumentState({...documentState, Document_Category: e.target.value})}
                                         onFocus={() => showOptions("Category")} 
                                         onBlur={() => closeOptions()}
+                                        disabled={submit && submit === true}
                                     />
                                     <div className={openOptions === "Category" ? "Options show" : "Options"}>
                                         {inputs.filter(input => input.category !== 'Custom').map((input) => (
@@ -134,11 +136,11 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                 <div className="Date_Time">
                                     <div className="Input_Group">
                                         <span className='Input_Label'>Date Received <span className='required'>*</span></span>
-                                        <input required className='Input' type="date" value={documentState.Date_Received || ''} onChange={(e) => setDocumentState({...documentState, Date_Received: e.target.value})}/>
+                                        <input required disabled={submit && submit === true} className='Input' type="date" value={documentState.Date_Received || ''} onChange={(e) => setDocumentState({...documentState, Date_Received: e.target.value})}/>
                                     </div>
                                     <div className="Input_Group">
                                         <span className='Input_Label'>Time Received <span className='required'>*</span></span>
-                                        <input required className='Input' type="time" value={documentState.Time_Received || ''} onChange={(e) => setDocumentState({...documentState, Time_Received: e.target.value})}/>
+                                        <input required disabled={submit && submit === true} className='Input' type="time" value={documentState.Time_Received || ''} onChange={(e) => setDocumentState({...documentState, Time_Received: e.target.value})}/>
                                     </div>
                                 </div>
 
@@ -154,6 +156,7 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                         value={documentState.Incoming_Outgoing || ''}
                                         onFocus={() => showOptions("Incoming/Outgoing")} 
                                         onBlur={() => closeOptions()}
+                                        disabled={submit && submit === true}
                                     />
                                     <div className={openOptions === "Incoming/Outgoing" ? "Options show" : "Options"}>
                                         <div className="Option" onClick={() => setDocumentState({...documentState, Incoming_Outgoing: 'Incoming'})}>
@@ -169,7 +172,6 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                 {filteredInputs.map((inputList) => {
                                     return(
                                         <React.Fragment key={inputList.category}>
-                                            {}
                                             {inputList.inputs.map((input) => (
                                                 <div className="Input_Group" key={input.label}>
                                                     <span className='Input_Label'>{input.label} {input.required && (<span className='required'>*</span>)}</span>
@@ -177,12 +179,13 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                                         className='Input' 
                                                         type="text"
                                                         placeholder={input.label}
-                                                        value={input.value === 'Forward_To' ? users.find(user => user.user_id === documentState[input.value])?.full_Name : documentState[input.value]}
+                                                        value={input.value === 'Forward_To' ? (users.find(user => user.user_id === documentState[input.value])?.full_Name || '') : documentState[input.value]}
                                                         required={input.required}
                                                         readOnly={input.value === 'Forward_To'}
                                                         onChange={(e) => setDocumentState({...documentState, [input.value]: e.target.value})}
                                                         onFocus={() => showOptions(input.haveOptions && input.label)} 
                                                         onBlur={() => closeOptions()}
+                                                        disabled={submit && submit === true}
                                                     />
                                                     {input.haveOptions && (
                                                         <div className={openOptions === input.label ? "Options show" : "Options"}>
@@ -299,7 +302,7 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                 <div className="Urgent_Container">
                                     <span className='Label'>Is the document urgent?(Yes if urgent)</span>
                                     <div className="checkbox-wrapper-8">
-                                        <input className="tgl tgl-skewed" id="cb3-8" checked={documentState.Urgent === 1} type="checkbox" onChange={() => setDocumentState({...documentState, Urgent: documentState.Urgent === 0 ? 1 : 0})}/>
+                                        <input disabled={submit && submit === true} className="tgl tgl-skewed" id="cb3-8" checked={documentState.Urgent === 1} type="checkbox" onChange={() => setDocumentState({...documentState, Urgent: documentState.Urgent === 0 ? 1 : 0})}/>
                                         <label className="tgl-btn" data-tg-off="No" data-tg-on="Yes" htmlFor="cb3-8"></label>
                                     </div>
                                 </div>
@@ -313,7 +316,7 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                                     </div>
                                     <p className='Main'>Click to upload</p>
                                     <p className='Sub'>.png, .jpeg, .jpg, .doc, .docx, .pdf, .xls, .xlsx</p>
-                                    <input required type="file" onChange={(e) => handleFileSelect(e.target.files)} multiple capture="environment" accept='image/jpeg, image/png, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'/>
+                                    <input required disabled={submit && submit === true} type="file" onChange={(e) => handleFileSelect(e.target.files)} multiple capture="environment" accept='image/jpeg, image/png, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'/>
                                 </div>
                                 {error.isError && (
                                     <div className="errorMessage">
@@ -362,7 +365,13 @@ function Other_Add_Dialog({ openAddDocs,  setOpenAddDocs }) {
                             Cancel
                         </button>
                         <button type='submit' form='add_Form' className='Dialog_Submit'>
-                            Submit
+                            {submit && submit === true ? (
+                                <LoadingGear width='40px' height='40px'/>
+                            )
+                            :
+                            (
+                                'Submit' 
+                            )}
                         </button>
                     </div>
                 </DialogActions>

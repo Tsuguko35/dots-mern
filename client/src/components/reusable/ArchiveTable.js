@@ -22,10 +22,9 @@ import noResult from '../../assets/images/noResult.png'
 import toast from 'react-hot-toast'
 import { domain, signatureFiles } from '../../constants'
 
-function ArchiveTable({documents, filters, setFilter, trackers, refreshTracker}) {
+function ArchiveTable({documents, filters, setFilter, trackers, refreshTracker, isLoading}) {
   const [rotation, setRotation] = useState(0);
   const [openRow, setOpenRow] = useState(0)
-  const [isLoading, setIsLoading] = useState(false)
   const [openViewDoc, setOpenViewDoc] = useState(false)
   const [editDocumentID, setEditDocumentID] = useState('')
   const windowWidth = GetWindowWidth()
@@ -72,6 +71,9 @@ function ArchiveTable({documents, filters, setFilter, trackers, refreshTracker})
                       <IoIcons.IoIosSearch size={'20px'}/>
                   </div>
                   <input value={filters.searchFilter} className='Input' type="text" placeholder='Search...' onChange={(e) => setFilter({...filters, searchFilter: e.target.value})}/>
+                  <div className={`Close_Icon ${filters.searchFilter && 'visible'}`}>
+                    <MdIcons.MdOutlineClose size={'25px'} onClick={(e) => setFilter({...filters, searchFilter: ''})}/>
+                  </div>
               </div>
             </div>
           </div>
@@ -233,7 +235,7 @@ function ArchiveTable({documents, filters, setFilter, trackers, refreshTracker})
                                             
                                             <div className="Tracker_Item">
                                               <div className="Tracker_Add">
-                                                <span>No Tracker Data</span>
+                                                <span>No Tracking Data</span>
                                               </div>
                                             </div>
                                           )
@@ -292,46 +294,63 @@ function ArchiveTable({documents, filters, setFilter, trackers, refreshTracker})
                       <React.Fragment>
                         <div className="Table_Row_Container_Mobile">
                           <React.Fragment>
-                            {documents.map((document) => (
-                              <div className="Table_Row" key={document.archive_id}>
-                                <div className="Table_Header_Container">
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Document Name:</span>
-                                    <p>{document.document_Name}</p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Document Type:</span>
-                                    <p>{document.document_Type}</p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Received By:</span>
-                                    <p>{document.received_By}</p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Office/Dept:</span>
-                                    <p>{document.office_Dept}</p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Date Received:</span>
-                                    <p>{document.date_Received}</p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Status:</span>
-                                    <p className={`Status ${document.status === "Approved" ? "Approved" : document.status === "Pending" ? "Ongoing" : document.status === "Rejected" ? "Rejected" : ''}`}>
-                                      {document.status}
-                                    </p>
-                                  </div>
-                                  <div className="Tabler_Header">
-                                    <span className='Table_Header_Label'>Action:</span>
-                                    <div className='Actions'>
-                                        <Tooltip title="View Document">
-                                          <button className="Action View" onClick={() => openDoc(document.archive_id || document.document_id)}><GrIcons.GrView size={'20px'}/></button>
-                                        </Tooltip>
+                            {documents && documents.length > 0 ? (
+                              <>
+                                {documents.map((document) => (
+                                  <div className="Table_Row" key={document.document_id}>
+                                    <div className="Table_Header_Container">
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Document Name:</span>
+                                        <p>{document.document_Name}</p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Document Type:</span>
+                                        <p>{document.document_Type}</p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Received By:</span>
+                                        <p>{document.received_By}</p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Office/Dept:</span>
+                                        <p>{document.office_Dept}</p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Date Received:</span>
+                                        <p>{document.date_Received}</p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Status:</span>
+                                        <p className={`Status ${document.status === "Approved" ? "Approved" : document.status === "Pending" ? "Ongoing" : document.status === "Rejected" ? "Rejected" : ''}`}>
+                                          {document.status}
+                                        </p>
+                                      </div>
+                                      <div className="Tabler_Header">
+                                        <span className='Table_Header_Label'>Action:</span>
+                                        <div className='Actions'>
+                                            <Tooltip title="View Document">
+                                              <button className="Action View" onClick={() => openDoc(document.document_id)}><GrIcons.GrView size={'20px'}/></button>
+                                            </Tooltip>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
+                                ))}
+                              </>
+                            )
+                            :
+                            (
+                              <div className="Table_Empty">
+                                <div className="Empty_Image">
+                                  <img src={noResult} alt="No Result" />
+                                </div>
+                                <div className="Empty_Labels">
+                                  <span className="Main_Label">NO DOCUMENTS FOUND!</span>
+                                  <span className="Sub_Label">Click the add new document button to add documents.</span>
                                 </div>
                               </div>
-                            ))}
+                            )
+                            }
                           </React.Fragment>
                         </div>
                       </React.Fragment>

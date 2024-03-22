@@ -132,7 +132,7 @@ function Archive_Table() {
             <p>{archiveType}</p>
           </div>
           <div className="Archive_Table_Container">
-            <ArchiveTable documents={archivedDocuments} setFilter={setFilters} filters={filters} trackers={trackers} refreshTracker={refreshTrackers}/>
+            <ArchiveTable documents={archivedDocuments} setFilter={setFilters} filters={filters} trackers={trackers} refreshTracker={refreshTrackers} isLoading={isLoading}/>
           </div>
         </div>
     </section>

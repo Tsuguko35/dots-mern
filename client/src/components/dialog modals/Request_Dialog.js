@@ -13,9 +13,11 @@ import '../../styles/request_dialog.css'
 
 import * as IoIcons from 'react-icons/io'
 import { forwardDocument, getAllUsers } from '../../utils';
+import { LoadingGear } from '../../assets/svg';
 
 function Request_Dialog({ action, openRequest, closeRequest, status, document_Name, document_id, getTableDocuments, userProfile }) {
     const [users, setUsers] = useState([])
+    const [submit, setSubmit] = useState(false)
     const [openOptions, setOpenOptions] = useState('')
     const [actionDetails, setActionDetails] = useState({
         document_Name: document_Name,
@@ -24,31 +26,42 @@ function Request_Dialog({ action, openRequest, closeRequest, status, document_Na
         action: '',
         forward_To: '',
         status: '',
+        forward_To_Name: ''
     })
 
     const handleSubmit = async(e) => {
         e.preventDefault()
         toast.loading('Please wait...')
-        const res = await forwardDocument({
-            document_Name: actionDetails.document_Name,
-            document_id: actionDetails.document_id,
-            comment: actionDetails.comment,
-            action: actionDetails.action,
-            forward_To: actionDetails.forward_To,
-            status: actionDetails.status,
-            forwarded_By: userProfile.user_id
-        })
-
-        if(res?.status === 200){
+        setSubmit(true)
+        if(actionDetails.forward_To === ''){
             toast.dismiss()
-            toast.success('Added document successfully.', {position: 'bottom-center'})
+            toast.error(`Select a user.`, {position: 'bottom-center'})
         }
         else{
-            toast.dismiss()
-            toast.error(`${res?.errorMessage}`, {position: 'bottom-center'})
+            const res = await forwardDocument({
+                document_Name: actionDetails.document_Name,
+                document_id: actionDetails.document_id,
+                comment: actionDetails.comment,
+                action: actionDetails.action,
+                forward_To: actionDetails.forward_To,
+                status: actionDetails.status,
+                forwarded_By: userProfile.user_id,
+                forwarded_By_Name: userProfile.full_Name,
+                forward_To_Name: actionDetails.forward_To_Name
+            })
+    
+            if(res?.status === 200){
+                toast.dismiss()
+                toast.success('Added document successfully.', {position: 'bottom-center'})
+            }
+            else{
+                toast.dismiss()
+                toast.error(`${res?.errorMessage}`, {position: 'bottom-center'})
+            }
+            getTableDocuments()
+            handleCancel()
         }
-        getTableDocuments()
-        handleCancel()
+        setSubmit(false)
     }
 
     const handleCancel = () => {
@@ -141,6 +154,7 @@ function Request_Dialog({ action, openRequest, closeRequest, status, document_Na
                                     value={actionDetails.comment || ''} 
                                     onChange={(e) => setActionDetails({...actionDetails, comment: e.target.value})}
                                     maxLength={1000}
+                                    disabled={submit && submit === true}
                                 />
                             </div>
 
@@ -155,16 +169,17 @@ function Request_Dialog({ action, openRequest, closeRequest, status, document_Na
                                     onFocus={() => showOptions("Forward To")} 
                                     onBlur={() => closeOptions()}
                                     readOnly
-                                    required={!actionDetails.forward_To}
+                                    required={actionDetails.forward_To === ''}
+                                    disabled={submit && submit === true}
                                 />
                                 <div className={openOptions === "Forward To" ? "Options show" : "Options"}>
-                                    <div className="Option" onClick={() => setActionDetails({...actionDetails, forward_To: ''})}>
+                                    <div className="Option" onClick={() => setActionDetails({...actionDetails, forward_To: '', forward_To_Name: ''})}>
                                         <p>Clear</p>
                                     </div>
                                     {users.filter(user => user.user_id !== userProfile.user_id).length !== 0 ? (
                                         <React.Fragment>
                                             {users.filter(user => user.user_id !== userProfile.user_id).map((user) => (
-                                                <div className="Option" key={user.user_id} onClick={() => setActionDetails({...actionDetails, forward_To: user.user_id})}>
+                                                <div className="Option" key={user.user_id} onClick={() => setActionDetails({...actionDetails, forward_To: user.user_id, forward_To_Name: user.full_Name})}>
                                                     <p>{`(${user.role}) ${user.full_Name}`}</p>
                                                 </div>
                                             ))}
@@ -191,7 +206,7 @@ function Request_Dialog({ action, openRequest, closeRequest, status, document_Na
                                     <span>Forward To <span className='required'>*</span></span>
                                 </div>
                                 <div className="checkbox-wrapper-46">
-                                    <input className="inp-cbx" id="cbx-46" type="checkbox" onChange={() => handleCheckBox('All')} checked={actionDetails.forward_To.includes('All')}/>
+                                    <input disabled={submit && submit === true} className="inp-cbx" id="cbx-46" type="checkbox" onChange={() => handleCheckBox('All')} checked={actionDetails.forward_To.includes('All')}/>
                                     <label className="cbx" htmlFor="cbx-46">
                                         <span>
                                             <svg width="12px" height="10px" viewBox="0 0 12 10">
@@ -202,7 +217,7 @@ function Request_Dialog({ action, openRequest, closeRequest, status, document_Na
                                     </label>    
                                 </div>
                                 <div className="checkbox-wrapper-46">
-                                    <input className="inp-cbx" id="cbx-47" type="checkbox" onChange={() => handleCheckBox('Faculty')} checked={actionDetails.forward_To.includes('Faculty')}/>
+                                    <input disabled={submit && submit === true} className="inp-cbx" id="cbx-47" type="checkbox" onChange={() => handleCheckBox('Faculty')} checked={actionDetails.forward_To.includes('Faculty')}/>
                                     <label className="cbx" htmlFor="cbx-47">
                                         <span>
                                             <svg width="12px" height="10px" viewBox="0 0 12 10">
@@ -213,7 +228,7 @@ function Request_Dialog({ action, openRequest, closeRequest, status, document_Na
                                     </label>    
                                 </div>
                                 <div className="checkbox-wrapper-46">
-                                    <input className="inp-cbx" id="cbx-48" type="checkbox" onChange={() => handleCheckBox('Clerk')} checked={actionDetails.forward_To.includes('Clerk')}/>
+                                    <input disabled={submit && submit === true} className="inp-cbx" id="cbx-48" type="checkbox" onChange={() => handleCheckBox('Clerk')} checked={actionDetails.forward_To.includes('Clerk')}/>
                                     <label className="cbx" htmlFor="cbx-48">
                                         <span>
                                             <svg width="12px" height="10px" viewBox="0 0 12 10">
@@ -233,7 +248,13 @@ function Request_Dialog({ action, openRequest, closeRequest, status, document_Na
                             Cancel
                         </button>
                         <button type='submit' form='request_Form' className='Dialog_Submit'>
-                            Submit
+                            {submit && submit === true ? (
+                                <LoadingGear width='40px' height='40px'/>
+                            )
+                            :
+                            (
+                                'Submit' 
+                            )}
                         </button>
                     </div>
                 </DialogActions>
