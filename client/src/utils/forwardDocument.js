@@ -16,19 +16,28 @@ export default async function forwardDocument(payload) {
 
     const user_ids = []
 
-    if(forward_To.includes('All') || forward_To.includes('Faculty') || forward_To.includes('Clerk')){
-        const res = await getAllUsers()
-        if(res?.status === 200){
-            const users = res.data?.users
+    if(forward_To.includes('All')) {
+        const res = await getAllUsers();
+        if(res?.status === 200) {
+            const users = res.data?.users;
             users.forEach((user) => {
-                if(user.user_id !== forwarded_By){
-                    user_ids.push(user.user_id)
+                if(user.user_id !== forwarded_By) {
+                    user_ids.push(user.user_id);
                 }
-            })
+            });
         }
-    }
-    else{
-        user_ids.push(forward_To)
+    } else if (forward_To.includes('Faculty') || forward_To.includes('Clerk')) {
+        const res = await getAllUsers();
+        if(res?.status === 200) {
+            const users = res.data?.users;
+            users.forEach((user) => {
+                if(forward_To.includes(user.role) && user.user_id !== forwarded_By) {
+                    user_ids.push(user.user_id);
+                }
+            });
+        }
+    } else {
+        user_ids.push(forward_To);
     }
 
     console.log(user_ids);

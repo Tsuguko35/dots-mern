@@ -103,6 +103,27 @@ function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
         }
     }
 
+    const getForwardTo = (forward_To) => {
+        if(forward_To){
+            if(forward_To.includes('All')){
+                return 'All users'
+            }
+            else if(forward_To.includes('Clerk')){
+                return 'All clerks'
+            }
+            else if(forward_To.includes('Faculty')){
+                return 'All faculty'
+            }
+            else if(forward_To !== null && forward_To !== '' && forward_To !== undefined){
+                return users.find(user => user.user_id === forward_To)?.full_Name
+            }
+        }
+        else{
+            return 'N/A' 
+        }
+        
+    }
+
     useEffect(() => {
         getTableDocuments()
         getFilesData()
@@ -176,7 +197,7 @@ function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
                                             </div>
                                             <div className="Detail_Group">
                                                 <span className="Label">Forwared To</span>
-                                                <p className="Detail">{ users.find(user => user.user_id === documents.forward_To)?.full_Name || "N/A" }</p>
+                                                <p className="Detail">{ getForwardTo(documents.forward_To) }</p>
                                             </div>
                                             <div className="Detail_Group">
                                                 <span className="Label">Accepted/Rejected By</span>
@@ -212,7 +233,7 @@ function View_Document_Dialog({ openViewDoc,  setOpenViewDoc, document_id }) {
                                                     <div className="rb-container">
                                                         <ul className="rb">
                                                             {trackers && trackers.filter(tracker => tracker.document_id === document_id).map((tracker) => (
-                                                                <li className="rb-item" ng-repeat="itembx">
+                                                                <li className="rb-item" ng-repeat="itembx" key={tracker.tracker_id}>
                                                                     <div className="timestamp">
                                                                         {new Date(tracker.date_Created).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'})}
                                                                     </div>

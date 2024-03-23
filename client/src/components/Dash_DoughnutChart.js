@@ -7,54 +7,39 @@ import toast from 'react-hot-toast';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-const Dash_DoughnutChart = () => {
-    const [documents, setDocuments] = useState([])
-    const [documentTypeCounts, setDocumentTypeCounts] = useState([]);
+const Dash_DoughnutChart = ({documents}) => {
+  const [documentTypeCounts, setDocumentTypeCounts] = useState([])
 
-    const getDocuments = async() => {
-      const res = await getTableData({ documentType: 'All' })
+    useEffect(() => {
+      if(documents){
+        // Function to calculate document type counts
+        const calculateDocumentTypeCounts = () => {
+          const typeCountsMap = new Map();
+
+          // Count document types
+          documents.forEach(doc => {
+              const type = doc.document_Type;
+              if (type) {
+                  if (typeCountsMap.has(type)) {
+                      typeCountsMap.set(type, typeCountsMap.get(type) + 1);
+                  } else {
+                      typeCountsMap.set(type, 1);
+                  }
+              }
+          });
+
+          // Sort document type counts in descending order
+          const sortedTypeCounts = Array.from(typeCountsMap.entries())
+              .sort((a, b) => b[1] - a[1]);
+
+          // Select top 7 most frequent document types
+          const top7TypeCounts = sortedTypeCounts.slice(0, 7);
+          setDocumentTypeCounts(top7TypeCounts);
+        }
+
+        calculateDocumentTypeCounts();
+      }
       
-      if(res?.status === 200){
-        setDocuments(res?.data.documents)
-
-
-      }
-      else{
-        toast.error('Error fetching documents.')
-      }
-    }
-
-    useEffect(() => {
-      getDocuments()
-    }, [])
-
-    useEffect(() => {
-      // Function to calculate document type counts
-      const calculateDocumentTypeCounts = () => {
-        const typeCountsMap = new Map();
-
-        // Count document types
-        documents.forEach(doc => {
-            const type = doc.document_Type;
-            if (type) {
-                if (typeCountsMap.has(type)) {
-                    typeCountsMap.set(type, typeCountsMap.get(type) + 1);
-                } else {
-                    typeCountsMap.set(type, 1);
-                }
-            }
-        });
-
-        // Sort document type counts in descending order
-        const sortedTypeCounts = Array.from(typeCountsMap.entries())
-            .sort((a, b) => b[1] - a[1]);
-
-        // Select top 7 most frequent document types
-        const top7TypeCounts = sortedTypeCounts.slice(0, 7);
-        setDocumentTypeCounts(top7TypeCounts);
-      }
-
-      calculateDocumentTypeCounts();
     }, [documents])
 
     

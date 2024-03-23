@@ -98,20 +98,18 @@ function Requests() {
           document.status.toLowerCase().includes(filters.statusFilter.toLowerCase())
         )
         .filter(document => 
-          (requestType !== 'History' &&
-            ((document.forward_To === userDetails.user_id) || 
-            (document.forward_To.includes(userDetails.role) && !document.forward_To.includes(userDetails.user_id)) || 
-            (document.forward_To.includes('All') && !document.forward_To.includes(userDetails.user_id)))
+          ((requestType !== 'History' &&
+              (document.forward_To === userDetails.user_id || 
+              (document.forward_To.includes(userDetails.role) && !document.forward_To.includes(userDetails.user_id)) || 
+              (document.forward_To.includes('All') && !document.forward_To.includes(userDetails.user_id)))
           ) 
           || 
-          (requestType === 'History' &&
-            document.accepted_Rejected_By === userDetails.user_id || 
-            document.created_By === userDetails.full_Name
-          )
-          
+          (requestType === 'History' && 
+              (document.accepted_Rejected_By === userDetails.user_id || document.created_By === userDetails.full_Name)
+          ))
         )
 
-        console.log(filteredDocs);
+        console.log(filteredDocs, userDetails.role);
 
         const sortedFilteredDocs = filteredDocs.sort((a, b) => {
           // Place urgent documents on top regardless of date

@@ -265,6 +265,42 @@
     box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
 }
 
+
+/* Skeleton Loading */
+
+#Dashboard > .wrapper.loading > .Dashboard_Grids,
+#Dashboard > .wrapper.loading > .Dashboard_Table_Container{
+    animation: loading-animation 2s ease-in-out infinite;
+}
+
+#Dashboard > .wrapper.loading > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card,
+#Dashboard > .wrapper.loading > .Dashboard_Grids > .Dashboard_Grid_Container.Middle > *,
+#Dashboard > .wrapper.loading > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > *,
+#Dashboard > .wrapper.loading > .Dashboard_Table_Container{
+    border: none;
+    background-color: rgb(216, 216, 216) !important;
+}
+
+#Dashboard > .wrapper.loading > .Dashboard_Grids > .Dashboard_Grid_Container.Top > .Dashboard_Grid_Card:hover,
+#Dashboard > .wrapper.loading > .Dashboard_Grids > .Dashboard_Grid_Container.Middle > *:hover,
+#Dashboard > .wrapper.loading > .Dashboard_Grids > .Dashboard_Grid_Container.Bottom > *:hover{
+    border: none;
+    background-color: rgb(216, 216, 216) !important;
+}
+
+
+@keyframes loading-animation {
+    0% {
+      opacity: 0.7; /* Initial opacity */
+    }
+    50% {
+      opacity: 1; /* Peak opacity */
+    }
+    100% {
+      opacity: 0.7; /* Final opacity */
+    }
+  }
+
 @media only screen and (max-width: 1024px) {
     #Dashboard > .wrapper > .Dashboard_Grids > .Dashboard_Grid_Container.Top{
         grid-template-columns: 2fr 2fr 2fr;

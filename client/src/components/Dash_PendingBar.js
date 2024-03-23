@@ -22,27 +22,18 @@ ChartJS.register(
   Legend
 );
 
-function Dash_PendingBar({ userDetails }) {
+function Dash_PendingBar({ userDetails, documentsToFilter }) {
     const [documents, setDocuments] = useState([])
 
-    const getDocuments = async() => {
-      const res = await getTableData({ documentType: 'All' })
-      
-      if(res?.status === 200){
-        const documents = res?.data.documents
-        const filteredDocs = documents.filter(document => 
+    useEffect(() => {
+      if(documentsToFilter){
+        const filteredDocs = documentsToFilter.filter(document => 
           document.forward_To === userDetails.user_id || (document.forward_To.includes(userDetails.role) && !document.forward_To.includes(userDetails.user_id)) || (document.forward_To.includes('All') && !document.forward_To.includes(userDetails.user_id))
         )
+
         setDocuments(filteredDocs)
       }
-      else{
-        toast.error('Error fetching documents.')
-      }
-    }
-
-    useEffect(() => {
-      getDocuments()
-    }, [])
+    }, [documentsToFilter])
 
     const options = {
         maintainAspectRatio: false,
