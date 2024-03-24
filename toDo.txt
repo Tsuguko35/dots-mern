@@ -3,3 +3,6 @@ Error Checking all pages
 -------------------------------------------
 
 fix the print format 
+
+
+paginate fix

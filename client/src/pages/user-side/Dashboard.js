@@ -231,6 +231,8 @@ function Dashboard() {
     } else {
       setDocuments(documentsToFilter);
     }
+
+    setCurrentPage(1);
   }, [filters, documentsToFilter]);
 
   //Main Use Effect
@@ -239,6 +241,32 @@ function Dashboard() {
     getDashboardData();
     getTrackerData();
   }, []);
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [isLastPage, setIslastPage] = useState(false);
+  const itemsPerPage = 20;
+
+  useEffect(() => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    // Calculate total pages
+    const totalPages = Math.ceil(documents.length / itemsPerPage);
+
+    // Determine if on the last page
+    setIslastPage(currentPage === totalPages);
+    setCurrentItems(documents.slice(indexOfFirstItem, indexOfLastItem));
+  }, [currentPage, documents, filters]);
+
+  // Change page
+  const paginate = (action) => {
+    if (action === "Next") {
+      setCurrentPage((prev) => prev + 1);
+    } else if (action === "Back") {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
 
   return (
     <section id="Dashboard" className="Dashboard">
@@ -524,6 +552,9 @@ function Dashboard() {
                 trackers={trackers}
                 refreshTracker={refreshTrackers}
                 isLoading={isLoading}
+                paginate={paginate}
+                currentPage={currentPage}
+                isLastPage={isLastPage}
               />
             </div>
           </div>

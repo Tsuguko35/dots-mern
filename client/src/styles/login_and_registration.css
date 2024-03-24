@@ -208,36 +208,15 @@
 
 @media only screen and (max-width: 450px) {
     #login_and_registration > .wrapper{
-        gap: 25px;
-    }
-
-    #login_and_registration .login_form {
-        width: 400px;
-    }
-
-    #login_and_registration .login_and_registration_header > h3{
-        font-size: 18px;
-    }
-    
-    #login_and_registration .login_and_registration_header > h3 > span{
-        color: var(--orange);
-    }
-
-    #login_and_registration .login_and_registration_header > p{
-        font-size: 13px;
-    }
-}
-
-@media only screen and (max-width: 450px) {
-    #login_and_registration > .wrapper{
         width: 100% !important;
         height: 100%;
         padding: 0px;
-        margin: 0px;
+        margin-top: 25px;
     }
 
     #login_and_registration .login_form {
         width: 400px;
+        padding: 15px 25px;
     }
 
     #login_and_registration .login_and_registration_header > h3{

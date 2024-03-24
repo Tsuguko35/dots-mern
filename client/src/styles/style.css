@@ -15,10 +15,14 @@
   --bg2-white:#e7e7e7;
   --dark-grey: #A5A6A6;
   --green: #93C572;
+  --light-green:#c8f7c8;
   --red: #FA5F55;
   --yellow: #FFC300;
+  --light-yellow: #fffdd0;
   --blue: #4682B4;
+  --light-blue: #759ab8;
   --error-red: #FF7F7F;
+  --error-bg: #F2D2D4;
 }
 
 *,*::before,*::after {
@@ -48,7 +52,9 @@ button{
 }
 
 button[disabled], button.disabled{
-  background-color: var(--light-grey) !important;
+  background-color: var(--bg-white) !important;
+  color: var(--dark-grey) !important;
+  border: none !important;
   cursor: default !important;
 }
 

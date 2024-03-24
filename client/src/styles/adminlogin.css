@@ -1,0 +1,47 @@
+#Admin_Login > .wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#Admin_Login > .wrapper > form {
+  width: 400px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 20px 24px;
+  gap: 20px;
+  border-radius: 5px;
+  box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
+}
+
+#Admin_Login > .wrapper > form > .Label {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#Admin_Login > .wrapper > form > .Submit_Button {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: var(--light-black);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: all 250ms ease-in-out;
+}
+
+#Admin_Login > .wrapper > form > .Submit_Button:hover {
+  background-color: var(--pantone-black);
+}

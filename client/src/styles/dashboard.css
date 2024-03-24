@@ -265,6 +265,11 @@
     box-shadow: -5px 10px 20px 0 rgba(187, 187, 187, 0.25);
 }
 
+#Dashboard > .wrapper > .Dashboard_Table_Container > .Dashboard_Table {
+    width: 100%;
+    height: 100%;
+}
+
 
 /* Skeleton Loading */
 

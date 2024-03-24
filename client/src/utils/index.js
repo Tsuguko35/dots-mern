@@ -16,8 +16,8 @@ import uploadFiles from "./uploadFiles";
 import formatFileSize from "./formatFileSize";
 import checkFileType from "./checkFileType";
 import getAllUsers from "./getAllUsers";
-import formatDate from './formatDate'
-import formatTime from './formatTime'
+import formatDate from "./formatDate";
+import formatTime from "./formatTime";
 import getDropdownsData from "./getDropdownsData";
 import updateDropdownsData from "./updateDropdownsData";
 import getFiles from "./getFiles";
@@ -40,48 +40,52 @@ import downloadReport from "./downloadReport";
 import uploadTemplates from "./uploadTemplates";
 import getTemplatesData from "./getTemplates";
 import deleteTemplate from "./deleteTemplate";
+import AdminRoute from "./adminRoutes";
+import deleteUser from "./deleteUser";
 
 export {
-    hasSidebar,
-    DateTime,
-    hasNavbar,
-    GetWindowWidth,
-    inputs,
-    ViewPdf,
-    ViewDocuments,
-    otpRequest,
-    otpVerify,
-    resetUserPassword,
-    PrivateRoute,
-    getTableData,
-    getDocumentData,
-    addDocument,
-    uploadFiles,
-    formatFileSize,
-    checkFileType,
-    getAllUsers,
-    formatDate,
-    formatTime,
-    getDropdownsData,
-    updateDropdownsData,
-    getFiles,
-    editDocument,
-    deleteFiles,
-    formatTimeAmPm,
-    archiveDocument,
-    getArchiveDocuments,
-    changeUserStatus,
-    getAllNotifications,
-    deleteNotification,
-    forwardDocument,
-    getLogs,
-    getTrackers,
-    addTracker,
-    SettingsRoute,
-    RoleBasedRoute,
-    addProfilePic,
-    downloadReport,
-    uploadTemplates,
-    getTemplatesData,
-    deleteTemplate
-}
+  hasSidebar,
+  DateTime,
+  hasNavbar,
+  GetWindowWidth,
+  inputs,
+  ViewPdf,
+  ViewDocuments,
+  otpRequest,
+  otpVerify,
+  resetUserPassword,
+  PrivateRoute,
+  getTableData,
+  getDocumentData,
+  addDocument,
+  uploadFiles,
+  formatFileSize,
+  checkFileType,
+  getAllUsers,
+  formatDate,
+  formatTime,
+  getDropdownsData,
+  updateDropdownsData,
+  getFiles,
+  editDocument,
+  deleteFiles,
+  formatTimeAmPm,
+  archiveDocument,
+  getArchiveDocuments,
+  changeUserStatus,
+  getAllNotifications,
+  deleteNotification,
+  forwardDocument,
+  getLogs,
+  getTrackers,
+  addTracker,
+  SettingsRoute,
+  RoleBasedRoute,
+  addProfilePic,
+  downloadReport,
+  uploadTemplates,
+  getTemplatesData,
+  deleteTemplate,
+  AdminRoute,
+  deleteUser,
+};

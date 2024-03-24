@@ -1,38 +1,47 @@
-import cors from 'cors'
-import dotenv from 'dotenv'
-import express from 'express'
-import http from 'http'
-import { Server } from 'socket.io'
-import cookieParser from 'cookie-parser'
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+import cookieParser from "cookie-parser";
 
-import db from './config/database.js'
-import { documentRoutes, settingsRoutes, templateRoutes, userRoutes } from './routes/index.js'
-import bodyParser from 'body-parser'
+import db from "./config/database.js";
+import {
+  adminRoutes,
+  documentRoutes,
+  settingsRoutes,
+  templateRoutes,
+  userRoutes,
+} from "./routes/index.js";
+import bodyParser from "body-parser";
 
-import cron from 'node-cron'
-import { checkDocumentsToArchive, checkPendingDocuments } from './controllers/scheduledFunctions.js'
+import cron from "node-cron";
+import {
+  checkDocumentsToArchive,
+  checkPendingDocuments,
+} from "./controllers/scheduledFunctions.js";
 
+dotenv.config();
 
-
-dotenv.config()
-
-const app = express()
-const port = process.env.PORT || 5000
-const server = http.createServer(app)
+const app = express();
+const port = process.env.PORT || 5000;
+const server = http.createServer(app);
 const io = new Server(server, {
-    pingTimeout: 60000,
-    cors: {
-        origin: process.env.ORIGIN,   
-        methods: ['GET', 'POST', 'PUT'],
-        credentials: true,
-    },
-})
+  pingTimeout: 60000,
+  cors: {
+    origin: process.env.ORIGIN,
+    methods: ["GET", "POST", "PUT"],
+    credentials: true,
+  },
+});
 
 // Middlewares
-app.use(cors({ 
-    origin: true, 
-    credentials: true 
-}))
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 // app.use('/api', (req, res, next) => {
 //     res.header('Access-Control-Allow-Origin', 'https://cvrs.slarenasitsolutions.com');
@@ -40,57 +49,57 @@ app.use(cors({
 //     res.header('Access-Control-Allow-Credentials', 'true');
 //     next();
 // });
-app.use(express.json())
-app.use(cookieParser())
-app.use(bodyParser.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
 
+app.use("/document_Files", express.static("./document_Files/files"));
+app.use("/signature_Files", express.static("./document_Files/signatures"));
+app.use("/profile_Pic", express.static("./user_Files/profilePics"));
+app.use("/template", express.static("./template_Files/templates"));
 
-app.use('/document_Files', express.static('./document_Files/files'));
-app.use('/signature_Files', express.static('./document_Files/signatures'));
-app.use('/profile_Pic', express.static('./user_Files/profilePics'));
-app.use('/template', express.static('./template_Files/templates'));
-
-
-app.locals.io = io
+app.locals.io = io;
 
 // Connect Server
 db.connect((err) => {
-    if(err){
-        console.log('Error connecting to MySQL database:', err);
-        return
-    }
-    console.log('Connected to MySQL database successfully');
-})
-
+  if (err) {
+    console.log("Error connecting to MySQL database:", err);
+    return;
+  }
+  console.log("Connected to MySQL database successfully");
+});
 
 // Socket IO Connections
-io.on('connection', (socket) => {
-    console.log(`user connected`);
+io.on("connection", (socket) => {
+  console.log(`user connected`);
 
-    socket.on('join', (user_id) => {
-        socket.join(user_id)
-    })
+  socket.on("join", (user_id) => {
+    socket.join(user_id);
+  });
 
-    socket.on('notifications', (user_id) => {
-        socket.broadcast.emit('notifications', user_id)
-    })
-})
+  socket.on("notifications", (user_id) => {
+    socket.broadcast.emit("notifications", user_id);
+  });
+});
 
 // Document Routes
-app.use('/api/document', documentRoutes)
+app.use("/api/document", documentRoutes);
 
 // Settings Routes
-app.use('/api/settings', settingsRoutes)
+app.use("/api/settings", settingsRoutes);
 
 // Template Routes
-app.use('/api/template', templateRoutes)
+app.use("/api/template", templateRoutes);
 
 // User Routes
-app.use('/api/user', userRoutes)
+app.use("/api/user", userRoutes);
+
+// Admin Routes
+app.use("/api/admin", adminRoutes);
 
 // Cron schedules
-cron.schedule('0 * * * *', checkDocumentsToArchive)
-cron.schedule('0 0 * * *', checkPendingDocuments)
+cron.schedule("0 * * * *", checkDocumentsToArchive);
+cron.schedule("0 0 * * *", checkPendingDocuments);
 
-server.listen(port, () => console.log(`Server started on port ${port}`))
+server.listen(port, () => console.log(`Server started on port ${port}`));

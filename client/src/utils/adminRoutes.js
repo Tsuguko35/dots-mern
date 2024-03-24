@@ -3,9 +3,8 @@ import { useNavigate } from "react-router";
 import { validateUser } from "../context";
 import { NotificationContext } from "../context/context";
 
-const PrivateRoute = ({ children }) => {
+const AdminRoute = ({ children }) => {
   const navigate = useNavigate();
-
   const { setUser } = useContext(NotificationContext);
 
   useEffect(() => {
@@ -13,14 +12,20 @@ const PrivateRoute = ({ children }) => {
       const isLoggedIn = window.localStorage.getItem("isLoggedIn");
       const token = window.localStorage.getItem("dotsUser");
       if (isLoggedIn) {
-        const res = await validateUser({ token });
-        if (res?.status === 200) {
-          if (res.data?.role !== "Admin") {
-            setUser(res?.data);
-            return children;
+        try {
+          const res = await validateUser({ token });
+          if (res?.status === 200) {
+            if (res.data?.role === "Admin") {
+              setUser(res.data);
+            } else {
+              navigate("/Dashboard");
+            }
           } else {
-            navigate("/admin/userslist");
+            navigate("/Login");
           }
+        } catch (error) {
+          console.error("Error validating user:", error);
+          navigate("/Login");
         }
       } else {
         navigate("/Login");
@@ -29,9 +34,9 @@ const PrivateRoute = ({ children }) => {
     }
 
     validate();
-  }, [children, navigate, setUser]);
+  }, [navigate, setUser]);
 
   return children;
 };
 
-export default PrivateRoute;
+export default AdminRoute;

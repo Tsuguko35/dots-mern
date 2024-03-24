@@ -58,6 +58,9 @@ function MonitoringTable({
   filters,
   trackers,
   refreshTracker,
+  currentPage,
+  paginate,
+  isLastPage,
 }) {
   const [openAddDocs, setOpenAddDocs] = useState(false);
   const [openEditDocs, setOpenEditDocs] = useState(false);
@@ -1284,8 +1287,20 @@ function MonitoringTable({
           )}
         </div>
         <div className="Table_Pagination">
-          <button className="Pagination_Previous">Previous</button>
-          <button className="Pagination_Next">Next</button>
+          <button
+            disabled={currentPage === 1}
+            className="Pagination_Previous"
+            onClick={() => paginate("Back")}
+          >
+            Previous
+          </button>
+          <button
+            disabled={isLastPage && documents.length > 0}
+            className="Pagination_Next"
+            onClick={() => paginate("Next")}
+          >
+            Next
+          </button>
         </div>
       </div>
     </section>

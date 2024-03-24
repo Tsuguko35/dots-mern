@@ -1,0 +1,224 @@
+#UsersListTable > .wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+#UsersListTable > .wrapper > .Table_Container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Top {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Top > .Table_Top_Left {
+  width: 50%;
+  height: 100%;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Top > .Table_Top_Left > .Actions {
+  display: flex;
+  height: 100%;
+  justify-content: start;
+  align-items: center;
+  gap: 30px;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Top > .Table_Top_Left > .Actions > .Filter_Group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+#UsersListTable> .wrapper > .Table_Container > .Table_Top > .Table_Top_Left > .Actions > .Filter_Group {
+  transition: all 250ms ease-in-out;
+  cursor: pointer;
+  color: var(--dark-grey);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Top > .Table_Top_Left > .Actions > .Filter_Group:hover {
+  color: var(--light-black);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Top > .Table_Top_Left > .Actions > .Filter_Group.active {
+  color: var(--orange);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Top > .Table_Top_Left > .Actions> .Filter_Group > .Label {
+  font-size: 14px;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Top > .Table_Top_Right{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Top > .Table_Top_Right > span{
+  color: var(--dark-grey);
+  cursor: pointer;
+  transition: all 250ms ease-in-out;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Top > .Table_Top_Right > span:hover{
+  color: var(--light-black);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main {
+  width: 100%;
+  height: 690px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Loading{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Empty{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Empty > .Empty_Image{
+  text-align: center;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Empty > .Empty_Image > img{
+  width: 250px;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Empty > .Empty_Labels{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Empty > .Empty_Labels > .Main_Label{
+  font-weight: bold;
+  font-size: 18px;
+  color: var(--light-black);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Empty > .Empty_Labels > .Sub_Label{
+  font-size: 14px;
+  color: var(--dark-grey);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Header {
+  height: 40px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Header,
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content {
+  width: 100%;
+  display: flex;
+  padding: 10px;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Header > .Name,
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Header > .Email,
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Name,
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content> .Email {
+  width: 40%;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Header > .Status,
+#UsersListTable > .wrapper > .Table_Container > .Table_Main> .Table_Header > .Actions,
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Status,
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Actions {
+  width: 10%;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content {
+  height: 40px;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  transition: all 250ms ease-in-out;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content:hover {
+  background-color: var(--light-grey);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > * {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14px;
+  color: var(--light-black);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Status.Active {
+  color: var(--green);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Status.Deactivated {
+  color: var(--red);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Status.Pending {
+  color: var(--yellow);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Status.Temporary {
+  color: var(--blue);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Action {
+  gap: 10px;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Action > .Action_Item {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Action > .Action_Item.Approve {
+  background-color: var(--green);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Action > .Action_Item.Active {
+  background-color: var(--green);
+}
+
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Action > .Action_Item.Deactivate {
+  background-color: var(--error-red);
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Action > .Action_Item.Delete {
+  background-color: var(--red);
+}

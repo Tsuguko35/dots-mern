@@ -226,6 +226,12 @@
 }
 
 @media only screen and (max-width: 540px) {
+
+    #Staff_Onboarding > .wrapper{
+        justify-content: flex-start;
+        margin-top: 25px;
+    }
+
     #Staff_Onboarding > .wrapper > .Stepper_Holder{
         width: 400px;
     }
