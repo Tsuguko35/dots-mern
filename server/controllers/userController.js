@@ -27,13 +27,15 @@ const signIn = asyncHandler(async (req, res) => {
   const q = `SELECT * FROM users WHERE email = '${email}' LIMIT 1`;
 
   db.query(q, async (err, user) => {
-    if (err) res.json({ success: false });
+    if (err) return res.json({ success: false });
 
     if (user && user.length > 0) {
       const passwordMatch = await bcrypt.compare(password, user[0].password);
 
       if (!passwordMatch) {
-        res.status(400).json({ errorMessage: "Invalid email or password." });
+        return res
+          .status(400)
+          .json({ errorMessage: "Invalid email or password." });
       } else {
         const token = generateToken(user[0].user_id);
 
@@ -54,7 +56,9 @@ const signIn = asyncHandler(async (req, res) => {
         });
       }
     } else {
-      res.status(400).json({ errorMessage: "Invalid email or password." });
+      return res
+        .status(400)
+        .json({ errorMessage: "Invalid email or password." });
     }
   });
 });
@@ -66,7 +70,7 @@ const validateUser = asyncHandler(async (req, res) => {
 
   try {
     if (!token) {
-      res.status(400).json({ errorMessage: "Not Authorized" });
+      return res.status(400).json({ errorMessage: "Not Authorized" });
     }
 
     const decode = jwt.verify(token, process.env.JWT_SECRET);
