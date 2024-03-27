@@ -99,9 +99,17 @@ app.use("/api/user", userRoutes);
 // Admin Routes
 app.use("/api/admin", adminRoutes);
 
+// Admin Routes
+app.post("/api/keepAlive", (req, res) => {
+  const currentTime = new Date().toLocaleString();
+
+  console.log(`Keep alive request received at ${currentTime}`);
+
+  res.send(`Keep alive request received at ${currentTime}`);
+});
+
 // Cron schedules
 cron.schedule("0 * * * *", checkDocumentsToArchive);
 cron.schedule("0 0 * * *", checkPendingDocuments);
-cron.schedule("/14 * * * *", keepAlive);
 
 server.listen(port, () => console.log(`Server started on port ${port}`));
