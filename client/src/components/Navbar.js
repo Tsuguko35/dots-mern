@@ -44,6 +44,7 @@ import notificationSound from "../assets/sounds/notification sound.mp3";
 //Socket IO
 import io from "socket.io-client";
 import { ENDPOINT, domain, profile_Pic } from "../constants";
+import Swal from "sweetalert2";
 var socket;
 
 function Navbar() {
@@ -141,14 +142,24 @@ function Navbar() {
 
   //Log out User
   const logout = async () => {
-    const res = await logOutUser();
-    if (res?.status === 200) {
-      navigate("/");
-    }
+    Swal.fire({
+      title: "Please wait...",
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: async () => {
+        Swal.showLoading();
+        const res = await logOutUser();
+        Swal.close();
+        if (res?.status === 200) {
+          navigate("/");
+        }
 
-    if (res?.status === 400) {
-      toast.error(res.data?.errorMessage);
-    }
+        if (res?.status === 400) {
+          toast.error(res.data?.errorMessage);
+        }
+      },
+    });
   };
 
   const redirect = (props) => {
