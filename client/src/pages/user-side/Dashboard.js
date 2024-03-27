@@ -98,39 +98,44 @@ function Dashboard() {
       } else {
         documentsArray = docsRes.data?.documents;
       }
-      const todayCount = documentsArray.filter((document) =>
-        isSameDay(new Date(document.date_Received), currentDate)
-      ).length;
-      counts.today = todayCount;
+      if (documentsArray) {
+        const todayCount = documentsArray.filter((document) =>
+          isSameDay(new Date(document.date_Received), currentDate)
+        ).length;
+        counts.today = todayCount;
 
-      const monthCount = documentsArray.filter((document) =>
-        isSameMonth(new Date(document.date_Received), currentDate)
-      ).length;
-      counts.month = monthCount;
+        const monthCount = documentsArray.filter((document) =>
+          isSameMonth(new Date(document.date_Received), currentDate)
+        ).length;
+        counts.month = monthCount;
 
-      const yearCount = documentsArray.filter((document) =>
-        isSameYear(new Date(document.date_Received), currentDate)
-      ).length;
-      counts.year = yearCount;
+        const yearCount = documentsArray.filter((document) =>
+          isSameYear(new Date(document.date_Received), currentDate)
+        ).length;
+        counts.year = yearCount;
+      }
     } else {
       toast.error(docsRes.errorMessage);
     }
 
     if (archiveRes?.status === 200) {
       let archiveArray = [];
-      if (userDetails.role === "Faculty") {
-        const archives = archiveRes.data?.archives;
-        archiveArray = archives.filter(
-          (document) =>
-            document.forward_To === userDetails.user_id ||
-            (document.forward_To.includes(userDetails.role) &&
-              !document.forward_To.includes(userDetails.user_id)) ||
-            (document.forward_To.includes("All") &&
-              !document.forward_To.includes(userDetails.user_id))
-        );
-      } else {
-        archiveArray = archiveRes.data?.archives;
+      if (archiveRes.data?.archives) {
+        if (userDetails.role === "Faculty") {
+          const archives = archiveRes.data?.archives;
+          archiveArray = archives.filter(
+            (document) =>
+              document.forward_To === userDetails.user_id ||
+              (document.forward_To.includes(userDetails.role) &&
+                !document.forward_To.includes(userDetails.user_id)) ||
+              (document.forward_To.includes("All") &&
+                !document.forward_To.includes(userDetails.user_id))
+          );
+        } else {
+          archiveArray = archiveRes.data?.archives;
+        }
       }
+
       const archiveCount = archiveArray.length;
       counts.archive = archiveCount;
     }
@@ -249,14 +254,16 @@ function Dashboard() {
   const itemsPerPage = 20;
 
   useEffect(() => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    // Calculate total pages
-    const totalPages = Math.ceil(documents.length / itemsPerPage);
+    if (documents) {
+      const indexOfLastItem = currentPage * itemsPerPage;
+      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      // Calculate total pages
+      const totalPages = Math.ceil(documents.length / itemsPerPage);
 
-    // Determine if on the last page
-    setIslastPage(currentPage === totalPages);
-    setCurrentItems(documents.slice(indexOfFirstItem, indexOfLastItem));
+      // Determine if on the last page
+      setIslastPage(currentPage === totalPages);
+      setCurrentItems(documents.slice(indexOfFirstItem, indexOfLastItem));
+    }
   }, [currentPage, documents, filters]);
 
   // Change page
@@ -391,7 +398,8 @@ function Dashboard() {
                       </div>
                     </div>
                     <div className="Box_Content">
-                      {documentsToFilter.filter(
+                      {documentsToFilter &&
+                      documentsToFilter.filter(
                         (documents) =>
                           documents.document_Type === "Travel Order"
                       ).length === 0 ? (
@@ -404,6 +412,7 @@ function Dashboard() {
                           </div>
                         </div>
                       ) : (
+                        documentsToFilter &&
                         documentsToFilter
                           .filter(
                             (documents) =>
@@ -416,14 +425,13 @@ function Dashboard() {
                               </div>
                               <div className="Count">
                                 <p>
-                                  {
+                                  {documentsToFilter &&
                                     documentsToFilter.filter(
                                       (doc) =>
                                         doc.document_Type === "Travel Order" &&
                                         doc.contact_Person ===
                                           document.contact_Person
-                                    ).length
-                                  }
+                                    ).length}
                                 </p>
                               </div>
                             </div>
@@ -442,7 +450,8 @@ function Dashboard() {
                       </div>
                     </div>
                     <div className="Box_Content">
-                      {documentsToFilter.filter(
+                      {documentsToFilter &&
+                      documentsToFilter.filter(
                         (documents) =>
                           documents.document_Type === "Application for Leave"
                       ).length === 0 ? (
@@ -455,6 +464,7 @@ function Dashboard() {
                           </div>
                         </div>
                       ) : (
+                        documentsToFilter &&
                         documentsToFilter
                           .filter(
                             (documents) =>
@@ -468,15 +478,14 @@ function Dashboard() {
                               </div>
                               <div className="Count">
                                 <p>
-                                  {
+                                  {documentsToFilter &&
                                     documentsToFilter.filter(
                                       (doc) =>
                                         doc.document_Type ===
                                           "Application for Leave" &&
                                         doc.contact_Person ===
                                           document.contact_Person
-                                    ).length
-                                  }
+                                    ).length}
                                 </p>
                               </div>
                             </div>
@@ -495,7 +504,8 @@ function Dashboard() {
                       </div>
                     </div>
                     <div className="Box_Content">
-                      {documentsToFilter.filter(
+                      {documentsToFilter &&
+                      documentsToFilter.filter(
                         (documents) =>
                           documents.document_Type === "Training Request Form"
                       ).length === 0 ? (
@@ -508,6 +518,7 @@ function Dashboard() {
                           </div>
                         </div>
                       ) : (
+                        documentsToFilter &&
                         documentsToFilter
                           .filter(
                             (documents) =>
@@ -521,15 +532,14 @@ function Dashboard() {
                               </div>
                               <div className="Count">
                                 <p>
-                                  {
+                                  {documentsToFilter &&
                                     documentsToFilter.filter(
                                       (doc) =>
                                         doc.document_Type ===
                                           "Training Request Form" &&
                                         doc.contact_Person ===
                                           document.contact_Person
-                                    ).length
-                                  }
+                                    ).length}
                                 </p>
                               </div>
                             </div>

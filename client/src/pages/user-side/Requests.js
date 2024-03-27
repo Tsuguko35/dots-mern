@@ -173,14 +173,16 @@ function Requests() {
   const itemsPerPage = 20;
 
   useEffect(() => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    // Calculate total pages
-    const totalPages = Math.ceil(documents.length / itemsPerPage);
+    if (documents) {
+      const indexOfLastItem = currentPage * itemsPerPage;
+      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      // Calculate total pages
+      const totalPages = Math.ceil(documents.length / itemsPerPage);
 
-    // Determine if on the last page
-    setIslastPage(currentPage === totalPages);
-    setCurrentItems(documents.slice(indexOfFirstItem, indexOfLastItem));
+      // Determine if on the last page
+      setIslastPage(currentPage === totalPages);
+      setCurrentItems(documents.slice(indexOfFirstItem, indexOfLastItem));
+    }
   }, [currentPage, documents, filters]);
 
   // Change page

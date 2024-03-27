@@ -53,25 +53,29 @@ function ArchiveFolders() {
 
   const getYears = () => {
     const yearSet = new Set();
-    archivedDocuments.forEach((document) => {
-      const year = new Date(document.date_Received).getFullYear();
-      yearSet.add(year);
-    });
+    if (archivedDocuments) {
+      archivedDocuments.forEach((document) => {
+        const year = new Date(document.date_Received).getFullYear();
+        yearSet.add(year);
+      });
 
-    // Sort in descending order
-    const sortedYears = Array.from(yearSet).sort((a, b) => b - a);
+      // Sort in descending order
+      const sortedYears = Array.from(yearSet).sort((a, b) => b - a);
 
-    setYears(sortedYears);
+      setYears(sortedYears);
+    }
   };
 
   const getUniqueDocumentTypes = (year) => {
     const documentTypesSet = new Set();
-    archivedDocuments.forEach((document) => {
-      if (document.date_Received.includes(year)) {
-        documentTypesSet.add(document.document_Type);
-      }
-    });
-    return Array.from(documentTypesSet);
+    if (archivedDocuments) {
+      archivedDocuments.forEach((document) => {
+        if (document.date_Received.includes(year)) {
+          documentTypesSet.add(document.document_Type);
+        }
+      });
+      return Array.from(documentTypesSet);
+    }
   };
 
   const toggleCollapse = (year) => {
@@ -99,7 +103,7 @@ function ArchiveFolders() {
         <PageHeader page={"Archive"} />
         {!isLoading ? (
           <>
-            {archivedDocuments.length > 0 ? (
+            {archivedDocuments && archivedDocuments.length > 0 ? (
               <div className="Folders_Container">
                 {years.map((year) => (
                   <div

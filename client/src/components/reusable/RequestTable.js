@@ -788,7 +788,7 @@ function RequestTable({
             Previous
           </button>
           <button
-            disabled={isLastPage && documents.length > 0}
+            disabled={isLastPage && documents && documents.length > 0}
             className="Pagination_Next"
             onClick={() => paginate("Next")}
           >

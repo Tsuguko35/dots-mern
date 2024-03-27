@@ -74,7 +74,9 @@ function Setting_Accounts() {
               user.email.toLowerCase().includes(userSearch.toLowerCase())))
       );
 
-      console.log(filteredUsers);
+      filteredUsers = filteredUsers.filter(
+        (user) => user.role !== "Admin" && user.role !== "Dean"
+      );
 
       setUsers(filteredUsers);
     } else {
