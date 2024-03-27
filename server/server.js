@@ -19,6 +19,7 @@ import cron from "node-cron";
 import {
   checkDocumentsToArchive,
   checkPendingDocuments,
+  keepAlive,
 } from "./controllers/scheduledFunctions.js";
 
 dotenv.config();
@@ -101,5 +102,6 @@ app.use("/api/admin", adminRoutes);
 // Cron schedules
 cron.schedule("0 * * * *", checkDocumentsToArchive);
 cron.schedule("0 0 * * *", checkPendingDocuments);
+cron.schedule("/14 * * * *", keepAlive);
 
 server.listen(port, () => console.log(`Server started on port ${port}`));

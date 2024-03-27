@@ -116,4 +116,9 @@ const calculateDaysLeft = (dateProp, daysToAdd) => {
   return daysLeft;
 };
 
-export { checkDocumentsToArchive, checkPendingDocuments };
+const keepAlive = () => {
+  const currentTime = new Date().toLocaleString();
+  console.log(`Keep alive request received at ${currentTime}`);
+};
+
+export { checkDocumentsToArchive, checkPendingDocuments, keepAlive };
