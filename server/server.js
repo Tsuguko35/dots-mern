@@ -19,7 +19,6 @@ import cron from "node-cron";
 import {
   checkDocumentsToArchive,
   checkPendingDocuments,
-  keepAlive,
 } from "./controllers/scheduledFunctions.js";
 
 dotenv.config();
