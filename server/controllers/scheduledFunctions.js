@@ -116,4 +116,4 @@ const calculateDaysLeft = (dateProp, daysToAdd) => {
   return daysLeft;
 };
 
-export { checkDocumentsToArchive, checkPendingDocuments, keepAlive };
+export { checkDocumentsToArchive, checkPendingDocuments };
