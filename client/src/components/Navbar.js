@@ -43,7 +43,7 @@ import notificationSound from "../assets/sounds/notification sound.mp3";
 
 //Socket IO
 import io from "socket.io-client";
-import { ENDPOINT, domain, profile_Pic } from "../constants";
+import { ENDPOINT, cloudname, domain, profile_Pic } from "../constants";
 import Swal from "sweetalert2";
 var socket;
 
@@ -348,7 +348,7 @@ function Navbar() {
               aria-expanded={open ? "true" : undefined}
             >
               <Avatar
-                src={`${domain}${profile_Pic}/${user.profilePic}`}
+                src={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${user.profilePic}`}
                 className="Avatar"
               >
                 {user.profilePic ? null : firstLetterOfName}
@@ -394,7 +394,7 @@ function Navbar() {
               <div className="Profile_Avatar">
                 <span>
                   <Avatar
-                    src={`${domain}${profile_Pic}/${user.profilePic}`}
+                    src={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${user.profilePic}`}
                     className="Avatar"
                   >
                     {user.profilePic ? null : firstLetterOfName}
@@ -473,7 +473,7 @@ function Navbar() {
               aria-expanded={open ? "true" : undefined}
             >
               <Avatar
-                src={`${domain}${profile_Pic}/${user.profilePic}`}
+                src={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${user.profilePic}`}
                 className="Avatar"
               >
                 {user.profilePic ? null : firstLetterOfName}

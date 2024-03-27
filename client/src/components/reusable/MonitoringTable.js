@@ -41,7 +41,7 @@ import toast from "react-hot-toast";
 import { DocumentContext } from "../../context";
 import Swal from "sweetalert2";
 import Create_Tracker_Dialog from "../dialog modals/Create_Tracker_Dialog";
-import { domain, signatureFiles } from "../../constants";
+import { cloudname, domain, signatureFiles } from "../../constants";
 import { NotificationContext } from "../../context/context";
 
 //Printing
@@ -1049,7 +1049,7 @@ function MonitoringTable({
                                                   <div className="Tracker_Details">
                                                     <div className="Signature">
                                                       <img
-                                                        src={`${domain}${signatureFiles}/${tracker.tracker_id}-signature.png`}
+                                                        src={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${tracker.public_id}`}
                                                         alt=""
                                                       />
                                                     </div>

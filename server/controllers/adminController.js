@@ -24,7 +24,7 @@ const signIn = asyncHandler(async (req, res) => {
   db.query(q, async (err, user) => {
     if (err) res.json({ success: false });
 
-    if (user.length > 0) {
+    if (user && user.length > 0) {
       const passwordMatch = await bcrypt.compare(password, user[0].password);
 
       if (!passwordMatch) {

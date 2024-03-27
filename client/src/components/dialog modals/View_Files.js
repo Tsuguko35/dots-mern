@@ -19,7 +19,7 @@ import { ReactComponent as DOCX } from "../../assets/svg/icons/DOCX_icon.svg";
 import { ReactComponent as XLSX } from "../../assets/svg/icons/XLSX_icon.svg";
 
 import * as MdIcons from "react-icons/md";
-import { documentFiles, domain } from "../../constants";
+import { documentFiles, domain, cloudname } from "../../constants";
 import toast from "react-hot-toast";
 
 import JSZip from "jszip";
@@ -118,8 +118,8 @@ function View_Files({
   const handleDownloadImages = async () => {
     toast.loading("Please wait...");
     if (imageFiles && imageFiles.length === 1) {
-      const { document_id, file_Name } = imageFiles[0];
-      const url = `${domain}${documentFiles}/${document_id}-${file_Name}`;
+      const { document_id, file_Name, public_id } = imageFiles[0];
+      const url = `https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${public_id}`;
 
       try {
         const response = await fetch(url);
@@ -153,8 +153,8 @@ function View_Files({
       const zip = new JSZip();
 
       for (const file of imageFiles) {
-        const { document_id, file_Name } = file;
-        const url = `${domain}${documentFiles}/${document_id}-${file_Name}`;
+        const { document_id, file_Name, public_id } = file;
+        const url = `https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${public_id}`;
 
         try {
           // Fetch image content
@@ -226,15 +226,12 @@ function View_Files({
                         key={img.file_id}
                         onClick={() => openLightbox(index)}
                       >
+                        {console.log(
+                          `https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${img.public_id}`
+                        )}
                         <img
-                          srcSet={`${domain}${documentFiles}/${
-                            img.document_id || img.archive_id
-                          }-${
-                            img.file_Name
-                          }?w=248&fit=crop&auto=format&dpr=2 2x`}
-                          src={`${domain}${documentFiles}/${
-                            img.document_id || img.archive_id
-                          }-${img.file_Name}?w=248&fit=crop&auto=format`}
+                          srcSet={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${img.public_id}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                          src={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${img.public_id}?w=248&fit=crop&auto=format`}
                           alt={img.file_Name}
                           className="Image_Item"
                           loading="lazy"
@@ -259,13 +256,7 @@ function View_Files({
                             {windowWidth >= 768 && (
                               <div
                                 className="View"
-                                onClick={() =>
-                                  setPdfToView(
-                                    `${domain}${documentFiles}/${
-                                      pdf.document_id || pdf.archive_id
-                                    }-${encodeURIComponent(pdf.file_Name)}`
-                                  )
-                                }
+                                onClick={() => setPdfToView(pdf.public_id)}
                               >
                                 <MdIcons.MdRemoveRedEye size={"20px"} />
                               </div>
@@ -273,11 +264,7 @@ function View_Files({
                             <div
                               className="Download"
                               onClick={() =>
-                                handleDownload({
-                                  document_id:
-                                    pdf.document_id || pdf.archive_id,
-                                  file_Name: pdf.file_Name,
-                                })
+                                (window.location.href = `https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1708584780/${pdf.public_id}`)
                               }
                             >
                               <MdIcons.MdOutlineFileDownload size={"20px"} />
@@ -304,11 +291,7 @@ function View_Files({
                             <div
                               className="Download"
                               onClick={() =>
-                                handleDownload({
-                                  document_id:
-                                    doc.document_id || doc.archive_id,
-                                  file_Name: doc.file_Name,
-                                })
+                                (window.location.href = `https://res.cloudinary.com/${cloudname}/raw/upload/fl_attachment/v1708584780/${doc.public_id}`)
                               }
                             >
                               <MdIcons.MdOutlineFileDownload size={"20px"} />
@@ -335,11 +318,7 @@ function View_Files({
                             <div
                               className="Download"
                               onClick={() =>
-                                handleDownload({
-                                  document_id:
-                                    xlsx.document_id || xlsx.archive_id,
-                                  file_Name: xlsx.file_Name,
-                                })
+                                (window.location.href = `https://res.cloudinary.com/${cloudname}/raw/upload/fl_attachment/v1708584780/${xlsx.public_id}`)
                               }
                             >
                               <MdIcons.MdOutlineFileDownload size={"20px"} />

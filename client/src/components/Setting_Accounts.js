@@ -11,7 +11,7 @@ import Create_Staff_Dialog from "./dialog modals/Create_Staff_Dialog";
 import { changeUserStatus, getAllUsers } from "../utils";
 import toast from "react-hot-toast";
 import noResult from "../assets/images/noResult.png";
-import { domain, profile_Pic } from "../constants";
+import { cloudname, domain, profile_Pic } from "../constants";
 import { LoadingInfinite } from "../assets/svg";
 
 function Setting_Accounts() {
@@ -206,7 +206,7 @@ function Setting_Accounts() {
                   <Avatar
                     src={
                       user.profile_Pic
-                        ? `${domain}${profile_Pic}/${user.profile_Pic}`
+                        ? `https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${user.profilePic}`
                         : ""
                     }
                     className="Profile_Pic"

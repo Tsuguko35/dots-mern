@@ -6,6 +6,7 @@ import mailer from "../utils/mailer.js";
 import { promises as fs } from "fs";
 import path from "path";
 import { urgentEmailTemplate } from "../utils/urgentEmailTemplate.js";
+import cloudinary from "../config/cloudinary.js";
 
 dotenv.config();
 
@@ -16,11 +17,12 @@ const uploadFiles = asyncHandler(async (req, res) => {
     return new Promise((resolve, reject) => {
       const uniqueID = uuidv4();
       const q =
-        "INSERT INTO document_files (`file_id`, `document_id`, `file_Name`, `file_Size`) VALUES (?)";
+        "INSERT INTO document_files (`file_id`, `document_id`, `public_id`,`file_Name`, `file_Size`) VALUES (?)";
 
       const values = [
         uniqueID,
         req.query.document_id,
+        file.public_id,
         file.file_Name,
         file.file_Size,
       ];
@@ -56,13 +58,13 @@ const getFiles = asyncHandler(async (req, res) => {
   db.query(q, async (err, files) => {
     if (err) return res.status(400).json({ errorMessage: "Query Error" });
 
-    if (files.length > 0) {
+    if (files && files.length > 0) {
       return res.status(200).json({ hasData: true, files: files });
     } else {
       const getInArchiveFiles = `SELECT * FROM archive_files WHERE archive_id = '${document_id}'`;
       db.query(getInArchiveFiles, async (err, archiveFiles) => {
         if (err) return res.status(400).json({ errorMessage: "Query Error" });
-        if (archiveFiles.length > 0) {
+        if (archiveFiles && archiveFiles.length > 0) {
           return res.status(200).json({ hasData: true, files: archiveFiles });
         } else {
           return res.status(200).json({ hasData: false });
@@ -74,7 +76,10 @@ const getFiles = asyncHandler(async (req, res) => {
 
 const deleteFiles = asyncHandler(async (req, res) => {
   const fileDetails = JSON.parse(req.body.file_Details);
+  const public_Id_Array = req.body["publicIDArray[]"];
   const uploadPath = "./document_Files/files";
+
+  console.log(public_Id_Array);
 
   const deleteFile = fileDetails.map((file) => {
     if (file.file_id) {
@@ -103,10 +108,14 @@ const deleteFiles = asyncHandler(async (req, res) => {
   });
 
   try {
-    // Delete each file in the array and wait for all deletions to complete
     await Promise.all(deleteFile);
+    await cloudinary.api.delete_resources(public_Id_Array, {
+      type: "upload",
+      resource_type: "image",
+    });
     return res.status(200).json({ success: true });
   } catch (error) {
+    console.log(error);
     return res
       .status(400)
       .json({ errorMessage: "An error occured while adding the document." });
@@ -153,13 +162,13 @@ const getDocument = asyncHandler(async (req, res) => {
   db.query(q, async (err, document) => {
     if (err) return res.status(400).json({ errorMessage: "Query Error" });
 
-    if (document.length > 0) {
+    if (document && document.length > 0) {
       return res.status(200).json({ hasData: true, document: document });
     } else {
       const getInArchive = `SELECT * FROM archives WHERE archive_id = '${document_id}'`;
       db.query(getInArchive, async (err, archives) => {
         if (err) return res.status(400).json({ errorMessage: "Query Error" });
-        if (archives.length > 0) {
+        if (archives && archives.length > 0) {
           return res.status(200).json({ hasData: true, document: archives });
         } else {
           return res.status(200).json({ hasData: false });
@@ -225,24 +234,20 @@ const addDocument = asyncHandler(async (req, res) => {
                 user_id: req.body.forward_To,
                 action: "Add Document",
               });
-              return res
-                .status(200)
-                .json({
-                  hasData: true,
-                  document: document,
-                  document_id: document_id,
-                });
+              return res.status(200).json({
+                hasData: true,
+                document: document,
+                document_id: document_id,
+              });
             }
           }
         );
       } else {
-        return res
-          .status(200)
-          .json({
-            hasData: true,
-            document: document,
-            document_id: document_id,
-          });
+        return res.status(200).json({
+          hasData: true,
+          document: document,
+          document_id: document_id,
+        });
       }
     } else {
       return res
@@ -278,19 +283,15 @@ const editDocument = asyncHandler(async (req, res) => {
         document_Name: req.body.document_Name,
         document_Type: req.body.document_Type,
       });
-      return res
-        .status(200)
-        .json({
-          hasData: true,
-          document_id: document_id,
-          message: "Document updated successfully.",
-        });
+      return res.status(200).json({
+        hasData: true,
+        document_id: document_id,
+        message: "Document updated successfully.",
+      });
     } else {
-      return res
-        .status(400)
-        .json({
-          errorMessage: "An error occurred while updating the document.",
-        });
+      return res.status(400).json({
+        errorMessage: "An error occurred while updating the document.",
+      });
     }
   });
 });
@@ -403,18 +404,14 @@ const forwardDocument = asyncHandler(async (req, res) => {
       } catch (error) {
         console.log(error);
         // If any query fails, this block will be executed
-        return res
-          .status(400)
-          .json({
-            errorMessage: "An error occurred while uploading the files.",
-          });
+        return res.status(400).json({
+          errorMessage: "An error occurred while uploading the files.",
+        });
       }
     } else {
-      return res
-        .status(400)
-        .json({
-          errorMessage: "An error occurred while updating the document.",
-        });
+      return res.status(400).json({
+        errorMessage: "An error occurred while updating the document.",
+      });
     }
   });
 });
@@ -426,7 +423,7 @@ const archiveDocument = asyncHandler(async (req, res) => {
   db.query(q, async (err, document) => {
     if (err) return res.status(400).json({ errorMessage: "Query Error" });
 
-    if (document.length > 0) {
+    if (document && document.length > 0) {
       const dataToArchive = document[0];
       // Remove 'document_id' from the list of columns and replace it with 'archive_id'
       const columns = Object.keys(dataToArchive)
@@ -505,53 +502,41 @@ const archiveDocument = asyncHandler(async (req, res) => {
                   try {
                     const deleted = await deleteFilesAfterArchive(document_id);
                     if (deleted) {
-                      return res
-                        .status(200)
-                        .json({
-                          message:
-                            "Document and associated files deleted successfully",
-                        });
+                      return res.status(200).json({
+                        message:
+                          "Document and associated files deleted successfully",
+                      });
                     } else {
-                      return res
-                        .status(400)
-                        .json({
-                          errorMessage:
-                            "An error occured while removing the files and document.",
-                        });
-                    }
-                  } catch (e) {
-                    return res
-                      .status(400)
-                      .json({
+                      return res.status(400).json({
                         errorMessage:
                           "An error occured while removing the files and document.",
                       });
+                    }
+                  } catch (e) {
+                    return res.status(400).json({
+                      errorMessage:
+                        "An error occured while removing the files and document.",
+                    });
                   }
                 }
               } catch (e) {
                 console.log(e);
-                return res
-                  .status(400)
-                  .json({
-                    errorMessage:
-                      "An error occurred while archiving the document files.",
-                  });
-              }
-            } else {
-              return res
-                .status(400)
-                .json({
+                return res.status(400).json({
                   errorMessage:
                     "An error occurred while archiving the document files.",
                 });
+              }
+            } else {
+              return res.status(400).json({
+                errorMessage:
+                  "An error occurred while archiving the document files.",
+              });
             }
           });
         } else {
-          return res
-            .status(400)
-            .json({
-              errorMessage: "An error occurred while archiving the document.",
-            });
+          return res.status(400).json({
+            errorMessage: "An error occurred while archiving the document.",
+          });
         }
       });
     } else {
@@ -617,7 +602,7 @@ const getArchives = asyncHandler(async (req, res) => {
   db.query(q, async (err, archives) => {
     if (err) return res.status(400).json({ errorMessage: "Query Error" });
 
-    if (archives.length > 0) {
+    if (archives && archives.length > 0) {
       return res.status(200).json({ hasData: true, archives: archives });
     } else {
       return res.status(200).json({ hasData: false });
@@ -657,12 +642,10 @@ const deleteNotification = asyncHandler(async (req, res) => {
           user_id: req.body.forward_To,
           action: "Delete Notification",
         });
-        return res
-          .status(200)
-          .json({
-            success: true,
-            message: "Notification deleted successfully",
-          });
+        return res.status(200).json({
+          success: true,
+          message: "Notification deleted successfully",
+        });
       } else {
         return res.status(404).json({ errorMessage: "Notification not found" });
       }
@@ -676,7 +659,7 @@ const getTrackers = asyncHandler(async (req, res) => {
   db.query(q, async (err, trackers) => {
     if (err) return res.status(400).json({ errorMessage: "Query Error" });
 
-    if (trackers.length > 0) {
+    if (trackers && trackers.length > 0) {
       return res.status(200).json({ hasData: true, trackers: trackers });
     } else {
       return res.status(200).json({ hasData: false });
@@ -685,13 +668,20 @@ const getTrackers = asyncHandler(async (req, res) => {
 });
 
 const addTracker = asyncHandler(async (req, res) => {
-  const { tracker_id, document_id, tracker_Label, created_By } = req.body;
+  const { tracker_id, document_id, tracker_Label, created_By, public_id } =
+    req.body;
 
   console.log(req.body);
 
   const q =
-    "INSERT INTO document_trackers (`tracker_id`, `document_id`, `traker_label`, `date_Created`) VALUES (?)";
-  const values = [tracker_id, document_id, tracker_Label, new Date()];
+    "INSERT INTO document_trackers (`tracker_id`, `document_id`, `traker_label`, `date_Created`, `public_id`) VALUES (?)";
+  const values = [
+    tracker_id,
+    document_id,
+    tracker_Label,
+    new Date(),
+    public_id,
+  ];
 
   db.query(q, [values], async (err, tracker) => {
     if (err) {

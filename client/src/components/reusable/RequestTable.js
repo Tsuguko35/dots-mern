@@ -15,7 +15,7 @@ import Request_Dialog from "../dialog modals/Request_Dialog";
 
 import noResult from "../../assets/images/noResult.png";
 import { NotificationContext } from "../../context/context";
-import { domain, signatureFiles } from "../../constants";
+import { cloudname, domain, signatureFiles } from "../../constants";
 
 function RequestTable({
   documentType,
@@ -561,7 +561,7 @@ function RequestTable({
                                                   <div className="Tracker_Details">
                                                     <div className="Signature">
                                                       <img
-                                                        src={`${domain}${signatureFiles}/${tracker.tracker_id}-signature.png`}
+                                                        src={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${tracker.public_id}`}
                                                         alt="Signature"
                                                       />
                                                     </div>

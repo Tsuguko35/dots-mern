@@ -1,89 +1,98 @@
-import asyncHandler from 'express-async-handler'
-import db from '../config/database.js'
-import { promises as fs } from 'fs'
-import path from 'path'
+import asyncHandler from "express-async-handler";
+import db from "../config/database.js";
+import { promises as fs } from "fs";
+import path from "path";
+import cloudinary from "../config/cloudinary.js";
 
 const uploadTemplates = asyncHandler(async (req, res) => {
-    const templateDetails = JSON.parse(req.body.template_Details);
+  const templateDetails = JSON.parse(req.body.template_Details);
 
-    const queries = templateDetails.map((file) => {
-        return new Promise((resolve, reject) => {
-            const q = "INSERT INTO templates (`template_id`, `template_Name`, `date_Added`) VALUES (?)"
+  const queries = templateDetails.map((file) => {
+    return new Promise((resolve, reject) => {
+      const q =
+        "INSERT INTO templates (`template_id`, `template_Name`, `date_Added`, `public_id`) VALUES (?)";
 
-            const values = [
-                file.template_id,
-                file.file_Name,
-                file.date_Created
-            ]
+      const values = [
+        file.template_id,
+        file.file_Name,
+        file.date_Created,
+        file.public_id,
+      ];
 
-            db.query(q, [values], (err, template) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(template);
-                }
-            });
-        });
+      db.query(q, [values], (err, template) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(template);
+        }
+      });
     });
+  });
 
-    try {
-        const results = await Promise.all(queries);
-        return res.status(200).json({ hasData: true, templates: results });
-    } catch (error) {
-        console.log(error);
-        return res.status(400).json({ errorMessage: 'An error occurred while uploading the templates.' });
-    }
-})
+  try {
+    const results = await Promise.all(queries);
+    return res.status(200).json({ hasData: true, templates: results });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      errorMessage: "An error occurred while uploading the templates.",
+    });
+  }
+});
 
 const getTemplates = asyncHandler(async (req, res) => {
-    const q = `SELECT * FROM templates`
+  const q = `SELECT * FROM templates`;
 
-    db.query(q, async(err, templates) => {
-        if (err) return res.status(400).json({errorMessage: 'Query Error'})
+  db.query(q, async (err, templates) => {
+    if (err) return res.status(400).json({ errorMessage: "Query Error" });
 
-        if(templates.length > 0){
-            return res.status(200).json({ hasData: true, templates: templates })
-        }
-        else{
-            return res.status(200).json({ hasData: false })
-        }
-    })
-})
+    if (templates && templates.length > 0) {
+      return res.status(200).json({ hasData: true, templates: templates });
+    } else {
+      return res.status(200).json({ hasData: false });
+    }
+  });
+});
 
 const deleteTemplate = asyncHandler(async (req, res) => {
-    const { 
-        template_id,
-        date_Added,
-        file_Name
-    } = req.body;
-    const uploadPath = './template_Files/templates';
+  const { template_id, date_Added, file_Name, public_id } = req.body;
+  const uploadPath = "./template_Files/templates";
 
-    const q = `DELETE FROM templates WHERE template_id = ?`;
+  const q = `DELETE FROM templates WHERE template_id = ?`;
 
-    db.query(q, [template_id], async(err, result) => {
-        if (err) {
-            return res.status(400).json({ errorMessage: 'Failed to delete template', error: err });
+  db.query(q, [template_id], async (err, result) => {
+    if (err) {
+      return res
+        .status(400)
+        .json({ errorMessage: "Failed to delete template", error: err });
+    } else {
+      if (result.affectedRows > 0) {
+        if (file_Name.includes(".pdf")) {
+          await cloudinary.api.delete_resources([public_id], {
+            type: "upload",
+            resource_type: "image",
+          });
         } else {
-            if (result.affectedRows > 0) {
-                const filename = `${date_Added}-${file_Name}`
-                const filePath = path.join(uploadPath, filename);
-                fs.unlink(filePath).catch(err => {
-                    console.error(`Error deleting file: ${filename}`, err);
-                    throw err;
-                });
-                return res.status(200).json({ success: true, message: 'Template deleted successfully' });
-            } else {
-                return res.status(404).json({ errorMessage: 'Template not found' });
-            }
+          await cloudinary.api.delete_resources([public_id], {
+            type: "upload",
+            resource_type: "raw",
+          });
         }
-    });
-})
 
+        const filename = `${date_Added}-${file_Name}`;
+        const filePath = path.join(uploadPath, filename);
+        fs.unlink(filePath).catch((err) => {
+          console.error(`Error deleting file: ${filename}`, err);
+          throw err;
+        });
+        return res
+          .status(200)
+          .json({ success: true, message: "Template deleted successfully" });
+      } else {
+        return res.status(404).json({ errorMessage: "Template not found" });
+      }
+    }
+  });
+});
 
-
-export{
-    uploadTemplates,
-    getTemplates,
-    deleteTemplate
-}
+export { uploadTemplates, getTemplates, deleteTemplate };
