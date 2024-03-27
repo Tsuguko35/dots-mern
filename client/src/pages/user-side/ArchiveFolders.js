@@ -30,25 +30,29 @@ function ArchiveFolders() {
     const res = await getArchiveDocuments();
 
     if (res?.status === 200) {
-      if (user) {
-        setIsLoading(false);
+      if (res.data?.hasData === true) {
+        if (user) {
+          if (user.role !== "Faculty") {
+            setArchivedDocuments(res.data?.archives);
+          } else {
+            const documents = res.data?.archives;
+            const filteredDocuments = documents.filter(
+              (document) =>
+                document.forward_To === user.user_id ||
+                document.forwarded_By === user.user_id ||
+                document.accepted_Rejected_By === user.user_id ||
+                document.created_By === user.full_Name
+            );
 
-        if (user.role !== "Faculty") {
-          setArchivedDocuments(res.data?.archives);
-        } else {
-          const documents = res.data?.archives;
-          const filteredDocuments = documents.filter(
-            (document) =>
-              document.forward_To === user.user_id ||
-              document.forwarded_By === user.user_id ||
-              document.accepted_Rejected_By === user.user_id ||
-              document.created_By === user.full_Name
-          );
-
-          setArchivedDocuments(filteredDocuments);
+            setArchivedDocuments(filteredDocuments);
+          }
         }
+      } else {
+        setArchivedDocuments([]);
       }
     } else toast.error("An error occured while fetching data.");
+
+    setIsLoading(false);
   };
 
   const getYears = () => {

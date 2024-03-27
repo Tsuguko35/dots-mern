@@ -28,9 +28,14 @@ function Monitoring() {
     const res = await getTableData({ documentType: monitoringType });
 
     if (res?.status === 200) {
-      setIsLoading(false);
-      setDocumentsToFilter(res.data?.documents);
+      if (res.data?.hasData === true) {
+        console.log(res.data?.hasData === true);
+        setDocumentsToFilter(res.data?.documents);
+      } else {
+        setDocumentsToFilter([]);
+      }
     } else toast.error("An error occured while fetching data.");
+    setIsLoading(false);
   };
 
   const getTrackerData = async () => {

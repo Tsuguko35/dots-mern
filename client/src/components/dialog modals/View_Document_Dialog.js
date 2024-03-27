@@ -41,6 +41,12 @@ function View_Document_Dialog({ openViewDoc, setOpenViewDoc, document_id }) {
   const [documents, setDocuments] = useState({});
   const [fileDetails, setFileDetails] = useState([]);
 
+  //Files
+  const [imageFiles, setImageFiles] = useState([]);
+  const [pdfFiles, setPdfFiles] = useState([]);
+  const [docFiles, setDocFiles] = useState([]);
+  const [excelFiles, setExcelFiles] = useState([]);
+
   const [trackers, setTrackers] = useState([]);
   const [users, setUsers] = useState([]);
 
@@ -89,14 +95,35 @@ function View_Document_Dialog({ openViewDoc, setOpenViewDoc, document_id }) {
   };
 
   const handleCancel = () => {
+    setDocuments({});
+    setFileDetails([]);
+    setImageFiles([]);
+    setDocFiles([]);
+    setPdfFiles([]);
+    setExcelFiles([]);
     setOpenViewDoc(false);
   };
 
   const getFilesData = async () => {
     const res = await getFiles({ document_id: document_id });
     if (res?.status === 200) {
-      if (res?.data.hasData) {
-        setFileDetails(res.data?.files);
+      if (res?.data.hasData == true) {
+        const files = res.data?.files;
+        const images = files.filter((file) =>
+          /\.(png|jpg|jpeg)$/i.test(file.file_Name)
+        );
+        const pdfs = files.filter((file) => /\.(pdf)$/i.test(file.file_Name));
+        const docs = files.filter((file) =>
+          /\.(doc|docx)$/i.test(file.file_Name)
+        );
+        const excels = files.filter((file) =>
+          /\.(xls|xlsx)$/i.test(file.file_Name)
+        );
+        setImageFiles(images);
+        setPdfFiles(pdfs);
+        setDocFiles(docs);
+        setExcelFiles(excels);
+        setFileDetails(files);
       }
     }
   };
@@ -156,7 +183,7 @@ function View_Document_Dialog({ openViewDoc, setOpenViewDoc, document_id }) {
                 <div className="Left_Side">
                   <div className="Document_Details_Container">
                     <span className="Label">Document Details</span>
-                    {!detailsLoading ? (
+                    {!detailsLoading && documents ? (
                       <div className="Document_Details">
                         <div className="Detail_Group">
                           <span className="Label">Date Received</span>
@@ -328,7 +355,12 @@ function View_Document_Dialog({ openViewDoc, setOpenViewDoc, document_id }) {
                     pdfToView={pdfToView}
                     setPdfToView={setPdfToView}
                     files={fileDetails || []}
+                    imageFiles={imageFiles}
+                    pdfFiles={pdfFiles}
+                    docFiles={docFiles}
+                    excelFiles={excelFiles}
                     documentName={documents.document_Name}
+                    handleCancel={() => handleCancel()}
                   />
                 </div>
               </div>

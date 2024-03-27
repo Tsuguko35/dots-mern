@@ -34,9 +34,13 @@ function Archive_Table() {
     const res = await getArchiveDocuments();
 
     if (res?.status === 200) {
-      setIsLoading(false);
-      setArchivedDocumentsToFilter(res.data?.archives);
+      if (res.data?.hasData === true) {
+        setArchivedDocumentsToFilter(res.data?.archives);
+      } else {
+        setArchivedDocumentsToFilter([]);
+      }
     } else toast.error("An error occured while fetching data.");
+    setIsLoading(false);
   };
 
   const getTrackerData = async () => {

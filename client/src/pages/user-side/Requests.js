@@ -39,9 +39,13 @@ function Requests() {
     }
 
     if (res?.status === 200) {
-      if (!isTriggerNotification) setIsLoading(false);
-      setDocumentsToFilter(res.data?.documents);
+      if (res.data?.hasData === true) {
+        setDocumentsToFilter(res.data?.documents);
+      } else {
+        setDocumentsToFilter([]);
+      }
     } else toast.error("An error occured while fetching data.");
+    if (!isTriggerNotification) setIsLoading(false);
   };
 
   const getTrackerData = async () => {

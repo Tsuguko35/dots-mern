@@ -478,7 +478,7 @@ function Other_Edit_Dialog({ openEditDocs, setOpenEditDocs, submit }) {
                       </p>
                       <input
                         disabled={submit && submit === true}
-                        required={fileDetails.length === 0}
+                        required={fileDetails && fileDetails.length === 0}
                         type="file"
                         onChange={(e) => handleFileSelect(e.target.files)}
                         multiple

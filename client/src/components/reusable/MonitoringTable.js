@@ -145,8 +145,10 @@ function MonitoringTable({
   const getFilesData = async (document_id) => {
     const res = await getFiles({ document_id: document_id });
     if (res?.status === 200) {
-      setFileDetails(res.data?.files);
-      setInitialEditFileDetails(res.data?.files);
+      if (res.data?.hasData === true) {
+        setFileDetails(res.data?.files);
+        setInitialEditFileDetails(res.data?.files);
+      }
     }
   };
 

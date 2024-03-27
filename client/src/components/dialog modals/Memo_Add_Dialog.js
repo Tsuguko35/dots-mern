@@ -529,7 +529,10 @@ function Memo_Add_Dialog({ openAddDocs, setOpenAddDocs, submit }) {
                       </span>
                       <div className="checkbox-wrapper-8">
                         <input
-                          disabled={submit && submit === true}
+                          disabled={
+                            (submit && submit === true) ||
+                            documentState.Forward_To === ""
+                          }
                           className="tgl tgl-skewed"
                           id="cb3-8"
                           checked={documentState.Urgent === 1}

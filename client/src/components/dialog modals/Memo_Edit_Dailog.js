@@ -507,7 +507,7 @@ function Memo_Edit_Dialog({ openEditDocs, setOpenEditDocs, submit }) {
                         .png, .jpeg, .jpg, .doc, .docx, .pdf, .xls, .xlsx
                       </p>
                       <input
-                        required={fileDetails.length === 0}
+                        required={fileDetails && fileDetails.length === 0}
                         disabled={submit && submit === true}
                         type="file"
                         onChange={(e) => handleFileSelect(e.target.files)}
