@@ -77,7 +77,7 @@ const validateUser = asyncHandler(async (req, res) => {
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     const q = `SELECT * FROM users WHERE user_id = '${decode.id}' LIMIT 1`;
     db.query(q, async (err, user) => {
-      if (err) res.status(400).json({ errorMessage: "Query Error" });
+      if (err) return res.status(400).json({ errorMessage: "Query Error" });
       if (user && user.length > 0) {
         res.status(200).json({
           user_id: user[0].user_id,
