@@ -27,7 +27,7 @@ const signIn = asyncHandler(async (req, res) => {
   const q = `SELECT * FROM users WHERE email = '${email}' LIMIT 1`;
 
   db.query(q, async (err, user) => {
-    if (err) return res.json({ success: false });
+    if (err) return res.json({ success: false, error: err });
 
     console.log(user);
     if (user && user.length > 0) {
