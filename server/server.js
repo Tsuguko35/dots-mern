@@ -62,13 +62,13 @@ app.use("/template", express.static("./template_Files/templates"));
 app.locals.io = io;
 
 // Connect Server
-db.connect((err) => {
-  if (err) {
-    console.log("Error connecting to MySQL database:", err);
-    return;
-  }
-  console.log("Connected to MySQL database successfully");
-});
+// db.connect((err) => {
+//   if (err) {
+//     console.log("Error connecting to MySQL database:", err);
+//     return;
+//   }
+//   console.log("Connected to MySQL database successfully");
+// });
 
 // Socket IO Connections
 io.on("connection", (socket) => {
