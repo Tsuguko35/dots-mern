@@ -26,7 +26,7 @@ const signIn = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const q = `SELECT * FROM users WHERE email = '${email}' LIMIT 1`;
 
-  db.query(q, async (err, user) => {
+  await db.query(q, async (err, user) => {
     if (err)
       return res
         .status(400)
