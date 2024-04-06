@@ -1,5 +1,3 @@
-const template_File = `template`
+const template_File = `/templateFiles/templates`;
 
-export {
-    template_File
-}
+export { template_File };

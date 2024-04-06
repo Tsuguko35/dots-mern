@@ -1,3 +1,3 @@
-export const documentFiles = 'document_Files'
+export const documentFiles = "/documentFiles/files";
 
-export const signatureFiles = 'signature_Files'
+export const signatureFiles = "/documentFiles/signatures";

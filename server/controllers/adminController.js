@@ -34,12 +34,12 @@ const signIn = asyncHandler(async (req, res) => {
       } else {
         const token = generateToken(user[0].user_id);
 
-        res.cookie("token", token, {
+        return res.cookie("token", token, {
           httpOnly: true,
           secure: true,
           sameSite: "none",
         });
-        res.status(200).json({
+        return res.status(200).json({
           user_id: user[0].user_id,
           role: user[0].role,
           email: user[0].email,
@@ -63,10 +63,10 @@ const deleteUser = asyncHandler(async (req, res) => {
   const q = `DELETE FROM users WHERE user_id = '${user_id}'`;
 
   db.query(q, async (err, user) => {
-    if (err) res.json({ success: false });
+    if (err) return res.json({ success: false });
 
     if (user.affectedRows > 0) {
-      res.status(200).json({ success: true });
+      return res.status(200).json({ success: true });
     }
   });
 });

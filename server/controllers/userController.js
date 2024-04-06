@@ -45,12 +45,12 @@ const signIn = asyncHandler(async (req, res) => {
       } else {
         const token = generateToken(user[0].user_id);
 
-        res.cookie("token", token, {
+        return res.cookie("token", token, {
           httpOnly: true,
           secure: true,
           sameSite: "none",
         });
-        res.status(200).json({
+        return res.status(200).json({
           user_id: user[0].user_id,
           role: user[0].role,
           email: user[0].email,
@@ -84,7 +84,7 @@ const validateUser = asyncHandler(async (req, res) => {
     db.query(q, async (err, user) => {
       if (err) return res.status(400).json({ errorMessage: "Query Error" });
       if (user && user.length > 0) {
-        res.status(200).json({
+        return res.status(200).json({
           user_id: user[0].user_id,
           role: user[0].role,
           email: user[0].email,
@@ -95,7 +95,7 @@ const validateUser = asyncHandler(async (req, res) => {
           token,
         });
       } else {
-        res.status(400).json({ errorMessage: "Invalid Token." });
+        return res.status(400).json({ errorMessage: "Invalid Token." });
       }
     });
   } catch (error) {
@@ -106,8 +106,8 @@ const validateUser = asyncHandler(async (req, res) => {
 
 const logOutUser = asyncHandler(async (req, res) => {
   try {
-    res.cookie("token", "", { expires: new Date(0) });
-    res.status(200).json({ success: true });
+    return res.cookie("token", "", { expires: new Date(0) });
+    return res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
     return res.status(400).json({ errorMessage: "Something went wrong." });
@@ -119,13 +119,13 @@ const isEmailRegistered = asyncHandler(async (req, res) => {
   const q = `SELECT * FROM users WHERE email = '${email}' LIMIT 1`;
 
   db.query(q, async (err, user) => {
-    if (err) res.status(400).json({ errorMessage: "Query Error" });
+    if (err) return res.status(400).json({ errorMessage: "Query Error" });
     if (user && user.length > 0) {
-      res.status(200).json({
+      return res.status(200).json({
         exist: true,
       });
     } else {
-      res.status(200).json({
+      return res.status(200).json({
         exist: false,
       });
     }
@@ -154,14 +154,14 @@ const register = asyncHandler(async (req, res) => {
 
   db.query(q, [values], async (err, user) => {
     if (err) {
-      res.status(400).json({ errorMessage: "Query Error" });
+      return res.status(400).json({ errorMessage: "Query Error" });
     } else {
       if (user) {
         // User was created successfully
-        res.status(200).json({ success: true });
+        return res.status(200).json({ success: true });
       } else {
         // User creation failed
-        res.status(400).json({ errorMessage: "User creation failed" });
+        return res.status(400).json({ errorMessage: "User creation failed" });
       }
     }
   });
@@ -182,12 +182,12 @@ const requestOtp = asyncHandler(async (req, res) => {
   await mailer({ receiver, subject, body })
     .then(() => {
       console.log("sent");
-      res.status(200).json({
+      return res.status(200).json({
         status: "success",
       });
     })
     .catch((error) => {
-      res.status(400);
+      return res.status(400);
     });
 });
 
@@ -203,9 +203,11 @@ const verifyOtp = asyncHandler(async (req, res) => {
   }
 
   if (otpCodeInput == otpCode) {
-    res.status(200).json({ success: true });
+    return res.status(200).json({ success: true });
   } else {
-    res.status(400).json({ success: false, errorMessage: "Invalid OTP code." });
+    return res
+      .status(400)
+      .json({ success: false, errorMessage: "Invalid OTP code." });
   }
 });
 
@@ -222,11 +224,11 @@ const resetUserPassword = asyncHandler(async (req, res) => {
 
   db.query(q, [...values, email], async (err, user) => {
     if (err) {
-      res.status(400).json({ errorMessage: "Query Error" });
+      return res.status(400).json({ errorMessage: "Query Error" });
     } else {
       if (user) {
         // User was created successfully
-        res.status(200).json({ success: true });
+        return res.status(200).json({ success: true });
       } else {
         // User creation failed
         res
@@ -241,12 +243,12 @@ const getUsers = asyncHandler(async (req, res) => {
   let q = `SELECT * FROM users`;
 
   db.query(q, async (err, users) => {
-    if (err) res.status(400).json({ errorMessage: "Query Error" });
+    if (err) return res.status(400).json({ errorMessage: "Query Error" });
 
     if (users && users.length > 0) {
-      res.status(200).json({ hasData: true, users: users });
+      return res.status(200).json({ hasData: true, users: users });
     } else {
-      res.status(200).json({ hasData: false });
+      return res.status(200).json({ hasData: false });
     }
   });
 });
@@ -260,11 +262,11 @@ const changeUserStatus = asyncHandler(async (req, res) => {
 
   db.query(q, [...values, user_id], async (err, user) => {
     if (err) {
-      res.status(400).json({ errorMessage: "Query Error" });
+      return res.status(400).json({ errorMessage: "Query Error" });
     } else {
       if (user) {
         // User was created successfully
-        res.status(200).json({ success: true });
+        return res.status(200).json({ success: true });
       } else {
         // User creation failed
         res
@@ -297,14 +299,14 @@ const registerStaff = asyncHandler(async (req, res) => {
 
   db.query(q, [values], async (err, user) => {
     if (err) {
-      res.status(400).json({ errorMessage: "Query Error" });
+      return res.status(400).json({ errorMessage: "Query Error" });
     } else {
       if (user) {
         // User was created successfully
-        res.status(200).json({ success: true });
+        return res.status(200).json({ success: true });
       } else {
         // User creation failed
-        res.status(400).json({ errorMessage: "Staff creation failed" });
+        return res.status(400).json({ errorMessage: "Staff creation failed" });
       }
     }
   });
@@ -324,11 +326,11 @@ const finishStaffSetup = asyncHandler(async (req, res) => {
 
   db.query(q, [...values, user_id], async (err, user) => {
     if (err) {
-      res.status(400).json({ errorMessage: "Query Error" });
+      return res.status(400).json({ errorMessage: "Query Error" });
     } else {
       if (user) {
         // User was created successfully
-        res.status(200).json({ success: true });
+        return res.status(200).json({ success: true });
       } else {
         // User creation failed
         res
@@ -346,7 +348,7 @@ const uploadUserProfilePic = asyncHandler(async (req, res) => {
   const selectQuery = "SELECT profile_Pic FROM users WHERE user_id = ?";
   db.query(selectQuery, [user_id], async (err, result) => {
     if (err) {
-      res.status(400).json({ errorMessage: "Query Error" });
+      return res.status(400).json({ errorMessage: "Query Error" });
     } else {
       // If user has an existing profile picture, delete it from storage
       const existingProfilePic = [result[0].profile_Pic];
@@ -366,7 +368,7 @@ const uploadUserProfilePic = asyncHandler(async (req, res) => {
       db.query(updateQuery, [profilePic.filename, user_id], (err, result) => {
         if (err) {
           console.log(err);
-          res.status(400).json({ errorMessage: "Query Error" });
+          return res.status(400).json({ errorMessage: "Query Error" });
         } else {
           if (result.affectedRows > 0) {
             const localFilePath = profilePic.path;
@@ -396,7 +398,7 @@ const uploadUserProfilePic = asyncHandler(async (req, res) => {
               }
             });
 
-            res.status(200).json({ success: true });
+            return res.status(200).json({ success: true });
           } else {
             res
               .status(400)

@@ -1,5 +1,3 @@
-const profile_Pic = 'profile_Pic'
+const profile_Pic = "userFiles/profilePics";
 
-export {
-    profile_Pic
-}
+export { profile_Pic };

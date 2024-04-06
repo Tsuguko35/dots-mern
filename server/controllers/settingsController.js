@@ -5,12 +5,12 @@ const getDropdowns = asyncHandler(async (req, res) => {
   let q = `SELECT * FROM dropdowns`;
 
   db.query(q, async (err, dropdowns) => {
-    if (err) res.status(400).json({ errorMessage: "Query Error" });
+    if (err) return res.status(400).json({ errorMessage: "Query Error" });
 
     if (dropdowns && dropdowns.length > 0) {
-      res.status(200).json({ hasData: true, dropdowns: dropdowns });
+      return res.status(200).json({ hasData: true, dropdowns: dropdowns });
     } else {
-      res.status(200).json({ hasData: false });
+      return res.status(200).json({ hasData: false });
     }
   });
 });
@@ -42,7 +42,7 @@ const updateDropdowns = asyncHandler(async (req, res) => {
       .json({ message: "Dropdowns updated successfully", results });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ errorMessage: "Update Error", error });
+    return res.status(400).json({ errorMessage: "Update Error", error });
   }
 });
 
@@ -50,12 +50,12 @@ const getLogs = asyncHandler(async (req, res) => {
   let q = `SELECT * FROM logs`;
 
   db.query(q, async (err, logs) => {
-    if (err) res.status(400).json({ errorMessage: "Query Error" });
+    if (err) return res.status(400).json({ errorMessage: "Query Error" });
 
     if (logs && logs.length > 0) {
-      res.status(200).json({ hasData: true, logs: logs });
+      return res.status(200).json({ hasData: true, logs: logs });
     } else {
-      res.status(200).json({ hasData: false });
+      return res.status(200).json({ hasData: false });
     }
   });
 });

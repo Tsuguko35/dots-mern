@@ -9,14 +9,14 @@ import "../styles/view_pdf.css";
 import { GetWindowWidth } from "./getWindowWidth";
 
 import * as IoIcons from "react-icons/io";
-import { cloudname } from "../constants";
+import { cloudname, documentFiles } from "../constants";
 
 function ViewPdf({ pdfFile, closePDf }) {
   const [numPages, setNumPages] = useState(0);
   const [pdfWidth, setPdfWith] = useState(1000);
   const windowWidth = GetWindowWidth();
   https: pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-  const pdfUrl = `https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537820/${pdfFile}.pdf`;
+  const pdfUrl = `${documentFiles}/${pdfFile}`;
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);

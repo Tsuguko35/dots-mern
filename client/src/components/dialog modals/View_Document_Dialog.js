@@ -29,7 +29,7 @@ import {
   getFiles,
   getTrackers,
 } from "../../utils";
-import { cloudname, domain, signatureFiles } from "../../constants";
+import { signatureFiles } from "../../constants";
 
 function View_Document_Dialog({ openViewDoc, setOpenViewDoc, document_id }) {
   const theme = useTheme();
@@ -330,7 +330,7 @@ function View_Document_Dialog({ openViewDoc, setOpenViewDoc, document_id }) {
                                             {tracker.traker_label}
                                           </span>
                                           <img
-                                            src={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${tracker.public_id}`}
+                                            src={`${signatureFiles}/${tracker.tracker_id}-signature.png`}
                                             alt="Signature"
                                             className="Signature"
                                           />
