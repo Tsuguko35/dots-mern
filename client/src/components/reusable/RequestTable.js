@@ -561,7 +561,7 @@ function RequestTable({
                                                   <div className="Tracker_Details">
                                                     <div className="Signature">
                                                       <img
-                                                        src={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${tracker.public_id}`}
+                                                        src={`${signatureFiles}/${tracker.tracker_id}-signature.png`}
                                                         alt="Signature"
                                                       />
                                                     </div>

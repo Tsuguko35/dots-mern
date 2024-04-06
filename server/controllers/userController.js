@@ -45,7 +45,7 @@ const signIn = asyncHandler(async (req, res) => {
       } else {
         const token = generateToken(user[0].user_id);
 
-        return res.cookie("token", token, {
+        res.cookie("token", token, {
           httpOnly: true,
           secure: true,
           sameSite: "none",
@@ -106,7 +106,7 @@ const validateUser = asyncHandler(async (req, res) => {
 
 const logOutUser = asyncHandler(async (req, res) => {
   try {
-    return res.cookie("token", "", { expires: new Date(0) });
+    res.cookie("token", "", { expires: new Date(0) });
     return res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
