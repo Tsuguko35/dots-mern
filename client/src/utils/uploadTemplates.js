@@ -4,36 +4,6 @@ import { cloudname, template_Files_Preset } from "../constants";
 
 export default async function uploadTemplates(payload) {
   const { files, file_Details } = payload;
-
-  const responses = await Promise.all(
-    files.map(async (file) => {
-      const fileData = new FormData();
-      fileData.append("file", file);
-      fileData.append("upload_preset", template_Files_Preset);
-
-      try {
-        const res = await Axios.post(
-          `https://api.cloudinary.com/v1_1/${cloudname}/upload`,
-          fileData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: false,
-          }
-        );
-
-        return res;
-      } catch (error) {
-        console.error(`Unhandled action type: ${error}`);
-
-        return { type: "error", message: error.message };
-      }
-    })
-  );
-
-  const combinedResponses = responses.flat();
-
   // Date
   const today = new Date();
   const year = today.getFullYear();
@@ -44,15 +14,11 @@ export default async function uploadTemplates(payload) {
 
   // Add template_id
   const updatedFileArray = file_Details.map((file) => {
-    const publicID = combinedResponses.find((res) =>
-      file.file_Name.includes(res.data?.original_filename)
-    );
     const uniqueID = uuid();
     return {
       ...file,
       template_id: uniqueID,
       date_Created: date_Created,
-      public_id: publicID.data.public_id,
     };
   });
 

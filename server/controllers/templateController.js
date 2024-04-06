@@ -1,23 +1,43 @@
 import asyncHandler from "express-async-handler";
 import db from "../config/database.js";
-import { promises as fs } from "fs";
+import { createReadStream, promises as fs, unlink } from "fs";
 import path from "path";
 import cloudinary from "../config/cloudinary.js";
+import client from "../config/client.js";
 
 const uploadTemplates = asyncHandler(async (req, res) => {
   const templateDetails = JSON.parse(req.body.template_Details);
 
+  const files = req.files;
+
+  files.forEach((file) => {
+    const localFilePath = file.path;
+    const remoteFilePath = `templateFiles/templates/${file.filename}`;
+    const fileContent = createReadStream(localFilePath);
+    // Upload the file to Hostinger FTP server
+    client.put(fileContent, remoteFilePath, (err) => {
+      if (err) {
+        console.error("Error uploading file:", err);
+      } else {
+        console.log("File uploaded successfully");
+        // Delete the file locally after successful upload
+        unlink(localFilePath, (err) => {
+          if (err) {
+            console.error("Error deleting local file:", localFilePath, err);
+          } else {
+            console.log("Local file deleted successfully:", localFilePath);
+          }
+        });
+      }
+    });
+  });
+
   const queries = templateDetails.map((file) => {
     return new Promise((resolve, reject) => {
       const q =
-        "INSERT INTO templates (`template_id`, `template_Name`, `date_Added`, `public_id`) VALUES (?)";
+        "INSERT INTO templates (`template_id`, `template_Name`, `date_Added`) VALUES (?)";
 
-      const values = [
-        file.template_id,
-        file.file_Name,
-        file.date_Created,
-        file.public_id,
-      ];
+      const values = [file.template_id, file.file_Name, file.date_Created];
 
       db.query(q, [values], (err, template) => {
         if (err) {
@@ -55,8 +75,8 @@ const getTemplates = asyncHandler(async (req, res) => {
 });
 
 const deleteTemplate = asyncHandler(async (req, res) => {
-  const { template_id, date_Added, file_Name, public_id } = req.body;
-  const uploadPath = "./template_Files/templates";
+  const { template_id, date_Added, file_Name } = req.body;
+  const uploadPath = "/templateFiles/templates";
 
   const q = `DELETE FROM templates WHERE template_id = ?`;
 
@@ -67,23 +87,16 @@ const deleteTemplate = asyncHandler(async (req, res) => {
         .json({ errorMessage: "Failed to delete template", error: err });
     } else {
       if (result.affectedRows > 0) {
-        if (file_Name.includes(".pdf")) {
-          await cloudinary.api.delete_resources([public_id], {
-            type: "upload",
-            resource_type: "image",
-          });
-        } else {
-          await cloudinary.api.delete_resources([public_id], {
-            type: "upload",
-            resource_type: "raw",
-          });
-        }
-
         const filename = `${date_Added}-${file_Name}`;
         const filePath = path.join(uploadPath, filename);
-        fs.unlink(filePath).catch((err) => {
-          console.error(`Error deleting file: ${filename}`, err);
-          throw err;
+        const fixedPath = filePath.replace(/\\/g, "/");
+
+        client.delete(fixedPath, (err) => {
+          if (err) {
+            console.error("Error deleting file:", err);
+          } else {
+            console.log("File deleted successfully:", filePath);
+          }
         });
         return res
           .status(200)

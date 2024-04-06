@@ -4,25 +4,50 @@ import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 import mailer from "../utils/mailer.js";
 import { promises as fs } from "fs";
+import { createReadStream, unlink } from "fs";
 import path from "path";
 import { urgentEmailTemplate } from "../utils/urgentEmailTemplate.js";
 import cloudinary from "../config/cloudinary.js";
+import client from "../config/client.js";
 
 dotenv.config();
 
 const uploadFiles = asyncHandler(async (req, res) => {
   const fileDetails = JSON.parse(req.body.file_Details);
 
+  const files = req.files;
+
+  files.forEach((file) => {
+    const localFilePath = file.path;
+    const remoteFilePath = `documentFiles/files/${file.filename}`;
+    const fileContent = createReadStream(localFilePath);
+    // Upload the file to Hostinger FTP server
+    client.put(fileContent, remoteFilePath, (err) => {
+      if (err) {
+        console.error("Error uploading file:", err);
+      } else {
+        console.log("File uploaded successfully");
+        // Delete the file locally after successful upload
+        unlink(localFilePath, (err) => {
+          if (err) {
+            console.error("Error deleting local file:", localFilePath, err);
+          } else {
+            console.log("Local file deleted successfully:", localFilePath);
+          }
+        });
+      }
+    });
+  });
+
   const queries = fileDetails.map((file) => {
     return new Promise((resolve, reject) => {
       const uniqueID = uuidv4();
       const q =
-        "INSERT INTO document_files (`file_id`, `document_id`, `public_id`,`file_Name`, `file_Size`) VALUES (?)";
+        "INSERT INTO document_files (`file_id`, `document_id`,`file_Name`, `file_Size`) VALUES (?)";
 
       const values = [
         uniqueID,
         req.query.document_id,
-        file.public_id,
         file.file_Name,
         file.file_Size,
       ];
@@ -76,10 +101,7 @@ const getFiles = asyncHandler(async (req, res) => {
 
 const deleteFiles = asyncHandler(async (req, res) => {
   const fileDetails = JSON.parse(req.body.file_Details);
-  const public_Id_Array = req.body["publicIDArray[]"];
-  const uploadPath = "./document_Files/files";
-
-  console.log(public_Id_Array);
+  const uploadPath = "/documentFiles/files";
 
   const deleteFile = fileDetails.map((file) => {
     if (file.file_id) {
@@ -90,13 +112,18 @@ const deleteFiles = asyncHandler(async (req, res) => {
 
         db.query(q, [values], (err, result) => {
           if (err) {
-            reject(err); // Reject the promise if there's an error
+            reject(err);
           } else {
             const filename = `${file.document_id}-${file.file_Name}`;
             const filePath = path.join(uploadPath, filename);
-            fs.unlink(filePath).catch((err) => {
-              console.error(`Error deleting file: ${filename}`, err);
-              throw err;
+            const fixedPath = filePath.replace(/\\/g, "/");
+
+            client.delete(fixedPath, (err) => {
+              if (err) {
+                console.error("Error deleting file:", err);
+              } else {
+                console.log("File deleted successfully:", filePath);
+              }
             });
             resolve(result); // Resolve the promise with the result of the deletion
           }
@@ -109,10 +136,6 @@ const deleteFiles = asyncHandler(async (req, res) => {
 
   try {
     await Promise.all(deleteFile);
-    await cloudinary.api.delete_resources(public_Id_Array, {
-      type: "upload",
-      resource_type: "image",
-    });
     return res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);
@@ -668,20 +691,32 @@ const getTrackers = asyncHandler(async (req, res) => {
 });
 
 const addTracker = asyncHandler(async (req, res) => {
-  const { tracker_id, document_id, tracker_Label, created_By, public_id } =
-    req.body;
+  const { tracker_id, document_id, tracker_Label, created_By } = req.body;
 
-  console.log(req.body);
+  const signatureFile = req.files[0];
+  const localFilePath = signatureFile.path;
+  const remoteFilePath = `documentFiles/signatures/${signatureFile.filename}`;
+  const fileContent = createReadStream(localFilePath);
+  // Upload the file to Hostinger FTP server
+  client.put(fileContent, remoteFilePath, (err) => {
+    if (err) {
+      console.error("Error uploading file:", err);
+    } else {
+      console.log("File uploaded successfully");
+      // Delete the file locally after successful upload
+      unlink(localFilePath, (err) => {
+        if (err) {
+          console.error("Error deleting local file:", localFilePath, err);
+        } else {
+          console.log("Local file deleted successfully:", localFilePath);
+        }
+      });
+    }
+  });
 
   const q =
-    "INSERT INTO document_trackers (`tracker_id`, `document_id`, `traker_label`, `date_Created`, `public_id`) VALUES (?)";
-  const values = [
-    tracker_id,
-    document_id,
-    tracker_Label,
-    new Date(),
-    public_id,
-  ];
+    "INSERT INTO document_trackers (`tracker_id`, `document_id`, `traker_label`, `date_Created`) VALUES (?)";
+  const values = [tracker_id, document_id, tracker_Label, new Date()];
 
   db.query(q, [values], async (err, tracker) => {
     if (err) {

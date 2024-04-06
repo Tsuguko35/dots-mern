@@ -23,36 +23,11 @@ export default async function addTracker(payload) {
       type: "image/png",
     });
 
-    let publicID = null;
-
-    try {
-      const fileData = new FormData();
-      fileData.append("file", signatureFile);
-      fileData.append("upload_preset", document_Files_Preset);
-      const res = await Axios.post(
-        `https://api.cloudinary.com/v1_1/${cloudname}/upload`,
-        fileData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: false,
-        }
-      );
-
-      publicID = res?.data.public_id;
-    } catch (error) {
-      console.error(`Unhandled action type: ${error}`);
-    }
-
     // Append file
     formData.append(`file`, signatureFile);
 
     // Append tracker_id
     formData.append("tracker_id", uniqueID);
-
-    // Append public_id
-    formData.append("public_id", publicID);
 
     // Append document_id
     formData.append("document_id", document_id);

@@ -7,8 +7,10 @@ import { v4 as uuidv4 } from "uuid";
 import generateOTP from "../utils/generateOTP.js";
 import { otpEmailTemplate } from "../utils/otpEmailTemplate.js";
 import mailer from "../utils/mailer.js";
-import { promises as fs } from "fs";
+import { createReadStream, promises as fs, unlink } from "fs";
 import cloudinary from "../config/cloudinary.js";
+import { profile } from "console";
+import client from "../config/client.js";
 
 dotenv.config();
 
@@ -338,7 +340,7 @@ const finishStaffSetup = asyncHandler(async (req, res) => {
 });
 
 const uploadUserProfilePic = asyncHandler(async (req, res) => {
-  const { user_id, public_id } = req.body;
+  const { user_id } = req.body;
   const profilePic = req.files[0];
 
   const selectQuery = "SELECT profile_Pic FROM users WHERE user_id = ?";
@@ -349,25 +351,51 @@ const uploadUserProfilePic = asyncHandler(async (req, res) => {
       // If user has an existing profile picture, delete it from storage
       const existingProfilePic = [result[0].profile_Pic];
       if (existingProfilePic) {
-        // const filePath = `./user_Files/profilePics/${existingProfilePic}`;
-        // fs.unlink(filePath, (err) => {
-        //   if (err) {
-        //     console.error("Error deleting existing profile picture:", err);
-        //   }
-        // });
-        await cloudinary.api.delete_resources(existingProfilePic, {
-          type: "upload",
-          resource_type: "image",
+        const filePath = `/userFiles/profilePics/${existingProfilePic}`;
+        client.delete(filePath, (err) => {
+          if (err) {
+            console.error("Error deleting file:", err);
+          } else {
+            console.log("File deleted successfully:", filePath);
+          }
         });
       }
 
       // Update the profile_Pic field with the new file
       const updateQuery = "UPDATE users SET profile_Pic = ? WHERE user_id = ?";
-      db.query(updateQuery, [public_id, user_id], (err, result) => {
+      db.query(updateQuery, [profilePic.filename, user_id], (err, result) => {
         if (err) {
+          console.log(err);
           res.status(400).json({ errorMessage: "Query Error" });
         } else {
           if (result.affectedRows > 0) {
+            const localFilePath = profilePic.path;
+            const remoteFilePath = `userFiles/profilePics/${profilePic.filename}`;
+            const fileContent = createReadStream(localFilePath);
+            // Upload the file to Hostinger FTP server
+            client.put(fileContent, remoteFilePath, (err) => {
+              if (err) {
+                console.error("Error uploading file:", err);
+              } else {
+                console.log("File uploaded successfully");
+                // Delete the file locally after successful upload
+                unlink(localFilePath, (err) => {
+                  if (err) {
+                    console.error(
+                      "Error deleting local file:",
+                      localFilePath,
+                      err
+                    );
+                  } else {
+                    console.log(
+                      "Local file deleted successfully:",
+                      localFilePath
+                    );
+                  }
+                });
+              }
+            });
+
             res.status(200).json({ success: true });
           } else {
             res

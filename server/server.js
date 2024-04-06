@@ -20,6 +20,7 @@ import {
   checkDocumentsToArchive,
   checkPendingDocuments,
 } from "./controllers/scheduledFunctions.js";
+import client from "./config/client.js";
 
 dotenv.config();
 
@@ -111,4 +112,12 @@ app.post("/api/keepAlive", (req, res) => {
 cron.schedule("0 * * * *", checkDocumentsToArchive);
 cron.schedule("0 0 * * *", checkPendingDocuments);
 
-server.listen(port, () => console.log(`Server started on port ${port}`));
+server.listen(port, () => {
+  console.log(`Server started on port ${port}`);
+  client.connect({
+    host: process.env.FTP_HOST,
+    user: process.env.FTP_USER,
+    password: process.env.FTP_PASSWORD,
+    port: process.env.FTP_PORT,
+  });
+});
