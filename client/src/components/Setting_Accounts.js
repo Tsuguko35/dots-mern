@@ -206,7 +206,7 @@ function Setting_Accounts() {
                   <Avatar
                     src={
                       user.profile_Pic
-                        ? `https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${user.profilePic}`
+                        ? `${profile_Pic}/${user.profilePic}`
                         : ""
                     }
                     className="Profile_Pic"

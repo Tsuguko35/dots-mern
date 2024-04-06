@@ -112,15 +112,7 @@ function Templates() {
 
   const handleDownload = async (props) => {
     toast.loading("Please wait...");
-    let url = null;
-    if (props.template_Name.includes(".pdf")) {
-      url = `https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1708584780/${props.public_id}`;
-    } else {
-      url = `https://res.cloudinary.com/${cloudname}/raw/upload/fl_attachment/v1708584780/${props.public_id}`;
-    }
-
-    console.log(url);
-
+    const url = `${template_File}/${props.date_Added}-${props.template_Name}`;
     try {
       // Fetch the file as a Blob
       const response = await fetch(url);
@@ -267,11 +259,10 @@ function Templates() {
                           <div className="Template_Actions">
                             <button
                               onClick={() => {
-                                if (template.template_Name.includes(".pdf")) {
-                                  window.location.href = `https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1708584780/${template.public_id}`;
-                                } else {
-                                  window.location.href = `https://res.cloudinary.com/${cloudname}/raw/upload/fl_attachment/v1708584780/${template.public_id}`;
-                                }
+                                handleDownload({
+                                  date_Added: template.date_Added,
+                                  template_Name: template.template_Name,
+                                });
                               }}
                             >
                               Download

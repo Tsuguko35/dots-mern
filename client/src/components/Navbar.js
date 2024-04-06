@@ -348,7 +348,7 @@ function Navbar() {
               aria-expanded={open ? "true" : undefined}
             >
               <Avatar
-                src={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${user.profilePic}`}
+                src={`${profile_Pic}/${user.profilePic}`}
                 className="Avatar"
               >
                 {user.profilePic ? null : firstLetterOfName}
@@ -394,7 +394,7 @@ function Navbar() {
               <div className="Profile_Avatar">
                 <span>
                   <Avatar
-                    src={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${user.profilePic}`}
+                    src={`${profile_Pic}/${user.profilePic}`}
                     className="Avatar"
                   >
                     {user.profilePic ? null : firstLetterOfName}
@@ -473,7 +473,7 @@ function Navbar() {
               aria-expanded={open ? "true" : undefined}
             >
               <Avatar
-                src={`https://res.cloudinary.com/${cloudname}/image/upload/fl_attachment/v1711537358/${user.profilePic}`}
+                src={`${profile_Pic}/${user.profilePic}`}
                 className="Avatar"
               >
                 {user.profilePic ? null : firstLetterOfName}
