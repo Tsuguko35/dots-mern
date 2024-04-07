@@ -30,7 +30,6 @@ function UsersList() {
   // prettier-ignore
   useEffect(() => {
     if (usersToFilter) {
-        console.log(usersToFilter);
       const filteredUsers = usersToFilter
         .filter((users) => {
           if (filters.status === "Pending") {

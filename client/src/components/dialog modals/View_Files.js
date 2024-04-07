@@ -226,7 +226,6 @@ function View_Files({
                         key={img.file_id}
                         onClick={() => openLightbox(index)}
                       >
-                        {console.log(`${img.document_id}-${img.file_Name}`)}
                         <img
                           srcSet={`${documentFiles}/${img.document_id}-${img.file_Name}?w=248&fit=crop&auto=format&dpr=2 2x`}
                           src={`${documentFiles}/${img.document_id}-${img.file_Name}?w=248&fit=crop&auto=format`}

@@ -29,7 +29,6 @@ function Monitoring() {
 
     if (res?.status === 200) {
       if (res.data?.hasData === true) {
-        console.log(res.data?.hasData === true);
         setDocumentsToFilter(res.data?.documents);
       } else {
         setDocumentsToFilter([]);

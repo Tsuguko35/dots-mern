@@ -49,8 +49,6 @@ function Comm_Edit_Dialog({ openEditDocs, setOpenEditDocs, submit }) {
     userProfile,
   } = useContext(DocumentContext);
 
-  console.log(fileDetails);
-
   const showOptions = (input) => {
     setTimeout(() => {
       setOpenOptions(input);

@@ -123,8 +123,6 @@ function Requests() {
                 document.created_By === userDetails.full_Name))
         );
 
-      console.log(filteredDocs, userDetails.role);
-
       const sortedFilteredDocs = filteredDocs.sort((a, b) => {
         // Place urgent documents on top regardless of date
         if (a.urgent === 1 && b.urgent !== 1) {
