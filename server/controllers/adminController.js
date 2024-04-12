@@ -34,7 +34,7 @@ const signIn = asyncHandler(async (req, res) => {
       } else {
         const token = generateToken(user[0].user_id);
 
-        return res.cookie("token", token, {
+        res.cookie("token", token, {
           httpOnly: true,
           secure: true,
           sameSite: "none",
