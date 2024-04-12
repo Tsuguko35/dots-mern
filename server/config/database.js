@@ -13,6 +13,16 @@ const db = mysql.createPool({
   queueLimit: 0, // Unlimited queueing requests (default)
 });
 
+// Try to obtain a connection to check if connected
+db.getConnection((err, connection) => {
+  if (err) {
+    console.error("Error connecting to database:", err);
+  } else {
+    console.log("Connected to database.");
+    connection.release();
+  }
+});
+
 // Handle connection errors
 db.on("error", (err) => {
   console.error("Database connection error:", err);
