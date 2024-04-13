@@ -133,6 +133,12 @@
   font-size: 16px;
 }
 
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Header > *{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Header,
 #UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content {
   width: 100%;
@@ -144,14 +150,21 @@
 #UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Header > .Email,
 #UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Name,
 #UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content> .Email {
-  width: 40%;
+  width: 30%;
 }
 
 #UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Header > .Status,
-#UsersListTable > .wrapper > .Table_Container > .Table_Main> .Table_Header > .Actions,
+#UsersListTable > .wrapper > .Table_Container > .Table_Main> .Table_Header > .Action,
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Header > .Role,
 #UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Status,
-#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Actions {
-  width: 10%;
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Action,
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Role {
+  width: 15%;
+}
+
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Role{
+  font-weight: bold;
+  color: var(--light-black);
 }
 
 #UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content {
@@ -167,7 +180,7 @@
 
 #UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > * {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   font-size: 14px;
   color: var(--light-black);
@@ -214,6 +227,9 @@
   background-color: var(--green);
 }
 
+#UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Action > .Action_Item.Role {
+  background-color: var(--blue);
+}
 
 #UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Action > .Action_Item.Deactivate {
   background-color: var(--error-red);
@@ -222,3 +238,4 @@
 #UsersListTable > .wrapper > .Table_Container > .Table_Main > .Table_Content > .Action > .Action_Item.Delete {
   background-color: var(--red);
 }
+

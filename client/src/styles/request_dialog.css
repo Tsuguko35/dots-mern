@@ -410,6 +410,33 @@
     cursor: pointer;
 }
 
+.RoleSelect_Container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+  
+
+.RoleSelect_Container > .RoleSelect{
+    width: 70%;
+    padding: 10px 0px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid var(--light-black);
+    font-size: 14px;
+    color: var(--light-black);
+    transition: all 250ms ease-in-out;
+}
+
+.RoleSelect_Container > .RoleSelect:focus-visible{
+    border-color: var(--orange);
+}
+
+.RoleSelect_Container > .RoleSelect > .roleOption{
+    padding: 10px 0px;
+}
+
 /* -------------------------------------------------------------------------------------------- */
 @media only screen and (max-width: 1600px) {
     .Dialog_Body > .wrapper > .Left_Side{

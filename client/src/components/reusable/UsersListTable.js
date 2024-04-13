@@ -12,9 +12,11 @@ import { LoadingInfinite } from "../../assets/svg";
 import { changeUserStatus, deleteUser } from "../../utils";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import Change_Role_Dialog from "../dialog modals/Change_Role_Dialog";
 
 function UsersListTable({
   users,
+  getUsers,
   filters,
   setFilters,
   refreshTableFunc,
@@ -22,6 +24,10 @@ function UsersListTable({
 }) {
   const [displayAccounts, setDisplayAccounts] = useState("Approved");
   const [rotation, setRotation] = useState(0);
+  const [userIDForRoleChange, setUserIDForRoleChange] = useState("");
+  const [roleToChange, setRoleToChange] = useState("");
+  const [username, setUsername] = useState("");
+  const [roleChangeDialogOpen, setRoleChangeDialogOpen] = useState(false);
   const changeDisplayedAccounts = (status) => {
     setFilters({ ...filters, status: status });
     setDisplayAccounts(status);
@@ -104,8 +110,25 @@ function UsersListTable({
     refreshTableFunc();
   };
 
+  const handleUserChangeRole = (userID, role, username) => {
+    setRoleChangeDialogOpen(true);
+    setRoleToChange(role);
+    setUserIDForRoleChange(userID);
+    setUsername(username);
+  };
+
   return (
     <section id="UsersListTable" className="UsersListTable">
+      {roleChangeDialogOpen && (
+        <Change_Role_Dialog
+          openChangeRole={roleChangeDialogOpen}
+          closeChangeRole={setRoleChangeDialogOpen}
+          userID={userIDForRoleChange}
+          role={roleToChange}
+          username={username}
+          getUsers={getUsers}
+        />
+      )}
       <div className="wrapper">
         <div className="Table_Container">
           {/* TopSide */}
@@ -203,6 +226,7 @@ function UsersListTable({
               <p className="Name">Name</p>
               <p className="Email">Email</p>
               <p className="Status">Status</p>
+              <p className="Role">Role</p>
               <p className="Action">Action</p>
             </div>
 
@@ -234,6 +258,7 @@ function UsersListTable({
                   <p className="Name">{user.full_Name}</p>
                   <p className="Email">{user.email}</p>
                   <p className={`Status ${user.status}`}>{user.status}</p>
+                  <p className="Role">{user.role}</p>
                   <p className="Action">
                     {displayAccounts === "Pending" && (
                       <Tooltip title="Approve">
@@ -247,6 +272,23 @@ function UsersListTable({
                           }
                         >
                           <FaIcons.FaUserCheck size={"20px"} />
+                        </span>
+                      </Tooltip>
+                    )}
+
+                    {displayAccounts === "Approved" && (
+                      <Tooltip title="Change Role">
+                        <span
+                          className="Action_Item Role"
+                          onClick={() =>
+                            handleUserChangeRole(
+                              user.user_id,
+                              user.role,
+                              user.full_Name
+                            )
+                          }
+                        >
+                          <FaIcons.FaUserEdit size={"20px"} />
                         </span>
                       </Tooltip>
                     )}

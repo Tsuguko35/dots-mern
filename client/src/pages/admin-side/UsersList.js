@@ -75,6 +75,7 @@ function UsersList() {
             setFilters={setFilters}
             refreshTableFunc={resetTableFunc}
             isLoading={isLoading}
+            getUsers={getUsers}
           />
         </div>
       </div>

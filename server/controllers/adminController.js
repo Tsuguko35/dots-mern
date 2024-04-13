@@ -63,7 +63,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   const q = `DELETE FROM users WHERE user_id = '${user_id}'`;
 
   db.query(q, async (err, user) => {
-    if (err) return res.json({ success: false });
+    if (err) return res.status(400).json({ success: false });
 
     if (user.affectedRows > 0) {
       return res.status(200).json({ success: true });
@@ -71,4 +71,22 @@ const deleteUser = asyncHandler(async (req, res) => {
   });
 });
 
-export { signIn, deleteUser };
+const changeRole = asyncHandler(async (req, res) => {
+  const { user_id, role } = req.body;
+  const q = "UPDATE users SET `role` = ? WHERE user_id = ?";
+
+  const value = [role];
+
+  db.query(q, [...value, user_id], async (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ success: false });
+    }
+
+    if (user.affectedRows > 0) {
+      return res.status(200).json({ success: true });
+    }
+  });
+});
+
+export { signIn, deleteUser, changeRole };

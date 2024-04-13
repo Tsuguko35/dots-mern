@@ -42,6 +42,7 @@ import getTemplatesData from "./getTemplates";
 import deleteTemplate from "./deleteTemplate";
 import AdminRoute from "./adminRoutes";
 import deleteUser from "./deleteUser";
+import changeRole from "./changeRole";
 
 export {
   hasSidebar,
@@ -88,4 +89,5 @@ export {
   deleteTemplate,
   AdminRoute,
   deleteUser,
+  changeRole,
 };

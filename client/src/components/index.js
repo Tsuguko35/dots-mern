@@ -27,6 +27,7 @@ import { ReportPrint } from "./ReportPrint";
 import Add_Template_Dialog from "./dialog modals/Template_Add_Dialog";
 import DashboardSkeletonLoading from "./DashboardSkeletonLoading";
 import UsersListTable from "./reusable/UsersListTable";
+import Change_Role_Dialog from "./dialog modals/Change_Role_Dialog";
 
 export {
   Sidebar,
@@ -57,4 +58,5 @@ export {
   Add_Template_Dialog,
   DashboardSkeletonLoading,
   UsersListTable,
+  Change_Role_Dialog,
 };
