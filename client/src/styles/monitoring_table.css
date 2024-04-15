@@ -117,7 +117,7 @@
     padding-top: 5px;
 }
 
-#Monitoring_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Empty{
+#Monitoring_Table > .wrapper > .Table_Container > .Tabl .Table_Empty{
     width: 100%;
     height: 100%;
     display: flex;
@@ -127,11 +127,12 @@
     gap: 10px;
 }
 
-#Monitoring_Table > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Image > img{
+#Monitoring_Table > .wrapper > .Table_Container > .Table .Table_Empty > .Empty_Image > img{
     width: 350px;
+    object-fit: contain;
 }
 
-#Monitoring_Table > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Labels{
+#Monitoring_Table > .wrapper > .Table_Container > .Table .Table_Empty > .Empty_Labels{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -139,13 +140,13 @@
     gap: 10px;
 }
 
-#Monitoring_Table > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Labels > .Main_Label{
+#Monitoring_Table > .wrapper > .Table_Container > .Table .Table_Empty > .Empty_Labels > .Main_Label{
     font-size: 22px;
     font-weight: bold;
     color: var(--light-black);
 }
 
-#Monitoring_Table > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Labels > .Sub_Label{
+#Monitoring_Table > .wrapper > .Table_Container > .Table .Table_Empty > .Empty_Labels > .Sub_Label{
     font-size: 14px;
     font-weight: 300;
     color: var(--dark-grey);
@@ -595,7 +596,7 @@
         overflow-y: auto;
     }
 
-    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty{
+    #Monitoring_Table .Table_Empty{
         width: 100%;
         height: 100%;
         display: flex;
@@ -604,33 +605,33 @@
         gap: 20px;
     }
 
-    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image{
+    #Monitoring_Table .Table_Empty > .Empty_Image{
         text-align: center;
     }
 
-    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image > img{
+    #Monitoring_Table .Table_Empty > .Empty_Image > img{
         width: 225px;
         height: 225px;
     }
 
-    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels{
+    #Monitoring_Table .Table_Empty > .Empty_Labels{
         display: flex;
         justify-content: center;
         flex-direction: column;
         gap: 10px;
     }
 
-    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > span{
+    #Monitoring_Table .Table_Empty > .Empty_Labels > span{
         width: 100%;
         text-align: center;
     }
 
-    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Main_Label{
+    #Monitoring_Table .Table_Empty > .Empty_Labels > .Main_Label{
         font-weight: bold;
         font-size: 18px;
     }
 
-    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Sub_Label{
+    #Monitoring_Table .Table_Empty > .Empty_Labels > .Sub_Label{
         color: var(--dark-grey);
         font-size: 13px;
     }
@@ -706,11 +707,15 @@
     }
 
     #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions  .Action.Edit{
-        background-color: #4682B4;
+        background-color: var(--blue);
     }
 
     #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions  .Action.Archive{
-        background-color: #93C572;
+        background-color: var(--green);
+    }
+
+    #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions  .Action.Tracker{
+        background-color: var(--light-black);
     }
 
     #Monitoring_Table .Table_Row > .Table_Header_Container > .Tabler_Header > .Actions .MuiBadge-badge{
@@ -744,17 +749,17 @@
 }
 
 @media only screen and (max-width: 320px) {
-    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image > img{
+    #Monitoring_Table .Table_Empty > .Empty_Image > img{
         width: 180px;
         height: 180px;
     }
 
-    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Main_Label{
+    #Monitoring_Table .Table_Empty > .Empty_Labels > .Main_Label{
         font-weight: bold;
         font-size: 14px;
     }
 
-    #Monitoring_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Sub_Label{
+    #Monitoring_Table .Table_Empty > .Empty_Labels > .Sub_Label{
         color: var(--dark-grey);
         font-size: 11px;
     }

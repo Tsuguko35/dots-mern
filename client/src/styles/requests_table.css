@@ -111,7 +111,7 @@
     gap: 20px;
 }
 
-#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Empty{
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Empty{
     width: 100%;
     height: 100%;
     display: flex;
@@ -121,11 +121,12 @@
     gap: 10px;
 }
 
-#Requests_Table > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Image > img{
+#Requests_Table > .wrapper > .Table_Container > .Table  > .Table_Empty > .Empty_Image > img{
     width: 350px;
+    object-fit: contain;
 }
 
-#Requests_Table > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Labels{
+#Requests_Table > .wrapper > .Table_Container > .Table  > .Table_Empty > .Empty_Labels{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -133,13 +134,13 @@
     gap: 10px;
 }
 
-#Requests_Table > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Labels > .Main_Label{
+#Requests_Table > .wrapper > .Table_Container > .Table  > .Table_Empty > .Empty_Labels > .Main_Label{
     font-size: 22px;
     font-weight: bold;
     color: var(--light-black);
 }
 
-#Requests_Table > .wrapper > .Table_Container > .Table  > .Table_Body_Container > .Table_Empty > .Empty_Labels > .Sub_Label{
+#Requests_Table > .wrapper > .Table_Container > .Table  > .Table_Empty > .Empty_Labels > .Sub_Label{
     font-size: 14px;
     font-weight: 300;
     color: var(--dark-grey);
@@ -223,6 +224,14 @@
 
 #Requests_Table > .wrapper > .Table_Container > .Table > .Table_Body_Container > .Table_Body_Row > .Table_Body_Details:hover{
     background-color: var(--light-grey);
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Row_Container_Mobile > .Table_Row.unread{
+    border: 2px solid var(--yellow);
+}
+
+#Requests_Table > .wrapper > .Table_Container > .Table > .Table_Row_Container_Mobile > .Table_Row.urgent{
+    border: 2px solid var(--error-red);
 }
 
 
@@ -618,7 +627,7 @@
         overflow-y: auto;
     }
 
-    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty{
+    #Requests_Table .Table_Empty{
         width: 100%;
         height: 100%;
         display: flex;
@@ -627,33 +636,33 @@
         gap: 20px;
     }
 
-    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image{
+    #Requests_Table .Table_Empty > .Empty_Image{
         text-align: center;
     }
 
-    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image > img{
+    #Requests_Table .Table_Empty > .Empty_Image > img{
         width: 225px;
         height: 225px;
     }
 
-    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels{
+    #Requests_Table .Table_Empty > .Empty_Labels{
         display: flex;
         justify-content: center;
         flex-direction: column;
         gap: 10px;
     }
 
-    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > span{
+    #Requests_Table .Table_Empty > .Empty_Labels > span{
         width: 100%;
         text-align: center;
     }
 
-    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Main_Label{
+    #Requests_Table .Table_Empty > .Empty_Labels > .Main_Label{
         font-weight: bold;
         font-size: 18px;
     }
 
-    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Sub_Label{
+    #Requests_Table .Table_Empty > .Empty_Labels > .Sub_Label{
         color: var(--dark-grey);
         font-size: 13px;
     }
@@ -761,17 +770,17 @@
 }
 
 @media only screen and (max-width: 320px) {
-    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Image > img{
+    #Requests_Table .Table_Empty > .Empty_Image > img{
         width: 180px;
         height: 180px;
     }
 
-    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Main_Label{
+    #Requests_Table .Table_Empty > .Empty_Labels > .Main_Label{
         font-weight: bold;
         font-size: 14px;
     }
 
-    #Requests_Table .Table_Row_Container_Mobile > .Table_Empty > .Empty_Labels > .Sub_Label{
+    #Requests_Table .Table_Empty > .Empty_Labels > .Sub_Label{
         color: var(--dark-grey);
         font-size: 11px;
     }
