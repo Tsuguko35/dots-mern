@@ -1,4 +1,5 @@
 import Axios from "../config/axios.js";
+import client from "../config/client.js";
 import db from "../config/database.js";
 import mailer from "../utils/mailer.js";
 import { pendingDocumentEmailTemplate } from "../utils/pendingDocumentEmailTemplate.js";
@@ -116,4 +117,14 @@ const calculateDaysLeft = (dateProp, daysToAdd) => {
   return daysLeft;
 };
 
-export { checkDocumentsToArchive, checkPendingDocuments };
+const keepFTPConnection = () => {
+  client.connect({
+    host: process.env.FTP_HOST,
+    user: process.env.FTP_USER,
+    password: process.env.FTP_PASSWORD,
+    port: process.env.FTP_PORT,
+    keepalive: 10000,
+  });
+};
+
+export { checkDocumentsToArchive, checkPendingDocuments, keepFTPConnection };

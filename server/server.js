@@ -19,6 +19,7 @@ import cron from "node-cron";
 import {
   checkDocumentsToArchive,
   checkPendingDocuments,
+  keepFTPConnection,
 } from "./controllers/scheduledFunctions.js";
 import client from "./config/client.js";
 
@@ -111,6 +112,7 @@ app.post("/api/keepAlive", (req, res) => {
 // Cron schedules
 cron.schedule("0 * * * *", checkDocumentsToArchive);
 cron.schedule("0 0 * * *", checkPendingDocuments);
+cron.schedule("* * * * *", keepFTPConnection);
 
 server.listen(port, () => {
   console.log(`Server started on port ${port}`);
