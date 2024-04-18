@@ -1,6 +1,10 @@
-
-export const pendingDocumentEmailTemplate = (sender, documentName, date, time) => {
-    return `
+export const pendingDocumentEmailTemplate = (
+  sender,
+  documentName,
+  date,
+  time
+) => {
+  return `
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -173,11 +177,11 @@ export const pendingDocumentEmailTemplate = (sender, documentName, date, time) =
                             Hello, A document named ${documentName} has been pending for 3 days
                         </p>
                         <p>
-                            The pending document was forwarded to you by ${sender} on ${date}. Click the link bellow
-                            to go to your pending documents to see the urgent document.
+                            The pending document was forwarded to you on ${date}. Click the link bellow
+                            to go to your pending documents to see the pending document.
                         </p>
                         <p class="otpCode">
-                            <a href="http://localhost:3000/Requests/Pending" target="_blank">Click here</a>
+                            <a href="https://cvrs.slarenasitsolutions.com/Requests/Pending" target="_blank">Click here</a>
                         </p>
                         </div>
                     </div>
@@ -191,5 +195,5 @@ export const pendingDocumentEmailTemplate = (sender, documentName, date, time) =
             </div>
         </body>
     </html>
-    `
-}
+    `;
+};
