@@ -112,7 +112,7 @@ function ArchiveTable({
           {!isLoading && (
             <React.Fragment>
               <div className="Table">
-                {documents && documents.length > 0 && (
+                {documents && documents.length > 0 ? (
                   <>
                     {windowWidth > 540 ? (
                       <React.Fragment>
@@ -474,19 +474,20 @@ function ArchiveTable({
                                                           {tracker.traker_label}
                                                         </p>
                                                       </div>
-                                                      {trackers.filter(
-                                                        (tracker) =>
-                                                          tracker.document_id ===
-                                                            document.archive_id ||
-                                                          tracker.document_id ===
-                                                            document.document_id
-                                                      ).length > 1 && (
-                                                        <div className="Right_Arrow">
-                                                          <MdIcons.MdKeyboardDoubleArrowRight
-                                                            size={"30px"}
-                                                          />
-                                                        </div>
-                                                      )}
+                                                      {trackers &&
+                                                        trackers.filter(
+                                                          (tracker) =>
+                                                            tracker.document_id ===
+                                                              document.archive_id ||
+                                                            tracker.document_id ===
+                                                              document.document_id
+                                                        ).length > 1 && (
+                                                          <div className="Right_Arrow">
+                                                            <MdIcons.MdKeyboardDoubleArrowRight
+                                                              size={"30px"}
+                                                            />
+                                                          </div>
+                                                        )}
                                                     </div>
                                                   ))}
                                             </>
@@ -588,9 +589,7 @@ function ArchiveTable({
                       </React.Fragment>
                     )}
                   </>
-                )}
-
-                {documents && documents.length === 0 && (
+                ) : (
                   <div className="Table_Empty">
                     <div className="Empty_Image">
                       <img src={noResult} alt="No Result" />
@@ -615,7 +614,9 @@ function ArchiveTable({
         </div>
         <div className="Table_Pagination">
           <button
-            disabled={currentPage === 1 || documents.length === 0}
+            disabled={
+              currentPage === 1 || (documents && documents.length === 0)
+            }
             className="Pagination_Previous"
             onClick={() => paginate("Back")}
           >
@@ -624,7 +625,7 @@ function ArchiveTable({
           <button
             disabled={
               (isLastPage && documents && documents.length > 0) ||
-              documents.length === 0
+              (documents && documents.length === 0)
             }
             className="Pagination_Next"
             onClick={() => paginate("Next")}
