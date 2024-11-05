@@ -126,19 +126,5 @@ server.listen(port, () => {
     connTimeout: 120000,
   });
 
-  // Send NOOP to FTP
-  setInterval(() => {
-    if (client.connected) {
-      // Ensure the client is connected before sending NOOP
-      client.send("NOOP", (err) => {
-        if (err) {
-          console.error("Error sending NOOP command:", err);
-        } else {
-          console.log("NOOP command sent to keep connection alive");
-        }
-      });
-    } else {
-      console.log("FTP client is not connected");
-    }
-  }, 50000);
+  setInterval(keepFTPConnection, 50000);
 });
