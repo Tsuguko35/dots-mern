@@ -112,7 +112,7 @@ app.post("/api/keepAlive", (req, res) => {
 // Cron schedules
 cron.schedule("0 * * * *", checkDocumentsToArchive);
 cron.schedule("0 0 * * *", checkPendingDocuments);
-cron.schedule("* * * * *", keepFTPConnection);
+// cron.schedule("* * * * *", keepFTPConnection);
 
 server.listen(port, () => {
   console.log(`Server started on port ${port}`);
@@ -125,4 +125,20 @@ server.listen(port, () => {
     keepalive: 50000,
     connTimeout: 120000,
   });
+
+  // Send NOOP to FTP
+  setInterval(() => {
+    if (client.connected) {
+      // Ensure the client is connected before sending NOOP
+      client.send("NOOP", (err) => {
+        if (err) {
+          console.error("Error sending NOOP command:", err);
+        } else {
+          console.log("NOOP command sent to keep connection alive");
+        }
+      });
+    } else {
+      console.log("FTP client is not connected");
+    }
+  }, 50000);
 });
