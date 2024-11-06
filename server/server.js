@@ -121,9 +121,9 @@ server.listen(port, () => {
     user: process.env.FTP_USER,
     password: process.env.FTP_PASSWORD,
     port: process.env.FTP_PORT,
-    pasvTimeout: 120000,
-    keepalive: 50000,
-    connTimeout: 120000,
+    pasvTimeout: 10000,
+    keepalive: 10000,
+    connTimeout: 10000,
   });
 
   setInterval(keepFTPConnection, 50000);
